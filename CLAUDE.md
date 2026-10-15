@@ -112,4 +112,4 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
 
 ## LinkedIn (2026-10-15)
-- Kit in `brand/linkedin/` (`about.md` for decisions and texts, `kit.html` page with 7 ready posts and personal-profile copy, published https://claude.ai/artifact/6wQWYtrBzZTD8bczyNsw8V). Hebrew first; neutral brand layer, agency-focused message layer (see `about.md`).
+- Kit in `brand/linkedin/` (`about.md` for decisions and texts, `kit.html` page with 7 ready posts and personal-profile copy, published https://claude.ai/artifact/6wQWYtrBzZTD8bczyNsw8V). Hebrew first; company page (tagline, About) written for both agencies and travelers (user, 2026-10-15) so it fits a future private-traveler offer; posts and founder profile target agencies (see `about.md`).

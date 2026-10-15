@@ -11,7 +11,7 @@ Files in this folder:
 
 ## Decisions (recommended 2026-10-15)
 - Language: Hebrew first. Company About in Hebrew with a short English paragraph below; posts in Hebrew; English only for international milestones (AWS, funding, partners).
-- Positioning: two layers. Brand layer (name, logo, slogan, brand cover) stays neutral between agencies and future private travelers. Message layer (tagline, About opening, posts) targets agencies now; swap it when opening to everyone. Never write "only for agencies" or "free perk for travelers". Keep repeating "under the agency's brand" / "the relationship stays between the agent and the client" (agent trust).
+- Positioning: two layers. Brand layer (name, logo, slogan, brand cover) and the company page (tagline, About; user 2026-10-15) speak to both agencies and travelers, so they fit a future private-traveler offer. Posts and the founder profile target agencies now. Never write "only for agencies" or "free perk for travelers". Keep repeating "under the agency's brand" / "the relationship stays between the agent and the client" (agent trust).
 - Links from LinkedIn use https://www.palami.io/?utm_source=linkedin&utm_medium=social (the demo form records the source).
 
 ## Page details
@@ -20,50 +20,52 @@ Files in this folder:
 - Industry: Software Development
 - Company size: 2–10 employees
 - Company type: Privately Held
-- Tagline (HE): העוזר האישי של סוכן הנסיעות. כל מסמכי הנסיעה מסודרים אוטומטית ובכף היד של הנוסע.
-- Tagline (EN): The travel agent’s personal assistant
+- Tagline (HE): כל פרטי הנסיעה בכף ידך. מסמכים, לו״ז ועדכונים במקום אחד, לסוכנויות נסיעות ולנוסעים.
+- Tagline (EN): Every trip detail in the palm of your hand. Documents, schedule and updates in one place, for travel agencies and travelers.
+- Previous agency-only tagline (kept for the founder headline and posts): העוזר האישי של סוכן הנסיעות / The travel agent’s personal assistant
 
 ## About (Hebrew)
+Written for both agencies and travelers (user, 2026-10-15), so it also fits a future offer for private travelers. When that launches, add one line under "לנוסעים" on how to start.
 
-PALAMI היא העוזר האישי של סוכן הנסיעות.
+PALAMI עושה סדר בכל פרטי הנסיעה.
 
-מסמכי נסיעה מפוזרים בכל מקום: חלק במייל, חלק ב־WhatsApp, חלק אצל הסוכן וחלק אצל כל אחד מבני הזוג. PALAMI נולדה כדי לעשות בזה סדר.
+מסמכי נסיעה מפוזרים בכל מקום: חלק במייל, חלק ב־WhatsApp, חלק אצל הסוכן וחלק אצל כל אחד מבני הזוג. PALAMI מרכזת את כולם בתיק אחד ומביאה אותם לטלפון של הנוסע.
 
-איך זה עובד:
-• הסוכן גורר את מסמכי הנסיעה לתיק: אישורי טיסה, שוברים, כרטיסים ופוליסות ביטוח.
-• מערכת AI מזהה כל מסמך, מחלצת ממנו את המידע, נותנת לו שם ברור ומכניסה אותו ללו״ז.
-• הנוסע מקבל קישור אחד לאפליקציה אישית במיתוג הסוכנות, בלי הורדה: מסמכים, לו״ז, מידע ליעד, חירום וצ'אט ישיר עם הסוכן, גם בלי אינטרנט.
-
-מה הסוכנות מקבלת:
+לסוכנויות נסיעות:
+• גוררים את מסמכי הנסיעה לתיק ומערכת AI מזהה כל מסמך, מחלצת ממנו את המידע, נותנת לו שם ברור ומכניסה אותו ללו״ז.
 • כל הנסיעות במבט אחד: מה דחוף היום, מה חסר בכל תיק ומה מוכן לפרסום.
 • יומן של כל ההמראות והנחיתות ועבודת צוות גם בחופשה.
-• תזכורות ועדכונים לנוסעים בזמן שקבעתם ופחות שאלות חוזרות.
-• קשר עם הלקוח לפני הנסיעה, במהלכה ואחרי החזרה.
+• אפליקציה לנוסע במיתוג של הסוכנות וקשר עם הלקוח לפני הנסיעה, במהלכה ואחרי החזרה.
 
-ראש שקט לסוכן. נסיעה מסודרת לנוסע.
+לנוסעים:
+• קישור אחד עם כל פרטי הנסיעה, בלי להוריד אפליקציה.
+• לו״ז בשעון של היעד, כל המסמכים במקום אחד, מידע ליעד וכפתור חירום. גם בלי אינטרנט.
+• תזכורות ועדכונים בזמן, כשמשהו משתנה.
 
-לתיאום הדגמה: www.palami.io
+כל פרטי הנסיעה בכף ידך.
+
+www.palami.io
 
 ## About (English)
 
-PALAMI is the travel agent’s personal assistant.
+PALAMI brings order to every trip detail.
 
-Trip documents end up everywhere: some in email, some on WhatsApp, some with the agent and some with each traveler. PALAMI was built to bring order to all of it.
+Trip documents end up everywhere: some in email, some on WhatsApp, some with the agent and some with each traveler. PALAMI gathers them into one trip file and puts them on the traveler’s phone.
 
-How it works:
-• The agent drags the trip documents into the trip file: flight confirmations, vouchers, tickets and insurance policies.
-• An AI engine recognizes each document, extracts the details, gives it a clear name and places it in the schedule.
-• The traveler gets one link to a personal app under the agency’s brand, with no download: documents, schedule, destination info, emergency help and direct chat with the agent, even offline.
-
-What the agency gets:
+For travel agencies:
+• Drag the trip documents into the trip file; an AI engine recognizes each document, extracts the details, gives it a clear name and places it in the schedule.
 • Every trip at a glance: what’s urgent today, what’s missing in each file and what’s ready to publish.
 • A calendar of all departures and landings, and teamwork that continues even when someone is on vacation.
-• Reminders and updates to travelers at the times you set, and fewer repeat questions.
-• A connection with the client before, during and after the trip.
+• A traveler app under the agency’s brand, and a connection with the client before, during and after the trip.
 
-Peace of mind for the agent. An organized trip for the traveler.
+For travelers:
+• One link with every trip detail, no download needed.
+• The schedule in local time, all documents in one place, destination info and an emergency button. Even offline.
+• Timely reminders and updates when something changes.
 
-Book a demo: www.palami.io
+Every trip detail in the palm of your hand.
+
+www.palami.io
 
 ## Launch post
 Image: `palami-linkedin-launch-post-he-1200.png` (EN: `-en-`), 1200×1200.
@@ -96,6 +98,6 @@ We built PALAMI, the travel agent's personal assistant:
 
 Peace of mind for the agent. An organized trip for the traveler.
 
-Agencies that want to see how it works for them are welcome to book a demo: https://www.palami.io
+Agencies that want to see how it works for them are welcome to book a demo: https://www.palami.io/?utm_source=linkedin&utm_medium=social
 
 #TravelTech #TravelAgents #SaaS
