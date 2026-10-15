@@ -87,6 +87,7 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - When changing Hebrew copy, update `en/index.html` (and `js/site.js` strings) too.
 - Build: `python3 site/tools/build.py` → `site/dist/` (full HTML docs, canonical/hreflang/OG, robots, sitemap, 404, favicon.ico). `--preview` → `site/.preview/` for the artifact. `FORM_ENDPOINT=...` connects the form. See `site/DEPLOY.md`.
 - The artifact preview is published from `site/index.html` with `url` = the homepage artifact, plus the files from `site/.preview/`.
+- Measurement (user approved 2026-10-15): no analytics tool and no cookies at launch. The demo form sends a `source` field (UTM tags or referrer, else "direct"); Google Search Console after launch; Plausible only when paid campaigns start. See `site/DEPLOY.md`.
 - Pending user decisions: hosting (recommended AWS Amplify), form provider, DNS, mailbox, company name, accessibility coordinator name. Nothing published or connected yet.
 
 ## Website: confirmed details and open reminders
