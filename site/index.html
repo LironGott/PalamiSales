@@ -69,20 +69,20 @@ a{color:var(--g)}
 .get b{font:700 16px var(--f-d);color:var(--g);display:flex;gap:8px;align-items:center}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
-.art{position:relative;height:560px}
-.sc{position:absolute;display:grid;gap:1px;background:var(--wh);border:1px solid var(--ln);border-radius:12px;padding:8px 13px;box-shadow:0 6px 16px rgb(8 64 42 / .10)}
-.sc em{font:600 12.5px var(--f-b);font-style:normal;color:var(--cu6)}
-.sc b{font:500 13.5px var(--f-m);color:var(--mu);direction:ltr;text-align:right;white-space:nowrap}
-.s1{top:4px;right:3%;transform:rotate(-4deg)}.s2{top:18px;left:8%;transform:rotate(3deg)}.s3{top:86px;right:33%;transform:rotate(2deg)}.s4{top:100px;left:0;transform:rotate(-3deg)}
-.file{position:absolute;top:206px;right:0;width:64%;background:var(--wh);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh3);padding:16px;display:grid;gap:8px}
+.art{display:grid;gap:14px}
+.src{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.sc{display:flex;gap:7px;align-items:center;justify-content:center;background:var(--wh);border:1px solid var(--ln);border-radius:12px;padding:10px 6px;font:600 14.5px var(--f-b);color:var(--mu);white-space:nowrap}
+.sc svg{width:18px;height:18px;fill:var(--cu6);flex:none}
+.arrow{justify-self:center;display:flex;align-items:center;gap:8px;font:600 14.5px var(--f-b);color:var(--g);background:var(--g05);border-radius:999px;padding:7px 16px}
+.arrow::after{content:"↓";font-size:16px}
+.res{display:flex;gap:18px;align-items:flex-end}
+.file{flex:1;min-width:0;background:var(--wh);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh3);padding:16px;display:grid;gap:8px}
 .fh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
 .fh b{font:700 17px var(--f-d);color:var(--g)}
 .fh .ok{font:600 12.5px var(--f-b);background:var(--ok-s);color:var(--ok);border-radius:999px;padding:2px 10px;white-space:nowrap}
 .file .ti small{font:500 12.5px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
-.art .phone{position:absolute;bottom:0;left:0;width:30%;max-width:190px}
-.callout{position:absolute;display:flex;align-items:center;gap:8px;font:600 14px var(--f-b);color:var(--g);background:var(--wh);border-radius:999px;padding:7px 14px;box-shadow:0 8px 20px rgb(8 64 42 / .16);white-space:nowrap}
-.callout::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cu)}
-.art .k1{top:156px;right:22%}.art .k3{top:176px;left:-6px}
+.res .phone{width:168px;flex:none}
+.phone{border:7px solid var(--g);border-radius:34px;overflow:hidden;background:#FBF8F2;box-shadow:var(--sh3)}
 
 /* ping-pong */
 .pp{background:var(--s2)}
@@ -219,12 +219,10 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .get b{grid-column:1 / -1}
   .hero .txt{display:contents}
   .hero .get{order:1}
-  .art{height:auto;display:grid;gap:10px}
-  .src{display:flex;flex-wrap:wrap;gap:8px}
-  .sc{position:static;transform:none;padding:6px 11px}
-  .art .callout{position:static;justify-self:center}
-  .file{position:static;width:auto;padding:12px}
-  .art .phone,.art .k3{display:none}
+  .art{gap:10px}
+  .src{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .file{padding:12px}
+  .res .phone{display:none}
   .pp .grid,.steps,.ben .cols,.demo .box{grid-template-columns:1fr}
   .side{padding:20px}
   .steps{gap:12px}
@@ -308,12 +306,13 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     </div>
     <div class="art" aria-hidden="true">
       <div class="src">
-        <span class="sc s1"><em>WhatsApp</em><b>Flight_LY395.pdf</b></span>
-        <span class="sc s2"><em>מייל</em><b>Hotel voucher.pdf</b></span>
-        <span class="sc s3"><em>צילום מסך</em><b>IMG_4471.jpg</b></span>
-        <span class="sc s4"><em>אצל הלקוח</em><b>Insurance.pdf</b></span>
+        <span class="sc"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</span>
+        <span class="sc"><svg aria-hidden="true"><use href="#i-doc"/></svg>מייל</span>
+        <span class="sc"><svg aria-hidden="true"><use href="#i-phone"/></svg>צילום מסך</span>
+        <span class="sc"><svg aria-hidden="true"><use href="#i-team"/></svg>אצל הלקוח</span>
       </div>
-      <span class="callout k1">גוררים מכל מקום לתיק אחד</span>
+      <span class="arrow">גוררים לתיק · PALAMI מתייקת אוטומטית</span>
+      <div class="res">
       <div class="file">
         <div class="fh"><b>ברצלונה · משפחת כהן</b><span class="ok">✓ תויק אוטומטית</span></div>
         <div class="ti"><svg aria-hidden="true"><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 12.11.2026</small></span><span class="vk sm"></span></div>
@@ -321,8 +320,8 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
         <div class="ti"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span class="tt"><b>כדורגל · קאמפ נואו</b><small>14.11.2026 · 21:00</small></span><span class="vk sm"></span></div>
         <div class="ti"><svg aria-hidden="true"><use href="#i-doc"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>Securitas</small></span><span class="vk sm"></span></div>
       </div>
-      <span class="callout k3">כל הנסיעה בטלפון של הנוסע</span>
-      <div class="phone"><img src="img/t-docs.webp" alt=""></div>
+        <div class="phone"><img src="img/t-docs.webp" alt=""></div>
+      </div>
     </div>
   </div></section>
 
