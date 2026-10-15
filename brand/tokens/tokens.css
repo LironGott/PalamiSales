@@ -1,0 +1,107 @@
+/* PALAMI design tokens (brand book v1.2, 2026-10).
+   Usage: link this file and set the system on <html>:
+     <html dir="rtl" lang="he" data-product="traveler|agent|admin">
+   Use the variables only; never hard-code hex values in components.
+   Source of truth: docs/reference/brand-book.html, docs/brand.md */
+
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
+
+:root {
+  /* Core brand (sampled from the logo) */
+  --palami-green: #08402A;   /* primary action, headings, logo */
+  --palami-copper: #C37237;  /* accent, dots, icons; never a bg for white text */
+  --palami-cream: #F9E2C5;   /* soft surfaces, banners */
+  --palami-paper: #FEFEFC;   /* main screen bg */
+
+  /* Green scale (700 = brand) */
+  --green-50: #EEF6F1; --green-100: #D5EADD; --green-200: #A9D3B9; --green-300: #74B590;
+  --green-400: #3F8F64; --green-500: #1E6E47; --green-600: #0F5636; --green-700: #08402A;
+  --green-800: #062F1F; --green-900: #041F15;
+
+  /* Copper scale (500 = brand, 100 = cream) */
+  --copper-50: #FCF4EC; --copper-100: #F9E2C5; --copper-200: #F1C79C; --copper-300: #E5A570;
+  --copper-400: #D4884A; --copper-500: #C37237; --copper-600: #A85C28; --copper-700: #87481F;
+  --copper-800: #66361A; --copper-900: #472614;
+
+  /* Sand neutrals */
+  --sand-0: #FFFFFF; --sand-50: #F7F6F2; --sand-100: #EFEDE7; --sand-200: #E2DED5; --sand-300: #CBC6BA;
+  --sand-400: #A39E92; --sand-500: #7B776D; --sand-600: #5C5951; --sand-700: #44423C; --sand-900: #1B1A17;
+
+  /* Status: same meaning in all systems. Always with icon + word, never color alone. */
+  --status-done: #5E9677;      --status-done-soft: #E6F0EA;   --status-done-text: #33704F;   /* ✓ הושלם (sage V) */
+  --status-attn: #C28A0E;      --status-attn-soft: #FBF1D6;   --status-attn-text: #8A5F00;   /* ! לטיפול (honey) */
+  --status-urgent: #B91C3C;    --status-urgent-soft: #FCE8EC; --status-urgent-text: #B91C3C; /* ✕ דחוף (crimson) */
+  --status-info: #1D5FA8;      --status-info-soft: #E4EEF8;   --status-info-text: #1D5FA8;   /* i עודכן */
+  --status-wait: #A9C7B5;      --status-wait-soft: #F0F2F0;   --status-wait-text: #5E6862;   /* ◌ ממתין (dashed) */
+
+  /* Signature component: trip item row */
+  --item-bg: #FBF3E3; --item-icon: #08402A; --check: #5E9677; --check-pending: #A9C7B5; --check-attn: #C37237;
+
+  /* Type */
+  --f-display: "Rubik", "Assistant", "Segoe UI", Arial, sans-serif;
+  --f-body: "Assistant", "Rubik", "Segoe UI", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Consolas, monospace;
+
+  /* Radii / spacing (4px grid) / shadows */
+  --r-xs: 6px; --r-sm: 10px; --r-md: 14px; --r-lg: 20px; --r-xl: 28px;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-6: 24px; --sp-8: 32px; --sp-12: 48px; --sp-16: 64px;
+  --shadow-1: 0 1px 2px rgb(8 64 42 / .06), 0 4px 14px rgb(8 64 42 / .06);
+  --shadow-2: 0 4px 12px rgb(8 64 42 / .08);
+  --shadow-3: 0 18px 40px rgb(8 64 42 / .18);
+
+  /* Breakpoints (reference): phone ≤639, tablet 640–1023, desktop ≥1024 */
+}
+
+/* ---------- Traveler: fun, warm, inviting ---------- */
+[data-product="traveler"] {
+  --bg: #FBF8F2; --surface: #FFFFFF; --surface-2: #F4EFE6; --ink: #16241D; --muted: #5C5951; --line: #E7E1D6;
+  --brand: #08402A; --brand-ink: #FFFFFF; --brand-soft: #EEF6F1;
+  --ok: #33704F; --ok-fill: #5E9677; --ok-soft: #E6F0EA;
+  --warn: #A85C28; --warn-soft: #FCF4EC;           /* traveler "attention" = soft copper, a reminder not an alarm */
+  --bad: #B91C3C; --bad-soft: #FCE8EC;             /* only real emergencies: cancellation, SOS */
+  --info: #1D5FA8; --info-soft: #E4EEF8;
+  --copper: #C37237; --item: #FBF3E3; --wait-line: #A9C7B5; --focus: #C37237;
+  --shadow: 0 1px 2px rgb(8 64 42 / .06), 0 6px 18px rgb(8 64 42 / .07);
+  --fs: 17px; --tap: 48px; --content-max: 560px;
+}
+
+/* ---------- Agent: professional, quiet, dense. No copper in UI. ---------- */
+[data-product="agent"] {
+  --bg: #F4F6F4; --surface: #FFFFFF; --surface-2: #ECEEEC; --ink: #16211C; --muted: #545D58; --line: #DEE3DF;
+  --brand: #08402A; --brand-ink: #FFFFFF; --brand-soft: #E8F1EC;
+  --ok: #33704F; --ok-fill: #5E9677; --ok-soft: #E6F0EA;
+  --warn: #8A5F00; --warn-fill: #C28A0E; --warn-soft: #FBF1D6;
+  --bad: #B91C3C; --bad-soft: #FCE8EC; --info: #1D5FA8; --info-soft: #E4EEF8;
+  --focus: #08402A;
+  --shadow: 0 1px 2px rgb(21 26 23 / .06), 0 2px 8px rgb(21 26 23 / .06);
+  --fs: 15px; --tap: 44px; --content-max: 1280px;
+}
+
+/* ---------- Admin: functional; agent structure + green top stripe + ADMIN badge ---------- */
+[data-product="admin"] {
+  --bg: #F4F6F4; --surface: #FFFFFF; --surface-2: #ECEEEC; --ink: #16211C; --muted: #545D58; --line: #DEE3DF;
+  --brand: #08402A; --brand-ink: #FFFFFF; --brand-soft: #E8F1EC; --stripe: #08402A; --badge: #C28A0E;
+  --ok: #33704F; --ok-fill: #5E9677; --ok-soft: #E6F0EA;
+  --warn: #8A5F00; --warn-fill: #C28A0E; --warn-soft: #FBF1D6;
+  --bad: #B91C3C; --bad-soft: #FCE8EC; --info: #1D5FA8; --info-soft: #E4EEF8;
+  --focus: #08402A; --fs: 15px; --tap: 40px;
+}
+
+/* ---------- Dark mode (traveler values; agent/admin analogous) ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"])[data-product="traveler"] {
+    --bg: #0C1712; --surface: #13211A; --surface-2: #1A2B22; --ink: #E8EDE9; --muted: #9AA79F; --line: #26392F;
+    --brand: #74B590; --brand-ink: #021209; --brand-soft: #14291F;
+    --ok: #7FBF9A; --ok-soft: #16271E; --warn: #E5A570; --warn-soft: #33241A; --bad: #F27A8C; --bad-soft: #331820;
+    --info: #7FB2E8; --info-soft: #132235; --copper: #D4884A; --item: #1F2A21; --wait-line: #3F5A4B; --focus: #D4884A;
+    color-scheme: dark;
+  }
+  :root:not([data-theme="light"])[data-product="agent"],
+  :root:not([data-theme="light"])[data-product="admin"] {
+    --bg: #101512; --surface: #171D19; --surface-2: #1F2621; --ink: #E6EBE8; --muted: #9DA8A1; --line: #2A322D;
+    --brand: #74B590; --brand-ink: #021209; --brand-soft: #18291F; --stripe: #041F15;
+    --ok: #7FBF9A; --ok-soft: #16271E; --warn: #E6B54A; --warn-soft: #2E2610; --bad: #F27A8C; --bad-soft: #331820;
+    --info: #7FB2E8; --info-soft: #132235;
+    color-scheme: dark;
+  }
+}

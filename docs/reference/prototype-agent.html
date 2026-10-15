@@ -1,0 +1,725 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PALAMI · סוכן</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* PALAMI agent theme (brand/tokens/theme-agent.css): professional, quiet, dense; green only for primary action and nav; status signals per BR-48..53.
+   Layout: אפליקציית סוכן: תפריט קבוע מימין, סרגל עליון עם עזרה/טקסט גדול/תצוגה פשוטה, ותוכן; בטלפון התפריט עובר לסרגל תחתון */
+:root{
+  --bg:#f4f6f4; --surface:#ffffff; --surface-2:#eceeec; --ink:#16211c; --muted:#545d58; --line:#dee3df;
+  --acc:#08402a; --acc-ink:#ffffff; --acc-soft:#e8f1ec;
+  --ok:#33704f; --ok-fill:#5e9677; --ok-soft:#e6f0ea; --warn:#8a5f00; --warn-fill:#c28a0e; --warn-soft:#fbf1d6; --bad:#b91c3c; --bad-soft:#fce8ec; --info:#1d5fa8; --info-soft:#e4eef8;
+  --shadow:0 1px 2px rgb(21 26 23 / .06),0 2px 8px rgb(21 26 23 / .06);
+  --f-d:"Rubik","Assistant",Arial,sans-serif; --f-b:"Assistant","Rubik",Arial,sans-serif; --f-m:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --fs:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101512; --surface:#171d19; --surface-2:#1f2621; --ink:#e6ebe8; --muted:#9da8a1; --line:#2a322d;
+  --acc:#74b590; --acc-ink:#021209; --acc-soft:#18291f; --ok:#7fbf9a; --ok-fill:#5e9677; --ok-soft:#16271e; --warn:#e6b54a; --warn-fill:#c28a0e; --warn-soft:#2e2610; --bad:#f27a8c; --bad-soft:#331820; --info:#7fb2e8; --info-soft:#132235;
+  --shadow:0 1px 2px rgb(0 0 0 / .3); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#101512; --surface:#171d19; --surface-2:#1f2621; --ink:#e6ebe8; --muted:#9da8a1; --line:#2a322d;
+  --acc:#74b590; --acc-ink:#021209; --acc-soft:#18291f; --ok:#7fbf9a; --ok-fill:#5e9677; --ok-soft:#16271e; --warn:#e6b54a; --warn-fill:#c28a0e; --warn-soft:#2e2610; --bad:#f27a8c; --bad-soft:#331820; --info:#7fb2e8; --info-soft:#132235;
+  --shadow:0 1px 2px rgb(0 0 0 / .3); color-scheme:dark }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b)}
+#root{font-size:var(--fs);line-height:1.5;display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100%}
+.side{background:var(--surface);border-inline-end:1px solid var(--line);padding:18px 12px;display:flex;flex-direction:column;gap:2px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.ws{font-family:var(--f-d);font-weight:700;font-size:1.05em;padding:2px 10px 14px;display:grid}
+.ws small{font-family:var(--f-b);font-weight:400;color:var(--muted);font-size:.78em}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-radius:8px;color:var(--ink);background:none;border:0;font:inherit;cursor:pointer;text-align:start;width:100%}
+.nav svg{width:20px;height:20px;color:var(--muted)}
+.nav span.l{display:flex;gap:10px;align-items:center}
+.nav[aria-current="page"]{background:var(--acc-soft);color:var(--acc);font-weight:700}
+.nav[aria-current="page"] svg{color:var(--acc)}
+.credit{margin-top:auto;padding:12px;border-radius:8px;background:var(--surface-2);font-size:.82em;display:grid;gap:2px}
+.credit b{font-size:1.4em;font-family:var(--f-d)}
+.main{min-width:0;display:flex;flex-direction:column}
+.bar{display:flex;align-items:center;gap:10px;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:3;flex-wrap:wrap}
+.bar .search{flex:1;min-width:180px;max-width:420px;display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:0 12px;min-height:42px;color:var(--muted)}
+.bar .search input{border:0;background:none;font:inherit;color:var(--ink);flex:1;min-width:0;outline:none}
+.bar .sp{flex:1}
+.search{display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:0 12px;min-height:46px;color:var(--muted);width:min(520px,100%)}
+.search input{border:0;background:none;font:inherit;color:var(--ink);flex:1;min-width:0;outline:none}
+.search:focus-within{outline:3px solid var(--acc);border-color:transparent}
+.content{padding:22px 24px 60px;display:grid;gap:18px;align-content:start;max-width:1180px;width:100%;min-width:0}
+.content>*{min-width:0}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.25;text-wrap:balance}
+h1{font-size:1.6em}h2{font-size:1.25em}h3{font-size:1.05em}
+p{margin:0}
+.muted{color:var(--muted)}.sm{font-size:.88em}.xs{font-size:.78em}
+.mono{font-family:var(--f-m);direction:ltr;unicode-bidi:isolate}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.between{justify-content:space-between}.nw{flex-wrap:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;padding:0 16px;border-radius:8px;font:600 .92em var(--f-b);border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.btn.pri{background:var(--acc);color:var(--acc-ink);border-color:transparent}
+.btn.ghost{background:var(--surface-2);border-color:transparent}
+.btn.s{min-height:36px;padding:0 12px;font-size:.84em;border-radius:10px}
+.btn.big{min-height:54px;font-size:1.02em;width:100%}
+.btn svg,.nav svg{flex:none}
+.btn:focus-visible,.nav:focus-visible,.tile:focus-visible,tr.click:focus-visible,.chip:focus-visible,.tog:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:.78em;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.info{background:var(--info-soft);color:var(--info)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px;text-align:start;font:inherit;color:inherit;cursor:pointer;position:relative}
+.tile b{font-family:var(--f-d);font-size:2em;line-height:1.15}
+.tile span{color:var(--muted);font-size:.86em}
+.tile .go{position:absolute;top:12px;inset-inline-end:14px;font-size:.78em;color:var(--acc);font-weight:700}
+.tile.hot{box-shadow:inset 0 3px 0 var(--bad)}
+.tile.calm{box-shadow:inset 0 3px 0 var(--ok-fill)}
+.tile.attn{box-shadow:inset 0 3px 0 var(--warn-fill)}
+tr.sig-b>td:first-child{box-shadow:inset -3px 0 0 var(--bad)}
+tr.sig-w>td:first-child{box-shadow:inset -3px 0 0 var(--warn-fill)}
+.vk{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ok-fill);flex:none;vertical-align:middle}
+.vk::after{content:"";width:9px;height:5px;border:solid #fff;border-width:0 0 2.2px 2.2px;transform:translateY(-1px) rotate(-45deg)}
+.ws img{height:20px;width:auto;margin-bottom:12px;display:block}
+.agy{display:flex;gap:10px;align-items:center}
+.agy>div{display:grid;min-width:0}
+.agl{width:42px;height:42px;flex:none;border-radius:10px;box-shadow:0 0 0 1px var(--line)}
+.agm{display:none}
+.ubtn{display:flex;gap:10px;align-items:center;width:100%;border:0;background:none;font:inherit;color:inherit;text-align:start;cursor:pointer;padding:6px;margin:-6px;border-radius:10px}
+.ubtn:hover{background:var(--surface-2)}
+.ubtn:focus-visible,.umi:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.ubtn .chev{margin-inline-start:auto;color:var(--muted);font-size:.8em}
+.uav{display:none;width:38px;height:38px;border-radius:50%;border:0;background:var(--acc-soft);color:var(--acc);font:700 .85em var(--f-d);cursor:pointer;flex:none}
+.umenu{position:fixed;z-index:9;width:260px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 50px rgb(0 0 0 / .22);padding:6px;display:grid}
+.umenu .uh{padding:10px 12px;border-bottom:1px solid var(--line);display:grid;gap:1px}
+.umi{display:flex;gap:10px;align-items:center;min-height:44px;padding:0 12px;border:0;background:none;border-radius:8px;font:inherit;color:inherit;text-align:start;cursor:pointer;width:100%}
+.umi:hover{background:var(--surface-2)}
+.umi.out{color:var(--bad)}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:var(--bg)}
+.login .card{width:min(420px,100%);padding:28px;gap:14px}
+.login label{display:grid;gap:4px;font-size:.88em;font-weight:600}
+.login .chk{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:.9em}
+.login .chk input{width:20px;height:20px;accent-color:var(--acc);margin-top:2px;flex:none}
+.tile .sh{display:none}
+.mcards{display:none}
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;cursor:pointer;text-align:start}
+.mcard.sig-b{box-shadow:inset -3px 0 0 var(--bad)}.mcard.sig-w{box-shadow:inset -3px 0 0 var(--warn-fill)}
+.mcard .mc-r{display:grid;gap:4px;justify-items:end}
+.mlist{background:var(--surface-2);border-radius:10px;padding:2px 12px}
+.agm svg{width:34px;height:34px;border-radius:8px;box-shadow:0 0 0 1px var(--line)}
+.tile:hover{border-color:var(--acc)}
+.drop{border:2px dashed color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:10px;padding:18px;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;text-align:center;background:color-mix(in srgb,var(--acc-soft) 50%,transparent)}
+.drop.over{background:var(--acc-soft);border-color:var(--acc)}
+.drop svg{width:30px;height:30px;color:var(--acc)}
+.drop b{font-family:var(--f-d);font-size:1.05em}
+.tbl{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92em}
+th,td{padding:12px 14px;text-align:start;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-weight:500;color:var(--muted);font-size:.86em;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer}
+tr.click:hover td{background:var(--surface-2)}
+.bar6{height:7px;border-radius:4px;background:var(--surface-2);overflow:hidden;width:92px}
+.bar6 i{display:block;height:100%;background:var(--ok)}.bar6 i.w{background:var(--warn)}.bar6 i.b{background:var(--bad)}
+.grp{background:var(--surface-2);padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;font-family:var(--f-d);font-weight:600;flex-wrap:wrap}
+.item{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line)}
+.item>div:first-child{flex:1 1 260px;min-width:0}
+.tid{font:600 .78em var(--f-m);direction:ltr;unicode-bidi:isolate;background:var(--acc-soft);color:var(--acc);border-radius:6px;padding:2px 7px;white-space:nowrap}
+.grp .gt{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center}
+.grp .gt .btn{font-family:var(--f-d)}
+.item:last-child{border-bottom:0}
+.list{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.fi{display:grid;grid-template-columns:32px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.fi:last-child{border-bottom:0}
+.st{width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
+.st svg{width:17px;height:17px}
+.st.ok{background:var(--ok-soft);color:var(--ok)}.st.w{background:var(--warn-soft);color:var(--warn)}.st.b{background:var(--bad-soft);color:var(--bad)}.st.p{background:var(--acc-soft);color:var(--acc)}
+.spin{animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.snip{background:var(--surface-2);border-radius:10px;padding:12px;font-family:var(--f-m);font-size:.84em;direction:ltr;text-align:left;color:var(--muted)}
+.snip mark{background:var(--warn-soft);color:var(--ink);outline:2px solid var(--warn);border-radius:3px;padding:0 3px}
+input.inp{min-height:46px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:0 12px;font:inherit;width:100%}
+.tbl td.nw,.tbl td.mono{white-space:nowrap}
+.dt{white-space:nowrap;font-variant-numeric:tabular-nums}
+.dtr{unicode-bidi:isolate;display:inline-block}
+button.lnk{border:0;background:none;font:inherit;font-weight:700;color:var(--ink);cursor:pointer;padding:0;text-decoration:underline;text-decoration-color:var(--line);text-underline-offset:4px}
+button.lnk:hover{text-decoration-color:var(--acc)}
+button.mp{border:0;cursor:pointer;font-family:var(--f-b)}
+tr.mdet>td{background:var(--surface-2);padding:6px 16px}
+.mi{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 14px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.mi:last-child{border-bottom:0}
+.mi>div:first-child{flex:1 1 280px;min-width:0}
+textarea.inp{min-height:110px;padding:10px 12px;resize:vertical;line-height:1.5}
+.pkrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}
+select.inp{min-height:46px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:0 10px;font:inherit;width:100%}
+select.inp:focus,input.inp:focus{outline:3px solid var(--acc);border-color:transparent}
+.cmp{display:grid;grid-template-columns:130px 1fr 1fr;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.cmp>div{padding:11px 14px;border-bottom:1px solid var(--line)}
+.cmp .h{background:var(--surface-2);font-weight:600;font-size:.86em}
+.cmp label{display:flex;gap:8px;align-items:center;cursor:pointer}
+.cmp input{width:18px;height:18px;accent-color:var(--acc)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{border:0;background:none;font:inherit;padding:10px 14px;color:var(--muted);border-bottom:3px solid transparent;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--acc);border-color:var(--acc);font-weight:700}
+.check{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.check:last-child{border-bottom:0}
+.tog{width:48px;height:28px;border-radius:999px;border:0;background:var(--line);position:relative;cursor:pointer;flex:none}
+.tog::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:inset .15s}
+.tog[aria-checked="true"]{background:var(--acc)}
+.tog[aria-checked="true"]::after{inset-inline-start:23px}
+.tog.lock{opacity:.55}
+select.sel{min-height:38px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;padding:0 8px}
+.chat{display:grid;grid-template-columns:300px minmax(0,1fr);background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;min-height:520px}
+.conv{border-inline-end:1px solid var(--line)}
+.conv button{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;padding:12px 16px;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;color:inherit;cursor:pointer;text-align:start;width:100%}
+.conv button[aria-current="true"]{background:var(--acc-soft)}
+.thread{display:grid;grid-template-rows:auto 1fr auto;min-width:0}
+.conv button.cv{grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px}
+.cav{width:40px;height:40px;border-radius:50%;background:var(--acc-soft);color:var(--acc);display:grid;place-items:center;font:700 .9em var(--f-d)}
+.cbody{display:grid;gap:1px;min-width:0}
+.cl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--muted);font-size:.88em}
+.cl.un{color:var(--ink);font-weight:700}
+.udot{width:10px;height:10px;border-radius:50%;background:var(--bad);display:block}
+.th-h{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line)}
+.th-h>div{flex:1;min-width:0}
+.th-back{display:none}
+.msgs{padding:16px;display:flex;flex-direction:column;gap:10px;justify-content:flex-end;overflow-y:auto;max-height:420px}
+.msg{max-width:72%;padding:10px 13px;border-radius:14px;display:grid;gap:3px}
+.msg.them{align-self:flex-start;background:var(--surface-2)}
+.msg.me{align-self:flex-end;background:var(--acc-soft)}
+.msg small{font-size:.75em;color:var(--muted)}
+.composer{display:grid;gap:8px;padding:12px 16px;border-top:1px solid var(--line)}
+.overlay,.toast{direction:rtl;text-align:right}
+.modal.pub{max-width:600px;gap:16px;padding:0;overflow:hidden}
+.pub .mh{padding:22px 24px 0;display:grid;gap:4px}
+.pub .mb{padding:0 24px;display:grid;gap:14px}
+.pub .mf{display:flex;gap:10px;justify-content:flex-start;align-items:center;padding:14px 24px;border-top:1px solid var(--line);background:var(--surface-2)}
+.pub .mf .sp{flex:1}
+.sumg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.sumg div{background:var(--surface-2);border-radius:8px;padding:10px 12px;display:grid;gap:2px}
+.sumg b{font:700 1.45em var(--f-d);line-height:1.15}
+.sumg span{font-size:.8em;color:var(--muted)}
+.see{display:flex;flex-wrap:wrap;gap:6px}
+.chan{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;border:0;padding:0;margin:0}
+.chan legend{font-size:.88em;font-weight:600;margin-bottom:6px;padding:0}
+.chan label{position:relative;border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:2px;cursor:pointer;background:var(--surface)}
+.chan input{position:absolute;opacity:0;pointer-events:none}
+.chan label:has(input:checked){border-color:var(--acc);box-shadow:0 0 0 2px var(--acc-soft);background:var(--acc-soft)}
+.chan label:has(input:focus-visible){outline:3px solid var(--acc);outline-offset:2px}
+.chan label b::before{content:'';display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid var(--line);margin-inline-end:8px;vertical-align:-2px}
+.chan label:has(input:checked) b::before{border:4px solid var(--acc)}
+@media (max-width:560px){.sumg{grid-template-columns:1fr 1fr 1fr}.chan{grid-template-columns:1fr}}
+.overlay{position:fixed;inset:0;background:rgb(10 16 24 / .45);display:grid;place-items:center;padding:16px;z-index:10}
+.modal{background:var(--surface);border-radius:18px;max-width:560px;width:100%;padding:24px;display:grid;gap:14px;box-shadow:0 20px 60px rgb(0 0 0 / .3)}
+.banner{border-radius:8px;padding:12px 14px;display:grid;gap:4px;font-size:.92em}
+.banner.ok{background:var(--ok-soft)}.banner.warn{background:var(--warn-soft)}.banner.info{background:var(--info-soft)}
+.toast{position:fixed;bottom:24px;inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 16px;display:flex;gap:14px;align-items:center;box-shadow:0 8px 30px rgb(0 0 0 / .3);z-index:20;max-width:calc(100% - 32px)}
+.help{background:var(--acc-soft);border-radius:14px;padding:12px 16px;display:flex;gap:10px;align-items:flex-start}
+.help svg{width:22px;height:22px;color:var(--acc);flex:none;margin-top:2px}
+.simple{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.simple .card{padding:26px;gap:14px;align-content:start}
+.simple .ic{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;background:var(--surface-2)}
+.simple .ic svg{width:30px;height:30px}
+.simple b.t{font-family:var(--f-d);font-size:1.35em}
+.empty{display:grid;justify-items:center;gap:8px;padding:40px;text-align:center;color:var(--muted)}
+.empty svg{width:44px;height:44px;color:var(--ok)}
+svg.i{width:18px;height:18px}
+.bell{position:relative}
+.bell .dot{position:absolute;top:-5px;inset-inline-end:-6px;min-width:20px;height:20px;border-radius:10px;background:var(--bad);color:#fff;font:700 .72em var(--f-b);display:grid;place-items:center;padding:0 5px}
+.bell.ring svg{animation:ring .8s ease 1}
+@keyframes ring{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+.npanel{position:fixed;top:64px;inset-inline-end:24px;width:min(420px,calc(100vw - 32px));background:var(--surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 18px 50px rgb(0 0 0 / .22);z-index:8;display:grid;max-height:70vh;overflow:auto}
+.npanel .nh{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface)}
+.nitem{display:grid;grid-template-columns:auto 1fr;gap:10px;padding:12px 16px;border:0;border-bottom:1px solid var(--line);background:none;text-align:start;font:inherit;color:inherit;cursor:pointer}
+.nitem:hover{background:var(--surface-2)}
+.nitem.un{background:var(--acc-soft)}
+.nitem.un b{font-weight:700}
+.nitem .ni{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--surface-2);color:var(--acc)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{white-space:nowrap;flex:none;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;font:600 .82em var(--f-b);color:var(--muted);cursor:pointer;min-height:34px}
+.chip[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:transparent}
+.ver{font:700 .7em var(--f-b);padding:1px 7px;border-radius:6px;background:var(--surface-2);color:var(--muted);border:1px dashed var(--line)}
+.ownbox{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft);margin:-2px 0 6px}
+.ownbox .opts{display:flex;flex-wrap:wrap;gap:6px 18px}
+.ownbox label{display:flex;gap:8px;align-items:center;min-height:38px;cursor:pointer}
+.ownbox input{width:20px;height:20px;accent-color:var(--acc)}
+.ownbtn{max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.own{display:inline-flex;align-items:center;gap:6px}
+.own select{font:inherit;font-size:.84em;border:1px solid var(--line);border-radius:8px;padding:3px 6px;background:var(--surface);color:var(--ink)}
+.pav{width:84px;height:84px;border-radius:50%;overflow:hidden;background:var(--acc-soft);color:var(--acc);display:grid;place-items:center;font:700 1.6em var(--f-d);flex:none}
+.pav img{width:100%;height:100%;object-fit:cover}
+.unit{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.unit .uh{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 14px;background:var(--surface-2);flex-wrap:wrap}
+.unit .uh b{font-family:var(--f-d)}
+.prow{display:grid;grid-template-columns:minmax(0,1.4fr) 150px minmax(0,1fr) 110px;gap:10px;align-items:center;padding:10px 14px;border-top:1px solid var(--line)}
+.prow.child .nm{padding-inline-start:26px;position:relative}
+.prow.child .nm::before{content:'';position:absolute;inset-inline-start:6px;top:-10px;height:calc(50% + 10px);width:10px;border-inline-start:2px solid var(--line);border-bottom:2px solid var(--line);border-end-start-radius:6px}
+.prow .nm{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.hier{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:.82em;color:var(--muted)}
+.hier i{font-style:normal;color:var(--line)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid label{display:grid;gap:4px;font-size:.86em;font-weight:600}
+.seg2{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg2 button{border:0;background:var(--surface);padding:8px 14px;font:600 .86em var(--f-b);cursor:pointer;color:var(--ink)}
+.seg2 button[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink)}
+.uchips{display:flex;gap:6px;flex-wrap:wrap}
+@media (max-width:860px){.prow{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}}
+.sortb{border:0;background:none;font:inherit;color:inherit;cursor:pointer;padding:2px 0;display:inline-flex;gap:5px;align-items:center;white-space:nowrap}
+.sortb:hover{color:var(--ink)}
+.sortb:focus-visible{outline:3px solid var(--acc);outline-offset:2px;border-radius:4px}
+.sarr{font-size:.8em;opacity:.45}
+th[aria-sort="ascending"] .sortb,th[aria-sort="descending"] .sortb{color:var(--ink);font-weight:700}
+th[aria-sort="ascending"] .sarr,th[aria-sort="descending"] .sarr{opacity:1;color:var(--acc)}
+.ldm{max-width:760px;max-height:88vh;overflow:auto}
+.ldoc{display:grid;gap:10px;line-height:1.6}
+.ldoc h3{margin:8px 0 0}
+.ldoc ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+.ldoc .sum{background:var(--surface-2);border-radius:10px;padding:10px 12px;display:grid;gap:4px}
+.ldoc .fill{background:var(--warn-soft);border-radius:4px;padding:0 3px}
+.setsec{display:grid;gap:4px;padding-top:6px}
+.fileinput{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+@media (max-width:860px){
+  #root{grid-template-columns:1fr}
+  .side{position:fixed;inset:auto 0 0 0;top:auto;height:auto;flex-direction:row;z-index:5;padding:6px;border-inline-end:0;border-top:1px solid var(--line);overflow-x:auto}
+  .side .ws,.side .credit{display:none}
+  .agm{display:inline-flex}
+  .uav{display:inline-grid;place-items:center}
+  .bar .btn.s{font-size:0;gap:0;padding:0 11px;min-width:42px}
+  .bar .btn.s svg{width:20px;height:20px}
+  .bar .btn.s .dot{font-size:11px}
+  .chat:not(.show-thread) .conv button[aria-current="true"]{background:none}
+  .nav{flex-direction:column;gap:2px;font-size:.72em;padding:6px 8px;justify-content:center}
+  .nav span.l{flex-direction:column;gap:2px}
+  .nav .pill{display:none}
+  .content{padding:16px 16px 100px}
+  .bar{padding:8px 12px;gap:6px;flex-wrap:nowrap}
+  .bar .btn.s{padding:0 8px;min-width:40px}
+  .bar .agm svg{width:32px;height:32px}
+  .dhead{flex-direction:column;align-items:stretch!important}
+  .dhead>.btn{align-self:flex-start}
+  .tiles{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+  .tile{padding:8px 4px 7px;text-align:center;justify-items:center}
+  .tile b{font-size:1.45em}
+  .tile .go,.tile .lg{display:none}
+  .tile .sh{display:block;font-size:.74em;line-height:1.2}
+  .tile.calm b{font-size:1em}
+  .tbl.dt-desk{display:none}
+  .mcards{display:grid;gap:8px}
+  .content .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+  .simple{grid-template-columns:1fr}
+  .chat{grid-template-columns:1fr;min-height:0}
+  .conv{border-inline-end:0}
+  .chat:not(.show-thread) .thread{display:none}
+  .chat.show-thread .conv{display:none}
+  .chat.show-thread{position:fixed;inset:0 0 calc(62px + env(safe-area-inset-bottom,0px)) 0;z-index:6;border:0;border-radius:0;grid-template-rows:1fr}
+  .chat.show-thread .thread{min-height:0}
+  .chat.show-thread .msgs{max-height:none;min-height:0}
+  .th-back{display:inline-flex}
+  .composer .row:first-child{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+  .cmp{grid-template-columns:96px 1fr 1fr}
+}
+@media (prefers-reduced-motion:reduce){.spin{animation:none}*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="agmark" viewBox="0 0 48 48"><rect width="48" height="48" rx="10" fill="#fff7e8"/><circle cx="24" cy="24" r="17" fill="#f2a417"/><path d="M24 10a14 14 0 0 1 0 28" fill="none" stroke="#fff" stroke-width="2.6"/><path d="M11 24h26M24 11v26" stroke="#fff" stroke-width="1.8"/></symbol>
+  <symbol id="bug" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m-1 5v7h2V7zm0 9v2h2v-2z"/></symbol>
+  <symbol id="home" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></symbol>
+  <symbol id="inbox" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2m0 11v5h14v-5h-4a3 3 0 0 1-6 0z"/></symbol>
+  <symbol id="chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 1-2m3 6v2h10V9zm0 4v2h7v-2z"/></symbol>
+  <symbol id="users" viewBox="0 0 24 24"><path fill="currentColor" d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8m8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6M9 13c-4 0-7 2-7 4.5V20h14v-2.5C16 15 13 13 9 13m8 0c-.6 0-1.2.1-1.7.2A5 5 0 0 1 18 17.5V20h4v-2.5c0-2.5-2.2-4.5-5-4.5"/></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2m7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></symbol>
+  <symbol id="gear" viewBox="0 0 24 24"><path fill="currentColor" d="M19.4 13a7.7 7.7 0 0 0 0-2l2.1-1.6-2-3.5-2.5 1a7.4 7.4 0 0 0-1.7-1L15 3h-4l-.4 2.9a7.4 7.4 0 0 0-1.7 1l-2.5-1-2 3.5L6.6 11a7.7 7.7 0 0 0 0 2l-2.1 1.6 2 3.5 2.5-1a7.4 7.4 0 0 0 1.7 1L11 21h4l.4-2.9a7.4 7.4 0 0 0 1.7-1l2.5 1 2-3.5zM13 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7" transform="translate(-1 0)"/></symbol>
+  <symbol id="up" viewBox="0 0 24 24"><path fill="currentColor" d="M11 16V7.8l-3.6 3.6L6 10l6-6 6 6-1.4 1.4L13 7.8V16zm-6 2h14v2H5z"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><path fill="currentColor" d="M10 3a7 7 0 0 1 5.6 11.2l5.1 5.1-1.4 1.4-5.1-5.1A7 7 0 1 1 10 3m0 2a5 5 0 1 0 0 10 5 5 0 0 0 0-10"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
+  <symbol id="alert" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 1 21h22zm-1 7h2v6h-2zm0 8h2v2h-2z"/></symbol>
+  <symbol id="doc" viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m7 1.5V8h4.5zM8 12v1.5h8V12zm0 3.5V17h8v-1.5z"/></symbol>
+  <symbol id="loader" viewBox="0 0 24 24"><path fill="currentColor" d="M12 4a8 8 0 0 1 8 8h-2a6 6 0 0 0-6-6z"/></symbol>
+  <symbol id="help" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m-1 14v2h2v-2zm1-10a4 4 0 0 0-4 4h2a2 2 0 1 1 3 1.7c-1.2.7-2 1.6-2 3.3h2c0-1 .5-1.5 1.4-2A4 4 0 0 0 12 6"/></symbol>
+  <symbol id="text" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5h11v3h-4v11H7V8H3zm11 6h7v2.5h-2.2V19h-2.6v-5.5H14z"/></symbol>
+  <symbol id="grid" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h7v7H4zm9 0h7v7h-7zM4 13h7v7H4zm9 0h7v7h-7z"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9m0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5"/></symbol>
+  <symbol id="plane" viewBox="0 0 24 24"><path fill="currentColor" d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z"/></symbol>
+  <symbol id="logout" viewBox="0 0 24 24"><path fill="currentColor" d="M10 3h9a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-9v-2h9V5h-9zm-1.6 4.4L3.8 12l4.6 4.6 1.4-1.4L7.6 13H16v-2H7.6l2.2-2.2z"/></symbol>
+  <symbol id="send" viewBox="0 0 24 24"><path fill="currentColor" d="M3 12 21 4l-2 8 2 8z"/></symbol>
+</defs></svg>
+
+<div id="root" dir="rtl" lang="he"></div>
+<input type="file" id="filepick" class="fileinput" multiple accept=".pdf,image/*" aria-hidden="true" tabindex="-1">
+
+<script>
+(function(){
+var S={role:'sup',ret:'12',tripNotif:{bcn:{morning:[false,'08:00']}},legalF:{name:'מסעות הדרים בע״מ',id:'51-555555-5',addr:'רחוב הדוגמה 1, תל אביב',priv:'privacy@hadarim.co.il',acc:'רונית לוי · 03-555-0142 · access@hadarim.co.il',dpo:'',accOff:'קבלת קהל בתיאום מראש. כניסה ומעלית נגישות, חניה נגישה ברחוב'},postMsg:'מקווים שנהניתם! להזמנת הטיול הבא, צרו קשר: [שם הסוכן] · [טלפון הסוכנות]',mkt:true,mktLog:'סומן על ידי רונית · 3.9.2026 · בטופס ההזמנה',tickets:[{n:1041,t:'הנוסע לא קיבל את הקישור ב־WhatsApp',trip:'HDR-2610-0041',st:'בטיפול',at:'לפני שעה',ans:'בדקנו: המספר של עדי שמור בלי קידומת. תיקנו, ושלחנו שוב.'}],tkSeq:1043,tips:'המטרו נוח וזול. כרטיס T-casual ל־10 נסיעות חוסך כסף. ברוב המסעדות ארוחת ערב מתחילה אחרי 20:30.',tipsDest:false,pack:[['pass','דרכונים בתוקף','auto'],['adapt','מתאם חשמל (תקע אירופאי)','auto'],['umb','מטרייה קטנה','auto'],['meds','תרופות קבועות','auto'],['shoes','נעליים נוחות להליכה בעיר','רונית']],hrOwn:true,hrDays:[1,1,1,1,1,0,0],hrFrom:'09:00',hrTo:'17:00',ePhoneOn:true,ePhone:'054-555-0186',view:'dash',trip:null,tripTab:'over',simple:false,big:false,help:false,conv:'bcn',credits:38,bell:false,ring:false,stf:'all',travUp:true,
+  notifs:[
+    {id:'a1',t:'עדכון לטיסה LY 395 ממתין לאישור שלך',trip:'bcn',at:'לפני 5 דק׳',un:true,act:'openfl',ic:'alert'},
+    {id:'a3',t:'הודעה חדשה מדנה כהן',trip:'bcn',at:'לפני שעה',un:true,go:'chat',ic:'chat'},
+    {id:'a4',t:'שובר הרכב בברצלונה: שדה אחד לבדיקה',trip:'bcn',at:'לפני שעה',un:false,go:'exc',ic:'alert'},
+    {id:'a5',t:'רומא · זוג לוינסון: הנסיעה התחילה היום',trip:'rom',at:'הבוקר',un:false,ic:'plane'},
+    {id:'a6',t:'כנס לונדון: אין ביטוח ביטול',trip:'lon',at:'אתמול',un:false,go:'missing',ic:'alert'}
+  ],
+  notif:{offline:[true,'14'],brief:[true,'3'],ci:[true,'24'],ci2:[true,'6'],airport:[true,'3'],morning:[true,'08:00'],event:[true,'2']},
+  inbox:[
+    {id:'i1',trip:'bcn',name:'טיסה LY395 · תל אביב–ברצלונה · 12.11.2026',orig:'scan_0012.pdf',st:'ok',res:'2 טיסות · 4 נוסעים',why:'זוהה לפי מספר הזמנה X7KQ2P'},
+    {id:'i0',trip:'bcn',name:'כרטיס · הופעה בפאלאו דה לה מוזיקה · 13.11.2026 · דנה כהן',orig:'IMG_4471.jpg',st:'ok',by:'דנה כהן',res:'נוסף ללו״ז ביום ו׳ 20:30',why:'הוסף על ידי הנוסעת. לידיעה, לא צריך לאשר'},
+    {id:'i2',trip:'bcn',name:'מלון Hotel Mar Blau · 12–19.11.2026',orig:'Mar-Blau-voucher.pdf',st:'ok',res:'מלון, 12.11.2026 – 19.11.2026',why:"נוצרו אירועי צ'ק-אין וצ'ק-אאוט"},
+    {id:'i3',trip:'tbs',name:'רכב Hertz · טביליסי · 2.12.2026',orig:'hertz-tbs.pdf',st:'ok',res:'רכב, איסוף 02.12.2026',why:'החוסר "שובר רכב" נסגר'},
+    {id:'i4',trip:'bcn',name:'ביטוח נסיעות · Securitas · דנה כהן',orig:'securitas-policy.pdf',st:'ok',by:'דנה כהן',res:'ביטוח נסיעות: יש פוליסה',why:'הוסף על ידי הנוסעת. מוקד החירום נקלט ומופיע לה במסך החירום'},
+    {id:'i6',trip:'bcn',name:'רכב שכור · Sixt · 14–19.11.2026',orig:'sixt-voucher.pdf',st:'w',res:'רכב, איסוף 14.11.2026 10:00',why:'לא הצלחנו לקרוא בוודאות את שעת ההחזרה'},
+    {id:'i5',trip:'bcn',name:'טיסה LY395 · עדכון · 12.11.2026',orig:'flight-update.pdf',st:'b',res:'עדכון לטיסה LY 395',why:'שעת ההמראה השתנתה. ממתין לאישור שלך'}
+  ],
+  missing:[
+    {id:'m3',trip:'lon',type:'ביטול',what:'אין ביטוח ביטול בתיק',note:'הוזמן לפני 4 ימים. ביטוח ביטול קונים עד כשבוע מההזמנה',st:''},
+    {id:'m5',trip:'tbs',type:'ביטול',what:'אין ביטוח ביטול בתיק',note:'הוזמן לפני 5 ימים. נשארו יומיים לרכישה',st:''}
+  ],
+  exc:['look','flight'],
+  convs:{
+    bcn:{id:'HDR-2609-0031',name:'ברצלונה · דנה כהן',unread:true,msgs:[{me:false,t:'היי רונית, יש עגלת תינוק בהסעה מהשדה? אנחנו עם נועה הקטנה',at:'10:42'},{me:true,t:'היי דנה, בודקת מול חברת ההסעות ומעדכנת עד הצהריים',at:'10:51'},{me:false,t:'סגרנו ביטוח נסיעות לבד, והעליתי את הפוליסה לאפליקציה',at:'10:53'}]},
+    ath:{name:'אתונה · מיכל',unread:true,msgs:[{me:false,t:'הגענו למלון, הכול מעולה. תודה!',at:'09:12'}]},
+    rom:{id:'HDR-2608-0027',name:'רומא · לוינסון',unread:false,msgs:[{me:false,t:'מה שעת הצ\'ק-אאוט?',at:'אתמול'},{me:true,t:'עד 11:00, וזה מופיע גם בלו״ז',at:'אתמול'}]}
+  }
+};
+try{var sv=JSON.parse(localStorage.getItem('proto-agent')||'null');if(sv){S.simple=!!sv.simple;S.big=!!sv.big;}}catch(e){}
+var TRIPS={
+  bcn:{type:'משפחה',id:'HDR-2609-0031',name:'ברצלונה · משפחת כהן',dates:'12–19/11',dep:'בעוד 3 ימים',pax:4,st:'pub',ins:'ok',ready:[6,8],pend:2,cust:'dana'},
+  rom:{type:'זוג',id:'HDR-2608-0027',name:'רומא · זוג לוינסון',dates:'9–13/11',dep:'היום',pax:2,st:'act',ins:'ok',ready:[5,5],pend:0},
+  lon:{type:'קבוצה מאורגנת',id:'HDR-2610-0040',name:'לונדון · כנס קבוצת הייטק',dates:'26–29/11',dep:'בעוד 22 ימים',pax:23,st:'draft',ins:'miss',ready:[14,46],pend:0},
+  tbs:{type:'משפחה',id:'HDR-2610-0038',name:'טביליסי · משפחת ברק',dates:'2–9/12',dep:'בעוד 28 ימים',pax:5,st:'pub',ins:'miss',ready:[9,10],pend:0},
+  prg:{type:'קבוצת חברים',id:'HDR-2610-0041',name:'פראג · נועם אלון וחברים',dates:'20–24/11',dep:'בעוד 16 ימים',pax:4,st:'draft',ins:'ok',ready:[6,6],pend:0},
+  dnr:{type:'זוג',id:'HDR-2610-0044',name:'רומא ופירנצה · דנה כהן',dates:'4–11/3/27',dep:'מרץ',pax:2,st:'draft',ins:'later',ready:[1,6],pend:0,cust:'dana'},
+  dcr:{type:'משפחה',id:'HDR-2610-0045',name:'כרתים · דנה כהן',dates:'9–16/8/27',dep:'אוגוסט',pax:5,st:'draft',ins:'later',ready:[0,4],pend:0,cust:'dana'}
+};
+var ST={incomplete:['ממתינה להשלמה','warn'],pub:['פורסמה','info'],act:['בנסיעה','ok'],draft:['טיוטה',''],ready:['מוכנה לפרסום','ok'],pend:['יש עדכונים לפרסום','warn'],done:['הסתיימה',''],cancel:['בוטלה','bad']};
+function stOf(t){if(t.st==='draft'){var kk=keyOf(t);if(kk&&missingOf(kk).length)return 'incomplete';return (t.ready[1]&&t.ready[0]===t.ready[1])?'ready':'draft';}if(t.st==='pub'&&t.pend)return 'pend';return t.st;}
+function stPill(t){var x=ST[stOf(t)];return '<span class="pill '+x[1]+'">'+x[0]+'</span>';}
+var HELP={bell:'הפעמון מראה כל מה שקרה. לחיצה על התראה מובילה ישר למקום.',dash:'כאן רואים מה דורש טיפול. כל מספר לחיץ. הפעמון למעלה מראה מה קרה. כדי להעלות מסמכים נכנסים לתיק הנסיעה, או פותחים תיק חדש.',missing:'נסיעות שחסר בהן ביטוח ביטול או ביטוח נסיעות. אפשר להעלות פוליסה, לסמן שהנוסע סגר ביטוח עצמאית, או שלא נדרש.',inbox:'כל קובץ שהעלית מופיע כאן, עם מה שהמערכת עשתה איתו ולמה.',exc:'כאן רק השאלות שהמערכת לא יכלה להכריע לבד. בדרך כלל זו שאלה אחת.',trip:'כל מה שקשור לנסיעה אחת. כאן גוררים את המסמכים שלה. ב"מידע לנוסע" כותבים טיפים ועורכים את רשימת האריזה. ב"התראות לנסיעה" משנים התראות רק לנסיעה הזו. "פרסום" שולח ללקוחות את התיק.',cust:'כל הנסיעות של לקוח במקום אחד, ופרטי הקשר וערוצי העדכון שלו.',custlist:'כל הלקוחות של הסוכנות. חיפוש לפי שם, נייד או מזהה.',chat:'הודעות מלקוחות. קובץ שלקוח שולח נכנס לתיק בלחיצה על "הוסיפי לתיק".',settings:'"ההגדרות שלי" חלות רק עלייך. "הגדרות הסוכנות" רואים רק מנהלי הסוכנות, והן חלות על כל הנסיעות והנוסעים.'};
+
+var root=document.getElementById('root'),fp=document.getElementById('filepick');
+function ic(n){return '<svg class="i" aria-hidden="true"><use href="#'+n+'"/></svg>';}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function save(){try{localStorage.setItem('proto-agent',JSON.stringify({simple:S.simple,big:S.big}));}catch(e){}}
+var tt,undoFn=null;
+function toast(msg,undo){var o=document.querySelector('.toast');if(o)o.remove();clearTimeout(tt);undoFn=undo||null;var d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.innerHTML='<span>'+msg+'</span>'+(undo?'<button class="btn s ghost" data-act="undo">בטל</button>':'');document.body.appendChild(d);tt=setTimeout(function(){d.remove();undoFn=null;},undo?10000:3500);}
+function cnt(){return {miss:S.missing.length,exc:S.exc.length,unread:Object.keys(S.convs).filter(function(k){return S.convs[k].unread;}).length,
+  out:Object.keys(TRIPS).filter(function(k){return /ימים|היום/.test(TRIPS[k].dep)&&parseInt(TRIPS[k].dep.replace(/\D/g,'')||'0',10)<=7;}).length,
+  ready:Object.keys(TRIPS).filter(function(k){var s=stOf(TRIPS[k]);return s==='ready'||s==='pend';}).length};}
+function flightCard(modal){return '<div class="card" style="max-width:760px'+(modal?';border:0;padding:0':'')+'"><span class="muted sm">ברצלונה · משפחת כהן <span class="tid">HDR-2609-0031</span> · flight-update.pdf</span><h2>עדכון לטיסה LY 395. לאשר?</h2><span class="sm">הועלה מסמך חדש לטיסה שכבר קיימת בתיק. העדכון לא יופיע לנוסעים לפני שתאשרי.</span><div class="cmp"><div class="h">שדה</div><div class="h">עכשיו בתיק</div><div class="h">במסמך החדש</div><div>המראה</div><div>06:10 שעון ישראל</div><div style="background:var(--warn-soft)"><b>07:25 שעון ישראל</b></div><div>נחיתה</div><div>10:05 שעון ברצלונה</div><div style="background:var(--warn-soft)"><b>11:20 שעון ברצלונה</b></div><div>טרמינל</div><div>3</div><div class="muted">ללא שינוי</div></div><label class="row sm"><input type="checkbox" id="notify" checked style="width:18px;height:18px;accent-color:var(--acc)"> לעדכן את 4 הנוסעים אחרי האישור</label><span class="xs muted">באישור, התראות הצ\'ק-אין ו"יציאה לשדה" יחושבו מחדש לפי השעה החדשה.</span><div class="row"><button class="btn pri" data-act="flok">אשרי את העדכון</button><button class="btn" data-act="flno">דחי, השאירי 06:10</button>'+(modal?'<button class="btn ghost" data-act="fllater">אחר כך</button>':'')+'</div></div>';}
+function openFlight(){closeModal();var o=document.createElement('div');o.className='overlay';o.id='modal';o.innerHTML='<div class="modal" role="alertdialog" aria-modal="true" style="max-width:720px">'+flightCard(true)+'</div>';document.body.appendChild(o);o.querySelector('[data-act="flok"]').focus();}
+function insPill(t){var mt=null;for(var kk in TRIPS){if(TRIPS[kk]===t){var mm=missFor(kk)[0];if(mm)mt=mm.type;}}var m={ok:['ok','‏✓ יש פוליסה'],miss:['warn','‏! חסר ביטוח '+(mt||'')],self:['info','הנוסע סגר עצמאית'],na:['','לא נדרש'],later:['','ייבדק 30 יום לפני']}[t.ins||'later'];return '<span class="pill '+m[0]+'">'+m[1]+'</span>';}
+function insBlock(k){var t=TRIPS[k],m=missFor(k)[0];if(t.ins==='miss'&&m)return '<div class="banner warn"><b>'+m.what+'</b><span>'+m.note+'. אולי הנוסע סגר ביטוח עצמאית?</span></div><div class="row"><button class="btn s pri" data-act="upmiss" data-id="'+m.id+'">העלאת פוליסה</button><button class="btn s" data-act="selfins" data-id="'+m.id+'">הנוסע סגר עצמאית</button><button class="btn s ghost" data-act="namiss" data-id="'+m.id+'">לא נדרש</button></div>';return insPill(t)+(t.ins==='self'?' <span class="muted sm">ביקשנו מהנוסע להעלות את הפוליסה, כדי שמוקד החירום שלה יופיע באפליקציה</span>':'');}
+function readyBar(r){if(!r[1])return '<span class="xs muted">יתמלא מהמסמכים</span>';var p=Math.round(r[0]/r[1]*100);return '<div class="row nw"><div class="bar6"><i class="'+(p===100?'':p>=70?'w':'b')+'" style="width:'+p+'%"></i></div><span class="xs">'+r[0]+'/'+r[1]+'</span></div>';}
+function p2(n){return (n<10?'0':'')+n;}
+function fmtD(str){var m=String(str).match(/^(\d{1,2})(?:\/(\d{1,2}))?–(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);if(!m)return esc(str);
+  var y=m[5]?(m[5].length===2?2000+ +m[5]:+m[5]):2026,m1=m[2]?+m[2]:+m[4];
+  return '<span dir="ltr" class="dtr"><span class="dt">'+p2(+m[1])+'.'+p2(m1)+'.'+y+'</span> – <span class="dt">'+p2(+m[3])+'.'+p2(+m[4])+'.'+y+'</span></span>';}
+function destOf(t){return t.name.split(' · ')[0];}
+function custOf(t){return t.name.split(' · ').slice(1).join(' · ')||'—';}
+function compOf(t){return ({'קבוצת חברים':'חברים'})[t.type]||t.type||'—';}
+function keyOf(t){for(var kk in TRIPS){if(TRIPS[kk]===t)return kk;}return null;}
+function missingOf(k){var L=[];
+  if(k==='bcn'&&S.exc.indexOf('flight')>=0)L.push({t:'עדכון לטיסה LY 395 ממתין לאישור',n:'שעת ההמראה השתנתה. יציאה בעוד 3 ימים',sev:'b',a:'<button class="btn s pri" data-act="openfl">לאישור</button>'});
+  missFor(k).forEach(function(m){L.push({t:m.what,n:m.note,sev:'w',a:'<button class="btn s pri" data-act="upmiss" data-id="'+m.id+'">העלאת פוליסה</button><button class="btn s" data-act="selfins" data-id="'+m.id+'">הנוסע סגר עצמאית</button><button class="btn s ghost" data-act="namiss" data-id="'+m.id+'">לא נדרש</button>'});});
+  if(k==='bcn'&&S.exc.indexOf('look')>=0)L.push({t:'שובר הרכב: שעת ההחזרה לא ברורה',n:'שדה אחד לבדיקה. התזכורת לנוסעים תיווצר אחרי שתאשרי',sev:'w',a:'<button class="btn s pri" data-go="exc">בדיקה</button>'});
+  if(PAX[k]&&TRIPS[k].paxN&&PAX[k].length<TRIPS[k].paxN)L.push({t:'הוזנו '+PAX[k].length+' מתוך '+TRIPS[k].paxN+' נוסעים',n:'בפתיחת התיק הוגדרו '+TRIPS[k].paxN+' נוסעים',sev:'w',a:'<button class="btn s pri" data-act="gopax" data-k="'+k+'">הוספת נוסעים</button>'});
+  if(PAX[k])PAX[k].forEach(function(p,i){if(p[6]!=='child'&&!p[2])L.push({t:'ל'+p[0]+' אין נייד או אימייל',n:'בלי זה '+p[0].split(' ')[0]+' לא יקבל קישור לנסיעה',sev:'w',a:'<button class="btn s pri" data-editpax="'+i+'" data-ptrip="'+k+'">השלמת פרטים</button>'});});
+  return L;}
+function missCell(k){var L=missingOf(k);if(!L.length)return '<span class="pill ok">‏✓ אין</span>';var op=S.openMiss===k;return '<button class="pill mp '+(L.some(function(x){return x.sev==='b';})?'bad':'warn')+'" data-missopen="'+k+'" aria-expanded="'+op+'">'+L.length+' '+(L.length===1?'חוסר':'חוסרים')+(op?' ▴':' ▾')+'</button>';}
+function missRow(k,cols){if(S.openMiss!==k)return '';var L=missingOf(k);if(!L.length)return '';return '<tr class="mdet"><td colspan="'+cols+'">'+L.map(function(x){return '<div class="mi"><div><b'+(x.sev==='b'?' style="color:var(--bad)"':'')+'>'+x.t+'</b><div class="muted sm">'+x.n+'</div></div><div class="row">'+x.a+'</div></div>';}).join('')+'</td></tr>';}
+function missList(k){var L=missingOf(k);return '<div class="mlist">'+L.map(function(x){return '<div class="mi"><div><b'+(x.sev==='b'?' style="color:var(--bad)"':'')+'>'+x.t+'</b><div class="muted sm">'+x.n+'</div></div><div class="row">'+x.a+'</div></div>';}).join('')+'</div>';}
+function tripCards(rows){return '<div class="mcards">'+(rows.length?rows.map(function(k){var t=TRIPS[k],sg=sigOf(k);return '<div class="mcard'+(sg?' sig-'+sg:'')+'" data-trip="'+k+'" tabindex="0"><div style="min-width:0"><b>'+destOf(t)+'</b> <span class="muted sm">· '+custOf(t)+'</span><div class="xs muted">'+fmtD(t.dates)+' · '+compOf(t)+'</div><div class="xs muted"><span class="mono">'+t.id+'</span></div></div><div class="mc-r">'+stPill(t)+missCell(k)+'</div></div>'+(S.openMiss===k&&missingOf(k).length?missList(k):'');}).join(''):'<span class="muted sm">אין תיקים בסטטוס הזה</span>')+'</div>';}
+function missFor(k){return S.missing.filter(function(m){return m.trip===k;});}
+function sigOf(k){if(k==='bcn'&&S.exc.indexOf('flight')>=0)return 'b';if(missingOf(k).length)return 'w';return '';}
+function dKey(t){var m=String(t.dates).match(/^(\d{1,2})(?:\/(\d{1,2}))?–(\d{1,2})\/(\d{1,2})(?:\/(\d{2,4}))?$/);if(!m)return 99999999;var y=m[5]?(m[5].length===2?2000+ +m[5]:+m[5]):2026,mo=m[2]?+m[2]:+m[4];return y*10000+mo*100+ +m[1];}
+var SK={id:function(t){return t.id;},dest:function(t){return destOf(t);},cust:function(t){return custOf(t);},comp:function(t){return compOf(t);},dates:dKey,dep:dKey,pax:function(t){return t.pax;},st:function(t){return ST[stOf(t)][0];},miss:function(t,k){return missingOf(k).length;}};
+function sortRows(rows,key){var s=S[key];if(!s)return rows;var f=SK[s.c];return rows.sort(function(a,b){var x=f(TRIPS[a],a),y=f(TRIPS[b],b),r=(typeof x==='number'&&typeof y==='number')?x-y:String(x).localeCompare(String(y),'he',{numeric:true});return s.d*r;});}
+function sth(key,c,label){var s=S[key],on=s&&s.c===c;return '<th aria-sort="'+(on?(s.d>0?'ascending':'descending'):'none')+'"><button class="sortb" data-sort="'+c+'" data-skey="'+key+'" title="מיון לפי '+label+'">'+label+'<span class="sarr" aria-hidden="true">'+(on?(s.d>0?'▲':'▼'):'↕')+'</span></button></th>';}
+function nextKey(v){v=String(v);if(/בנסיעה/.test(v))return 0;var m=v.match(/(\d{1,2})\/(\d{1,2})/);if(!m)return 999999;var mo=+m[2];return (mo<10?10000:0)+mo*100+ +m[1];}
+var CK={name:function(c){return c[0];},ph:function(c){return c[2];},next:function(c){return nextKey(c[3]);},cnt:function(c){return c[4];},ch:function(c){return c[5];}};
+function sortCust(C){var s=S.csort;if(!s)return C;var f=CK[s.c];return C.slice().sort(function(a,b){var x=f(a),y=f(b),r=(typeof x==='number'&&typeof y==='number')?x-y:String(x).localeCompare(String(y),'he',{numeric:true});return s.d*r;});}
+function urgentN(){return S.exc.indexOf('flight')>=0?1:0;}
+
+function side(){var c=cnt();var N=[['dash','home','דשבורד',''],['trips','plane','נסיעות',''],['exc','alert','לטיפול',c.exc?'<span class="pill warn">'+c.exc+'</span>':''],['chat','chat','שיחות',c.unread?'<span class="pill bad">'+c.unread+'</span>':''],['custlist','users','לקוחות',''],['settings','gear','הגדרות','']];
+  var v=S.view==='missing'?'dash':S.view==='trip'?'trips':S.view==='cust'?'custlist':S.view;
+  return '<aside class="side" aria-label="תפריט"><div class="ws"><img src="brand/logo/svg/wordmark.svg" alt="PALAMI"><div class="agy"><svg class="agl" role="img" aria-label="הלוגו של מסעות הדרים"><use href="#agmark"/></svg><button class="ubtn" data-act="umenu" aria-haspopup="menu" aria-expanded="'+!!S.umenu+'"><span style="display:grid;min-width:0">מסעות הדרים<small>רונית לוי · '+roleName()+'</small></span><span class="chev" aria-hidden="true">▾</span></button></div></div>'+N.map(function(n){return '<button class="nav" data-go="'+n[0]+'"'+(v===n[0]?' aria-current="page"':'')+'><span class="l">'+ic(n[1])+n[2]+'</span>'+n[3]+'</button>';}).join('')+'<div class="credit"><span class="muted">בנק נסיעות</span><b>'+S.credits+' קרדיטים</b><span class="muted">12 פגים ב־31/12</span></div></aside>';}
+function userMenu(){if(!S.umenu)return '';var mob=window.matchMedia('(max-width:860px)').matches;return '<div class="umenu" role="menu" aria-label="תפריט משתמש" style="'+(mob?'top:60px;inset-inline-start:16px':'top:118px;inset-inline-start:16px')+'"><div class="uh"><b>רונית לוי</b><span class="xs muted">ronit@hadarim.co.il · מסעות הדרים</span><span class="pill info" style="justify-self:start;margin-top:4px">'+roleName()+'</span></div><button class="umi" role="menuitem" data-act="uprof">'+ic('user')+'הפרופיל שלי</button><button class="umi" role="menuitem" data-act="rolesw">'+ic('users')+'הדמיה: לצפות '+(S.role==='sup'?'כסוכנת':'כמנהלת סוכנות')+'</button><button class="umi out" role="menuitem" data-act="logout">'+ic('logout')+'יציאה מהחשבון</button></div>';}
+function loginView(){return '<div class="login"><form class="card" id="loginf" novalidate><img src="brand/logo/svg/wordmark.svg" alt="PALAMI" style="height:24px;width:auto;justify-self:start"><div><h1 style="font-size:1.35em">כניסה למערכת הסוכנים</h1><span class="muted sm">מסעות הדרים</span></div>'+(S.loggedOutMsg?'<div class="banner ok"><b>יצאת מהחשבון</b><span>המחשב פנוי. סוכן אחר יכול להיכנס עכשיו עם הפרטים שלו.</span></div>':'')+'<label>אימייל<input class="inp mono" id="lg-em" type="email" autocomplete="username" placeholder="name@agency.co.il"></label><label>סיסמה<input class="inp" id="lg-pw" type="password" autocomplete="current-password"></label><label class="chk"><input type="checkbox" id="lg-keep"><span>להישאר מחובר במחשב הזה<br><span class="xs muted">לא לסמן במחשב שסוכנים אחרים משתמשים בו</span></span></label><button class="btn pri big" type="submit">כניסה</button><div class="row between sm"><button type="button" class="lnk" style="font-weight:500" data-act="toast" data-msg="נשלח קישור לאיפוס סיסמה לאימייל">שכחתי סיסמה</button><button type="button" class="btn s ghost" data-act="demologin">הדגמה: כניסה כרונית</button></div></form></div>';}
+function searchBox(){return '<label class="search">'+ic('search')+'<input placeholder="חיפוש: לקוח, יעד, מזהה תיק, מספר הזמנה" aria-label="חיפוש" id="q"></label>';}
+function bar(){return '<div class="bar"><span class="agm"><svg role="img" aria-label="הלוגו של מסעות הדרים"><use href="#agmark"/></svg></span><button class="uav" data-act="umenu" aria-haspopup="menu" aria-expanded="'+!!S.umenu+'" aria-label="רונית לוי, תפריט משתמש">רל</button><span class="sp"></span>'+bellBtn()+'<button class="btn s ghost" data-act="help" aria-pressed="'+S.help+'">'+ic('help')+'עזרה</button><button class="btn s ghost" data-act="report">'+ic('bug')+'דיווח על תקלה</button><button class="btn s ghost" data-act="big" aria-pressed="'+S.big+'">'+ic('text')+(S.big?'טקסט רגיל':'טקסט גדול')+'</button><button class="btn s" data-act="simple">'+ic('grid')+(S.simple?'לתצוגה המלאה':'תצוגה פשוטה')+'</button></div>';}
+function prow(p){return '<div class="prow'+(p[6]==='child'?' child':'')+'"><div class="nm"><button class="lnk" data-editpax="'+paxOf(S.trip).indexOf(p)+'" title="עריכת פרטים">'+p[0]+'</button>'+paxBadges(p)+'</div><div class="sm mono" style="text-align:right">'+(p[6]==='child'?'<span class="muted" style="font-family:var(--f-b)">מקבל/ת דרך '+p[7]+'</span>':(p[2]||'<span class="pill warn" style="font-family:var(--f-b)">חסר נייד, נדרש לפרסום</span>'))+'</div><div class="sm muted">'+p[3]+'</div><div class="xs muted">'+p[4]+'</div></div>';}
+function openAddPax(unit){var k=S.trip,P=paxOf(k),U=unitsOf(k),ad=P.filter(function(p){return p[6]!=='child';});var o=document.createElement('div');o.className='overlay';o.id='modal';
+  o.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ap" style="max-width:620px"><h2 id="ap">הוספת נוסע ל'+TRIPS[k].name.split(' · ')[0]+'</h2>'
+   +'<div class="fgrid"><label>שם פרטי *<input class="inp" id="ap-fn" value="מיכל"></label><label>שם משפחה *<input class="inp" id="ap-ln" value="לוי"></label></div>'
+   +'<div class="row"><span class="sm" style="font-weight:600">סוג</span><span class="seg2" role="group" aria-label="מבוגר או ילד"><button type="button" data-apkind="adult" aria-pressed="true">מבוגר</button><button type="button" data-apkind="child" aria-pressed="false">ילד/ה בלי טלפון</button></span></div>'
+   +'<div class="fgrid" id="ap-adult"><label>נייד או אימייל <span class="muted" style="font-weight:400">(חובה לפרסום)</span><input class="inp mono" id="ap-ph" value="050-555-1234"></label><label style="align-self:end;display:flex;gap:8px;align-items:center;min-height:44px;font-weight:500"><input type="checkbox" id="ap-head" style="width:20px;height:20px;accent-color:var(--acc)"> ראש הקבוצה</label></div>'
+   +'<div class="fgrid" id="ap-child" hidden><label>מקבל/ת דרך *<select class="inp" id="ap-via">'+ad.map(function(p){return '<option>'+p[0]+'</option>';}).join('')+'</select></label><span class="xs muted" style="align-self:end">הילד/ה לא מקבל/ת משתמש. המסמכים וההתראות מגיעים למבוגר.</span></div>'
+   +'<div class="fgrid"><label>קבוצה<select class="inp" id="ap-unit">'+U.map(function(u){return '<option'+(u===unit?' selected':'')+'>'+u+'</option>';}).join('')+'<option value="__new">+ קבוצה חדשה…</option></select></label><label id="ap-newu-l" hidden>שם הקבוצה החדשה<input class="inp" id="ap-newu" placeholder="למשל: משפחת לוי, חדר 12"></label></div>'
+   +'<span class="xs muted">קבוצה היא משפחה, זוג או חדר בתוך הנסיעה. עוזרת לשייך מסמכים בבת אחת ולראות מי עם מי.</span>'
+   +'<div class="row" style="justify-content:flex-start;border-top:1px solid var(--line);padding-top:14px"><button class="btn pri" data-act="savepax">הוספה</button><button class="btn ghost" data-act="close">ביטול</button></div></div>';
+  document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});document.getElementById('ap-fn').focus();}
+function bellBtn(){var n=S.notifs.filter(function(x){return x.un;}).length;return '<button class="btn s ghost bell'+(S.ring?' ring':'')+'" data-act="bell" aria-expanded="'+S.bell+'" aria-label="התראות'+(n?', '+n+' חדשות':'')+'">'+ic('bell')+(n?'<span class="dot">'+n+'</span>':'')+'</button>';}
+function bellPanel(){if(!S.bell)return '';var h='<div class="npanel" role="dialog" aria-label="התראות"><div class="nh"><b>התראות</b><button class="btn s ghost" data-act="readall">סמני הכול כנקרא</button></div>';S.notifs.forEach(function(x){h+='<button class="nitem'+(x.un?' un':'')+'" data-notifopen="'+x.id+'"><span class="ni">'+ic(x.ic)+'</span><span><b>'+esc(x.t)+'</b><div class="muted xs">'+(x.trip?TRIPS[x.trip].name+' · <span class="tid">'+TRIPS[x.trip].id+'</span> · ':'')+x.at+'</div></span></button>';});return h+'<div class="muted xs" style="padding:10px 16px">כל התראה שנשלחה באימייל או ב־Push מופיעה גם כאן</div></div>';}
+function addNotif(t,o){o=o||{};S.notifs.unshift({id:'a'+Date.now(),t:t,trip:o.trip,at:'עכשיו',un:true,ic:o.ic||'bell',tab:o.tab,go:o.go,act:o.act});S.ring=true;setTimeout(function(){S.ring=false;},900);}
+var NR=[['offline','"שומרים על קשר" אחרי החזרה',['14','7','30'],' ימים אחרי החזרה'],['brief','סיכום לפני יציאה',['3','2','5'],' ימים לפני'],['ci',"צ'ק-אין לטיסה (כשאין כלל)",['24','48'],' שעות לפני'],['ci2',"תזכורת צ'ק-אין חוזרת",['6','3','12'],' שעות לפני'],['airport','יציאה לשדה',['3','2','4'],' שעות לפני'],['morning','תדריך בוקר',['08:00','07:00','09:00'],' שעון מקומי'],['event','תזכורת לאירוע',['2','1','4'],' שעות לפני']];
+function tnOv(k){return (S.tripNotif[k]=S.tripNotif[k]||{});}
+function tnTable(k){var O=tnOv(k),n=Object.keys(O).length;var h='<div class="card" style="gap:6px"><div class="row between"><div><b>התראות לנוסעים בנסיעה הזו</b><div class="muted sm">מתחילות מההגדרות של הסוכנות. שינוי כאן חל רק על '+TRIPS[k].name+'. כל נוסע יכול גם לכבות לעצמו התראות שאינן קריטיות, באפליקציה.</div></div>'+(n?'<button class="btn s ghost" data-act="tnresetall">חזרה לברירת המחדל בכל הטבלה</button>':'<span class="pill">הכול כמו בסוכנות</span>')+'</div></div><div class="tbl"><table><thead><tr><th>התראה לנוסע</th><th>פעיל</th><th>מתי</th><th>מצב</th></tr></thead><tbody>';
+  NR.forEach(function(r){var ov=O[r[0]],v=ov||S.notif[r[0]];h+='<tr><td><b>'+r[1]+'</b></td><td><button class="tog" role="switch" aria-label="'+r[1]+'" aria-checked="'+v[0]+'" data-tn="'+r[0]+'"></button></td><td><select class="sel" data-tnsel="'+r[0]+'" aria-label="מתי"'+(v[0]?'':' disabled')+'>'+r[2].map(function(o){return '<option'+(o===v[1]?' selected':'')+'>'+o+'</option>';}).join('')+'</select><span class="sm">'+r[3]+'</span></td><td>'+(ov?'<span class="row nw" style="gap:6px"><span class="pill info">שונה לנסיעה הזו</span><button class="btn s ghost" data-act="tnreset" data-k="'+r[0]+'" title="חזרה ל: '+(S.notif[r[0]][0]?'פעיל, '+S.notif[r[0]][1]+r[3]:'כבוי')+'">חזרה לברירת המחדל</button></span>':'<span class="pill">כמו בסוכנות</span>')+'</td></tr>';});
+  h+='<tr><td><b>משהו השתנה</b><div class="muted xs">קריטי, תמיד פעיל</div></td><td><button class="tog lock" role="switch" aria-checked="true" aria-label="תמיד פעיל" data-act="toast" data-msg="התראה קריטית. תמיד נשלחת"></button></td><td class="sm">מיד בפרסום</td><td><span class="pill">נעול</span></td></tr></tbody></table></div>';
+  if(k==='bcn'&&O.morning)h+='<span class="xs muted">דוגמה: דנה ביקשה בלי תדריך בוקר, ולכן הוא כבוי רק בנסיעה הזו. בשאר הנסיעות הוא נשלח לפי הסוכנות.</span>';
+  return h;}
+function tnSet(k,key,val){var O=tnOv(k),d=S.notif[key];if(val[0]===d[0]&&val[1]===d[1])delete O[key];else O[key]=val;}
+function roleName(){return S.role==='sup'?'מנהלת סוכנות':'סוכנת';}
+function roleNote(){return '<div class="banner info"><b>'+(S.role==='sup'?'את מחוברת כמנהלת סוכנות':'את מחוברת כסוכנת')+'</b><span class="sm">'+(S.role==='sup'?'רואים כאן גם את הגדרות הסוכנות. סוכן רגיל רואה רק את "ההגדרות שלי".':'הגדרות הסוכנות מנוהלות על ידי אבי הדר, מנהל הסוכנות.')+' <button class="lnk" data-act="rolesw">הדמיה: לצפות '+(S.role==='sup'?'כסוכנת':'כמנהלת סוכנות')+'</button></span></div>';}
+function teamCard(){var T=[['אבי הדר','avi@hadarim.co.il','מנהל סוכנות'],['רונית לוי','ronit@hadarim.co.il','מנהלת סוכנות'],['יעל ברק','yael@hadarim.co.il','סוכנת'],['דני שמש','dani@hadarim.co.il','סוכן']];return '<div class="card"><div class="row between"><b>עובדים</b><button class="btn s" data-act="toast" data-msg="נשלחה בקשה לצוות PALAMI. העובד יקבל הזמנה במייל">+ בקשה להוספת עובד</button></div>'+T.map(function(x){return '<div class="mi"><div><b>'+x[0]+'</b><div class="muted sm"><span class="mono">'+x[1]+'</span></div></div><span class="pill '+(/מנהל/.test(x[2])?'info':'')+'">'+x[2]+'</span></div>';}).join('')+'<span class="xs muted">מנהל סוכנות עושה כל מה שסוכן עושה, ובנוסף מנהל את הגדרות הסוכנות. בשלב הזה צוות PALAMI מוסיף ומשבית עובדים. בגרסה 1.1 תוכלו לעשות את זה בעצמכם <span class="ver">1.1</span></span></div>';}
+function postPrev(x){return String(x).replace(/\[שם הסוכן\]/g,'רונית לוי').replace(/\[טלפון הסוכנות\]/g,'03-555-0142');}
+function postCard(){return '<div class="card"><b>הודעה אחרי החזרה</b><span class="muted sm">הנוסעים רואים אותה בכרטיס הירוק במסך הבית, מהיום שאחרי החזרה וכל עוד הנסיעה זמינה. זו הודעה באפליקציה בלבד, והיא לא נשלחת.</span><textarea class="inp" id="postv" aria-label="נוסח ההודעה" style="min-height:80px">'+esc(S.postMsg)+'</textarea><span class="xs muted">[שם הסוכן] מתחלף בשם הסוכן שטיפל בנסיעה, ו[טלפון הסוכנות] ב־03-555-0142.</span><div class="banner ok"><span class="xs muted">כך זה ייראה לנוסע</span><b id="postprev">'+esc(postPrev(S.postMsg))+'</b></div><button class="btn s pri" style="justify-self:start" data-act="postsave">שמירה</button></div>';}
+function retCard(){return '<div class="card"><b>כמה זמן הנסיעה נשמרת</b><span class="muted sm">הנסיעה זמינה לנוסעים ולסוכנים עד סוף התקופה. אחר כך היא נמחקת, כולל המסמכים והפרטים האישיים, ונשארים רק מספרים לחיוב ולסטטיסטיקה. לפני המחיקה אפשר לייצא את התיק.</span><label class="row sm" style="gap:8px">אחרי החזרה:<select class="sel" id="retsel" aria-label="תקופת השמירה">'+['6','12','18','24'].map(function(o){return '<option value="'+o+'"'+(o===S.ret?' selected':'')+'>'+o+' חודשים'+(o==='12'?' (מומלץ)':'')+'</option>';}).join('')+'</select></label><span class="xs muted">התקופה מופיעה לנוסעים במדיניות הפרטיות. לוג הגישה נשמר 24 חודשים, ורשומות החיוב 7 שנים, בלי קשר לבחירה הזו.</span></div>';}
+function legalCard(){var F=S.legalF;return '<div class="card"><b>מסמכים משפטיים לנוסעים</b><span class="muted sm">פעם אחת לכל הסוכנות. הפרטים נכנסים לשלושת המסמכים, והם חלים על כל הנוסעים של מסעות הדרים. הסוכנים לא צריכים לעשות כלום.</span><div class="mi"><div><b>ההסכם עם PALAMI</b><div class="muted sm">כולל את נספח עיבוד המידע. מנוהל מול צוות PALAMI</div></div><div class="row"><span class="pill ok">‏✓ נחתם · 3.9.2026</span><button class="btn s ghost" data-act="toast" data-msg="נפתח ההסכם החתום (PDF)">צפייה</button></div></div><b class="sm">פרטי הסוכנות במסמכים</b><div class="fgrid">'+[['name','שם משפטי'],['id','ח.פ.'],['addr','כתובת'],['priv','אימייל לפניות פרטיות'],['acc','רכז נגישות: שם, טלפון ואימייל'],['dpo','ממונה הגנת פרטיות (רק אם מונה)'],['accOff','הסדרי נגישות במשרד']].map(function(x){return '<label>'+x[1]+'<input class="inp" data-lf="'+x[0]+'" value="'+esc(F[x[0]])+'"></label>';}).join('')+'</div><span class="xs muted">רכז נגישות חובה רק בסוכנות עם 25 עובדים ומעלה; אחרת אפשר לכתוב את איש הקשר של הסוכנות. ממונה הגנת פרטיות: אם ריק, השורה לא מוצגת. נלקחים לבד מהגדרות הסוכנות: שם, טלפון 03-555-0142, אימייל office@hadarim.co.il, ותקופת השמירה ('+S.ret+' חודשים אחרי החזרה).</span><button class="btn s pri" style="justify-self:start" data-act="lfsave">שמירת הפרטים</button>'+
+  '<div class="mi"><div><b>מדיניות פרטיות</b><div class="muted sm">'+(S.ownPolicy?'קישור של הסוכנות: <span class="mono">hadarim.co.il/privacy</span>':'תבנית של PALAMI עם הפרטים שלמעלה')+'. הסוכנות אחראית לתוכן. כשהחוק משתנה נעדכן את התבנית ונודיע לך</div></div><div class="row"><button class="btn s ghost" data-act="ldocv" data-d="privacy">צפייה</button><button class="btn s" data-act="ownpol">'+(S.ownPolicy?'חזרה לתבנית':'קישור למדיניות שלכם')+'</button></div></div>'+
+  '<div class="mi"><div><b>תנאי שימוש</b><div class="muted sm">של PALAMI, עם פרטי הסוכנות</div></div><button class="btn s ghost" data-act="ldocv" data-d="terms">צפייה</button></div>'+
+  '<div class="mi"><div><b>הצהרת נגישות</b><div class="muted sm">של PALAMI, עם רכז הנגישות שלכם</div></div><button class="btn s ghost" data-act="ldocv" data-d="access">צפייה</button></div><span class="xs muted">הנוסעים פותחים את המסמכים מ"עוד" › "פרטיות ונגישות". אלה טיוטות, ועורך דין יעבור עליהן לפני השימוש.</span></div>';}
+function openDoc(d){closeModal();var L=LEGAL[d]||LEGAL.privacy;var o=document.createElement('div');o.className='overlay';o.id='modal';o.innerHTML='<div class="modal ldm" role="dialog" aria-modal="true" aria-label="'+L.t+'"><div class="row between nw"><h2>'+L.t+'</h2><button class="btn s ghost" data-act="ldclose">סגירה</button></div><span class="xs muted">כך הנוסעים רואים את המסמך · טיוטה לבדיקה משפטית · הפרטים המסומנים באים מהגדרות הסוכנות</span><article class="ldoc">'+L.h+'</article></div>';document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});o.querySelector('button').focus();}
+var LEGAL={"privacy":{"t":"מדיניות פרטיות","h":"<p>עדכון אחרון: <span class=\"fill\">1.10.2026<\/span><\/p><div class=\"sum\"><p><b>בקצרה<\/b><\/p><ul><li>את פרטי הנסיעה שלך מנהלת <span class=\"fill\">מסעות הדרים<\/span>. PALAMI מפעילה את האפליקציה בשבילה.<\/li><li>המידע משמש רק לנסיעה שלך: לו״ז, מסמכים, עדכונים וקשר עם הסוכנות. הוא לא נמכר.<\/li><li>אפשר לעיין במידע, לתקן אותו או לבקש למחוק אותו. פשוט כותבים לסוכן.<\/li><\/ul><\/div><h3>1. מי מנהל את המידע<\/h3><p><span class=\"fill\">מסעות הדרים<\/span> (<span class=\"fill\">ח.פ. 51-555555-5<\/span>, <span class=\"fill\">רחוב הדוגמה 1, תל אביב<\/span>), להלן \"הסוכנות\", אחראית למידע עליך. לפי חוק הגנת הפרטיות היא \"בעלת השליטה\" במאגר.<\/p><p>את האפליקציה מפעילה <span class=\"fill\">PALAMI בע״מ<\/span> (<span class=\"fill\">ח.פ. 51-666666-6<\/span>), להלן \"PALAMI\". PALAMI מעבדת את המידע רק בשביל הסוכנות, לפי ההוראות שלה ולפי הסכם בכתב ביניהן.<\/p><p><b>פניות בנושא פרטיות:<\/b> <span class=\"fill\">privacy@hadarim.co.il<\/span> · <span class=\"fill\">03-555-0142<\/span><\/p><p><span class=\"fill\">ממונה הגנת פרטיות, אם מונה<\/span><\/p><h3>2. איזה מידע נאסף<\/h3><ul><li><b>פרטי קשר:<\/b> שם, נייד ואימייל.<\/li><li><b>פרטי הנסיעה:<\/b> יעדים, תאריכים, טיסות, לינה, רכב, לו״ז, ושמות הנוסעים בנסיעה.<\/li><li><b>מסמכים:<\/b> כרטיסים, שוברים ופוליסות ביטוח שהסוכנות העלתה או שהעלית בעצמך. חלקם כוללים פרטים אישיים, למשל מספר דרכון.<\/li><li><b>מה שכתבת או הוספת:<\/b> הודעות לסוכנות, פריטים ברשימת האריזה ופעילויות שהוספת ללו״ז.<\/li><li><b>מידע טכני:<\/b> סוג המכשיר והדפדפן, מועדי כניסה, וההגדרות שבחרת (למשל טקסט גדול וערוצי עדכון).<\/li><\/ul><p><b>מה לא נאסף:<\/b> מיקום מה־GPS, אנשי הקשר בטלפון ופרטי תשלום.<\/p><h3>3. למה המידע משמש<\/h3><ul><li>להציג לך את הנסיעה: לו״ז, מסמכים, מידע שימושי ומסך חירום.<\/li><li>לשלוח לך תזכורות ועדכונים בערוצים שבחרת: באפליקציה, ב־WhatsApp או באימייל.<\/li><li>לאפשר קשר עם הסוכנות, גם בחירום.<\/li><li>לאבטחת החשבון, לתמיכה ולתיקון תקלות.<\/li><li><b>הצעות מהסוכנות:<\/b> רק אם הסכמת לקבל אותן. כל הודעה כזו מסומנת \"פרסומת\", ואפשר להפסיק בכל רגע.<\/li><\/ul><p>המידע לא נמכר, ולא משמש לפרסום של אף גורם אחר.<\/p><h3>4. האם חובה למסור את המידע<\/h3><p>אין חובה לפי חוק. עם זאת, בלי נייד או אימייל לא נוכל לשלוח לך את הנסיעה ולתת לך גישה לאפליקציה. בלי המסמכים, הנסיעה לא תופיע במלואה.<\/p><h3>5. מי רואה את המידע<\/h3><ul><li><b>הסוכנות<\/b> והסוכן שמטפל בנסיעה שלך.<\/li><li><b>הנוסעים האחרים בנסיעה:<\/b> לפי הגדרת השיתוף שהסוכנות קבעה, ולפי מה שבחרת כשהעלית מסמך (\"רק אני\", כל הנוסעים, או נוסעים שבחרת).<\/li><li><b>PALAMI וספקים שעובדים בשבילה:<\/b> אחסון בענן, שליחת הודעות (WhatsApp, אימייל ו־SMS) וקריאת מסמכים בעזרת בינה מלאכותית. הם מקבלים רק את מה שנדרש לשירות, ומחויבים לסודיות. <b>המסמכים שלך לא משמשים לאימון מודלים.<\/b><\/li><li><b>רשויות:<\/b> רק אם החוק מחייב.<\/li><\/ul><h3>6. מידע שנשמר מחוץ לישראל<\/h3><p>חלק מהספקים שומרים מידע בשרתים מחוץ לישראל. ההעברה נעשית לפי תקנות הגנת הפרטיות (העברת מידע אל מאגרי מידע שמחוץ לגבולות המדינה), התשס״א-2001.<\/p><h3>7. כמה זמן המידע נשמר<\/h3><p>הנסיעה זמינה לך באפליקציה <span class=\"fill\">12 חודשים<\/span> אחרי החזרה. לאחר מכן פרטי הנסיעה, המסמכים והפרטים האישיים נמחקים, וגם מהגיבויים תוך 30 יום. נשארים רק מספרים לסטטיסטיקה, בלי פרטים מזהים.<\/p><p>כמה דברים נשמרים יותר זמן, כי החוק מחייב או כי צריך אותם להגנה משפטית:<\/p><ul><li>רישום הכניסות והפעולות במערכת: 24 חודשים, לצורכי אבטחת מידע.<\/li><li>התיעוד שראית את התנאים ואת מדיניות הפרטיות: עד 7 שנים מסיום השימוש.<\/li><\/ul><h3>8. אבטחת מידע<\/h3><p>המידע מוצפן בהעברה ובאחסון. הגישה אליו לפי הרשאות, וכל פעולה מתועדת. כניסה ממכשיר חדש דורשת סיסמה וקוד חד־פעמי לנייד. אין אבטחה מושלמת. אם יקרה אירוע אבטחה חמור, נפעל לפי החוק ונודיע לרשות להגנת הפרטיות.<\/p><h3>9. הזכויות שלך<\/h3><ul><li><b>לעיין<\/b> במידע עליך (סעיף 13 לחוק הגנת הפרטיות).<\/li><li><b>לבקש תיקון או מחיקה<\/b> של מידע שאינו נכון, שלם, ברור או מעודכן (סעיף 14 לחוק).<\/li><li><b>להפסיק לקבל הצעות<\/b> בכל רגע: בהגדרות האפליקציה, בקישור שבכל הודעה, או בפנייה לסוכנות.<\/li><\/ul><p><b>איך:<\/b> כותבים לסוכן בצ'אט באפליקציה, או ל־<span class=\"fill\">privacy@hadarim.co.il<\/span>. נענה תוך 30 יום. אם הבקשה לא טופלה, אפשר לפנות לרשות להגנת הפרטיות.<\/p><h3>10. ילדים<\/h3><p>ילד בלי טלפון לא נרשם בעצמו. המסמכים וההתראות שלו מגיעים למבוגר מהנסיעה שהסוכנות שייכה אליו.<\/p><h3>11. מידע שנשמר בטלפון<\/h3><p>כדי שהנסיעה תהיה זמינה גם בלי אינטרנט, האפליקציה שומרת את פרטיה בטלפון. משתמשים רק בעוגיות שנחוצות לפעולת האפליקציה, כמו שמירת הכניסה וההגדרות. אין עוגיות פרסום או מעקב.<\/p><h3>12. שינויים במדיניות<\/h3><p>כשנעדכן את המדיניות, תאריך העדכון בראש העמוד ישתנה. על שינוי מהותי נודיע באפליקציה.<\/p>"},"terms":{"t":"תנאי שימוש","h":"<p>עדכון אחרון: <span class=\"fill\">1.10.2026<\/span><\/p><div class=\"sum\"><p><b>בקצרה<\/b><\/p><ul><li>PALAMI היא אפליקציה שהסוכנות שלך נותנת לך, כדי שכל פרטי הנסיעה יהיו במקום אחד. השימוש בה חינם.<\/li><li>את הנסיעה הזמנת דרך הסוכנות. על מחירים, ביטולים ושינויים מדברים איתה.<\/li><li>כדאי לבדוק זמנים חשובים, כמו שעת טיסה, גם מול החברה שמפעילה את השירות.<\/li><\/ul><\/div><h3>1. מה זה PALAMI<\/h3><p>PALAMI היא אפליקציה לנוסעים שמרכזת את פרטי הנסיעה: לו״ז, מסמכים, תזכורות, מידע שימושי ומסך חירום. <span class=\"fill\">מסעות הדרים<\/span>, להלן \"הסוכנות\", נותנת לך את האפליקציה כחלק מהשירות שלה. <span class=\"fill\">PALAMI בע״מ<\/span>, להלן \"PALAMI\", מפעילה את האפליקציה בשביל הסוכנות.<\/p><p>PALAMI אינה סוכנות נסיעות ואינה צד להזמנה שלך. ההתקשרות לגבי הנסיעה עצמה, כמו מחירים, תשלומים, ביטולים ושינויים, היא מול הסוכנות ומול ספקי השירות: חברות תעופה, מלונות, חברות השכרה וכדומה.<\/p><p>השימוש באפליקציה מהווה הסכמה לתנאים האלה. התנאים כתובים בלשון זכר מטעמי נוחות, ומיועדים לכל המגדרים.<\/p><h3>2. השימוש באפליקציה<\/h3><ul><li>השימוש חינם, ומיועד לשימוש אישי בנסיעה שלך.<\/li><li>מי שמתחת לגיל 18 משתמש באפליקציה בהסכמת הורה.<\/li><li>כדי להיכנס צריך נייד או אימייל שהסוכנות שייכה לנסיעה, וסיסמה שבחרת.<\/li><\/ul><h3>3. החשבון שלך<\/h3><ul><li>שמור את הסיסמה לעצמך, ואל תמסור אותה לאחרים.<\/li><li>אם נראה לך שמישהו אחר נכנס לחשבון שלך, הודע לסוכנות. הסוכנות יכולה לנתק את כל המכשירים מהחשבון.<\/li><\/ul><h3>4. המידע באפליקציה<\/h3><ul><li>המידע מגיע מהמסמכים שהסוכנות העלתה ומהמסמכים שהעלית בעצמך. הסוכנות בודקת ומאשרת את פרטי הנסיעה לפני שהם נשלחים אליך.<\/li><li>ספקים משנים לפעמים זמנים ופרטים, ולא תמיד מעדכנים מיד. לפני יציאה לשדה או לאירוע חשוב, כדאי לבדוק את הפרטים גם מול הספק, למשל באתר חברת התעופה.<\/li><li>האפליקציה לא מחליפה את המסמך המקורי. המסמכים המקוריים שמורים בה, ואפשר להציג אותם בכל רגע.<\/li><li>מידע כללי, כמו מזג אוויר ושערי מטבע, מגיע ממקורות חיצוניים, ומוצג לנוחות בלבד.<\/li><\/ul><h3>5. חירום<\/h3><p>מסך החירום עוזר להגיע מהר למספרים הנכונים. <b>במצב של סכנה, חייגו מיד למספר החירום המקומי.<\/b> המספרים נבדקים מדי פעם, אבל הם עלולים להשתנות.<\/p><h3>6. תזכורות והתראות<\/h3><p>אנחנו משתדלים לשלוח כל תזכורת בזמן, אבל הן תלויות ברשת, במכשיר ובספקי ההודעות. לכן אין להסתמך רק עליהן.<\/p><h3>7. מסמכים ותוכן שאתה מוסיף<\/h3><ul><li>אתה אחראי לכך שמותר לך להעלות את המסמכים והתוכן שאתה מוסיף.<\/li><li>אסור להעלות תוכן פוגעני, מפר זכויות או לא חוקי.<\/li><li>מסמך שבחרת לשתף, יראו הנוסעים שבחרת. הסוכנות רואה כל מה שהועלה לנסיעה.<\/li><li>אתה מרשה ל־PALAMI ולסוכנות לעבד את מה שהעלית, רק כדי לתת לך את השירות. המסמכים שלך נשארים שלך.<\/li><\/ul><h3>8. מה אסור<\/h3><p>אסור לנסות לגשת למידע של אחרים, לפרוץ למערכת או לשבש אותה, להעתיק את האפליקציה או חלקים ממנה, או להשתמש בה למטרה מסחרית.<\/p><h3>9. זמינות<\/h3><p>לפעמים תהיה תקלה או עבודת תחזוקה. פרטי הנסיעה נשמרים בטלפון, ולכן רובם זמינים גם בלי אינטרנט. הנסיעה נשארת זמינה באפליקציה <span class=\"fill\">12 חודשים<\/span> אחרי החזרה.<\/p><h3>10. אחריות<\/h3><p>האפליקציה ניתנת כמו שהיא. PALAMI אינה אחראית לשינויים, לעיכובים או לביטולים של ספקי הנסיעה, ולא לנזק שנגרם בגלל הסתמכות על פרט שלא נבדק מול הספק. אין בתנאים האלה כדי להגביל אחריות שהחוק לא מאפשר להגביל, ואין בהם כדי לפגוע בזכויות שלך כצרכן.<\/p><h3>11. קניין רוחני<\/h3><p>האפליקציה, העיצוב, הסימנים והבונה של PALAMI שייכים ל־PALAMI. הלוגו והשם של הסוכנות שייכים לסוכנות.<\/p><h3>12. פרטיות<\/h3><p>איך משתמשים במידע עליך מוסבר ב<span class=\"fill\">מדיניות הפרטיות<\/span>.<\/p><h3>13. הפסקת שימוש<\/h3><p>אפשר להפסיק להשתמש באפליקציה בכל רגע, ולבקש מהסוכנות למחוק את המידע. PALAMI רשאית לחסום גישה במקרה של שימוש לרעה.<\/p><h3>14. שינויים בתנאים<\/h3><p>כשנעדכן את התנאים, תאריך העדכון בראש העמוד ישתנה. על שינוי מהותי נודיע באפליקציה.<\/p><h3>15. דין ושיפוט<\/h3><p>על התנאים האלה חל הדין הישראלי. סכסוך יידון בבית המשפט המוסמך בישראל.<\/p><h3>16. יצירת קשר<\/h3><ul><li>בנושא הנסיעה: <span class=\"fill\">מסעות הדרים<\/span> · <span class=\"fill\">03-555-0142<\/span> · <span class=\"fill\">office@hadarim.co.il<\/span><\/li><li>בנושא האפליקציה: PALAMI · <span class=\"fill\">hello@palami.io<\/span><\/li><\/ul>"},"access":{"t":"הצהרת נגישות","h":"<p>עדכון אחרון: <span class=\"fill\">1.10.2026<\/span><\/p><p>PALAMI ו־<span class=\"fill\">מסעות הדרים<\/span> רוצות שכל נוסע יוכל להשתמש באפליקציה בקלות, כולל אנשים עם מוגבלות ונוסעים מבוגרים. השקענו בזה מהיום הראשון, ונמשיך לשפר.<\/p><h3>רמת הנגישות<\/h3><p>האפליקציה נבנתה לפי תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג-2013, ולפי התקן הישראלי ת״י 5568, המבוסס על הנחיות WCAG, ברמה AA. היעד שלנו הוא WCAG 2.2 ברמה AA.<\/p><p>הבדיקה האחרונה: <span class=\"fill\">9.2026<\/span>, על ידי <span class=\"fill\">בודק נגישות מוסמך<\/span>.<\/p><h3>מה עשינו<\/h3><ul><li>מבנה ברור מימין לשמאל, עם כותרות ותוויות שקוראי מסך מזהים.<\/li><li>אפשר להפעיל הכול עם מקלדת ועם קורא מסך: VoiceOver ב־iPhone, TalkBack ב־Android ו־NVDA במחשב.<\/li><li>\"טקסט גדול\" בהגדרות. גם הגדלה בדפדפן עובדת בלי שהתוכן נחתך.<\/li><li>ניגודיות צבעים לפי התקן. מידע לא מועבר רק בצבע: יש גם סימן, טקסט או אייקון.<\/li><li>כפתורים גדולים, שקל ללחוץ עליהם במגע.<\/li><li>אין תוכן מהבהב ואין סאונד שמתחיל לבד. מי שביקש מהמכשיר להפחית תנועה, יקבל פחות אנימציות.<\/li><li>טקסט חלופי לתמונות ולאייקונים. בטפסים יש תוויות, והודעות השגיאה ברורות.<\/li><li>הודעות קצרות, כמו \"בטל\", נשארות על המסך מספיק זמן, וקורא המסך מקריא אותן.<\/li><li>פרטי הנסיעה נשמרים בטלפון, וזמינים גם בלי אינטרנט.<\/li><\/ul><h3>מה עוד לא נגיש<\/h3><ul><li><b>מסמכים מהספקים<\/b>, כמו כרטיסי טיסה, שוברים ופוליסות, מוצגים כפי שהספק הפיק אותם, וייתכן שאינם נגישים. הפרטים החשובים שבהם מופיעים גם כטקסט נגיש באפליקציה. צריכים את המסמך בפורמט אחר? כתבו לסוכן.<\/li><li><b>אתרים ואפליקציות חיצוניים<\/b> שאליהם מקשרים, כמו אתר חברת התעופה ואפליקציות ניווט, נמצאים באחריות בעליהם.<\/li><li><span class=\"fill\">ליקויים שנמצאו בבדיקה, אם יש, ומתי יתוקנו<\/span><\/li><\/ul><h3>מכשירים ודפדפנים<\/h3><p>האפליקציה נבדקה ב־Safari ב־iPhone, ב־Chrome ב־Android, וב־Chrome, Edge ו־Safari במחשב, בשתי הגרסאות האחרונות של כל אחד.<\/p><h3>נתקלתם בבעיה?<\/h3><p>נשמח לעזור, ולתקן.<\/p><ul><li><b>רכז הנגישות של הסוכנות:<\/b> <span class=\"fill\">רונית לוי<\/span> · <span class=\"fill\">03-555-0142<\/span> · <span class=\"fill\">access@hadarim.co.il<\/span><\/li><li><b>נגישות האפליקציה (PALAMI):<\/b> <span class=\"fill\">access@palami.io<\/span><\/li><\/ul><p>כדי שנוכל לעזור מהר, כדאי לכתוב מה ניסיתם לעשות ובאיזה מסך, באיזה מכשיר ודפדפן, ואיזו טכנולוגיה מסייעת הפעלתם, אם הפעלתם. נחזור אליכם תוך <span class=\"fill\">5<\/span> ימי עבודה.<\/p><h3>הסדרי נגישות בסוכנות<\/h3><p><span class=\"fill\">כתובת הסוכנות, כניסה נגישה, חניה נגישה ושעות קבלת קהל. אם אין קבלת קהל, למשל: \"קבלת קהל בתיאום מראש בלבד.\"<\/span><\/p>"}};
+function helpBox(k){return S.help&&HELP[k]?'<div class="help">'+ic('help')+'<span>'+HELP[k]+'</span></div>':'';}
+function dropZone(label){return '<div class="drop" id="drop">'+ic('up')+'<div><b>'+(label||'גררי לכאן קבצי PDF או תמונות')+'</b><div class="muted sm">כמה שרוצים, מתי שרוצים: הכול יחד, אחד־אחד, או עוד אחד בעוד שבוע.</div></div><button class="btn pri" data-act="pick">'+ic('up')+'בחירת קבצים</button><button class="btn s ghost" data-act="demo">הדמיה עם קבצים לדוגמה</button></div>';}
+
+function feed(k){var it=S.inbox.filter(function(i){return i.trip===k;});if(!it.length)return '<p class="muted sm">עדיין לא הועלו מסמכים לתיק הזה.</p>';var h='<div class="list">';it.slice().reverse().forEach(function(i){var s=i.st==='x'?['b','alert','נחסם']:i.st==='p'?['p','loader','בעיבוד…']:i.st==='ok'?['ok','check','שובץ']:i.st==='w'?['w','alert','לטיפול']:i.st==='m'?['w','alert','תיק אחר?']:i.st==='upd'?['b','alert','ממתין לאישור']:['b','alert','ממתין לאישור'];h+='<div class="fi"><span class="st '+s[0]+'"><svg class="i'+(i.st==='p'?' spin':'')+'" aria-hidden="true"><use href="#'+s[1]+'"/></svg></span><div><b>'+esc(i.name)+'</b>'+(i.by?' <span class="pill info">הוסף על ידי '+i.by+'</span>':'')+(i.orig&&i.orig!==i.name?'<div class="xs muted">הועלה בשם <span class="mono">'+esc(i.orig)+'</span> · השם נקבע לפי התוכן</div>':'')+'<div class="muted sm">'+(i.res||'קורא את המסמך…')+(i.why?' · <span'+(i.st==='m'?' style="color:var(--warn);font-weight:600"':'')+'>'+i.why+'</span>':'')+'</div></div>'+(i.st==='m'?'<div class="row"><button class="btn s pri" data-act="move" data-id="'+i.id+'">העבר לתיק ההוא</button><button class="btn s ghost" data-act="keep" data-id="'+i.id+'">אשר ידנית: שייך לתיק הזה</button></div>':(i.st==='upd')?'<button class="btn s pri" data-act="openfl">לאישור</button>':i.st==='x'?'<span class="pill bad">לא הועלה</span>':(i.st==='w'||i.st==='b')?'<button class="btn s pri" data-go="exc">טפלי</button>':'<span class="pill '+(i.st==='ok'?'ok':'info')+'">'+s[2]+'</span>')+'</div>';});return h+'</div>';}
+var seq=46;
+var PAX={bcn:[['דנה כהן','ראשי','050-555-4417','כרטיס טיסה, ביטוח','אתמול 21:14','משפחת כהן','adult','',true],['אורי כהן','','052-555-7781','כרטיס טיסה','לפני יומיים','משפחת כהן','adult','',false],['יואב כהן','','054-555-2203','כרטיס טיסה, כרטיס למשחק','עוד לא נכנס','משפחת כהן','adult','',false],['נועה כהן','','','כרטיס טיסה','—','משפחת כהן','child','דנה כהן',false]],
+  prg:[['נועם אלון','ראשי','058-555-3412','כרטיס טיסה','לפני 3 ימים','נועם ועדי','adult','',true],['עדי רון','','052-555-1902','כרטיס טיסה','—','נועם ועדי','adult','',false],['גיל שמיר','','050-555-6610','כרטיס טיסה, ביטוח','—','גיל ותום','adult','',true],['תום בר','','','כרטיס טיסה','—','גיל ותום','adult','',false]]};
+function paxOf(k){if(!PAX[k]){var nm=TRIPS[k].name.split(' · ')[1]||'הלקוח';PAX[k]=[[nm,'ראשי','050-555-0000','—','—',nm,'adult','',true]];}return PAX[k];}
+function unitsOf(k){var u=[];paxOf(k).forEach(function(p){if(u.indexOf(p[5])<0)u.push(p[5]);});return u;}
+function paxBadges(p){return (p[1]==='ראשי'?'<span class="pill info">לקוח ראשי</span>':'')+(p[8]?'<span class="pill">ראש קבוצה</span>':'')+(p[6]==='child'?'<span class="pill">ילד/ה</span>':'');}
+var DOCS={bcn:[['טיסה LY395 · תל אביב–ברצלונה · 12.11.2026','כולם','','scan_0012.pdf'],['כרטיס טיסה · דנה כהן','דנה כהן','','boarding_1.pdf'],['מלון Hotel Mar Blau · 12–19.11.2026','כולם','','Mar-Blau-voucher.pdf'],['ביטוח נסיעות · Securitas · דנה כהן','דנה כהן','דנה כהן','securitas-policy.pdf'],['רכב שכור · Sixt · 14–19.11.2026','כולם','','sixt-voucher.pdf'],['כרטיס · ברצלונה–ריאל מדריד · 14.11.2026',['דנה כהן','אורי כהן','יואב כהן'],'','Ticket_final_v2.pdf'],['כרטיס · הופעה בפאלאו דה לה מוזיקה · 13.11.2026','דנה כהן','דנה כהן','IMG_4471.jpg'],['הסעה · שדה–מלון · 12.11.2026 · גרסה 2','כולם','','transfer(2).pdf']],
+  prg:[['טיסה 6H 841 · תל אביב–פראג · 20.11.2026','כולם','','booking.pdf'],['כרטיס טיסה · נועם אלון','נועם אלון','','bp_noam.pdf'],['כרטיס טיסה · גיל שמיר','גיל שמיר','','bp_gil.pdf'],['ביטוח נסיעות · הראל · גיל שמיר','גיל שמיר','גיל שמיר','policy.pdf'],['דירה · Old Town · 20–24.11.2026','כולם','','airbnb.pdf'],['מסעדה · Lokál · 21.11.2026 · 3 סועדים',['נועם אלון','גיל שמיר','עדי רון'],'','IMG_0098.jpg']]};
+function docsOf(k){var D=DOCS[k]||[];D.forEach(function(r){if(r[1]!=='כולם'&&typeof r[1]==='string')r[1]=[r[1]];});return D;}
+function sepMode(k){var t=TRIPS[k].type;return t==='קבוצת חברים'||t==='קבוצה מאורגנת';}
+function ownLabel(who,n){if(who==='כולם')return 'כולם ('+n+')';if(who.length===1)return who[0];return who.length+' נוסעים: '+who.map(function(x){return x.split(' ')[0];}).join(', ');}
+var V={
+trips:function(){var h='<div class="row between" style="align-items:flex-end"><div style="display:grid;gap:12px;flex:1;min-width:0"><h1>תיקי נסיעה</h1>'+searchBox()+'</div><button class="btn pri" data-act="newtrip">+ פתיחת תיק נסיעה</button></div><div class="tbl dt-desk"><table><thead><tr>'+sth('tsort','id','מזהה תיק')+sth('tsort','dest','יעד')+sth('tsort','cust','לקוח')+sth('tsort','comp','מי נוסע')+sth('tsort','dates','תאריכים')+sth('tsort','st','סטטוס')+sth('tsort','miss','חוסרים')+'</tr></thead><tbody>';var TR=sortRows(Object.keys(TRIPS),'tsort');TR.forEach(function(k){var t=TRIPS[k],sg=sigOf(k);h+='<tr class="click'+(sg?' sig-'+sg:'')+'" tabindex="0" data-trip="'+k+'"><td class="mono xs" style="text-align:right">'+t.id+'</td><td><b>'+destOf(t)+'</b></td><td>'+custOf(t)+'</td><td class="sm">'+compOf(t)+'</td><td class="nw">'+fmtD(t.dates)+'</td><td>'+stPill(t)+'</td><td>'+missCell(k)+'</td></tr>'+missRow(k,7);});return h+'</tbody></table></div>'+tripCards(TR);},
+dash:function(){var c=cnt();
+  if(S.simple)return V.simpleHome();
+  var h=helpBox('dash')+'<div class="row between dhead" style="align-items:flex-end"><div style="display:grid;gap:12px;flex:1;min-width:0"><h1>בוקר טוב, רונית</h1>'+searchBox()+'</div><button class="btn pri" data-act="newtrip">+ פתיחת תיק נסיעה</button></div>';
+  var u=urgentN();
+  h+='<div class="tiles">'+(u?'<button class="tile hot" data-act="openfl"><span class="go">לטיפול ←</span><b style="color:var(--bad)">'+u+'</b><span class="lg">דחוף היום: עדכון טיסה, יציאה בעוד 3 ימים</span><span class="sh">דחוף</span></button>':'<div class="tile calm" style="cursor:default"><b class="row nw" style="gap:8px;font-size:1.3em"><i class="vk"></i>הכול בשליטה</b><span class="lg">אין דבר דחוף היום</span><span class="sh">אין דחוף</span></div>');
+  h+='<button class="tile'+(c.miss?' attn':'')+'" data-go="missing"><span class="go">הצג ←</span><b style="color:'+(c.miss?'var(--warn)':'inherit')+'">'+new Set(S.missing.map(function(m){return m.trip;})).size+'</b><span class="lg">ביטוח חסר (ביטול או נסיעות)</span><span class="sh">ביטוח חסר</span></button>';
+  h+='<button class="tile'+(c.exc-u>0?' attn':'')+'" data-go="exc"><span class="go">הצג ←</span><b style="color:'+(c.exc-u>0?'var(--warn)':'inherit')+'">'+(c.exc-u)+'</b><span class="lg">מסמכים לטיפול</span><span class="sh">לטיפול</span></button>';
+  h+='<button class="tile" data-act="filterready"><span class="go">הצג ←</span><b>'+c.ready+'</b><span class="lg">מוכנות לפרסום</span><span class="sh">לפרסום</span></button></div>';
+  var F=[['all','הכול'],['incomplete','ממתינה להשלמה'],['draft','טיוטה'],['ready','מוכנה לפרסום'],['pub','פורסמה'],['pend','יש עדכונים לפרסום'],['act','בנסיעה']];
+  h+='<div class="row between"><div class="chips" role="group" aria-label="סינון לפי סטטוס">'+F.map(function(f){return '<button class="chip" data-stf="'+f[0]+'" aria-pressed="'+(S.stf===f[0])+'">'+f[1]+'</button>';}).join('')+'</div><span class="xs muted">עמודת "כניסה אחרונה" של הנוסעים <span class="ver">1.1</span></span></div>';
+  h+='<div class="tbl dt-desk"><table><thead><tr>'+sth('dsort','id','מזהה תיק')+sth('dsort','dest','יעד')+sth('dsort','cust','לקוח')+sth('dsort','comp','מי נוסע')+sth('dsort','dates','תאריכים')+sth('dsort','dep','יציאה')+sth('dsort','pax','נוסעים')+sth('dsort','st','סטטוס')+sth('dsort','miss','חוסרים')+'</tr></thead><tbody>';
+  var rows=Object.keys(TRIPS).filter(function(k){return ['dnr','dcr'].indexOf(k)<0||S.stf!=='all';}).filter(function(k){return S.stf==='all'||stOf(TRIPS[k])===S.stf;});
+  if(!rows.length)h+='<tr><td colspan="9" class="muted sm">אין תיקים בסטטוס הזה</td></tr>';
+  var rank={b:0,w:1,'':2};rows.sort(function(a,b){return rank[sigOf(a)]-rank[sigOf(b)];});sortRows(rows,'dsort');
+  rows.forEach(function(k){var t=TRIPS[k],sg=sigOf(k);h+='<tr class="click'+(sg?' sig-'+sg:'')+'" tabindex="0" data-trip="'+k+'"><td class="mono xs" style="text-align:right">'+t.id+'</td><td><b>'+destOf(t)+'</b></td><td>'+custOf(t)+'</td><td class="sm">'+compOf(t)+'</td><td class="nw">'+fmtD(t.dates)+'</td><td class="nw">'+t.dep+'</td><td>'+t.pax+'</td><td>'+stPill(t)+'</td><td>'+missCell(k)+'</td></tr>'+missRow(k,9);});
+  return h+'</tbody></table></div>'+tripCards(rows)+'<span class="xs muted">פס אדום בתחילת השורה: דחוף היום. פס בדבש: יש חוסרים. שורות דחופות למעלה, אלא אם בחרת מיון: לחיצה על כותרת עמודה ממיינת (עולה, יורד, ובפעם השלישית חזרה לסדר הדחיפות). לחיצה על מספר החוסרים פותחת אותם, ואפשר להשלים משם.</span>';},
+simpleHome:function(){var c=cnt();var waiting=c.miss+c.exc+c.unread;
+  var h=helpBox('dash')+'<div><h1 style="font-size:1.9em">שלום רונית</h1><span class="muted">מה נעשה עכשיו?</span></div><div class="simple">';
+  h+='<div class="card" style="border:2px solid var(--acc)"><span class="ic" style="background:var(--acc-soft);color:var(--acc)">'+ic('up')+'</span><b class="t">תיק נסיעה חדש</b><span class="muted">בוחרים לקוח ויעד, ומקבלים תיק עם מזהה משלו. אחר כך מעלים לתוכו את המסמכים.</span><button class="btn pri big" data-act="newtrip">פתיחת תיק</button></div>';
+  h+='<div class="card"><span class="ic" style="background:var(--bad-soft);color:var(--bad)">'+ic('bell')+'</span><b class="t">מה מחכה לי <span class="pill bad" style="font-size:.7em">'+waiting+'</span></b><span class="muted">'+c.miss+' נסיעות עם ביטוח חסר, '+c.exc+' מסמכים לטיפול, '+c.unread+' הודעות מלקוחות.</span><button class="btn big" data-go="missing">הצג</button></div>';
+  h+='<div class="card"><span class="ic">'+ic('search')+'</span><b class="t">כניסה לתיק קיים</b><span class="muted">לפי שם לקוח, מזהה תיק או מספר הזמנה.</span><button class="btn big" data-go="trips">לרשימת התיקים</button></div></div>';
+  return h;},
+missing:function(){var h=helpBox('missing')+'<div><span class="muted sm"><button class="btn s ghost" data-go="dash">→ דשבורד</button></span><h1 style="margin-top:8px">ביטוח חסר</h1><span class="muted sm">שני סוגים: ביטוח ביטול (עד כשבוע מההזמנה) וביטוח נסיעות (עד ההמראה). זו הבדיקה הקבוצה לחוסרים.</span></div>';
+  if(!S.missing.length)return h+'<div class="list"><div class="empty">'+ic('check')+'<b style="color:var(--ink)">לכל הנסיעות הקרובות יש ביטוח</b><span>או שסומן שהנוסע סגר עצמאית.</span></div></div>';
+  h+='<div class="list">';
+  ['bcn','lon','tbs'].forEach(function(k){var m=missFor(k);if(!m.length)return;var t=TRIPS[k];
+    h+='<div class="grp"><div class="gt"><button class="btn s ghost" data-trip="'+k+'">'+t.name+'</button><span class="tid">'+t.id+'</span><span class="muted sm" style="font-family:var(--f-b);font-weight:400">'+fmtD(t.dates)+' · '+t.pax+' נוסעים</span></div><span class="pill warn">יציאה '+t.dep+'</span></div>';
+    m.forEach(function(x){h+='<div class="item"><div><b>'+x.what+'</b><div class="muted sm">'+(x.st==='req'?'<span class="pill info">התבקש מהלקוח</span> ':'')+esc(x.note)+'</div></div><div class="row"><button class="btn s pri" data-act="upmiss" data-id="'+x.id+'">'+ic('up')+'העלאת פוליסה</button><button class="btn s" data-act="selfins" data-id="'+x.id+'">הנוסע סגר עצמאית</button><button class="btn s ghost" data-act="namiss" data-id="'+x.id+'">לא נדרש</button></div></div>';});});
+  return h+'</div>';},
+inbox:function(){var h=helpBox('inbox')+'<div><h1>תיבת קליטה</h1><span class="muted sm">'+S.inbox.filter(function(i){return i.st==='ok';}).length+' שובצו אוטומטית · '+S.inbox.filter(function(i){return i.st==='w'||i.st==='b';}).length+' לטיפול</span></div>'+dropZone()+'<div class="list">';
+  S.inbox.slice().reverse().forEach(function(i){var s=i.st==='p'?['p','loader','בעיבוד…']:i.st==='ok'?['ok','check','שובץ']:i.st==='w'?['w','alert','לטיפול']:['b','alert','סתירה'];
+    h+='<div class="fi"><span class="st '+s[0]+'"><svg class="i'+(i.st==='p'?' spin':'')+'" aria-hidden="true"><use href="#'+s[1]+'"/></svg></span><div><b>'+esc(i.name)+'</b><div class="muted sm">'+(i.res||'קורא את המסמך…')+(i.why?' · <span>'+i.why+'</span>':'')+'</div></div>'+(i.st==='w'||i.st==='b'?'<button class="btn s pri" data-go="exc">טפלי</button>':'<span class="pill '+(i.st==='ok'?'ok':'info')+'">'+s[2]+'</span>')+'</div>';});
+  return h+'</div>';},
+exc:function(){var h=helpBox('exc');
+  if(!S.exc.length)return h+'<h1>לטיפול</h1><div class="list"><div class="empty">'+ic('check')+'<b style="color:var(--ink)">אין שאלות פתוחות</b><span>כל המסמכים שובצו.</span></div></div>';
+  var k=S.exc[0];h+='<div class="row between"><h1>לטיפול</h1><span class="muted sm">1 מתוך '+S.exc.length+'</span></div>';
+  if(k==='look'){h+='<div class="card" style="max-width:680px"><span class="muted sm">ברצלונה · משפחת כהן <span class="tid">HDR-2609-0031</span> · שובר רכב שכור</span><h2>חסר שדה חובה: שעת החזרת הרכב</h2><span class="sm">לא הצלחנו לקרוא אותה בוודאות. בלי שדה חובה הרכב לא מגיע לנוסעים, ולכן עצרנו.</span><div class="snip">Return: 19/11/2026 <mark>1▒:00</mark> · Barcelona Airport T1</div><label class="sm" for="lookv">שעת ההחזרה</label><input class="inp mono" id="lookv" value="11:00"><span class="muted sm">כל שאר שדות השובר כבר שובצו. התזכורת "החזרת רכב" לנוסעים תיווצר אחרי שתאשרי.</span><div class="row"><button class="btn pri" data-act="exclook">אישור</button><button class="btn ghost" data-act="exclater">אחר כך</button></div></div>';}
+  else{h+=flightCard(false);}
+  return h;},
+trip:function(){var k=S.trip,t=TRIPS[k];var h=helpBox('trip')+'<div class="row between"><div><button class="btn s ghost" data-go="dash">→ דשבורד</button><div class="row" style="margin-top:8px"><h1>'+t.name+'</h1><span class="pill info mono">'+t.id+'</span></div><div class="row sm muted"><span>'+fmtD(t.dates)+'</span><span>·</span><span>'+t.pax+' נוסעים</span><span>·</span>'+stPill(t)+'<span>·</span><span>'+compOf(t)+'</span></div></div><div class="row"><a class="btn" href="https://claude.ai/artifact/As9pjqQKDaz4zRjXPf13Pj" target="_blank" rel="noopener" style="text-decoration:none">איך זה נראה ללקוח</a>'+(t.st==='draft'?'<button class="btn pri" data-act="publish">פרסום ושליחה ללקוח</button>':t.pend?'<button class="btn pri" data-act="publish">פרסום '+t.pend+' עדכונים</button>':'')+'</div></div>';
+  var tabs=[['docs','מסמכים והעלאה'],['over','סקירה וביטוח'],['sched','לו״ז'],['pax','נוסעים'],['info','מידע לנוסע'],['chat','שיחה'],['notif','התראות לנסיעה']];
+  h+='<div class="tabs" role="tablist">'+tabs.map(function(x){return '<button role="tab" aria-selected="'+(S.tripTab===x[0])+'" data-tab="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div>';
+  if(S.tripTab==='over'){h+='<div class="card"><h3>ביטוח</h3>'+insBlock(k)+'</div><div class="card"><h3>מה יש בתיק</h3><span class="muted sm">מה שהועלה זה מה שיש. המערכת לא מנחשת מה עוד צריך להיות בתיק, חוץ מביטוח.</span>'+(k==='bcn'?'<div class="row"><span class="pill">2 טיסות</span><span class="pill">מלון</span><span class="pill">הסעה</span><span class="pill">רכב</span><span class="pill">משחק</span><span class="pill">סיור</span></div>':'<span class="muted sm">'+(t.ready[1]?'האירועים מופיעים בלשונית הלו״ז.':'עדיין לא הועלו מסמכים.')+'</span>')+'</div>';}
+  else if(S.tripTab==='sched'){h+='<div class="tbl"><table><thead><tr><th>מתי</th><th>אירוע</th><th>מקור</th></tr></thead><tbody>';[['12/11 06:10 ישראל','טיסה LY 395 לברצלונה','אישור טיסה · אוטומטי'],['12/11 11:00 ברצלונה','הסעה למלון (עודכן)','עדכון-הסעה.pdf · הכרעה שלך'],['12/11 15:00 ברצלונה',"צ'ק-אין Hotel Mar Blau",'שובר מלון · אוטומטי'],['12/11 20:30 ברצלונה','ארוחת ערב El Pati','נוסף ע״י דנה'],['14/11 21:00 ברצלונה','משחק כדורגל','כרטיסים · אוטומטי']].forEach(function(r){h+='<tr><td class="mono" style="text-align:right">'+r[0]+'</td><td>'+r[1]+'</td><td class="sm muted">'+r[2]+'</td></tr>';});h+='</tbody></table></div>';}
+  else if(S.tripTab==='docs'){h+=dropZone('גררי לכאן את המסמכים של הנסיעה הזו')+feed(k);var PX=paxOf(k).map(function(p){return p[0];});var D=docsOf(k);h+='<h3>מסמכים בתיק</h3><span class="muted sm">המערכת נתנה לכל קובץ שם לפי התוכן, ושייכה אותו לפי השמות שבו. משנים רק אם ההצעה לא נכונה.</span><div class="list">';D.forEach(function(r,di){var open=S.ownOpen===di;h+='<div class="fi"><span class="st p">'+ic('doc')+'</span><div><b>'+r[0]+'</b>'+(r[2]?' <span class="pill info">הוסף על ידי '+r[2]+'</span>':'')+'<div class="muted xs mono">'+r[3]+'</div></div><span class="own sm"><span class="muted">שייך ל</span><button class="btn s '+(r[1]==='כולם'?'ghost':'')+' ownbtn" data-ownopen="'+di+'" aria-expanded="'+open+'">'+ic('users')+ownLabel(r[1],PX.length)+'</button></span></div>';
+  if(open){var all=r[1]==='כולם';h+='<div class="card ownbox" role="group" aria-label="למי שייך המסמך"><b>למי שייך "'+r[0].split(' · ').slice(0,2).join(' · ')+'"?</b><label><input type="checkbox" data-ownall'+(all?' checked':'')+'> <b>כל הנוסעים</b></label>'+(unitsOf(k).length>1?'<div class="uchips"><span class="xs muted" style="align-self:center">לפי קבוצה:</span>'+unitsOf(k).map(function(u){return '<button type="button" class="chip" data-ownunit="'+u+'">'+u+'</button>';}).join('')+'</div>':'')+'<div class="opts">'+PX.map(function(p){return '<label><input type="checkbox" data-ownp value="'+p+'"'+(all||r[1].indexOf(p)>=0?' checked':'')+'> '+p+'</label>';}).join('')+'</div><span class="xs muted" id="ownhint">'+(sepMode(k)?'רק מי שמסומן יראה את המסמך ואת האירוע בלו״ז, ויקבל עליו התראות.':'בנסיעה הזו כולם רואים הכול. השיוך קובע אצל מי האירוע מופיע בלו״ז כ״שלי״ ומי מקבל עליו התראות.')+'</span><div class="row"><button class="btn s pri" data-act="ownsave" data-id="'+di+'">שמירה</button><button class="btn s ghost" data-act="ownclose">ביטול</button></div></div>';}});h+='</div><span class="xs muted">בקבוצה גדולה: מסמנים כמה מסמכים ומשייכים אותם יחד, בלשונית "נוסעים".</span>';}
+  else if(S.tripTab==='pax'&&k==='lon'){h+='<div class="card"><div class="row between"><div><b>קבוצה מאורגנת · 23 נוסעים</b><div class="muted sm">שיתוף מידע: כל נוסע רואה את המשותף ואת שלו · מלווה: אורן ד.</div></div><button class="btn s" data-act="toast" data-msg="אפשר לעבור ל&quot;כולם רואים הכול&quot;">שינוי</button></div><div class="row"><span class="pill ok">17 פתחו את הקישור</span><span class="pill warn">6 עוד לא פתחו</span></div><div class="row"><button class="btn s pri" data-act="toast" data-msg="נשלח שוב ל־6 נוסעים, בערוצים שלהם">שליחה שוב ל־6 שלא פתחו</button><button class="btn s" data-act="toast" data-msg="ההודעה נשלחה לכל 23 הנוסעים">הודעה לכל הקבוצה</button><button class="btn s ghost" data-act="toast" data-msg="באפליקציה האמיתית: בחירת קובץ אקסל עם שם, נייד ואימייל">ייבוא נוסעים מאקסל</button></div></div><div class="tbl"><table><thead><tr><th>נוסע</th><th>נייד</th><th>כרטיס</th><th>פתח</th></tr></thead><tbody>'+[['אורן דביר · מלווה','050-555-0101','שובץ','✓'],['מיכל אבני','052-555-0102','שובץ','✓'],['יוסי בן חיים','054-555-0103','שובץ','—'],['רותם שגיא','—','לא נמצא כרטיס','—']].map(function(r){return '<tr><td>'+r[0]+'</td><td class="mono" style="text-align:right">'+r[1]+'</td><td>'+(r[2]==='שובץ'?'<span class="pill ok">שובץ</span>':'<span class="pill warn">'+r[2]+'</span>')+'</td><td>'+r[3]+'</td></tr>';}).join('')+'<tr><td colspan="4" class="muted sm">ועוד 19 נוסעים…</td></tr></tbody></table></div>';}
+  else if(S.tripTab==='pax'){var P=paxOf(k),U=unitsOf(k),main=P.filter(function(p){return p[1]==='ראשי';})[0];h+='<div class="card"><div class="row between"><div><b>'+compOf(t)+' · '+P.length+' נוסעים ב־'+U.length+' '+(U.length===1?'קבוצה':'קבוצות')+'</b><div class="muted sm">שיתוף מידע: '+(sepMode(k)?'כל נוסע רואה את המשותף ואת שלו':'כולם רואים הכול')+'</div></div><button class="btn s pri" data-act="addpax">+ הוספת נוסע</button></div><div class="hier" aria-label="היררכיה"><span>נסיעה</span><i>›</i><span>לקוח ראשי: <b>'+(main?main[0]:'—')+'</b></span><i>›</i><span>קבוצות (משפחה, זוג, חדר)</span><i>›</i><span>נוסעים</span><i>›</i><span>ילדים, דרך מבוגר</span></div></div>';
+  U.forEach(function(u){var M=P.filter(function(p){return p[5]===u;});var ad=M.filter(function(p){return p[6]!=='child';}),ch=M.filter(function(p){return p[6]==='child';});h+='<div class="unit"><div class="uh"><span><b>'+u+'</b> <span class="muted sm">· '+M.length+' נוסעים</span></span><button class="btn s ghost" data-act="addpax" data-unit="'+u+'">+ נוסע לקבוצה</button></div>';
+    ad.forEach(function(p){h+=prow(p);ch.filter(function(c){return c[7]===p[0];}).forEach(function(c){h+=prow(c);});});
+    ch.filter(function(c){return !ad.some(function(a){return a[0]===c[7];});}).forEach(function(c){h+=prow(c);});
+    h+='</div>';});
+  h+='<span class="xs muted">בפרסום, כל נוסע עם נייד או אימייל מקבל משתמש. ילד בלי טלפון מקבל את הכול דרך המבוגר שמעליו. ראש קבוצה רואה את המסמכים של כל הקבוצה שלו. עמודת "כניסה אחרונה" <span class="ver">1.1</span></span>';}
+  else if(S.tripTab==='info'){h+='<div class="card"><div><b>טיפים מרונית</b><div class="muted sm">מופיע לנוסעים בלשונית "מידע", עם השם שלך</div></div><textarea class="inp" id="tipsv" aria-label="טיפים לנוסעים">'+esc(S.tips)+'</textarea><label class="row sm" style="gap:8px"><input type="checkbox" id="tipsdest"'+(S.tipsDest?' checked':'')+' style="width:18px;height:18px;accent-color:var(--acc)"> לשמור גם כטיפים קבועים ל'+destOf(t)+', לכל הנסיעות הבאות</label><button class="btn s pri" style="justify-self:start" data-act="tipssave">שמירה</button></div>';
+    h+='<div class="card" style="gap:0"><b>רשימת אריזה</b><span class="muted sm" style="padding-bottom:6px">משותפת לך ולנוסעים: כולם יכולים להוסיף ולמחוק. מה שכל נוסע סימן כ"ארזתי" נשאר אצלו ולא מוצג כאן</span>'+S.pack.map(function(p){return '<div class="pkrow"><span>'+esc(p[1])+' <span class="xs muted">'+(p[2]==='auto'?'· הצעה אוטומטית':'· נוסף ע״י '+p[2])+'</span></span><button class="btn s ghost" data-act="pkdel" data-id="'+p[0]+'" aria-label="מחיקת '+esc(p[1])+'">הסרה</button></div>';}).join('')+'<div class="row nw" style="padding-top:10px"><input class="inp" id="pkv" placeholder="להוסיף פריט, למשל: בגד ים" aria-label="פריט חדש"><button class="btn pri" data-act="pkadd">הוספה</button></div></div>';}
+  else if(S.tripTab==='chat'){h+='<div class="card"><span>השיחה עם הלקוחות של הנסיעה הזו.</span><button class="btn pri" data-go="chat" style="justify-self:start">פתחי את השיחה</button></div>';}
+  else{h+=tnTable(k);}
+  return h;},
+custlist:function(){var C=[['דנה כהן','HDR-C-00123','050-555-4417','ברצלונה · 12/11',4,'Push · WhatsApp',''],['אבי ומיכל לוינסון','HDR-C-00098','052-555-1188','רומא · בנסיעה',2,'אימייל',''],['משפחת ברק','HDR-C-00141','053-555-7001','טביליסי · 2/12',1,'WhatsApp',''],['נועם אלון','HDR-C-00150','058-555-3412','פראג · 20/11',3,'Push · אימייל',''],['שירה גולן','HDR-C-00077','050-555-9020','—',5,'WhatsApp','מתעניינת בנסיעה הבאה']].concat(S.newCust||[]);var h=helpBox('custlist')+'<div class="row between"><h1>לקוחות</h1><button class="btn pri" data-act="newtrip">+ לקוח ותיק חדשים</button></div><div class="tbl"><table><thead><tr>'+sth('csort','name','לקוח')+sth('csort','ph','נייד')+sth('csort','next','נסיעה קרובה')+sth('csort','cnt','נסיעות')+sth('csort','ch','ערוצים')+'</tr></thead><tbody>';sortCust(C).forEach(function(c){h+='<tr class="click" tabindex="0" '+(c[1]==='HDR-C-00123'?'data-go="cust"':'data-act="toast" data-msg="באב הטיפוס רק הכרטיס של דנה פתוח"')+'><td><b>'+c[0]+'</b>'+(c[6]?' <span class="pill info">'+c[6]+'</span>':'')+'</td><td class="mono" style="text-align:right">'+c[2]+'</td><td>'+c[3]+'</td><td>'+c[4]+'</td><td class="sm">'+c[5]+'</td></tr>';});return h+'</tbody></table></div><span class="muted sm">כל שורה היא אדם, עם כל התיקים שלו. לחיצה פותחת את כרטיס הלקוח. לחיצה על כותרת עמודה ממיינת (עולה, יורד, ובפעם השלישית חזרה לסדר הרגיל).</span>';},
+cust:function(){var h=helpBox('cust')+'<div class="row between"><div class="row nw"><span class="st p" style="width:52px;height:52px">'+ic('user')+'</span><div><div class="row nw" style="gap:8px"><h1>דנה כהן</h1><span class="xs muted mono">HDR-C-00123</span><button class="btn s ghost" data-act="copyid">העתקה</button><button class="btn s ghost" data-act="unplug" title="לטלפון שאבד">ניתוק כל המכשירים</button></div><span class="muted sm"><span class="mono">050-555-4417</span> · dana@example.com · לקוחה מאז 2024</span><div class="row sm" style="margin-top:6px"><span class="muted">ערוצי עדכון:</span>'+['Push','WhatsApp','אימייל'].map(function(x){var on=(S.ch||{Push:1,WhatsApp:1})[x];return '<button class="pill '+(on?'ok':'')+'" style="border:0;cursor:pointer" data-ch="'+x+'">'+(on?'‏✓ ':'')+x+'</button>';}).join('')+'<span class="muted" style="margin-inline-start:8px">הצעות מהסוכנות:</span><button class="pill '+(S.mkt?'ok':'')+'" style="border:0;cursor:pointer" data-act="mkt" title="הסכמה לדיוור">'+(S.mkt?'‏✓ הסכימה':'לא הסכימה')+'</button>'+(S.mktLog?'<span class="xs muted">'+esc(S.mktLog)+'</span>':'')+'<span class="muted" style="margin-inline-start:8px">תנאים:</span><span class="xs muted">גרסה 1.0 · אושרו בכניסה ב־2.10.2026</span>'+'</div></div></div><button class="btn pri" data-act="newtripdana">+ נסיעה חדשה לדנה</button></div>';
+  h+='<div class="tbl"><table><thead><tr><th>נסיעה</th><th>תאריכים</th><th>התפקיד של דנה</th><th>סטטוס</th><th>ביטוח</th></tr></thead><tbody>';
+  [['bcn','לקוחה ראשית'],['dnr','שותפת נסיעה'],['dcr','לקוחה ראשית']].forEach(function(r){var t=TRIPS[r[0]];h+='<tr class="click" tabindex="0" data-trip="'+r[0]+'"><td><b>'+t.name.split(' · ')[0]+'</b></td><td>'+fmtD(t.dates)+'</td><td>'+r[1]+'</td><td>'+stPill(t)+'</td><td>'+insPill(t)+'</td></tr>';});
+  h+='<tr><td class="muted">אתונה</td><td class="muted">'+fmtD('18–23/5/26')+'</td><td class="muted">לקוחה ראשית</td><td><span class="pill">הסתיימה</span></td><td class="muted sm">—</td></tr></tbody></table></div><span class="muted sm">כל נסיעה נפרדת: מסמכים, שותפי נסיעה, תפקיד וחיוב.</span>';return h;},
+chat:function(){var c=S.convs[S.conv],cn=c.name.split(' · '),who=cn[1]||cn[0],tk=null;for(var kk in TRIPS){if(c.id&&TRIPS[kk].id===c.id)tk=kk;}
+  var h=helpBox('chat')+'<h1>שיחות</h1><div class="chat'+(S.mThread?' show-thread':'')+'"><div class="conv" aria-label="כל השיחות">';
+  Object.keys(S.convs).forEach(function(k){var x=S.convs[k],l=x.msgs[x.msgs.length-1],nm=x.name.split(' · '),p=(nm[1]||nm[0]).split(' '),ini=p[0].charAt(0)+(p[1]?p[1].charAt(0):'');h+='<button class="cv" data-conv="'+k+'" aria-current="'+(k===S.conv)+'"><span class="cav" aria-hidden="true">'+ini+'</span><span class="cbody"><span class="row between nw"><b>'+(nm[1]||nm[0])+'</b><span class="xs muted">'+l.at+'</span></span><span class="xs muted">'+nm[0]+(x.id?' · <span class="mono">'+x.id+'</span>':'')+'</span><span class="cl'+(x.unread?' un':'')+'">'+(l.me?'את: ':'')+esc(l.t)+'</span></span>'+(x.unread?'<i class="udot" aria-label="לא נקרא"></i>':'<span></span>')+'</button>';});
+  h+='</div><div class="thread"><div class="th-h"><button class="btn s ghost th-back" data-act="threadback" aria-label="חזרה לכל השיחות">→</button><div><b>'+who+'</b><div class="xs muted">'+cn[0]+(c.id?' · <span class="mono">'+c.id+'</span>':'')+'</div></div>'+(tk?'<button class="btn s" data-trip="'+tk+'">לתיק</button>':'')+'</div><div class="msgs" id="msgs">';
+  c.msgs.forEach(function(m,i){h+='<div class="msg '+(m.me?'me':'them')+'">'+esc(m.t)+(m.file?'<span class="row sm">'+ic('doc')+'<b>'+m.file+'</b>'+(m.added?'<span class="pill ok">נוסף לתיק</span>':'<button class="btn s pri" data-act="addfile" data-i="'+i+'">הוסיפי לתיק</button>')+'</span>':'')+'<small>'+(m.me?'את':who.split(' ')[0])+' · '+m.at+'</small></div>';});
+  h+='</div><form class="composer" id="composer"><div class="row">'+['קיבלתי, בודקת ומעדכנת','הכול מסודר בתיק','שלחתי לך את המסמך'].map(function(q){return '<button type="button" class="pill" style="border:0;cursor:pointer" data-quick="'+q+'">'+q+'</button>';}).join('')+'</div><div class="row nw"><input class="inp" id="reply" placeholder="כתבי תשובה…" aria-label="תשובה"><button class="btn pri" type="submit">שליחה</button></div></form></div></div>';return h;},
+settings:function(){var sup=S.role==='sup',h=helpBox('settings')+'<h1>הגדרות</h1>'+roleNote()+'<div class="setsec"><h2>ההגדרות שלי</h2><span class="muted sm">חלות רק עלייך.</span></div>'+'<div class="card"><div class="row between"><b>הפרופיל שלי</b><button class="btn s ghost" data-act="logout">יציאה מהחשבון</button></div><div class="row nw" style="gap:16px"><span class="pav">'+(S.photo?'<img src="'+S.photo+'" alt="התמונה שלך">':'רל')+'</span><div style="display:grid;gap:8px"><span class="sm">תמונה <span class="muted">(לא חובה)</span>. הנוסעים יראו אותה בלשונית "הסוכנת שלך" ובצ\'אט. בלי תמונה מוצגים ראשי התיבות.</span><div class="row"><label class="btn s" style="cursor:pointer">'+ic('up')+(S.photo?'החלפת תמונה':'העלאת תמונה')+'<input type="file" accept="image/*" class="fileinput" id="photoin"></label>'+(S.photo?'<button class="btn s ghost" data-act="photodel">הסרה</button>':'')+'</div></div></div></div>'+'<div class="card"><b>שעות זמינות</b><span class="muted sm">הנוסעים רואים אותן בלשונית "הסוכנת שלך" ובצ\'אט. מחוץ להן הם מקבלים מענה אוטומטי וכפתור חירום בולט.</span><div class="chips" role="radiogroup" aria-label="שעות זמינות"><button class="chip" role="radio" aria-pressed="'+(!S.hrOwn)+'" aria-checked="'+(!S.hrOwn)+'" data-act="hrsame">כמו הסוכנות · א׳–ה׳ 9:00–18:00</button><button class="chip" role="radio" aria-pressed="'+S.hrOwn+'" aria-checked="'+S.hrOwn+'" data-act="hrown">שעות משלי</button></div>'+(S.hrOwn?'<div class="chips" aria-label="ימים">'+['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','ש׳'].map(function(d,i){return '<button class="chip" aria-pressed="'+!!S.hrDays[i]+'" data-day="'+i+'">'+d+'</button>';}).join('')+'</div><div class="row nw sm" style="gap:8px">'+['hrFrom','hrTo'].map(function(f,j){return (j?'<span>עד</span>':'')+'<select class="sel" data-hr="'+f+'" aria-label="'+(j?'עד':'מ־')+'">'+['07:00','08:00','09:00','10:00','12:00','14:00','16:00','17:00','18:00','19:00','20:00'].map(function(o){return '<option'+(o===S[f]?' selected':'')+'>'+o+'</option>';}).join('')+'</select>';}).join('')+'</div>':'')+'</div>'+'<div class="card"><div class="row between nw"><div><b>נייד אישי לחירום</b><div class="muted sm">לא חובה. מוצג לנוסע רק בזמן נסיעה פעילה, מיום היציאה עד החזרה, במסך החירום ובלשונית "הסוכנת שלך"</div></div><button class="tog" role="switch" aria-label="נייד אישי לחירום" aria-checked="'+S.ePhoneOn+'" data-act="ephon"></button></div>'+(S.ePhoneOn?'<input class="inp mono" id="ephone" inputmode="tel" dir="ltr" style="max-width:240px;text-align:right" aria-label="מספר נייד" value="'+S.ePhone+'">':'<span class="xs muted">כבוי: הנוסעים רואים במסך החירום את קו החירום 24/7 של הסוכנות.</span>')+'</div>'+'<div class="card"><div class="row between nw"><b>הקריאות שלי לתמיכה</b><button class="btn s" data-act="report">'+ic('bug')+'דיווח על תקלה</button></div>'+(S.tickets.length?S.tickets.map(function(t){return '<div class="mi"><div><b><span class="mono">#'+t.n+'</span> · '+esc(t.t)+'</b><div class="muted sm">'+t.at+(t.trip?' · <span class="mono">'+t.trip+'</span>':'')+(t.ans?' · תשובה: '+esc(t.ans):'')+'</div></div><span class="pill '+(t.st==='נסגרה'?'ok':t.st==='חדשה'?'info':'warn')+'">'+t.st+'</span></div>';}).join(''):'<span class="muted sm">אין קריאות פתוחות</span>')+'</div>';
+  if(!sup)return h+'<div class="setsec"><h2>הגדרות הסוכנות</h2></div><div class="card"><span class="sm">עובדים, מסמכים משפטיים לנוסעים, התראות לנוסעים, צ\'אט עם לקוחות והודעה אחרי החזרה נקבעים ברמת הסוכנות, על ידי מנהלי הסוכנות. אצלכם: אבי הדר.</span></div>';
+  h+='<div class="setsec"><h2>הגדרות הסוכנות</h2><span class="muted sm">רק מנהלי הסוכנות רואים את החלק הזה. מה שנקבע כאן חל על כל הסוכנים והנוסעים של מסעות הדרים.</span></div>'+teamCard()+'<div class="card"><div class="row between nw"><div><b>צ\'אט עם לקוחות</b><div class="muted sm">כבוי: הלקוחות רואים רק טלפון, אימייל ו־WhatsApp</div></div><button class="tog" role="switch" aria-label="צ\'אט עם לקוחות" aria-checked="'+(S.chatOn!==false)+'" data-act="chaton"></button></div></div>'+postCard()+retCard()+legalCard()+'<h3>התראות לנוסעים</h3><span class="muted sm">חלות על כל הנסיעות. אפשר לשנות לנסיעה מסוימת מתוך תיק הנסיעה.</span><div class="tbl"><table><thead><tr><th>התראה לנוסע</th><th>פעיל</th><th>מתי</th></tr></thead><tbody>';
+  var R=[['offline','"שומרים על קשר" אחרי החזרה<div class="muted xs">רק ללקוחות שהסכימו לקבל הצעות. נשלח עם המילה "פרסומת" ואפשרות להסרה</div>',['14','7','30'],' ימים אחרי החזרה'],['brief','סיכום לפני יציאה',['3','2','5'],' ימים לפני'],['ci',"צ'ק-אין לטיסה (כשאין כלל)",['24','48'],' שעות לפני'],['ci2',"תזכורת צ'ק-אין חוזרת",['6','3','12'],' שעות לפני'],['airport','יציאה לשדה',['3','2','4'],' שעות לפני'],['morning','תדריך בוקר<div class="muted xs">הודעה לנוסע בכל בוקר בנסיעה: מה מחכה היום</div>',['08:00','07:00','09:00'],' שעון מקומי'],['event','תזכורת לאירוע',['2','1','4'],' שעות לפני']];
+  R.forEach(function(r){var v=S.notif[r[0]];h+='<tr><td><b>'+r[1]+'</b></td><td><button class="tog" role="switch" aria-label="'+r[1].replace(/<[^>]+>.*$/,'')+'" aria-checked="'+v[0]+'" data-notif="'+r[0]+'"></button></td><td><select class="sel" data-notifsel="'+r[0]+'" aria-label="מתי">'+r[2].map(function(o){return '<option'+(o===v[1]?' selected':'')+'>'+o+'</option>';}).join('')+'</select><span class="sm">'+r[3]+'</span></td></tr>';});
+  h+='<tr><td><b>משהו השתנה</b><div class="muted xs">קריטי, תמיד פעיל</div></td><td><button class="tog lock" role="switch" aria-checked="true" aria-label="תמיד פעיל" data-act="toast" data-msg="התראה קריטית. תמיד נשלחת"></button></td><td class="sm">מיד בפרסום</td></tr></tbody></table></div>';return h;}
+};
+
+function render(){
+  root.style.setProperty('--fs',S.big?'18.5px':'16px');
+  var v=V[S.view]?S.view:'dash';if(v==='chat'&&(S.mThread||!window.matchMedia('(max-width:860px)').matches))S.convs[S.conv].unread=false;
+  if(S.out){root.style.display='block';root.innerHTML=loginView();return;}root.style.display='';
+  root.innerHTML=side()+'<div class="main" style="position:relative">'+bar()+bellPanel()+'<main class="content" id="content">'+V[v]()+'</main></div>'+userMenu();
+  var ms=document.getElementById('msgs');if(ms)ms.scrollTop=ms.scrollHeight;
+  bindDrop();
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&S.umenu){S.umenu=false;render();var b=document.querySelector('[data-act="umenu"]');if(b)b.focus();}});
+document.addEventListener('submit',function(e){if(e.target.id!=='loginf')return;e.preventDefault();var em=document.getElementById('lg-em').value.trim(),pw=document.getElementById('lg-pw').value;if(!em||!pw){toast('צריך אימייל וסיסמה');return;}S.out=false;S.loggedOutMsg=false;S.view='dash';S.trip=null;render();toast('נכנסת. באב הטיפוס כל אימייל וסיסמה נכנסים בתור רונית');});
+function go(v){if(v==='chat')S.mThread=false;S.view=v;if(v!=='trip')S.trip=null;render();window.scrollTo(0,0);}
+function openTrip(k){S.trip=k;S.view='trip';S.tripTab='docs';render();window.scrollTo(0,0);}
+
+var NEXT=[
+  {name:'טיסה LY395 · עדכון · 12.11.2026',res:'עדכון לטיסה LY 395',why:'שעת ההמראה השתנתה. ממתין לאישור שלך',st:'upd'},
+  {name:'כרטיסים · קאמפ נואו · 14.11.2026',res:'כרטיסים · 4 מושבים',why:'שויכו לכל הנוסעים, ונוצר אירוע בלו״ז',st:'ok'},
+  {name:'רכב Hertz · טביליסי · 2.12.2026',res:'שובר רכב · שם הנהג: ברק',why:'נראה שהמסמך שייך לתיק אחר: טביליסי · משפחת ברק (HDR-2610-0038)',st:'m',other:'tbs'},
+];var ni=0;
+var NEXTN=[{name:'טיסה · אישור הזמנה',res:'אישור הזמנת טיסה',why:'נוסעים, תאריכים ואזורי זמן מולאו בתיק',st:'ok'},{name:'מלון · שובר',res:'שובר מלון',why:"נוצרו אירועי צ'ק-אין וצ'ק-אאוט",st:'ok'},{name:'ביטוח נסיעות · פוליסה',res:'פוליסת ביטוח',why:'נמצאה פוליסה. ביטוח: יש',st:'ok',ins:1}];var nn=0;
+function simulate(names){
+  if(!names.length)names=['מסמך.pdf'];
+  var tk=S.trip||'bcn';names.forEach(function(n,j){var it={id:'n'+Date.now()+j,trip:tk,name:n,orig:n,st:'p'};S.inbox.push(it);
+    if(!/\.(pdf|jpe?g|png|heic|webp)$/i.test(n)){setTimeout(function(){it.st='x';it.res='סוג קובץ לא נתמך';it.why='אפשר להעלות PDF או תמונה (JPG, PNG, HEIC). שמרי את הקובץ כ־PDF ונסי שוב';render();},900);return;}
+    setTimeout(function(){var r=tk==='bcn'?NEXT[(ni++)%NEXT.length]:NEXTN[(nn++)%NEXTN.length];it.name=r.name||n;it.st=r.st;it.res=r.res;it.why=r.why;it.other=r.other;if(tk==='bcn'&&TRIPS[tk].ready[1]===0){}if(TRIPS[tk].ready[1]===0){TRIPS[tk].ready=[3,4];TRIPS[tk].pax=2;TRIPS[tk].dates='לפי המסמכים';}if(r.ins){TRIPS[tk].ins='ok';S.missing=S.missing.filter(function(m){return m.trip!==tk;});}if(r.st==='upd'){addNotif('עדכון לטיסה LY 395 ממתין לאישור שלך',{trip:tk,ic:'alert',act:'openfl'});setTimeout(openFlight,300);}if(r.close&&tk==='bcn'){S.missing=S.missing.filter(function(m){return m.id!==r.close;});}if(S.view==='trip'||S.view==='dash'||S.view==='missing')render();},1400+j*700);});
+  if(S.view!=='trip'){openTrip(tk);}else{S.tripTab='docs';render();}toast(names.length+' קבצים התקבלו בתיק '+TRIPS[tk].id+'. אפשר להמשיך לעבוד');
+}
+function bindDrop(){var d=document.getElementById('drop');if(!d)return;
+  d.addEventListener('dragover',function(e){e.preventDefault();d.classList.add('over');});
+  d.addEventListener('dragleave',function(){d.classList.remove('over');});
+  d.addEventListener('drop',function(e){e.preventDefault();d.classList.remove('over');var f=[].map.call(e.dataTransfer.files||[],function(x){return x.name;});simulate(f);});}
+fp.addEventListener('change',function(){var f=[].map.call(fp.files||[],function(x){return x.name;});fp.value='';if(S.pendingMiss){var id=S.pendingMiss;S.pendingMiss=null;resolveMiss(id,f[0]);}else simulate(f);});
+function resolveMiss(id,fname){var m=S.missing.filter(function(x){return x.id===id;})[0];if(!m)return;var idx=S.missing.indexOf(m);S.missing.splice(idx,1);var prev=TRIPS[m.trip].ins;TRIPS[m.trip].ins='ok';
+  if(m.trip==='bcn'&&TRIPS.bcn.ready[0]<TRIPS.bcn.ready[1]){TRIPS.bcn.ready[0]++;TRIPS.bcn.pend++;}
+  render();toast('“'+esc(fname||'הקובץ')+'” זוהה כפוליסת ביטוח ושובץ בתיק '+TRIPS[m.trip].id,function(){S.missing.splice(idx,0,m);TRIPS[m.trip].ins=prev;render();});}
+
+document.addEventListener('click',function(e){
+  if(S.umenu&&!e.target.closest('.umenu')&&!e.target.closest('[data-act="umenu"]')){S.umenu=false;render();if(!e.target.closest('[data-act],[data-go],[data-trip]'))return;}
+  var sb=e.target.closest('[data-sort]');if(sb){var sk=sb.getAttribute('data-skey'),sc=sb.getAttribute('data-sort'),cs=S[sk];S[sk]=(cs&&cs.c===sc)?(cs.d>0?{c:sc,d:-1}:null):{c:sc,d:1};render();var nb=document.querySelector('[data-skey="'+sk+'"][data-sort="'+sc+'"]');if(nb)nb.focus();return;}
+  var mo=e.target.closest('[data-missopen]');if(mo){var mk=mo.getAttribute('data-missopen');S.openMiss=S.openMiss===mk?null:mk;render();return;}
+  var epx=e.target.closest('[data-editpax]');if(epx){openEditPax(epx.getAttribute('data-ptrip')||S.trip,+epx.getAttribute('data-editpax'));return;}
+  var g=e.target.closest('[data-go]');if(g){e.preventDefault();go(g.getAttribute('data-go'));return;}
+  var tr=e.target.closest('[data-trip]');if(tr){openTrip(tr.getAttribute('data-trip'));return;}
+  var tb=e.target.closest('[data-tab]');if(tb){S.tripTab=tb.getAttribute('data-tab');render();return;}
+  var dyb=e.target.closest('[data-day]');if(dyb){var di=+dyb.getAttribute('data-day');S.hrDays[di]=S.hrDays[di]?0:1;render();return;}
+  var chb=e.target.closest('[data-ch]');if(chb){S.ch=S.ch||{Push:1,WhatsApp:1};var x=chb.getAttribute('data-ch');S.ch[x]=!S.ch[x];render();toast('ערוצי העדכון של דנה עודכנו');return;}
+  var cv=e.target.closest('[data-conv]');if(cv){S.conv=cv.getAttribute('data-conv');S.mThread=true;render();var rp=document.getElementById('reply');if(rp&&!window.matchMedia('(max-width:860px)').matches)rp.focus();return;}
+  var qk=e.target.closest('[data-quick]');if(qk){var r=document.getElementById('reply');r.value=qk.getAttribute('data-quick');r.focus();return;}
+  var bo=e.target.closest('[data-notifopen]');if(bo){var nx=S.notifs.filter(function(x){return x.id===bo.getAttribute('data-notifopen');})[0];nx.un=false;S.bell=false;if(nx.act==='openfl'){render();openFlight();}else if(nx.go){go(nx.go);}else if(nx.trip){S.trip=nx.trip;S.view='trip';S.tripTab=nx.tab||'docs';render();}else render();return;}
+  var apk=e.target.closest('[data-apkind]');if(apk){var ch=apk.getAttribute('data-apkind')==='child';[].forEach.call(document.querySelectorAll('[data-apkind]'),function(b){b.setAttribute('aria-pressed',String(b===apk));});document.getElementById('ap-adult').hidden=ch;document.getElementById('ap-child').hidden=!ch;return;}
+  var ouu=e.target.closest('[data-ownunit]');if(ouu){var un=ouu.getAttribute('data-ownunit'),mem=paxOf(S.trip).filter(function(p){return p[5]===un;}).map(function(p){return p[0];}),bx=[].filter.call(document.querySelectorAll('[data-ownp]'),function(x){return mem.indexOf(x.value)>=0;}),on=!bx.every(function(x){return x.checked;});bx.forEach(function(x){x.checked=on;});var ps=document.querySelectorAll('[data-ownp]');document.querySelector('[data-ownall]').checked=[].every.call(ps,function(x){return x.checked;});return;}
+  var oo=e.target.closest('[data-ownopen]');if(oo){var di=+oo.getAttribute('data-ownopen');S.ownOpen=S.ownOpen===di?null:di;render();return;}
+  var sf=e.target.closest('[data-stf]');if(sf){S.stf=sf.getAttribute('data-stf');render();return;}
+  if(S.bell&&!e.target.closest('.npanel')&&!e.target.closest('[data-act="bell"]')){S.bell=false;render();}
+  var tnb=e.target.closest('[data-tn]');if(tnb){var tk=tnb.getAttribute('data-tn'),cv=(tnOv(S.trip)[tk]||S.notif[tk]);tnSet(S.trip,tk,[!cv[0],cv[1]]);render();toast((cv[0]?'כובה':'הופעל')+' בנסיעה הזו בלבד. בשאר הנסיעות: כמו בסוכנות');return;}
+  var nt=e.target.closest('[data-notif]');if(nt){var nk=nt.getAttribute('data-notif');S.notif[nk][0]=!S.notif[nk][0];render();toast('נשמר. חל על כל הנסיעות');return;}
+  var a=e.target.closest('[data-act]');if(!a)return;var k=a.getAttribute('data-act'),id=a.getAttribute('data-id');
+  if(k==='toast')toast(a.getAttribute('data-msg'));
+  else if(k==='ownclose'){S.ownOpen=null;render();}
+  else if(k==='ownsave'){var D=docsOf(S.trip),r=D[+id],prev=r[1],sel=[].map.call(document.querySelectorAll('[data-ownp]:checked'),function(x){return x.value;}),n=paxOf(S.trip).length;if(!sel.length){toast('צריך לבחור לפחות נוסע אחד');return;}r[1]=sel.length===n?'כולם':sel;S.ownOpen=null;render();var tk=S.trip;toast('נשמר: '+ownLabel(r[1],n)+(TRIPS[tk].st!=='draft'?'. מי שנוסף יקבל הודעה, ומי שהוסר כבר לא יראה את המסמך':''),function(){r[1]=prev;render();});}
+  else if(k==='photodel'){var pp=S.photo;S.photo=null;render();toast('התמונה הוסרה. הנוסעים יראו ראשי תיבות',function(){S.photo=pp;render();});}
+  else if(k==='bell'){S.bell=!S.bell;render();}
+  else if(k==='readall'){S.notifs.forEach(function(x){x.un=false;});render();}
+  else if(k==='travup'){S.travUp=!S.travUp;render();toast(S.travUp?'נוסעים יכולים להוסיף מסמכים ואטרקציות':'כבוי. הנוסעים יתבקשו לשלוח מסמכים דרכך');}
+  else if(k==='addpax'){openAddPax(a.getAttribute('data-unit'));}
+  else if(k==='savepax'){var g=function(x){return (document.getElementById(x).value||'').trim();};var nm=(g('ap-fn')+' '+g('ap-ln')).trim();if(!g('ap-fn')||!g('ap-ln')){toast('חסר שם פרטי או שם משפחה');return;}var child=document.querySelector('[data-apkind=child]').getAttribute('aria-pressed')==='true';var u=g('ap-unit');if(u==='__new'){u=g('ap-newu');if(!u){toast('צריך שם לקבוצה החדשה');document.getElementById('ap-newu').focus();return;}}var P=paxOf(S.trip);if(P.some(function(p){return p[0]===nm;})){toast(nm+' כבר בנסיעה');return;}var head=!child&&document.getElementById('ap-head').checked;if(head)P.forEach(function(p){if(p[5]===u)p[8]=false;});if(!P.some(function(p){return p[5]===u;})&&!child)head=true;var via=child?g('ap-via'):'';if(child&&!via){toast('ילד/ה צריך/ה מבוגר שמקבל בשבילו');return;}P.push([nm,'',child?'':g('ap-ph'),'—','—',u,child?'child':'adult',via,head]);TRIPS[S.trip].pax=Math.max(P.length,TRIPS[S.trip].paxN||0);closeModal();render();toast(nm+' נוסף/ה ל'+u+(child?', דרך '+via:(g('ap-ph')?'. בפרסום יקבל/תקבל משתמש לפי '+g('ap-ph'):'. חסר נייד, נדרש לפרסום')));}
+  else if(k==='undo'){if(undoFn)undoFn();undoFn=null;var t=document.querySelector('.toast');if(t)t.remove();}
+  else if(k==='help'){S.help=!S.help;render();}
+  else if(k==='big'){S.big=!S.big;save();render();}
+  else if(k==='simple'){S.simple=!S.simple;save();S.view='dash';render();}
+  else if(k==='pick'){fp.click();}
+  else if(k==='demo'){simulate(S.trip==='bcn'?['flight-update.pdf','IMG_5520.jpg','scan_0031.pdf','notes.docx']:['scan_0012.pdf','IMG_4471.jpg','booking (3).pdf']);}
+  else if(k==='upmiss'){resolveMiss(id,'קובץ לדוגמה.pdf');}
+  else if(k==='selfins'){var si=S.missing.findIndex(function(x){return x.id===id;}),sit=S.missing[si];S.missing.splice(si,1);TRIPS[sit.trip].ins='self';render();toast('סומן שהנוסע סגר ביטוח עצמאית. שלחנו לו בקשה להעלות את הפוליסה לתיק',function(){S.missing.splice(si,0,sit);TRIPS[sit.trip].ins='miss';render();});}
+  else if(k==='reqmiss'){var m=S.missing.filter(function(x){return x.id===id;})[0];m.st='req';render();toast('נשלחה ללקוח בקשה עם כפתור העלאה. תזכורת תישלח בעוד יומיים');}
+  else if(k==='namiss'){var i=S.missing.findIndex(function(x){return x.id===id;}),it=S.missing[i];S.missing.splice(i,1);TRIPS[it.trip].ins='na';render();toast('סומן שלא נדרש ביטוח בנסיעה הזו',function(){S.missing.splice(i,0,it);TRIPS[it.trip].ins='miss';render();});}
+  else if(k==='filterready'){openTrip('prg');}
+  else if(k==='exclook'||k==='excskip'){S.exc.shift();S.inbox.forEach(function(x){if(x.st==='w')x.st='ok';});render();toast(k==='exclook'?'אושר. שעת ההחזרה נכנסה לתיק, והתזכורת לנוסעים נוצרה':'השדה נשאר ריק. אפשר להשלים אחר כך',function(){S.exc.unshift('look');render();});}
+  else if(k==='flok'||k==='flno'){closeModal();S.notifs.forEach(function(x){if(x.act==='openfl')x.un=false;});S.exc=S.exc.filter(function(x){return x!=='flight';});S.inbox.forEach(function(x){if(x.st==='b'||x.st==='upd'){x.st='ok';x.why=k==='flok'?'העדכון אושר: המראה 07:25':'העדכון נדחה. נשארה השעה 06:10';}});if(k==='flok')TRIPS.bcn.pend++;render();toast(k==='flok'?'העדכון אושר. הנוסעים יקבלו הודעה, וההתראות חושבו מחדש':'העדכון נדחה. בתיק נשאר המידע הקודם');}
+  else if(k==='fllater'){closeModal();if(S.exc.indexOf('flight')<0)S.exc.push('flight');S.inbox.forEach(function(x){if(x.st==='upd')x.st='b';});render();toast('העדכון ממתין לך ב"לטיפול"');}
+  else if(k==='addfile'){var c=S.convs[S.conv],msg=c.msgs[+a.getAttribute('data-i')];msg.added=true;S.missing=S.missing.filter(function(x){return x.trip!=='bcn';});TRIPS.bcn.ins='ok';TRIPS.bcn.pend++;render();toast('הפוליסה נוספה לתיק ושובצה. ביטוח: יש פוליסה');}
+  else if(k==='publish'){openPublish();}
+  else if(k==='topax'){closeModal();S.tripTab='pax';render();}
+  else if(k==='dopublish'){var t=TRIPS[S.trip],first=t.st==='draft',cp=(document.querySelector('input[name=ch]:checked')||{}).value==='copy',rc=paxOf(S.trip).filter(function(p){return p[2];}).length;if(first){S.credits--;t.st='pub';}t.pend=0;closeModal();render();toast(first?(cp?'פורסם. '+rc+' קישורים הועתקו, ונוכה קרדיט אחד':'פורסם. '+rc+' נוסעים קיבלו קישור בערוצים שלהם, ונוכה קרדיט אחד'):'העדכונים פורסמו. הנוסעים קיבלו הודעה');}
+  else if(k==='openfl'){openFlight();}
+  else if(k==='saveeditpax'){var ek=a.getAttribute('data-k'),ei=+a.getAttribute('data-i'),EP=paxOf(ek),ep=EP[ei],gv=function(x){var el=document.getElementById(x);return el?el.value.trim():null;};var efn=gv('ep-fn'),eln=gv('ep-ln');if(!efn||!eln){toast('חסר שם פרטי או שם משפחה');return;}var eold=ep[0],enn=efn+' '+eln;ep[0]=enn;EP.forEach(function(c){if(c[7]===eold)c[7]=enn;});var eph=gv('ep-ph'),ephOld=ep[2];if(eph!==null)ep[2]=eph;var eu=gv('ep-unit');if(eu)ep[5]=eu;var ehd=document.getElementById('ep-head');if(ehd){if(ehd.checked)EP.forEach(function(x){if(x[5]===ep[5])x[8]=false;});ep[8]=ehd.checked;}closeModal();render();toast('הפרטים של '+enn+' עודכנו'+(eph&&eph!==ephOld&&TRIPS[ek].st!=='draft'?'. הקישור יישלח למספר החדש':''));}
+  else if(k==='report'){openReport();}
+  else if(k==='sendreport'){var rt=(document.getElementById('rp-t').value||'').trim();if(!rt){toast('צריך לכתוב מה קרה');document.getElementById('rp-t').focus();return;}var rn=S.tkSeq++,tk=S.view==='trip'&&S.trip?TRIPS[S.trip].id:'';S.tickets.unshift({n:rn,t:rt,trip:tk,st:'חדשה',at:'עכשיו'});closeModal();if(S.view==='settings')render();toast('קריאה #'+rn+' נפתחה ונשלחה לצוות PALAMI. נעדכן אותך בפעמון ובמייל');}
+  else if(k==='gopax'){S.trip=a.getAttribute('data-k');S.view='trip';S.tripTab='pax';S.openMiss=null;render();}
+  else if(k==='umenu'){S.umenu=!S.umenu;render();var fi=document.querySelector('.umenu .umi');if(fi)fi.focus();}
+  else if(k==='uprof'){S.umenu=false;go('settings');}
+  else if(k==='tnreset'){var rk=a.getAttribute('data-k'),prv=tnOv(S.trip)[rk];delete tnOv(S.trip)[rk];render();toast('חזר לברירת המחדל של הסוכנות',function(){tnOv(S.trip)[rk]=prv;render();});}
+  else if(k==='tnresetall'){var bk=JSON.parse(JSON.stringify(tnOv(S.trip))),tkk=S.trip;S.tripNotif[tkk]={};render();toast('כל ההתראות בנסיעה הזו חזרו להגדרות הסוכנות',function(){S.tripNotif[tkk]=bk;render();});}
+  else if(k==='rolesw'){S.role=S.role==='sup'?'agent':'sup';S.umenu=false;render();toast(S.role==='sup'?'עכשיו את רואה כמנהלת סוכנות: גם הגדרות הסוכנות':'עכשיו את רואה כסוכנת: רק "ההגדרות שלי"');}
+  else if(k==='ldocv'){openDoc(a.getAttribute('data-d'));}
+  else if(k==='ldclose'){closeModal();}
+  else if(k==='lfsave'){[].forEach.call(document.querySelectorAll('[data-lf]'),function(x){S.legalF[x.getAttribute('data-lf')]=x.value.trim();});toast('נשמר. שלושת המסמכים מתעדכנים לכל הנוסעים של הסוכנות');}
+  else if(k==='postsave'){var pv2=document.getElementById('postv');if(pv2){S.postMsg=pv2.value.trim()||S.postMsg;}render();toast('נשמר. הנוסעים יראו את ההודעה אחרי החזרה');}
+  else if(k==='exclater'){toast('נשאר ב"לטיפול". הרכב לא יופיע לנוסעים עד שתשלימי את שעת ההחזרה');}
+  else if(k==='logout'){S.umenu=false;S.bell=false;S.out=true;S.loggedOutMsg=true;closeModal();render();window.scrollTo(0,0);var em=document.getElementById('lg-em');if(em)em.focus();}
+  else if(k==='demologin'){S.out=false;S.loggedOutMsg=false;S.view='dash';S.trip=null;render();toast('נכנסת בתור רונית לוי');}
+  else if(k==='mkt'){S.mkt=!S.mkt;S.mktLog=(S.mkt?'סומן על ידי רונית':'בוטל על ידי רונית')+' · היום';render();toast(S.mkt?'סומן: דנה הסכימה לקבל הצעות. תקבל את "שומרים על קשר"':'דנה לא תקבל הצעות ואת "שומרים על קשר"');}
+  else if(k==='ownpol'){S.ownPolicy=!S.ownPolicy;render();toast(S.ownPolicy?'מעכשיו הנוסעים יראו את המדיניות שלכם':'הנוסעים יראו שוב את התבנית של PALAMI');}
+  else if(k==='unplug'){toast('דנה נותקה מכל המכשירים. בכניסה הבאה: נייד, סיסמה וקוד לנייד',function(){toast('הניתוק בוטל');});}
+  else if(k==='threadback'){S.mThread=false;render();}
+  else if(k==='tipssave'){S.tips=document.getElementById('tipsv').value.trim();S.tipsDest=document.getElementById('tipsdest').checked;toast(S.tipsDest?'נשמר. הנוסעים רואים את הטיפים, והם יופיעו גם בנסיעות הבאות לאותו יעד':'נשמר. הנוסעים רואים את הטיפים בלשונית "מידע"');}
+  else if(k==='pkadd'){var pv=(document.getElementById('pkv').value||'').trim();if(!pv){toast('מה להוסיף?');return;}S.pack.push(['p'+Date.now(),pv,'רונית']);render();toast('נוסף לרשימת האריזה של הנוסעים');}
+  else if(k==='pkdel'){var pi=S.pack.findIndex(function(x){return x[0]===id;});if(pi>=0){var pr=S.pack.splice(pi,1)[0];render();toast('הוסר מהרשימה',function(){S.pack.splice(pi,0,pr);render();});}}
+  else if(k==='hrsame'){S.hrOwn=false;render();toast('השעות שלך: כמו שעות הסוכנות');}
+  else if(k==='hrown'){S.hrOwn=true;render();}
+  else if(k==='ephon'){S.ePhoneOn=!S.ePhoneOn;render();toast(S.ePhoneOn?'הנייד יוצג לנוסעים בזמן נסיעה פעילה':'הנייד הוסר. יירד מהמכשירים בסנכרון הבא');}
+  else if(k==='copyid'){try{navigator.clipboard.writeText('HDR-C-00123').catch(function(){});}catch(_){}toast('המזהה הועתק: HDR-C-00123');}
+  else if(k==='chaton'){S.chatOn=(S.chatOn===false);render();toast(S.chatOn?'הצ\'אט פעיל ללקוחות':'הצ\'אט כבוי. הלקוחות רואים רק טלפון ו־WhatsApp');}
+  else if(k==='newtrip'){openNewTrip();}
+  else if(k==='newtripdana'){S.prefill={fn:"דנה",ln:"כהן",ph:"050-555-4417",em:"dana@example.com"};openNewTrip();}
+  else if(k==='createtrip'){var g=function(x){var el=document.getElementById(x);return el?el.value.trim():'';};var fn=g('nt-fn')||'לקוח',ln=g('nt-ln'),ph=g('nt-ph'),de=g('nt-d')||'יעד',d1=g('nt-d1'),d2=g('nt-d2');if(!ph){toast('חסר מספר נייד. זה המזהה של הלקוח');return;}if(!d1||!d2){var bad=document.getElementById(d1?'nt-d2':'nt-d1');bad.setAttribute('aria-invalid','true');bad.style.borderColor='var(--bad)';bad.focus();toast('תאריכי יציאה וחזרה הם חובה בפתיחת תיק');return;}if(d2<d1){toast('תאריך החזרה לפני תאריך היציאה');return;}var fd=function(x){var p=x.split('-');return +p[2]+'/'+(+p[1]);};var tp=(document.querySelector('input[name="nt-t"]:checked')||{}).value||'זוג';var pn=parseInt(g('nt-n'),10);if(!pn||pn<1){var bn=document.getElementById('nt-n');bn.style.borderColor='var(--bad)';bn.focus();toast('צריך לכתוב כמה נוסעים');return;}var id='HDR-2610-00'+seq,key='n'+seq;seq++;TRIPS[key]={type:tp==='קבוצה'?'קבוצה מאורגנת':tp,id:id,name:de+' · '+fn+' '+ln,dates:fd(d1)+'–'+fd(d2),dep:'—',pax:pn,paxN:pn,st:'draft',ins:'later',ready:[0,0],pend:0};PAX[key]=[[fn+' '+ln,'ראשי',ph,'—','—',ln?'משפחת '+ln:fn,'adult','',true]];S.newCust=(S.newCust||[]).concat([[fn+' '+ln,'HDR-C-00'+(200+seq),ph,de,1,'Push · אימייל','']]);closeModal();openTrip(key);toast('נפתחו לקוח ותיק '+id+'. עכשיו גוררים לתוכו את המסמכים');}
+  else if(k==='move'){var it=S.inbox.filter(function(x){return x.id===id;})[0];var to=it.other||'tbs';it.trip=to;it.st='ok';it.why='הועבר מתיק אחר ושובץ';render();toast('המסמך הועבר לתיק '+TRIPS[to].id+' ('+TRIPS[to].name+')');}
+  else if(k==='keep'){var it2=S.inbox.filter(function(x){return x.id===id;})[0];it2.st='ok';it2.why='אושר ידנית ושובץ בתיק';render();}
+  else if(k==='close'){closeModal();}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.id==='q'){var v=e.target.value.trim();var hit=Object.keys(TRIPS).filter(function(k){return TRIPS[k].id.indexOf(v.toUpperCase())>=0||TRIPS[k].name.indexOf(v)>=0;});if(v&&hit.length===1){openTrip(hit[0]);}else{go('trips');toast(hit.length?hit.length+' תיקים מתאימים':'לא נמצא תיק. אפשר לחפש לפי מזהה, למשל HDR-2609-0031');}return;}if(e.key==='Enter'){var tr=e.target.closest&&e.target.closest('tr[data-trip]');if(tr)openTrip(tr.getAttribute('data-trip'));}if(e.key==='Escape')closeModal();});
+document.addEventListener('change',function(e){if(e.target.id==='rp-f'){var rf=e.target.files&&e.target.files[0];document.getElementById('rp-fn').textContent=rf?rf.name:'לא חובה';return;}if(e.target.hasAttribute&&e.target.hasAttribute('data-hr')){S[e.target.getAttribute('data-hr')]=e.target.value;toast('שעות הזמינות עודכנו');return;}if(e.target.id==='retsel'){S.ret=e.target.value;render();toast('תקופת השמירה עודכנה: '+S.ret+' חודשים אחרי החזרה');return;}if(e.target.id==='ephone'){S.ePhone=e.target.value.trim();toast('הנייד לחירום נשמר');return;}if(e.target.id==='ap-unit'){document.getElementById('ap-newu-l').hidden=e.target.value!=='__new';if(e.target.value==='__new')document.getElementById('ap-newu').focus();return;}if(e.target.id==='photoin'){var fl=e.target.files&&e.target.files[0];if(!fl)return;if(!/^image\//.test(fl.type)){toast('אפשר להעלות רק תמונה');return;}if(fl.size>5*1024*1024){toast('התמונה גדולה מ־5MB');return;}var rd=new FileReader();rd.onload=function(){S.photo=rd.result;render();toast('התמונה עודכנה. הנוסעים יראו אותה מעכשיו');};rd.readAsDataURL(fl);return;}if(e.target.hasAttribute&&e.target.hasAttribute('data-ownall')){[].forEach.call(document.querySelectorAll('[data-ownp]'),function(x){x.checked=e.target.checked;});return;}if(e.target.hasAttribute&&e.target.hasAttribute('data-ownp')){var ps=document.querySelectorAll('[data-ownp]'),c=[].filter.call(ps,function(x){return x.checked;}).length;document.querySelector('[data-ownall]').checked=c===ps.length;return;}var tns=e.target.getAttribute&&e.target.getAttribute('data-tnsel');if(tns){var cv2=(tnOv(S.trip)[tns]||S.notif[tns]);tnSet(S.trip,tns,[cv2[0],e.target.value]);render();toast('נשמר לנסיעה הזו בלבד');return;}var s=e.target.getAttribute&&e.target.getAttribute('data-notifsel');if(s){S.notif[s][1]=e.target.value;toast('נשמר. חל על כל הנסיעות');}});
+document.addEventListener('submit',function(e){if(e.target.id!=='composer')return;e.preventDefault();var r=document.getElementById('reply'),t=r.value.trim();if(!t)return;S.convs[S.conv].msgs.push({me:true,t:t,at:'עכשיו'});render();toast('נשלח. הלקוח יקבל התראה');});
+function openPublish(){var t=TRIPS[S.trip],first=t.st==='draft',m=missFor(S.trip);var o=document.createElement('div');o.className='overlay';o.id='modal';
+  var P=paxOf(S.trip),noC=P.filter(function(p){return !p[2]&&p[6]!=='child';}),rec=P.filter(function(p){return p[2];}).length,nd=docsOf(S.trip).length||t.ready[0];
+  o.innerHTML='<div class="modal pub" role="dialog" aria-modal="true" aria-labelledby="mt"><div class="mh"><span class="sm muted">'+(first?'פרסום ראשון':'עדכון')+' · <span class="mono">'+t.id+'</span></span><h2 id="mt">'+(first?'לפרסם את '+t.name+'?':'לפרסם '+t.pend+' עדכונים?')+'</h2></div><div class="mb">'
+   +'<div class="sumg"><div><b>'+rec+'</b><span>נוסעים יקבלו קישור</span></div><div><b>'+(first?nd:t.pend)+'</b><span>'+(first?'מסמכים':'עדכונים')+'</span></div><div><b>'+(first?'1':'0')+'</b><span>'+(first?'קרדיט · יישארו '+(S.credits-1):'קרדיטים. עדכון בחינם')+'</span></div></div>'
+   +(first?'<div class="banner ok"><b>מה הנוסעים יראו</b><div class="see"><span class="pill ok">לו״ז</span><span class="pill ok">מסמכים</span><span class="pill ok">מזג אוויר</span><span class="pill ok">חירום</span><span class="pill ok">טיפים ורשימת אריזה</span>'+(S.chatOn!==false?'<span class="pill ok">צ\'אט</span>':'')+'</div><span class="sm">כל נוסע משויך למשתמש לפי הנייד שלו ונכנס עם נייד וסיסמה.</span></div>':'<div class="banner info"><b>מה השתנה</b><span>שעת הטיסה עודכנה, ונוספו מסמכים חדשים.</span></div>')
+   +(noC.length?'<div class="banner warn"><b>ל'+noC.map(function(p){return p[0];}).join(', ')+' אין נייד או אימייל</b><span>'+(noC.length>1?'הם לא יקבלו':'הוא לא יקבל')+' קישור עד שתוסיפי. אפשר לפרסם עכשיו ולהשלים אחר כך.</span><button class="btn s" style="justify-self:start" data-act="topax">השלמה בלשונית נוסעים</button></div>':'')
+   +(t.ins==='miss'?'<div class="banner warn"><b>אין פוליסת ביטוח בתיק</b><span>אפשר לפרסם. אם הנוסע סגר ביטוח לבד, הוא יוכל להעלות את הפוליסה מהאפליקציה.</span></div>':'')
+   +'<fieldset class="chan"><legend>איך לשלוח</legend><label><input type="radio" name="ch" value="pref" checked><b>לפי ההעדפות של כל נוסע</b><span class="xs muted">Push, WhatsApp או אימייל, כמו שכל נוסע בחר</span></label><label><input type="radio" name="ch" value="copy"><b>רק להעתיק קישורים</b><span class="xs muted">ואני אשלח בעצמי</span></label></fieldset>'
+   +'<span class="xs muted">בפרסום את מאשרת שבדקת את פרטי הנסיעה. הנוסעים יראו אותם כפי שהם בתיק.</span></div><div class="mf"><button class="btn pri" data-act="dopublish">'+(first?'פרסמי ושלחי':'פרסמי עדכונים')+'</button><button class="btn ghost" data-act="close">ביטול</button></div></div>';
+  document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});o.querySelector('[data-act="dopublish"]').focus();}
+function openNewTrip(){var o=document.createElement('div');o.className='overlay';o.id='modal';o.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="nt" style="max-width:760px"><h2 id="nt">תיק נסיעה חדש</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px"><div style="display:grid;gap:8px;align-content:start"><b class="sm">1 · לקוח</b><div class="row nw"><input class="inp" id="nt-fn" placeholder="שם פרטי" aria-label="שם פרטי" value="'+((S.prefill||{}).fn||"יעל")+'"><input class="inp" id="nt-ln" placeholder="שם משפחה" aria-label="שם משפחה" value="'+((S.prefill||{}).ln||"אברהם")+'"></div><input class="inp mono" id="nt-ph" placeholder="נייד" aria-label="נייד" value="'+((S.prefill||{}).ph||"054-555-2290")+'"><input class="inp" id="nt-em" placeholder="אימייל" aria-label="אימייל" value="'+((S.prefill||{}).em||"yael.a@example.com")+'"><span class="xs muted">נייד שכבר קיים יציע את הלקוח הקיים. ערוצי עדכון: Push ואימייל (אפשר לשנות בכרטיס הלקוח)</span></div><div style="display:grid;gap:8px;align-content:start"><b class="sm">2 · נסיעה</b><input class="inp" id="nt-d" placeholder="יעד" aria-label="יעד" value="ליסבון"><fieldset style="border:0;padding:0;margin:0;display:flex;gap:12px;flex-wrap:wrap"><legend class="xs muted" style="padding:0;margin-bottom:4px">מי נוסע</legend><label><input type="radio" name="nt-t" value="יחיד"> יחיד</label><label><input type="radio" name="nt-t" value="זוג" checked> זוג</label><label><input type="radio" name="nt-t" value="משפחה"> משפחה</label><label><input type="radio" name="nt-t" value="קבוצת חברים"> חברים</label><label><input type="radio" name="nt-t" value="קבוצה"> קבוצה מאורגנת</label></fieldset><div class="row nw"><label class="sm" style="flex:1;display:grid;gap:4px">יציאה *<input class="inp" type="date" id="nt-d1" required aria-required="true" value="2026-12-03"></label><label class="sm" style="flex:1;display:grid;gap:4px">חזרה *<input class="inp" type="date" id="nt-d2" required aria-required="true"></label></div><label class="sm" style="display:grid;gap:4px;max-width:200px">מספר נוסעים * <span class="xs muted" style="font-weight:400">כולל ילדים</span><input class="inp mono" type="number" min="1" max="99" id="nt-n" value="2" aria-required="true"></label><span class="xs muted">שותפי נסיעה מוסיפים אחרי הפתיחה, בלשונית "נוסעים".</span><div class="banner info"><b>מזהה התיק: <span class="mono">HDR-2610-00'+seq+'</span></b><span>נשמר לכל חיי התיק.</span></div></div></div><div class="row" style="justify-content:flex-end"><button class="btn ghost" data-act="close">ביטול</button><button class="btn pri" data-act="createtrip">פתיחה והעלאת מסמכים</button></div></div>';document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});S.prefill=null;document.getElementById('nt-d').focus();}
+function openEditPax(k,i){var P=paxOf(k),p=P[i];if(!p)return;var U=unitsOf(k),ch=p[6]==='child',nm=p[0].split(' ');var o=document.createElement('div');o.className='overlay';o.id='modal';
+  o.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="ep" style="max-width:620px"><h2 id="ep">עריכת פרטי נוסע</h2><div class="fgrid"><label>שם פרטי *<input class="inp" id="ep-fn" value="'+esc(nm[0])+'"></label><label>שם משפחה *<input class="inp" id="ep-ln" value="'+esc(nm.slice(1).join(' '))+'"></label></div>'
+   +(ch?'<span class="sm muted">ילד/ה בלי טלפון. מקבל/ת את הכול דרך '+esc(p[7])+'</span>':'<div class="fgrid"><label>נייד או אימייל <span class="muted" style="font-weight:400">(חובה לפרסום)</span><input class="inp mono" id="ep-ph" value="'+esc(p[2]||'')+'" placeholder="050-000-0000"></label><label style="align-self:end;display:flex;gap:8px;align-items:center;min-height:44px;font-weight:500"><input type="checkbox" id="ep-head"'+(p[8]?' checked':'')+' style="width:20px;height:20px;accent-color:var(--acc)"> ראש הקבוצה</label></div>')
+   +'<div class="fgrid"><label>קבוצה<select class="inp" id="ep-unit">'+U.map(function(u){return '<option'+(u===p[5]?' selected':'')+'>'+esc(u)+'</option>';}).join('')+'</select></label></div>'
+   +(TRIPS[k].st!=='draft'?'<span class="xs muted">הנסיעה כבר פורסמה. נייד חדש יקבל קישור, והנייד הקודם כבר לא ישמש לכניסה.</span>':'')
+   +'<div class="row" style="justify-content:flex-start;border-top:1px solid var(--line);padding-top:14px"><button class="btn pri" data-act="saveeditpax" data-k="'+k+'" data-i="'+i+'">שמירה</button><button class="btn ghost" data-act="close">ביטול</button></div></div>';
+  document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});var f=document.getElementById(!ch&&!p[2]?'ep-ph':'ep-fn');if(f)f.focus();}
+function openReport(){closeModal();var tk=S.view==='trip'&&S.trip?TRIPS[S.trip]:null;var o=document.createElement('div');o.className='overlay';o.id='modal';
+  o.innerHTML='<div class="modal" role="dialog" aria-modal="true" aria-labelledby="rp" style="max-width:600px"><h2 id="rp">דיווח על תקלה</h2><span class="sm muted">הקריאה מגיעה ישר לצוות PALAMI. נעדכן אותך בפעמון ובמייל.</span>'
+   +'<label class="sm" style="display:grid;gap:4px;font-weight:600">מה קרה? *<textarea class="inp" id="rp-t" placeholder="למשל: העליתי PDF של אישור טיסה והוא לא נקלט"></textarea></label>'
+   +'<div class="row"><label class="btn s" style="cursor:pointer">'+ic('up')+'צירוף צילום מסך<input type="file" accept="image/*" class="fileinput" id="rp-f"></label><span class="xs muted" id="rp-fn">לא חובה</span></div>'
+   +'<div class="banner info"><b>נשלח איתה לבד</b><span class="sm">המסך שבו את נמצאת, הדפדפן והמכשיר, השם שלך'+(tk?', ומזהה התיק <span class="mono">'+tk.id+'</span>':'')+'.</span></div>'
+   +'<div class="row" style="justify-content:flex-start;border-top:1px solid var(--line);padding-top:14px"><button class="btn pri" data-act="sendreport">שליחה</button><button class="btn ghost" data-act="close">ביטול</button></div></div>';
+  document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});document.getElementById('rp-t').focus();}
+function closeModal(){var m=document.getElementById('modal');if(m)m.remove();}
+document.addEventListener('input',function(e){if(e.target&&e.target.id==='postv'){var pp=document.getElementById('postprev');if(pp)pp.textContent=postPrev(e.target.value);}});
+render();
+})();
+</script>
+
+
+</body></html>

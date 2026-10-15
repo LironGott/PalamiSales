@@ -1,0 +1,655 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PALAMI Brand Book</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a single reading column (max 1080) of numbered brand chapters; specimens sit on their own fixed grounds. */
+:root{
+  --bg:#FEFEFC; --surface:#FFFFFF; --surface-2:#F7F6F2; --line:#E2DED5;
+  --ink:#16241D; --muted:#5C5951; --brand:#08402A; --brand-soft:#EEF6F1;
+  --accent:#C37237; --accent-text:#A85C28; --accent-soft:#F9E2C5;
+  --ok:#33704F; --bad:#B91C3C;
+  --item-bg:#FBF3E3; --item-icon:#08402A; --check:#5E9677; --check-pending:#A9C7B5;
+  --f-d:"Rubik","Assistant","Segoe UI",Arial,sans-serif;
+  --f-b:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
+  --f-m:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1712; --surface:#13211A; --surface-2:#1A2B22; --line:#26392F;
+  --ink:#E8EDE9; --muted:#9AA79F; --brand:#74B590; --brand-soft:#14291F;
+  --accent:#D4884A; --accent-text:#E5A570; --accent-soft:#33241A; --ok:#6DC08F; --bad:#F08A80; --item-bg:#1F2A21; --item-icon:#A9D3B9; --check:#5E9677; --check-pending:#3F5A4B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1712; --surface:#13211A; --surface-2:#1A2B22; --line:#26392F;
+  --ink:#E8EDE9; --muted:#9AA79F; --brand:#74B590; --brand-soft:#14291F;
+  --accent:#D4884A; --accent-text:#E5A570; --accent-soft:#33241A; --ok:#6DC08F; --bad:#F08A80; --item-bg:#1F2A21; --item-icon:#A9D3B9; --check:#5E9677; --check-pending:#3F5A4B; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.65;direction:rtl}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:20px;padding-block:0 80px}
+h1,h2,h3{font-family:var(--f-d);line-height:1.2;text-wrap:balance;margin:0}
+h2{font-size:clamp(28px,4vw,38px);font-weight:700;color:var(--brand)}
+h3{font-size:20px;font-weight:600}
+p{margin:0;max-width:66ch}
+code,.mono{font-family:var(--f-m);font-size:.86em;direction:ltr;unicode-bidi:isolate}
+.muted{color:var(--muted)}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+/* hero (fixed specimen ground) */
+.hero{background:#FEFEFC;color:#08402A;border-bottom:1px solid #E2DED5;padding:40px 20px 36px;margin-bottom:56px}
+.hero-in{max-width:1040px;margin:0 auto;display:grid;gap:28px}
+.hero img{width:min(760px,100%);display:block;margin-inline:auto}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px 24px;justify-content:space-between;align-items:end;border-top:1px solid #E2DED5;padding-top:18px;font-size:15px;color:#5C5951}
+.hero-meta b{font-family:var(--f-d);color:#08402A;font-size:22px;font-weight:700;display:block}
+
+/* toc */
+.toc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:56px}
+.toc a{font-size:15px;text-decoration:none;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);padding:6px 14px;border-radius:999px}
+.toc a:hover,.toc a:focus-visible{border-color:var(--accent);color:var(--accent-text);outline:none}
+
+section{display:grid;gap:22px;padding-block:48px;border-top:1px solid var(--line)}
+.sh{display:grid;gap:10px}
+.eyebrow{font-family:var(--f-m);font-size:13px;letter-spacing:.06em;color:var(--accent-text);direction:ltr;text-align:right}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr))}
+
+/* specimen tiles */
+.spec{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);display:grid;grid-template-rows:auto 1fr}
+.spec .stage{display:grid;place-items:center;padding:28px;min-height:200px}
+.spec .stage img{max-height:170px;width:auto;max-width:100%}
+.spec .cap{padding:12px 16px;display:grid;gap:2px;border-top:1px solid var(--line);font-size:15px}
+.spec .cap code{color:var(--muted);font-size:12.5px;word-break:break-all}
+.on-paper{background:#FEFEFC}.on-green{background:#08402A}.on-cream{background:#F9E2C5}.on-ink{background:#0C1712}
+.checker{background-color:#FFFFFF;background-image:conic-gradient(#E9E6DF 25%,transparent 0 50%,#E9E6DF 0 75%,transparent 0);background-size:20px 20px}
+
+/* clear space */
+.clear{background:#FEFEFC;border:1px solid var(--line);border-radius:18px;padding:28px;display:grid;place-items:center}
+.clear-box{position:relative;outline:1.5px dashed #C37237;padding:5.2%;width:min(560px,100%)}
+.clear-box img{display:block;width:100%;outline:1px solid rgba(8,64,42,.25)}
+.clear-box .x{position:absolute;top:0;inset-inline-start:0;width:5.2%;aspect-ratio:1;background:rgba(195,114,55,.25);display:grid;place-items:center;font:600 12px var(--f-m);color:#87481F}
+
+/* don'ts */
+.dont .stage{min-height:150px}
+.dont .stage img{max-height:110px}
+.dont .cap b{color:var(--bad)}
+.d-stretch img{transform:scaleX(1.45)}
+.d-rotate img{transform:rotate(-12deg)}
+.d-recolor img{filter:hue-rotate(150deg) saturate(1.4)}
+.d-fx img{filter:drop-shadow(0 0 10px #f0c000) drop-shadow(4px 6px 0 #C37237)}
+.d-busy{background:repeating-linear-gradient(45deg,#C37237 0 14px,#F9E2C5 14px 28px,#3F8F64 28px 42px)}
+.d-contrast{background:#0F5636}
+
+/* colors */
+.core{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.sw{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.sw .chip{height:140px;padding:16px;display:flex;align-items:flex-end;font-family:var(--f-d);font-weight:700;font-size:20px}
+.sw .meta{padding:12px 16px;display:grid;gap:4px;font-size:14px}
+.sw .meta div{display:flex;justify-content:space-between;gap:10px}
+.sw .meta code{font-size:12.5px}
+.scale{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+.scale div{height:78px;padding:8px;display:flex;flex-direction:column;justify-content:flex-end;font:500 11px/1.35 var(--f-m);direction:ltr}
+.scale-label{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:8px}
+.ratio{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.bar{display:flex;height:22px;border-radius:999px;overflow:hidden;width:min(520px,100%);border:1px solid var(--line)}
+.bar span{display:block;height:100%}
+
+table{border-collapse:collapse;width:100%;font-size:15px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+th,td{text-align:right;padding:10px 14px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-family:var(--f-d);font-weight:600;font-size:14px;color:var(--muted);background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+td .pair{display:inline-flex;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:8px;font-weight:700;font-family:var(--f-d)}
+.pass{color:var(--ok);font-weight:700}.fail{color:var(--bad);font-weight:700}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--f-m);direction:ltr;text-align:left}
+
+/* type */
+.type-card{border:1px solid var(--line);border-radius:18px;padding:22px;background:var(--surface);display:grid;gap:10px;min-width:0}
+.type-card .big{font-size:52px;line-height:1.05;color:var(--brand)}
+.tscale{display:grid;gap:6px}
+.tscale .row{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:baseline;border-bottom:1px dashed var(--line);padding-block:8px}
+.tscale .row code{color:var(--muted);font-size:12px}
+.tscale .row span{min-width:0;overflow-wrap:anywhere}
+
+/* home screen mock */
+.phones{display:flex;flex-wrap:wrap;gap:28px;justify-content:center;align-items:flex-start}
+.phone{width:250px;max-width:100%;border-radius:38px;padding:10px;background:#1B1A17;box-shadow:0 18px 40px rgba(8,64,42,.18)}
+.screen{border-radius:30px;overflow:hidden;aspect-ratio:9/19;position:relative;padding:44px 16px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px 10px;align-content:start}
+.ios{background:linear-gradient(160deg,#3F8F64,#0F5636 55%,#041F15)}
+.android{background:linear-gradient(200deg,#E5A570,#87481F 60%,#2D2C28)}
+.app{display:grid;justify-items:center;gap:4px;font-size:10px;color:#FFFFFF;text-shadow:0 1px 2px rgba(0,0,0,.4)}
+.app i{display:block;width:44px;height:44px;border-radius:11px;background:rgba(255,255,255,.22)}
+.app img{width:44px;height:44px;border-radius:11px;display:block}
+.android .app img,.android .app i{border-radius:50%}
+.phone-cap{color:var(--muted);font-size:14px;text-align:center;margin-top:10px}
+.tabbar{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface-2);max-width:520px}
+.tabs{display:flex;gap:2px;padding:8px 8px 0;background:var(--surface-2)}
+.tab{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:10px 10px 0 0;background:var(--surface);font-size:13px;min-width:0}
+.tab img{width:16px;height:16px}
+.tab.dim{background:transparent;color:var(--muted)}
+.urlbar{background:var(--surface);padding:10px 14px;font:500 13px var(--f-m);color:var(--muted);direction:ltr;text-align:left;border-top:1px solid var(--line)}
+.fav-sizes{display:flex;gap:18px;align-items:end;flex-wrap:wrap}
+.fav-sizes figure{margin:0;display:grid;justify-items:center;gap:6px;font:500 12px var(--f-m);color:var(--muted)}
+
+/* UI kit (uses brand tokens of this page) */
+.kit{border:1px solid var(--line);border-radius:18px;padding:22px;background:var(--surface-2);display:grid;gap:18px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:600 16px var(--f-b);min-height:44px;padding:0 20px;border-radius:12px;border:1.5px solid transparent;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn.pri{background:var(--brand);color:var(--bg)}
+.btn.sec{background:transparent;color:var(--brand);border-color:var(--brand)}
+.btn.soft{background:var(--brand-soft);color:var(--brand)}
+.btn.acc{background:var(--accent-soft);color:var(--accent-text)}
+.btn:focus-visible{outline:none;box-shadow:0 0 0 3px rgba(195,114,55,.55)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip-s{font:600 13px var(--f-b);padding:4px 12px;border-radius:999px}
+.c-ok{background:#E6F0EA;color:#33704F}.c-warn{background:#FBF1D6;color:#8A5F00}.c-bad{background:#FCE8EC;color:#B91C3C}.c-info{background:#E4EEF8;color:#1D5FA8}
+.dot{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:-2px;margin-inline-end:8px}
+.flight{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;display:grid;gap:14px;max-width:420px;box-shadow:0 4px 12px rgba(8,64,42,.08)}
+.flight .top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.flight .route{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;direction:ltr}
+.flight .route b{font:700 30px var(--f-d);color:var(--ink);display:block}
+.flight .route small{color:var(--muted);font-size:13px}
+.flight .route .mid{display:flex;align-items:center;gap:6px;color:var(--accent)}
+.flight .route .mid span{height:2px;width:46px;background:var(--line)}
+.flight .route .mid i{width:9px;height:9px;border-radius:50%;background:var(--accent);display:block}
+.flight .foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:14px;color:var(--muted);border-top:1px dashed var(--line);padding-top:12px}
+.tokens-row{display:flex;flex-wrap:wrap;gap:14px;align-items:end}
+.tokens-row figure{margin:0;display:grid;gap:6px;justify-items:center;font:500 12px var(--f-m);color:var(--muted)}
+.r-demo{width:64px;height:64px;background:var(--brand-soft);border:1.5px solid var(--brand)}
+.s-demo{width:84px;height:56px;background:var(--surface);border-radius:12px}
+
+/* signature: trip item (from the beaver's phone) */
+.sig{display:grid;grid-template-columns:minmax(0,230px) 1fr;gap:36px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px}
+.sig-body{display:grid;gap:18px;min-width:0}
+@media (max-width:720px){.sig{grid-template-columns:1fr;justify-items:center;padding:20px}.sig-body{justify-self:stretch}}
+.sig-phone{direction:ltr;width:210px;max-width:100%;border:7px solid #08402A;border-radius:34px;background:#FAFAF7;padding:34px 14px 26px;display:grid;gap:12px;position:relative;transform:rotate(4deg);box-shadow:0 18px 36px rgba(8,64,42,.16)}
+.sig-phone .notch{position:absolute;top:11px;left:50%;width:54px;height:9px;border-radius:9px;background:#08402A;transform:translateX(-50%)}
+.ti{display:flex;align-items:center;gap:12px;min-height:64px;padding:12px 16px;background:var(--item-bg);border-radius:14px}
+.ti-i{flex:none;width:32px;height:32px;color:var(--item-icon)}
+.ti-i svg{width:100%;height:100%;fill:currentColor;display:block}
+.ti-t{flex:1;min-width:0;display:grid;line-height:1.3}
+.ti-t b{font:600 18px var(--f-d)}
+.ti-t small{color:var(--muted);font-size:14px}
+.ti-c{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center}
+.ti.done .ti-c{background:var(--check)}
+.ti.done .ti-c::after{content:"";width:12px;height:7px;border:solid #FFFFFF;border-width:0 0 2.6px 2.6px;border-radius:1px;transform:translateY(-2px) rotate(-45deg)}
+.ti.pending .ti-c{border:2.4px dashed var(--check-pending)}
+.ti.attn .ti-c{background:#C37237}
+.ti.attn .ti-c::after{content:"!";color:#FFFFFF;font:800 17px/1 var(--f-d)}
+.sig-phone .ti{background:#FBF3E3;justify-content:space-between;min-height:70px;padding:12px 14px}
+.sig-phone .ti-i{width:48px;height:48px;color:#08402A}
+.sig-phone .ti-c{width:34px;height:34px}
+.sig-phone .ti.done .ti-c{background:#5E9677}
+.ti-list{display:grid;gap:10px;max-width:440px}
+
+/* three systems (fixed specimen grounds) */
+.sys3{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr))}
+.sys{display:grid;gap:12px;align-content:start}
+.sys figcaption{display:grid;gap:4px;font-size:15px}
+.sys figcaption code{font-size:12.5px;color:var(--muted)}
+.sys-stage{border-radius:16px;overflow:hidden;border:1px solid var(--line);min-height:300px;font-size:13px;color:#16211C}
+.s-agent{background:#F4F6F4;display:grid;align-content:start;gap:10px;padding-bottom:12px}
+.sa-top{display:flex;justify-content:space-between;align-items:center;background:#FFFFFF;border-bottom:1px solid #DEE3DF;padding:10px 12px}
+.sa-top img{height:16px}
+.sa-top span{font-size:12px;color:#545D58}
+.sa-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-inline:12px}
+.sa-tiles div{background:#FFFFFF;border:1px solid #DEE3DF;border-radius:8px;padding:8px 10px;display:grid;position:relative}
+.sa-tiles b{font:700 20px var(--f-d)}
+.sa-tiles small{color:#545D58;font-size:11.5px}
+.sa-tiles i{position:absolute;top:10px;inset-inline-end:10px;width:8px;height:8px;border-radius:50%}
+.sa-tbl{margin-inline:12px;background:#FFFFFF;border:1px solid #DEE3DF;border-radius:8px;overflow:hidden}
+.sa-row{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid #ECEFEC;font-size:12px}
+.sa-row:last-child{border-bottom:0}
+.sa-row .mono{font-family:var(--f-m);font-size:11px;color:#545D58}
+.sa-row em{font-style:normal;font-weight:600;font-size:11px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.r-bad{box-shadow:inset -3px 0 0 #B91C3C}.r-warn{box-shadow:inset -3px 0 0 #C28A0E}
+.s-trav{background:#FBF8F2;padding:14px;display:grid;gap:10px;align-content:start;--item-bg:#FBF3E3;--item-icon:#08402A;--check:#5E9677;--muted:#5C5951}
+.st-hi{display:flex;justify-content:space-between;align-items:center;background:#08402A;color:#FFFFFF;border-radius:20px;padding:12px 14px}
+.st-hi small{display:block;color:#D5EADD;font-size:12px}
+.st-hi b{font:700 20px var(--f-d)}
+.st-hi img{width:58px;height:58px;margin-block:-6px}
+.s-trav .ti{min-height:54px;padding:8px 12px;border-radius:16px}
+.s-trav .ti-t b{font-size:15px;color:#16241D}
+.s-trav .ti-t small{font-size:12px}
+.s-trav .ti-i{width:26px;height:26px}
+.s-trav .ti-c{width:26px;height:26px}
+.s-admin{background:#F4F6F4}
+.sm-top{display:flex;justify-content:space-between;align-items:center;gap:8px;background:#08402A;padding:7px 12px}
+.sm-top .mh{height:26px;width:auto}
+.sm-top img{height:15px}
+.sm-top .badge{font:700 10.5px var(--f-m);letter-spacing:.08em;background:#C28A0E;color:#151A17;padding:2px 8px;border-radius:4px}
+.sm-body{margin:12px;background:#FFFFFF;border:1px solid #DEE3DF;border-radius:8px;overflow:hidden}
+.sm-h{display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid #DEE3DF}
+.sm-h b{font:600 14px var(--f-d)}
+.sm-btn{background:#08402A;color:#FFFFFF;font-weight:600;font-size:11.5px;padding:4px 10px;border-radius:6px}
+
+/* mascot */
+.mascot-grid{display:grid;gap:22px;grid-template-columns:minmax(0,260px) 1fr;align-items:center}
+.mascot-grid img{width:100%;max-width:260px}
+@media (max-width:640px){.mascot-grid{grid-template-columns:1fr;justify-items:center}}
+ul.clean{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+ul.clean li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+ul.clean li::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent);margin-top:10px;justify-self:center}
+ul.clean.no li::before{background:transparent;border:2px solid var(--bad);width:8px;height:8px}
+
+/* co-brand */
+.cob{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.mini{border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--surface);max-width:360px}
+.mini .ag{display:flex;align-items:center;gap:10px;padding:14px 16px;background:#1C4E80;color:#FFFFFF;font:700 16px var(--f-d)}
+.mini .ag i{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.25);display:grid;place-items:center;font-style:normal;font-size:13px}
+.mini .body{padding:16px;display:grid;gap:10px}
+.mini .ln{height:10px;border-radius:6px;background:var(--surface-2)}
+.mini .pw{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+.mini .pw img{height:14px}
+
+/* voice */
+.say{display:grid;gap:12px}
+.say .pair{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.say .q{border-radius:14px;padding:14px 16px;font-size:16px;border:1px solid var(--line);background:var(--surface)}
+.say .q small{display:block;font:600 12px var(--f-m);letter-spacing:.04em;margin-bottom:4px}
+.say .yes{border-color:color-mix(in srgb,var(--ok) 45%,var(--line))}
+.say .yes small{color:var(--ok)}
+.say .no small{color:var(--bad)}
+.say .no{color:var(--muted)}
+
+/* files */
+pre.tree{background:var(--surface-2);border:1px solid var(--line);border-radius:14px;padding:18px;overflow-x:auto;font:500 13.5px/1.7 var(--f-m);direction:ltr;text-align:left;margin:0}
+pre.tree b{color:var(--accent-text);font-weight:600}
+pre.tree em{color:var(--muted);font-style:normal}
+.note{background:var(--accent-soft);border-radius:14px;padding:14px 18px;font-size:16px;max-width:none}
+@media (prefers-reduced-motion:no-preference){.toc a,.btn{transition:all .18s cubic-bezier(.2,.8,.2,1)}}
+</style>
+
+<header class="hero">
+  <div class="hero-in">
+    <img src="logo/png/logo-full.png" alt="PALAMI · כל פרטי הנסיעה בכף ידך">
+    <div class="hero-meta">
+      <div><b>ספר מותג</b>הנחיות לוגו, צבע, טיפוגרפיה ומסכים</div>
+      <div class="ltr" style="font-family:var(--f-m);font-size:13px">v1.2 · 2026-10</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <nav class="toc" aria-label="תוכן">
+    <a href="#brand">המותג</a><a href="#logo">לוגו</a><a href="#space">מרווח וגודל</a><a href="#dont">מה אסור</a><a href="#color">צבעים</a><a href="#type">טיפוגרפיה</a><a href="#icons">אייקונים ומסך בית</a><a href="#systems">שלוש מערכות</a><a href="#ui">רכיבי ממשק</a><a href="#mascot">הדמות</a><a href="#cobrand">מיתוג משותף לסוכנויות</a><a href="#voice">טון דיבור</a><a href="#files">קבצים</a>
+  </nav>
+
+  <section id="brand">
+    <div class="sh"><span class="eyebrow">01 · BRAND</span><h2>PALAMI במשפט אחד</h2></div>
+    <p>סוכנות הנסיעות מעלה את המסמכים, ו־PALAMI מסדרת אותם לתיק נסיעה דיגיטלי אחד שהנוסע פותח בטלפון: טיסות, מלונות, ביטוח, העברות ומספרי חירום. הסלוגן אומר את זה בדיוק: <b>כל פרטי הנסיעה בכף ידך</b>.</p>
+    <div class="mascot-grid" style="grid-template-columns:minmax(0,180px) 1fr">
+      <img src="mascot/mascot-head.png" alt="ראש הבונה" style="max-width:180px">
+      <div style="display:grid;gap:8px"><h3>למה בונה</h3><p>הבונה נבחר כי הוא מסמל <b>חריצות, בנייה וסדר</b>. הוא בונה את הסכר שלו ענף אחר ענף עד שהכול במקום, וכך PALAMI בונה את תיק הנסיעה: מסמך אחרי מסמך, עד שכל פריט מסודר ומסומן ב־V. הוא עושה את העבודה כדי שהנוסע לא יצטרך.</p></div>
+    </div>
+    <div class="grid g4">
+      <div class="type-card"><h3>מסודר</h3><p class="muted">הבונה מסדר במקום הנוסע. כל פריט נמצא במקום הצפוי.</p></div>
+      <div class="type-card"><h3>אמין</h3><p class="muted">ירוק עמוק, טון שקט, מידע מדויק. בלי הפתעות לפני טיסה.</p></div>
+      <div class="type-card"><h3>חם</h3><p class="muted">דמות ידידותית ונחושת חמה. מרגיש כמו סוכן אישי, לא כמו מערכת.</p></div>
+      <div class="type-card"><h3>פשוט</h3><p class="muted">מתאים גם לסוכנים ותיקים ולנוסעים שאינם טכנולוגיים.</p></div>
+    </div>
+  </section>
+
+  <section id="logo">
+    <div class="sh"><span class="eyebrow">02 · LOGO</span><h2>גרסאות הלוגו</h2>
+      <p>הלוגו המאושר הוא הקובץ המקורי ואין לשנות בו דבר: כיתוב בירוק יער על רקע לבן. בגרסה 1.1 עודכן רק המסך בטלפון של הבונה (שורות שמנת ועיגולי V בירוק מרווה), כדי שיתאים לרכיב פריט הנסיעה באפליקציה. כל הגרסאות כאן חתוכות ישירות מהמקור, ברקע שקוף, כדי שאפשר יהיה להניח אותן על לבן, נייר או שמנת.</p></div>
+    <figure class="spec" style="margin:0"><div class="stage on-paper" style="min-height:300px;padding:40px"><img src="logo/png/logo-full.png" alt="לוגו מלא" style="max-height:260px"></div><figcaption class="cap"><b>לוגו מלא · הגרסה הראשית</b><code>logo/png/logo-full.png · logo/png/logo-full-white-bg.png</code></figcaption></figure>
+    <div class="grid g3">
+      <figure class="spec" style="margin:0"><div class="stage on-paper"><img src="logo/svg/wordmark-tagline.svg" alt="שם וסלוגן"></div><figcaption class="cap"><b>שם + סלוגן · וקטור</b><code>logo/svg/wordmark-tagline.svg</code></figcaption></figure>
+      <figure class="spec" style="margin:0"><div class="stage on-paper"><img src="logo/svg/wordmark.svg" alt="שם בלבד"></div><figcaption class="cap"><b>שם בלבד · וקטור</b><code>logo/svg/wordmark.svg</code></figcaption></figure>
+      <figure class="spec" style="margin:0"><div class="stage checker"><img src="mascot/mascot.png" alt="הדמות"></div><figcaption class="cap"><b>הדמות בלבד</b><code>mascot/mascot.png</code></figcaption></figure>
+      <figure class="spec" style="margin:0"><div class="stage on-cream"><img src="mascot/mascot-head.png" alt="ראש הדמות"></div><figcaption class="cap"><b>ראש הדמות · לגדלים קטנים</b><code>mascot/mascot-head.png</code></figcaption></figure>
+      <figure class="spec" style="margin:0"><div class="stage on-paper"><img src="icons/app-icon-rounded-1024.png" alt="אייקון אפליקציה" style="max-height:150px"></div><figcaption class="cap"><b>אייקון אפליקציה</b><code>icons/app-icon-1024.png</code></figcaption></figure>
+    </div>
+    <p class="muted" style="font-size:15px">חריג אחד בלבד: <b>מצב כהה באפליקציה</b>, כשהמכשיר של הנוסע מוגדר לרקע כהה וירוק על כהה לא נקרא. רק אז משתמשים בקובץ <code>logo/svg/wordmark-on-dark.svg</code>, שבו הכיתוב לבן והנקודה נשארת בנחושת. בכל מקום אחר (אתר, מיילים, מצגות, דפוס, שילוט) הלוגו ירוק על לבן.</p>
+    <p class="note">מתי להשתמש במה: <b>לוגו מלא</b> במסך פתיחה, כניסה, אתר שיווקי ומיילים. <b>שם בלבד</b> בכותרת עליונה של המערכת, בחתימות ובמקומות צרים. <b>הדמות</b> במצבים ריקים ובהודעות הצלחה. <b>ראש הדמות</b> בטאב של הדפדפן ובגדלים מתחת ל־48px.</p>
+  </section>
+
+  <section id="space">
+    <div class="sh"><span class="eyebrow">03 · CLEAR SPACE</span><h2>מרווח ביטחון וגודל מינימלי</h2>
+      <p>יחידת המידה <b>X</b> היא קוטר הנקודה הכתומה. מסביב ללוגו נשאר שטח ריק של X לפחות מכל צד, בלי טקסט, תמונות או קצוות מסך.</p></div>
+    <div class="clear"><div class="clear-box"><span class="x">X</span><img src="logo/png/wordmark-tagline.png" alt="שם וסלוגן עם מרווח ביטחון"></div></div>
+    <div class="tbl"><table>
+      <thead><tr><th>גרסה</th><th>מינימום במסך</th><th>מינימום בדפוס</th><th>מתחת לזה</th></tr></thead>
+      <tbody>
+        <tr><td>לוגו מלא (דמות + שם + סלוגן)</td><td class="num">200px</td><td class="num">45mm</td><td>שם בלבד</td></tr>
+        <tr><td>שם + סלוגן</td><td class="num">140px</td><td class="num">32mm</td><td>שם בלבד, הסלוגן נקרא רק מעל 140px</td></tr>
+        <tr><td>שם בלבד</td><td class="num">72px</td><td class="num">16mm</td><td>ראש הדמות</td></tr>
+        <tr><td>הדמות / ראש הדמות</td><td class="num">16px</td><td class="num">6mm</td><td>זה הגודל הקטן ביותר</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section id="dont">
+    <div class="sh"><span class="eyebrow">04 · MISUSE</span><h2>מה אסור לעשות בלוגו</h2></div>
+    <div class="grid g3">
+      <figure class="spec dont d-stretch" style="margin:0"><div class="stage on-paper"><img src="logo/png/wordmark.png" alt=""></div><figcaption class="cap"><b>לא למתוח או לכווץ</b><span class="muted">תמיד לשמור על היחס המקורי.</span></figcaption></figure>
+      <figure class="spec dont d-rotate" style="margin:0"><div class="stage on-paper"><img src="logo/png/wordmark.png" alt=""></div><figcaption class="cap"><b>לא לסובב</b><span class="muted">הלוגו תמיד ישר.</span></figcaption></figure>
+      <figure class="spec dont d-recolor" style="margin:0"><div class="stage on-paper"><img src="logo/png/wordmark.png" alt=""></div><figcaption class="cap"><b>לא לשנות צבעים</b><span class="muted">רק ירוק ונחושת, או לבן ונחושת על רקע כהה.</span></figcaption></figure>
+      <figure class="spec dont d-fx" style="margin:0"><div class="stage on-paper"><img src="logo/png/wordmark.png" alt=""></div><figcaption class="cap"><b>בלי צללים, זוהר או אפקטים</b><span class="muted">הלוגו שטוח.</span></figcaption></figure>
+      <figure class="spec dont" style="margin:0"><div class="stage d-busy"><img src="logo/png/wordmark.png" alt=""></div><figcaption class="cap"><b>לא על רקע עמוס</b><span class="muted">רק על לבן, נייר או שמנת.</span></figcaption></figure>
+      <figure class="spec dont" style="margin:0"><div class="stage d-contrast"><img src="logo/png/wordmark.png" alt=""></div><figcaption class="cap"><b>לא על רקע ירוק או כהה</b><span class="muted">הלוגו ירוק יער על לבן.</span></figcaption></figure>
+    </div>
+    <p class="muted">גם אסור: להזיז או להסיר את הנקודה, להחליף את גופן הסלוגן, לתרגם את השם, לצייר מחדש את הדמות או לשנות אותה בעזרת AI, ולהפריד בין הסלוגן לשם ולסדר אותם מחדש.</p>
+  </section>
+
+  <section id="color">
+    <div class="sh"><span class="eyebrow">05 · COLOR</span><h2>פלטת הצבעים</h2>
+      <p>שלושת צבעי הליבה נדגמו ישירות מהלוגו. ירוק הוא צבע הפעולה והאמון, נחושת היא ההדגשה החמה (כמו הנקודה), ושמנת היא משטח רך. שאר הממשק בנוי על ניטרלים חמים בגוון חול.</p></div>
+    <div class="core">
+      <div class="sw"><div class="chip" style="background:#08402A;color:#FFFFFF">ירוק יער</div><div class="meta"><div><span>HEX</span><code>#08402A</code></div><div><span>RGB</span><code>8 64 40</code></div><div><span>Token</span><code>--palami-green</code></div><div class="muted">פעולה ראשית, כותרות, לוגו</div></div></div>
+      <div class="sw"><div class="chip" style="background:#C37237;color:#041F15">נחושת בונה</div><div class="meta"><div><span>HEX</span><code>#C37237</code></div><div><span>RGB</span><code>195 114 55</code></div><div><span>Token</span><code>--palami-copper</code></div><div class="muted">הדגשה, תגיות, נקודות, אייקונים</div></div></div>
+      <div class="sw"><div class="chip" style="background:#F9E2C5;color:#08402A">שמנת</div><div class="meta"><div><span>HEX</span><code>#F9E2C5</code></div><div><span>RGB</span><code>249 226 197</code></div><div><span>Token</span><code>--palami-cream</code></div><div class="muted">משטחים רכים, באנרים, רקע אייקון</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FEFEFC;color:#16241D;border-bottom:1px solid #E2DED5">נייר</div><div class="meta"><div><span>HEX</span><code>#FEFEFC</code></div><div><span>RGB</span><code>254 254 252</code></div><div><span>Token</span><code>--palami-paper</code></div><div class="muted">רקע מסך ראשי</div></div></div>
+    </div>
+
+    <h3>יחס שימוש</h3>
+    <div class="ratio"><div class="bar"><span style="width:62%;background:#FEFEFC"></span><span style="width:22%;background:#08402A"></span><span style="width:10%;background:#F9E2C5"></span><span style="width:6%;background:#C37237"></span></div><span class="muted" style="font-size:15px">60% נייר וניטרלים · 22% ירוק · 10% שמנת · 6% נחושת</span></div>
+
+    <div>
+      <div class="scale-label"><h3>ירוק</h3><code class="muted">--green-50 … --green-950</code></div>
+      <div class="scale">
+        <div style="background:#EEF6F1;color:#08402A">50<br>EEF6F1</div><div style="background:#D5EADD;color:#08402A">100<br>D5EADD</div><div style="background:#A9D3B9;color:#08402A">200<br>A9D3B9</div><div style="background:#74B590;color:#041F15">300<br>74B590</div><div style="background:#3F8F64;color:#FFFFFF">400<br>3F8F64</div><div style="background:#1E6E47;color:#FFFFFF">500<br>1E6E47</div><div style="background:#0F5636;color:#FFFFFF">600<br>0F5636</div><div style="background:#08402A;color:#FFFFFF;box-shadow:inset 0 -4px 0 #C37237">700 ★<br>08402A</div><div style="background:#062F1F;color:#FFFFFF">800<br>062F1F</div><div style="background:#041F15;color:#FFFFFF">900<br>041F15</div>
+      </div>
+    </div>
+    <div>
+      <div class="scale-label"><h3>נחושת</h3><code class="muted">--copper-50 … --copper-900</code></div>
+      <div class="scale">
+        <div style="background:#FCF4EC;color:#87481F">50<br>FCF4EC</div><div style="background:#F9E2C5;color:#87481F">100 ★<br>F9E2C5</div><div style="background:#F1C79C;color:#66361A">200<br>F1C79C</div><div style="background:#E5A570;color:#472614">300<br>E5A570</div><div style="background:#D4884A;color:#472614">400<br>D4884A</div><div style="background:#C37237;color:#041F15;box-shadow:inset 0 -4px 0 #08402A">500 ★<br>C37237</div><div style="background:#A85C28;color:#FFFFFF">600<br>A85C28</div><div style="background:#87481F;color:#FFFFFF">700<br>87481F</div><div style="background:#66361A;color:#FFFFFF">800<br>66361A</div><div style="background:#472614;color:#FFFFFF">900<br>472614</div>
+      </div>
+    </div>
+    <div>
+      <div class="scale-label"><h3>חול (ניטרלים)</h3><code class="muted">--sand-0 … --sand-900</code></div>
+      <div class="scale">
+        <div style="background:#FFFFFF;color:#44423C">0<br>FFFFFF</div><div style="background:#F7F6F2;color:#44423C">50<br>F7F6F2</div><div style="background:#EFEDE7;color:#44423C">100<br>EFEDE7</div><div style="background:#E2DED5;color:#44423C">200<br>E2DED5</div><div style="background:#CBC6BA;color:#2D2C28">300<br>CBC6BA</div><div style="background:#A39E92;color:#1B1A17">400<br>A39E92</div><div style="background:#7B776D;color:#FFFFFF">500<br>7B776D</div><div style="background:#5C5951;color:#FFFFFF">600<br>5C5951</div><div style="background:#44423C;color:#FFFFFF">700<br>44423C</div><div style="background:#1B1A17;color:#FFFFFF">900<br>1B1A17</div>
+      </div>
+    </div>
+    <div>
+      <div class="scale-label"><h3>צבעי מצב</h3><span class="muted" style="font-size:14px">אותה משמעות בכל המערכות. תמיד עם אייקון ומילה, אף פעם לא צבע לבד.</span></div>
+      <div class="tbl"><table>
+        <thead><tr><th>מצב</th><th>מילוי (עיגול, פס)</th><th>תגית</th><th>משמעות</th><th>אצל הנוסע</th></tr></thead>
+        <tbody>
+          <tr><td><b>הושלם</b></td><td><span class="dot" style="background:#5E9677"></span><code>#5E9677</code></td><td><span class="chip-s" style="background:#E6F0EA;color:#33704F">✓ אושר</span></td><td>הכול תקין, אין מה לעשות</td><td>V מרווה, כמו בטלפון של הבונה</td></tr>
+          <tr><td><b>דורש תשומת לב</b></td><td><span class="dot" style="background:#C28A0E"></span><code>#C28A0E</code></td><td><span class="chip-s" style="background:#FBF1D6;color:#8A5F00">! חסר ביטוח</span></td><td>צריך לטפל בקרוב</td><td>נחושת רכה <code>#C37237</code>: תזכורת, לא אזעקה</td></tr>
+          <tr><td><b>בעיה דחופה</b></td><td><span class="dot" style="background:#B91C3C"></span><code>#B91C3C</code></td><td><span class="chip-s" style="background:#FCE8EC;color:#B91C3C">✕ הטיסה בוטלה</span></td><td>צריך לטפל היום</td><td>רק בחירום אמיתי: ביטול, מספרי חירום</td></tr>
+          <tr><td><b>מידע / שינוי</b></td><td><span class="dot" style="background:#1D5FA8"></span><code>#1D5FA8</code></td><td><span class="chip-s" style="background:#E4EEF8;color:#1D5FA8">i שעה עודכנה</span></td><td>משהו השתנה, לידיעה</td><td>כמו אצל הסוכן</td></tr>
+          <tr><td><b>ממתין</b></td><td><span class="dot" style="border:2px dashed #A9C7B5"></span><code>#A9C7B5</code></td><td><span class="chip-s" style="background:#F0F2F0;color:#5E6862">◌ ממתין</span></td><td>בתהליך, אין מה לעשות עדיין</td><td>עיגול מקווקו</td></tr>
+        </tbody></table></div>
+      <p class="muted" style="font-size:15px">למה הגוונים האלה: הכתום והאדום הקודמים היו כמעט באותו גוון כמו נחושת המותג (25°), ולא היה אפשר להבחין בין "הדגשה" ל"אזהרה". הארגמן (348°) והדבש (42°) רחוקים ממנה, והירוק של "הושלם" הוא המרווה מהלוגו, שונה מירוק היער של הכפתורים.</p>
+    </div>
+
+    <h3>ניגודיות (WCAG)</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>שילוב</th><th>דוגמה</th><th>יחס</th><th>שימוש</th></tr></thead>
+      <tbody>
+        <tr><td>ירוק על לבן</td><td><span class="pair" style="background:#FFFFFF;color:#08402A;border:1px solid #E2DED5">אבג</span></td><td class="num">11.8:1</td><td class="pass">✓ כל טקסט</td></tr>
+        <tr><td>לבן על ירוק (כפתור ראשי)</td><td><span class="pair" style="background:#08402A;color:#FFFFFF">אבג</span></td><td class="num">11.8:1</td><td class="pass">✓ כל טקסט</td></tr>
+        <tr><td>ירוק על שמנת</td><td><span class="pair" style="background:#F9E2C5;color:#08402A">אבג</span></td><td class="num">9.4:1</td><td class="pass">✓ כל טקסט</td></tr>
+        <tr><td>נחושת 600 על לבן</td><td><span class="pair" style="background:#FFFFFF;color:#A85C28;border:1px solid #E2DED5">אבג</span></td><td class="num">5.0:1</td><td class="pass">✓ טקסט נחושת</td></tr>
+        <tr><td>נחושת 500 על לבן</td><td><span class="pair" style="background:#FFFFFF;color:#C37237;border:1px solid #E2DED5">אבג</span></td><td class="num">3.6:1</td><td class="fail">רק אייקונים וטקסט מעל 24px</td></tr>
+        <tr><td>לבן על נחושת 500</td><td><span class="pair" style="background:#C37237;color:#FFFFFF">אבג</span></td><td class="num">3.6:1</td><td class="fail">✕ לא לכפתורים</td></tr>
+        <tr><td>טקסט משני על נייר</td><td><span class="pair" style="background:#FEFEFC;color:#5C5951;border:1px solid #E2DED5">אבג</span></td><td class="num">6.9:1</td><td class="pass">✓ טקסט משני</td></tr>
+        <tr><td>תגית "אושר"</td><td><span class="pair" style="background:#E6F0EA;color:#33704F">אבג</span></td><td class="num">5.0:1</td><td class="pass">✓ תגית</td></tr>
+        <tr><td>תגית "דורש תשומת לב"</td><td><span class="pair" style="background:#FBF1D6;color:#8A5F00">אבג</span></td><td class="num">5.0:1</td><td class="pass">✓ תגית</td></tr>
+        <tr><td>תגית "בעיה דחופה"</td><td><span class="pair" style="background:#FCE8EC;color:#B91C3C">אבג</span></td><td class="num">5.4:1</td><td class="pass">✓ תגית</td></tr>
+        <tr><td>לבן על ארגמן (כפתור מחיקה)</td><td><span class="pair" style="background:#B91C3C;color:#FFFFFF">אבג</span></td><td class="num">6.4:1</td><td class="pass">✓ כל טקסט</td></tr>
+      </tbody></table></div>
+    <p class="note">כפתור ראשי תמיד ירוק. נחושת לא משמשת כרקע לכפתור עם טקסט לבן, ובמערכת הסוכנים היא לא מופיעה בממשק בכלל. במצב כהה הירוק הופך ל־<code>#74B590</code> והנחושת ל־<code>#D4884A</code>. הערכים המלאים נמצאים ב־<code>tokens/core.css</code> ובקובצי המערכות.</p>
+  </section>
+
+  <section id="type">
+    <div class="sh"><span class="eyebrow">06 · TYPE</span><h2>טיפוגרפיה</h2>
+      <p>שלושה גופנים מ־Google Fonts, כולם עם תמיכה מלאה בעברית. Rubik מעוגל ומהדהד את הפינות הרכות של השם, Assistant קריא מאוד לטקסט רץ, ו־IBM Plex Mono מיועד למספרים שצריך להקליד או להשוות.</p></div>
+    <div class="grid g3">
+      <div class="type-card"><code class="muted">Display · Rubik 600–800</code><div class="big" style="font-family:var(--f-d);font-weight:700">שלום, ברצלונה</div><p class="muted">כותרות מסך, שם יעד, מספרים גדולים</p></div>
+      <div class="type-card"><code class="muted">Body · Assistant 400–700</code><div class="big" style="font-family:var(--f-b);font-weight:600;font-size:40px">הצ׳ק־אין נפתח מחר</div><p class="muted">טקסט רץ, טפסים, כפתורים</p></div>
+      <div class="type-card"><code class="muted">Data · IBM Plex Mono 500</code><div class="big ltr" style="font-family:var(--f-m);font-weight:500;font-size:30px;text-align:right">LY 395 · HDR-2609-0031</div><p class="muted">מספר טיסה, מזהה תיק, קוד הזמנה</p></div>
+    </div>
+    <div class="tscale">
+      <div class="row"><code>3xl · 44 / Rubik 800</code><span style="font:800 44px/1.1 var(--f-d)">נסיעה טובה!</span></div>
+      <div class="row"><code>2xl · 34 / Rubik 700</code><span style="font:700 34px/1.15 var(--f-d)">ברצלונה, 12–19 באוקטובר</span></div>
+      <div class="row"><code>xl · 28 / Rubik 700</code><span style="font:700 28px/1.2 var(--f-d)">הטיסות שלך</span></div>
+      <div class="row"><code>lg · 22 / Rubik 600</code><span style="font:600 22px/1.3 var(--f-d)">מלון Casa Bonay</span></div>
+      <div class="row"><code>md · 18 / Assistant 600</code><span style="font:600 18px/1.4 var(--f-b)">העברה מהשדה למלון</span></div>
+      <div class="row"><code>base · 16 / Assistant 400</code><span style="font:400 16px/1.6 var(--f-b)">הנהג ימתין באולם הנוסעים עם שלט עם השם שלך.</span></div>
+      <div class="row"><code>sm · 14 / Assistant 500</code><span style="font:500 14px/1.5 var(--f-b);color:var(--muted)">עודכן לפני 5 דקות על ידי הסוכנות</span></div>
+      <div class="row"><code>xs · 12 / Assistant 600</code><span style="font:600 12px/1.4 var(--f-b);letter-spacing:.04em;color:var(--muted)">כרטיס עלייה למטוס</span></div>
+    </div>
+    <p class="muted">גודל מינימלי לטקסט גוף בטלפון: 16px. גובה שורה 1.6 לטקסט רץ ו־1.2 לכותרות. מספרים וקודים באנגלית בתוך משפט עברי עטופים ב־<code>dir="ltr"</code> כדי שלא יתהפכו.</p>
+  </section>
+
+  <section id="icons">
+    <div class="sh"><span class="eyebrow">07 · APP ICON</span><h2>אייקונים, מסך בית וטאב בדפדפן</h2>
+      <p>כשנוסע שומר את האתר למסך הבית (iPhone: שיתוף ← הוספה למסך הבית; Android: התקנת אפליקציה), מופיע אייקון הדמות על רקע לבן, כמו בדף המותג המקורי. בטאב של הדפדפן מופיע ראש הדמות, כי גוף שלם לא נקרא ב־16px.</p></div>
+    <div class="phones">
+      <div><div class="phone"><div class="screen ios">
+        <div class="app"><i></i>יומן</div><div class="app"><i></i>מפות</div><div class="app"><i></i>תמונות</div><div class="app"><i></i>שעון</div>
+        <div class="app"><i></i>מזג אוויר</div><div class="app"><img src="icons/apple-touch-icon.png" alt="">PALAMI</div><div class="app"><i></i>הערות</div><div class="app"><i></i>WhatsApp</div>
+      </div></div><div class="phone-cap">iPhone · apple-touch-icon 180px</div></div>
+      <div><div class="phone"><div class="screen android">
+        <div class="app"><i></i>Gmail</div><div class="app"><i></i>Maps</div><div class="app"><img src="icons/icon-maskable-192.png" alt="">PALAMI</div><div class="app"><i></i>Chrome</div>
+        <div class="app"><i></i>Photos</div><div class="app"><i></i>Clock</div><div class="app"><i></i>Files</div><div class="app"><i></i>Phone</div>
+      </div></div><div class="phone-cap">Android · maskable 192/512px</div></div>
+    </div>
+    <div class="grid g2">
+      <div class="tabbar"><div class="tabs"><div class="tab"><img src="icons/favicon-32.png" alt="">PALAMI · ברצלונה</div><div class="tab dim">Gmail</div></div><div class="urlbar">trip.palami.io/HDR-2609-0031</div></div>
+      <div class="fav-sizes">
+        <figure><img src="icons/favicon-16.png" width="16" height="16" alt="">16</figure>
+        <figure><img src="icons/favicon-32.png" width="32" height="32" alt="">32</figure>
+        <figure><img src="icons/favicon-48.png" width="48" height="48" alt="">48</figure>
+        <figure><img src="icons/icon-192.png" width="96" height="96" alt="" style="border-radius:20px;border:1px solid var(--line)">192</figure>
+        <figure><img src="icons/icon-maskable-512.png" width="96" height="96" alt="" style="border-radius:50%;border:1px solid var(--line)">maskable</figure>
+      </div>
+    </div>
+    <div class="tbl"><table>
+      <thead><tr><th>קובץ</th><th>גודל</th><th>איפה מופיע</th></tr></thead>
+      <tbody>
+        <tr><td><code>icons/favicon.ico</code> · <code>favicon.svg</code></td><td class="num">16/32/48</td><td>טאב בדפדפן, סימניות</td></tr>
+        <tr><td><code>icons/apple-touch-icon.png</code></td><td class="num">180×180</td><td>מסך הבית ב־iPhone ו־iPad (גם 120/152/167)</td></tr>
+        <tr><td><code>icons/icon-192.png</code> · <code>icon-512.png</code></td><td class="num">192 · 512</td><td>התקנת PWA ב־Android ובמחשב</td></tr>
+        <tr><td><code>icons/icon-maskable-*.png</code></td><td class="num">192 · 512</td><td>Android שחותך לעיגול או לטיפה. הדמות בתוך אזור בטוח של 80%</td></tr>
+        <tr><td><code>icons/icon-monochrome-512.png</code></td><td class="num">512</td><td>אייקונים בערכת נושא ב־Android 13 ומעלה</td></tr>
+        <tr><td><code>icons/app-icon-1024.png</code></td><td class="num">1024</td><td>מקור לחנויות אפליקציות בעתיד</td></tr>
+        <tr><td><code>social/og-image-1200x630.png</code></td><td class="num">1200×630</td><td>תצוגה מקדימה של קישור ב־WhatsApp ובפייסבוק</td></tr>
+        <tr><td><code>social/avatar-800.png</code></td><td class="num">800×800</td><td>תמונת פרופיל ל־WhatsApp Business ולרשתות</td></tr>
+      </tbody></table></div>
+    <p class="note">ההטמעה מוכנה: מעתיקים את <code>web/head-snippet.html</code> לתוך ה־<code>&lt;head&gt;</code>, ואת <code>web/site.webmanifest</code> לשורש האתר. צבע שורת המצב בטלפון הוא הירוק <code>#08402A</code>, ורקע מסך הפתיחה הוא נייר <code>#FEFEFC</code>.</p>
+  </section>
+
+  <section id="systems">
+    <div class="sh"><span class="eyebrow">08 · SYSTEMS</span><h2>מותג אחד, שלוש מערכות</h2>
+      <p>ל־PALAMI יש שלוש מערכות, ולכל אחת משתמש אחר ומטרה אחרת. הן חולקות לוגו, גופנים, צבעי בסיס ומשמעות של צבעי המצב, אבל כל אחת נראית אחרת. מי שעובד במערכת הסוכנים צריך שקט ויעילות. מי שפותח את תיק הנסיעה צריך להרגיש שמחכה לו חופשה.</p></div>
+
+    <div class="sys3">
+      <figure class="sys" style="margin:0">
+        <div class="sys-stage s-agent" aria-hidden="true">
+          <div class="sa-top"><img src="logo/svg/wordmark.svg" alt=""><span>הדר נסיעות</span></div>
+          <div class="sa-tiles"><div><b>3</b><small>דחוף</small><i style="background:#B91C3C"></i></div><div><b>7</b><small>לטיפול</small><i style="background:#C28A0E"></i></div><div><b>42</b><small>מוכנות</small><i style="background:#5E9677"></i></div></div>
+          <div class="sa-tbl">
+            <div class="sa-row r-bad"><span class="mono">HDR-2609-0031</span><span>כהן · ברצלונה</span><em class="c-bad">✕ טיסה בוטלה</em></div>
+            <div class="sa-row r-warn"><span class="mono">HDR-2609-0028</span><span>לוי · רומא</span><em class="c-warn">! חסר ביטוח</em></div>
+            <div class="sa-row"><span class="mono">HDR-2609-0025</span><span>מזרחי · פראג</span><em class="c-ok">✓ מוכן</em></div>
+            <div class="sa-row"><span class="mono">HDR-2609-0022</span><span>אברהם · לונדון</span><em class="c-ok">✓ מוכן</em></div>
+          </div>
+        </div>
+        <figcaption><b>מערכת סוכנים</b><span class="muted">מקצועית, שקטה, צפופה. אפור־לבן, ירוק רק לפעולה ולניווט, אדום ודבש בולטים. בלי נחושת בממשק.</span><code>tokens/theme-agent.css</code></figcaption>
+      </figure>
+      <figure class="sys" style="margin:0">
+        <div class="sys-stage s-trav" aria-hidden="true">
+          <div class="st-hi"><div><small>עוד 3 ימים</small><b>ברצלונה מחכה!</b></div><img src="mascot/mascot-head.png" alt=""></div>
+          <div class="ti done"><span class="ti-i"><svg viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span><span class="ti-t"><b>טיסה הלוך</b><small>06:40 · נתב״ג</small></span><span class="ti-c"></span></div>
+          <div class="ti done"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M17 11V3H7v4H3v14h8v-4h2v4h8V11h-4zM7 19H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 4H9v-2h2v2zm0-4H9V9h2v2zm0-4H9V5h2v2zm4 8h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm4 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg></span><span class="ti-t"><b>Casa Bonay</b><small>7 לילות</small></span><span class="ti-c"></span></div>
+          <div class="ti attn"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></span><span class="ti-t"><b>ביטוח</b><small>הסוכנות כבר יודעת</small></span><span class="ti-c"></span></div>
+        </div>
+        <figcaption><b>מערכת נוסעים</b><span class="muted">כיפית, חיה, מזמינה. רקע חם, כרטיסים גדולים, שורות עם V מרווה, הבונה ברגעים הנכונים.</span><code>tokens/theme-traveler.css</code></figcaption>
+      </figure>
+      <figure class="sys" style="margin:0">
+        <div class="sys-stage s-admin" aria-hidden="true">
+          <div class="sm-top"><img class="mh" src="mascot/mascot-head.png" alt=""><img src="logo/svg/wordmark-on-dark.svg" alt="" style="margin-inline-end:auto"><span class="badge">ADMIN</span></div>
+          <div class="sm-body">
+            <div class="sm-h"><b>סוכנויות</b><span class="sm-btn">+ סוכנות חדשה</span></div>
+            <div class="sa-row"><span>הדר נסיעות</span><span class="mono">HDR</span><em class="c-ok">✓ פעילה</em></div>
+            <div class="sa-row"><span>גלובוס טורס</span><span class="mono">GLB</span><em class="c-info">i בהקמה</em></div>
+            <div class="sa-row"><span>שמש נופשים</span><span class="mono">SMS</span><em class="c-warn">! תשלום</em></div>
+          </div>
+        </div>
+        <figcaption><b>מערכת ניהול (שלנו)</b><span class="muted">פונקציונלית בלבד. מבנה כמו מערכת הסוכנים, עם פס עליון בירוק PALAMI, הבונה ותג ADMIN, כדי שאף פעם לא נתבלבל עם מסך של סוכנות.</span><code>tokens/theme-admin.css</code></figcaption>
+      </figure>
+    </div>
+
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>סוכנים</th><th>נוסעים</th><th>ניהול</th></tr></thead>
+      <tbody>
+        <tr><td><b>אופי</b></td><td>מקצועי, שקט, יעיל</td><td>כיפי, חי, מזמין</td><td>פונקציונלי</td></tr>
+        <tr><td><b>רקע</b></td><td>אפור־לבן <code>#F4F6F4</code></td><td>נייר חם <code>#FBF8F2</code></td><td>אפור־לבן, פס עליון כהה</td></tr>
+        <tr><td><b>ירוק המותג</b></td><td>כפתור ראשי וניווט בלבד</td><td>כותרת, כפתורים, אייקונים (הסוכנות יכולה להחליף)</td><td>כפתור ראשי וניווט</td></tr>
+        <tr><td><b>נחושת</b></td><td>לא בממשק</td><td>הדגשות ותזכורות עדינות</td><td>לא בממשק</td></tr>
+        <tr><td><b>צבעי מצב</b></td><td>בולטים: פס צד, תגית, מונה</td><td>עדינים: בעיקר V מרווה</td><td>כמו בסוכנים</td></tr>
+        <tr><td><b>צפיפות</b></td><td>גבוהה. טקסט 15px, שורה 44px</td><td>נמוכה. טקסט 17px, לחיצה 48px</td><td>גבוהה. שורה 40px</td></tr>
+        <tr><td><b>פינות</b></td><td>קטנות, 6 עד 12px</td><td>גדולות, 16 עד 28px</td><td>קטנות</td></tr>
+        <tr><td><b>הבונה</b></td><td>רק בכניסה ובמצבים ריקים</td><td>פתיחה, הצלחה, מצבים ריקים</td><td>לא מופיע</td></tr>
+        <tr><td><b>תנועה</b></td><td>מהירה ומינימלית</td><td>אנימציות קטנות, V שמתמלא</td><td>ללא</td></tr>
+      </tbody></table></div>
+
+    <h3>מכשירים</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>מערכת</th><th>טלפון</th><th>מחשב</th><th>טאבלט</th></tr></thead>
+      <tbody>
+        <tr><td><b>סוכנים</b></td><td class="pass">✓ מגרסה ראשונה</td><td class="pass">✓ מגרסה ראשונה, המסך העיקרי</td><td>עיצוב ייעודי בגרסה 1.1</td></tr>
+        <tr><td><b>נוסעים</b></td><td class="pass">✓ מגרסה ראשונה, המסך העיקרי</td><td class="pass">✓ מגרסה ראשונה</td><td>עיצוב ייעודי בגרסה 1.1</td></tr>
+        <tr><td><b>ניהול</b></td><td class="pass">✓ מגרסה ראשונה</td><td class="pass">✓ מגרסה ראשונה, המסך העיקרי</td><td>עיצוב ייעודי בגרסה 1.1</td></tr>
+      </tbody></table></div>
+    <p class="muted" style="font-size:15px">עד גרסה 1.1 הטאבלט מקבל את הפריסה הגמישה (טלפון או מחשב לפי הרוחב), כך שהכול עובד גם עליו. נקודות שבירה: טלפון עד 639px, טאבלט 640 עד 1023px, מחשב מ־1024px. בטלפון, מערכת הסוכנים מחליפה טבלאות ברשימת כרטיסים, והתפריט הצדדי הופך לסרגל תחתון.</p>
+  </section>
+
+  <section id="ui">
+    <div class="sh"><span class="eyebrow">09 · UI</span><h2>רכיבי ממשק משותפים</h2>
+      <p>הפינות המעוגלות של השם קובעות את שפת הממשק: עיגול נדיב, צללים רכים בגוון ירוק, אזורי לחיצה של 44px לפחות. הנחושת מופיעה בנקודות קטנות, כמו הנקודה בלוגו.</p></div>
+    <div class="sig">
+      <div class="sig-phone" aria-hidden="true">
+        <span class="notch"></span>
+        <div class="ti big done"><span class="ti-i"><svg viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span><span class="ti-c"></span></div>
+        <div class="ti big done"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M17 11V3H7v4H3v14h8v-4h2v4h8V11h-4zM7 19H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 4H9v-2h2v2zm0-4H9V9h2v2zm0-4H9V5h2v2zm4 8h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm4 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg></span><span class="ti-c"></span></div>
+        <div class="ti big done"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M22 10V6c0-1.11-.9-2-2-2H4c-1.1 0-1.99.89-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z"/></svg></span><span class="ti-c"></span></div>
+      </div>
+      <div class="sig-body">
+        <div class="sh" style="gap:6px"><h3>רכיב החתימה: פריט נסיעה</h3><p class="muted">זה המסך שהבונה מחזיק בלוגו, והוא הופך לרכיב המרכזי באפליקציה. כל פריט בנסיעה הוא שורה בגוון שמנת, עם אייקון מלא בירוק יער ועיגול V בירוק מרווה. כשכל השורות מסומנות, הנסיעה מוכנה.</p></div>
+        <div class="ti-list">
+          <div class="ti done"><span class="ti-i"><svg viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg></span><span class="ti-t"><b>טיסה הלוך</b><small><span class="ltr">LY 395</span> · 12.10 · 06:40</small></span><span class="ti-c" aria-label="אושר"></span></div>
+          <div class="ti done"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M17 11V3H7v4H3v14h8v-4h2v4h8V11h-4zM7 19H5v-2h2v2zm0-4H5v-2h2v2zm0-4H5V9h2v2zm4 4H9v-2h2v2zm0-4H9V9h2v2zm0-4H9V5h2v2zm4 8h-2v-2h2v2zm0-4h-2V9h2v2zm0-4h-2V5h2v2zm4 12h-2v-2h2v2zm0-4h-2v-2h2v2z"/></svg></span><span class="ti-t"><b>מלון Casa Bonay</b><small>7 לילות · ארוחת בוקר</small></span><span class="ti-c" aria-label="אושר"></span></div>
+          <div class="ti pending"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M22 10V6c0-1.11-.9-2-2-2H4c-1.1 0-1.99.89-1.99 2v4c1.1 0 1.99.9 1.99 2s-.89 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-9 7.5h-2v-2h2v2zm0-4.5h-2v-2h2v2zm0-4.5h-2v-2h2v2z"/></svg></span><span class="ti-t"><b>כרטיסים לסגרדה פמיליה</b><small>ממתין לאישור מהסוכנות</small></span><span class="ti-c" aria-label="ממתין"></span></div>
+          <div class="ti attn"><span class="ti-i"><svg viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></span><span class="ti-t"><b>ביטוח נסיעות</b><small>עוד לא הועלתה פוליסה</small></span><span class="ti-c" aria-label="דורש תשומת לב"></span></div>
+        </div>
+        <div class="tbl"><table>
+          <thead><tr><th>חלק</th><th>ערך</th><th>Token</th></tr></thead>
+          <tbody>
+            <tr><td>רקע שורה</td><td><span class="pair" style="background:#FBF3E3;color:#08402A;border:1px solid #E2DED5">#FBF3E3</span></td><td><code>--item-bg</code></td></tr>
+            <tr><td>אייקון</td><td><span class="pair" style="background:#08402A;color:#FFFFFF">#08402A</span></td><td><code>--item-icon</code></td></tr>
+            <tr><td>עיגול V</td><td><span class="pair" style="background:#5E9677;color:#FFFFFF">#5E9677</span></td><td><code>--check</code> · <code>--check-ink</code></td></tr>
+            <tr><td>ממתין / דורש טיפול</td><td><span class="pair" style="background:#FFFFFF;color:#5E9677;border:2px dashed #A9C7B5">- - -</span> <span class="pair" style="background:#C37237;color:#FFFFFF">!</span></td><td><code>--check-pending</code> · <code>--check-attn</code></td></tr>
+          </tbody></table></div>
+        <p class="muted" style="font-size:15px">מידות: שורה בגובה 64px לפחות, פינות 14px, אייקון 32px, עיגול V בקוטר 30px. בעברית האייקון מימין והעיגול משמאל, תמונת מראה של הטלפון של הבונה. הקוד המוכן נמצא ב־<code>tokens/core.css</code> (המחלקה <code>.trip-item</code>), והקבצים ב־<code>icons/ui/</code>.</p>
+      </div>
+    </div>
+    <div class="kit">
+      <div class="btns"><button class="btn pri" type="button">פתיחת כרטיס עלייה</button><button class="btn sec" type="button">הוספה ליומן</button><button class="btn soft" type="button">שיחה עם הסוכנות</button><button class="btn acc" type="button">מה חדש בנסיעה</button></div>
+      <div class="chips"><span class="chip-s c-ok">✓ אושר</span><span class="chip-s c-warn">! חסר ביטוח</span><span class="chip-s c-bad">✕ הטיסה בוטלה</span><span class="chip-s c-info">i שינוי שעה</span></div>
+      <div class="flight">
+        <div class="top"><b style="font-family:var(--f-d);font-size:17px">טיסה הלוך</b><span class="mono muted">LY 395</span></div>
+        <div class="route"><div><b>TLV</b><small>06:40 · נתב״ג</small></div><div class="mid"><span></span><i></i><span></span></div><div style="text-align:right"><b>BCN</b><small>10:55 · ברצלונה</small></div></div>
+        <div class="foot"><span>יום ב׳, 12 באוקטובר</span><span>טרמינל 3 · מושב 14A</span></div>
+      </div>
+      <div class="tokens-row">
+        <figure><div class="r-demo" style="border-radius:6px"></div>xs 6</figure>
+        <figure><div class="r-demo" style="border-radius:10px"></div>sm 10</figure>
+        <figure><div class="r-demo" style="border-radius:14px"></div>md 14</figure>
+        <figure><div class="r-demo" style="border-radius:20px"></div>lg 20</figure>
+        <figure><div class="r-demo" style="border-radius:28px"></div>xl 28</figure>
+        <figure><div class="s-demo" style="box-shadow:0 1px 2px rgba(8,64,42,.06),0 1px 3px rgba(8,64,42,.08)"></div>shadow-1</figure>
+        <figure><div class="s-demo" style="box-shadow:0 4px 12px rgba(8,64,42,.08),0 2px 4px rgba(8,64,42,.06)"></div>shadow-2</figure>
+        <figure><div class="s-demo" style="box-shadow:0 16px 40px rgba(8,64,42,.14),0 4px 10px rgba(8,64,42,.06)"></div>shadow-3</figure>
+      </div>
+    </div>
+    <div class="grid g2">
+      <div class="type-card"><h3>אייקונים</h3><p class="muted">אייקונים מלאים (Filled) בירוק יער, כמו בטלפון של הבונה. הסט המוכן נמצא ב־<code>icons/ui/</code>. אייקון חדש לוקחים מ־<b>Material Symbols Rounded</b> בסגנון Filled, כדי שכולם ייראו אותו דבר.</p></div>
+      <div class="type-card"><h3>מרווחים</h3><p class="muted">רשת של 4px: 4 · 8 · 12 · 16 · 24 · 32 · 48 · 64. שוליים צדדיים בטלפון 16px. רוחב תוכן לנוסע עד 560px, ולמערכת הסוכן עד 1280px.</p></div>
+    </div>
+  </section>
+
+  <section id="mascot">
+    <div class="sh"><span class="eyebrow">10 · MASCOT</span><h2>הבונה</h2></div>
+    <div class="mascot-grid">
+      <img src="mascot/mascot.png" alt="הבונה של PALAMI עם מזוודה וטלפון">
+      <div style="display:grid;gap:18px">
+        <p>הבונה מייצג חריצות, בנייה וסדר. מזוודה ירוקה ביד אחת, ובשנייה טלפון עם רשימה שכל הפריטים בה מסומנים ב־V. הרשימה הזו היא גם הבסיס לרכיב החתימה של הממשק (פרק 09). הוא מופיע ברגעים שבהם הממשק פונה לאדם, ולא בכל מסך.</p>
+        <div class="grid g2" style="gap:20px">
+          <div style="display:grid;gap:8px"><h3>כן</h3><ul class="clean"><li>מסך פתיחה וכניסה ראשונה</li><li>מצב ריק ("עוד לא הועלו מסמכים")</li><li>הצלחה ("הנסיעה פורסמה לנוסעים")</li><li>אייקון האפליקציה ותמונת פרופיל</li></ul></div>
+          <div style="display:grid;gap:8px"><h3>לא</h3><ul class="clean no"><li>ליד הודעות חירום או ביטול טיסה</li><li>בטבלאות ובמסכי עבודה של הסוכן</li><li>מצויר מחדש, בתנוחה אחרת או עם שינוי AI</li><li>גדול יותר מהתוכן העיקרי של המסך</li></ul></div>
+        </div>
+        <p class="muted">כרגע יש תנוחה אחת. תנוחות נוספות (מנופף, חושב, ישן במצב לא מקוון) צריכות להיות מוזמנות מאותו מאייר ובאותו סגנון.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="cobrand">
+    <div class="sh"><span class="eyebrow">11 · CO-BRANDING</span><h2>מיתוג משותף עם הסוכנויות</h2>
+      <p>הנוסע קונה מהסוכנות, ולכן בתיק הנסיעה הסוכנות במרכז. PALAMI מופיעה בצניעות בתחתית. במערכת הסוכן PALAMI היא המותג הראשי.</p></div>
+    <div class="cob">
+      <div class="mini">
+        <div class="ag"><i>לוגו</i>הדר נסיעות</div>
+        <div class="body"><b style="font-family:var(--f-d);font-size:20px">ברצלונה · 12–19.10</b><div class="ln" style="width:90%"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:80%"></div></div>
+        <div class="pw">מופעל על ידי <img src="logo/svg/wordmark.svg" alt="PALAMI"></div>
+      </div>
+      <div class="type-card">
+        <h3>כללים</h3>
+        <ul class="clean">
+          <li>אזור עליון: לוגו הסוכנות וצבע אחד שלה. היא יכולה להחליף רק את <code>--brand</code> בכותרת ובכפתור הראשי.</li>
+          <li>צבעי המצב (אושר, אזהרה, ביטול) לא משתנים, כדי שנוסע תמיד יזהה התראה.</li>
+          <li>תחתית: "מופעל על ידי PALAMI", גובה 14px, לא לחיץ למכירה.</li>
+          <li>אם צבע הסוכנות לא עומד בניגודיות 4.5:1 מול לבן, המערכת חוזרת לירוק של PALAMI.</li>
+          <li>מסך הבית של הנוסע מציג את אייקון PALAMI. אייקון לכל סוכנות נדחה לגרסה 1.1.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="voice">
+    <div class="sh"><span class="eyebrow">12 · VOICE</span><h2>טון דיבור</h2>
+      <p>כמו סוכן טוב בטלפון: קצר, רגוע, מדויק, עם המידע שצריך עכשיו. עדיף לנסח בלי פנייה מגדרית ("אפשר", "כדאי", "מומלץ") כדי לא לבחור בין "תבחר" ל"תבחרי".</p></div>
+    <div class="say">
+      <div class="pair"><div class="q yes"><small>✓ כך</small>הטיסה לברצלונה יוצאת מחר ב־06:40. כדאי להגיע לנתב״ג עד 03:40.</div><div class="q no"><small>✕ לא כך</small>התראה: אירוע טיסה מתקרב (מזהה 4471).</div></div>
+      <div class="pair"><div class="q yes"><small>✓ כך</small>הקובץ גדול מדי. אפשר להעלות קובץ עד 20MB, או לצלם שוב.</div><div class="q no"><small>✕ לא כך</small>שגיאה 413. הפעולה נכשלה.</div></div>
+      <div class="pair"><div class="q yes"><small>✓ כך</small>שעת הטיסה השתנתה ל־08:15. הסוכנות כבר יודעת.</div><div class="q no"><small>✕ לא כך</small>אופס!! משהו השתנה בטיסה שלך 😬</div></div>
+      <div class="pair"><div class="q yes"><small>✓ כך</small>הנסיעה פורסמה. 4 נוסעים קיבלו קישור ב־WhatsApp.</div><div class="q no"><small>✕ לא כך</small>הפרסום בוצע בהצלחה רבה!</div></div>
+    </div>
+  </section>
+
+  <section id="files">
+    <div class="sh"><span class="eyebrow">13 · FILES</span><h2>הקבצים בתיקיית הפרויקט</h2>
+      <p>הכול נמצא בתיקייה <code>brand</code> בתוך תיקיית הפרויקט. במסך חדש מחברים את <code>tokens/tokens.css</code>, מגדירים על התגית <code>&lt;html&gt;</code> את המערכת (<code>data-product="agent"</code>, <code>"traveler"</code> או <code>"admin"</code>), ומשתמשים במשתנים, בלי לכתוב קודי צבע ישירות.</p></div>
+<pre class="tree"><b>brand/</b>
+├── brand-book.html            <em>this book</em>
+├── README.md                  <em>quick start for developers</em>
+├── <b>logo/</b>
+│   ├── png/   logo-full · logo-full-white-bg
+│   │          wordmark · wordmark-tagline (wordmark-on-dark: dark mode only)
+│   ├── svg/   wordmark · wordmark-tagline (+ -currentcolor)
+│   └── webp/  web-optimized copies
+├── <b>mascot/</b>    mascot.png · mascot-head.png
+├── <b>icons/ui/</b>  flight · hotel · ticket · insurance · transfer · emergency
+│              document · check-done · check-pending · check-attention
+├── <b>icons/</b>     favicon.ico/.svg/16/32/48 · apple-touch-icon(-120/152/167)
+│              icon-192/512 · icon-maskable-192/512 · icon-monochrome-512
+│              app-icon-1024 · app-icon-rounded-1024 · mstile-310
+├── <b>social/</b>    og-image-1200x630.png · avatar-800.png
+├── <b>tokens/</b>    tokens.css (loads all) · core.css
+│              theme-agent.css · theme-traveler.css · theme-admin.css
+│              tokens.json · tailwind.preset.js
+├── <b>web/</b>       head-snippet.html · site.webmanifest · browserconfig.xml
+├── <b>source/</b>    logo-master.png (v1.1 master) · logo-master-v1-original
+└── <b>scripts/</b>   phone.js · cut.js · vec.js · icons.js  <em>regenerate assets</em></pre>
+    <p class="note"><b>לגבי הרזולוציה:</b> קובץ המקור הוא 1774×887 פיקסלים. הוא מספיק למסכים, לאייקונים ולמיילים. השם והסלוגן הומרו לווקטור (SVG) ונראים חדים בכל גודל. הדמות קיימת רק כתמונה, אז לשלט, לרול־אפ או לדפוס גדול צריך לבקש מהמעצב את קובץ המקור הווקטורי (AI, SVG או PDF).</p>
+  </section>
+</main>
+
+</body></html>

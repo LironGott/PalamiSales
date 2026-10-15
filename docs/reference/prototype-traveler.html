@@ -1,0 +1,660 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PALAMI · נוסע</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* PALAMI traveler theme (brand/tokens/theme-traveler.css): warm paper, sage V, cream item rows, beaver moments.
+   Layout: אפליקציית נוסע במסגרת טלפון במרכז; בצד פאנל "מה לנסות"; בטלפון אמיתי האפליקציה ממלאת את המסך */
+:root{
+  --bg:#fbf8f2; --surface:#ffffff; --surface-2:#f4efe6; --ink:#16241d; --muted:#5c5951; --line:#e7e1d6;
+  --brand:#08402a; --brand-ink:#ffffff; --brand-soft:#eef6f1;
+  --ok:#33704f; --ok-fill:#5e9677; --ok-soft:#e6f0ea; --warn:#a85c28; --warn-soft:#fcf4ec; --bad:#b91c3c; --bad-soft:#fce8ec; --info:#1d5fa8; --info-soft:#e4eef8;
+  --copper:#c37237; --item:#fbf3e3; --wait-line:#a9c7b5; --focus:#c37237;
+  --shadow:0 1px 2px rgb(8 64 42 / .06),0 6px 18px rgb(8 64 42 / .07);
+  --page:#e9efe9; --frame:#08402a;
+  --f-d:"Rubik","Assistant",Arial,sans-serif; --f-b:"Assistant","Rubik",Arial,sans-serif; --f-m:"Rubik","Assistant",Arial,sans-serif;
+  --fs:16px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1712; --surface:#13211a; --surface-2:#1a2b22; --ink:#e8ede9; --muted:#9aa79f; --line:#26392f;
+  --brand:#74b590; --brand-ink:#021209; --brand-soft:#14291f;
+  --ok:#7fbf9a; --ok-fill:#5e9677; --ok-soft:#16271e; --warn:#e5a570; --warn-soft:#33241a; --bad:#f27a8c; --bad-soft:#331820; --info:#7fb2e8; --info-soft:#132235;
+  --copper:#d4884a; --item:#1f2a21; --wait-line:#3f5a4b; --focus:#d4884a;
+  --shadow:0 1px 2px rgb(0 0 0 / .35); --page:#070d0a; --frame:#3f8f64; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#0c1712; --surface:#13211a; --surface-2:#1a2b22; --ink:#e8ede9; --muted:#9aa79f; --line:#26392f;
+  --brand:#74b590; --brand-ink:#021209; --brand-soft:#14291f;
+  --ok:#7fbf9a; --ok-fill:#5e9677; --ok-soft:#16271e; --warn:#e5a570; --warn-soft:#33241a; --bad:#f27a8c; --bad-soft:#331820; --info:#7fb2e8; --info-soft:#132235;
+  --copper:#d4884a; --item:#1f2a21; --wait-line:#3f5a4b; --focus:#d4884a;
+  --shadow:0 1px 2px rgb(0 0 0 / .35); --page:#070d0a; --frame:#3f8f64; color-scheme:dark }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--f-b)}
+.stage{min-height:100%;display:flex;gap:40px;justify-content:center;align-items:flex-start;padding:28px 16px}
+.guide{width:300px;display:grid;gap:14px;padding-top:20px}
+.guide h1{font-family:var(--f-d);font-size:22px;margin:0}
+.guide p{margin:0;color:var(--muted);font-size:14.5px;line-height:1.6}
+.guide ol{margin:0;padding-inline-start:20px;display:grid;gap:8px;font-size:14.5px}
+.guide button.lnk{font:inherit;background:none;border:0;padding:0;color:var(--brand);text-decoration:underline;cursor:pointer;text-align:start}
+.guide .tag{font-family:var(--f-m);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.device{width:390px;height:800px;border:10px solid var(--frame);border-radius:44px;overflow:hidden;background:var(--bg);position:relative;display:flex;flex-direction:column;box-shadow:0 30px 60px rgb(0 0 0 / .18);flex:none}
+@media (max-width:760px){
+  .stage{padding:0;display:block}
+  .guide{display:none}
+  .device{width:100%;height:100vh;height:100dvh;border:0;border-radius:0;box-shadow:none}
+}
+.app{font-size:var(--fs);line-height:1.45;display:flex;flex-direction:column;height:100%;min-height:0}
+.status{display:flex;justify-content:space-between;padding:8px 22px 2px;font-family:var(--f-m);font-size:11.5px;color:var(--muted);direction:ltr;flex:none}
+.top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 14px 10px;background:var(--surface);flex:none;min-height:58px}
+.top h2{font-family:var(--f-d);font-size:1.1em;margin:0;flex:1}
+.logo{height:36px;width:128px;display:flex;align-items:center;color:var(--ink)}
+.logo svg{height:100%;width:100%}
+.ib{width:42px;height:42px;border-radius:50%;border:0;background:var(--surface-2);color:var(--ink);display:grid;place-items:center;cursor:pointer;flex:none}
+.ib svg{width:20px;height:20px}
+.sos{border:0;cursor:pointer;display:inline-flex;align-items:center;gap:5px;background:var(--bad-soft);color:var(--bad);font:700 .85em var(--f-b);padding:9px 13px;border-radius:999px;flex:none}
+.sos svg{width:16px;height:16px}
+.offbar{background:var(--warn-soft);color:var(--ink);font-size:.82em;padding:7px 16px;display:flex;gap:6px;align-items:center;flex:none}
+.view{flex:1;overflow-y:auto;padding:14px 16px 18px;display:flex;flex-direction:column;gap:12px;min-height:0}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1px solid var(--line);padding:8px 6px 14px;flex:none}
+.tabs button{border:0;background:none;cursor:pointer;display:grid;justify-items:center;gap:3px;font:500 .74em var(--f-b);color:var(--muted);padding:4px 0}
+.tabs button svg{width:24px;height:24px}
+.tabs button[aria-current="page"]{color:var(--brand);font-weight:700}
+.foot{display:flex;align-items:center;justify-content:center;gap:5px;font-size:10.5px;color:var(--muted);padding:4px 0 0}
+.foot img{height:12px;display:block}
+.vk{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--ok-fill);flex:none}
+.vk::after{content:"";width:11px;height:6px;border:solid #fff;border-width:0 0 2.5px 2.5px;transform:translateY(-1px) rotate(-45deg)}
+.vk.wait{background:transparent;border:2.4px dashed var(--wait-line)}.vk.wait::after{display:none}
+.vk.attn{background:var(--copper)}.vk.attn::after{content:"!";border:0;width:auto;height:auto;transform:none;color:#fff;font:800 15px/1 var(--f-d)}
+@media (prefers-reduced-motion:no-preference){.vk:not(.wait){animation:vkpop .45s cubic-bezier(.34,1.4,.64,1) both}@keyframes vkpop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}}
+.ready{background:var(--surface);border-radius:20px;padding:12px 12px 14px;display:grid;gap:10px;box-shadow:var(--shadow);border:0;font:inherit;color:inherit;text-align:start;cursor:pointer;width:100%}
+.ready-row{display:grid;grid-auto-flow:column;grid-auto-columns:calc((100% - 32px) / 4.35);gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 2px 4px;margin:-8px -2px 0;scrollbar-width:none}
+.ready-row::-webkit-scrollbar{display:none}
+.ready-row span{scroll-snap-align:start}
+.ready-more{display:flex;justify-content:flex-end;gap:4px;font-size:.72em;color:var(--muted)}
+.ready-row span{position:relative;display:grid;justify-items:center;gap:4px;background:var(--item);border-radius:14px;padding:10px 4px 8px;font:600 .74em var(--f-b);color:var(--ink)}
+.ready-row span svg{width:26px;height:26px;color:var(--brand)}
+.ready-row .vk{position:absolute;top:-6px;inset-inline-end:-4px;width:22px;height:22px;box-shadow:0 0 0 2px var(--surface)}
+.ready-row .vk::after{width:9px;height:5px;border-width:0 0 2.2px 2.2px}
+.mascot{display:block;margin-inline:auto;width:120px;height:auto}
+.empty .mascot{width:110px}
+.card{background:var(--surface);border-radius:20px;padding:14px;display:grid;gap:8px;box-shadow:var(--shadow)}
+.card.brand{background:var(--brand);color:var(--brand-ink)}
+.card.click{cursor:pointer;text-align:start;border:0;font:inherit;color:inherit;width:100%}
+.k{font-size:.76em;font-weight:700;color:var(--muted);letter-spacing:.02em}
+.card.brand .k{color:inherit;opacity:.85}
+.acts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.first{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--item);border-radius:16px;padding:12px 14px}
+.first>div{display:grid;gap:2px;min-width:0}
+.first .btn{background:var(--surface);border-color:var(--brand);color:var(--brand)}
+.offnote{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:14px;font:600 .88em var(--f-b);color:var(--ink);padding:10px 12px;cursor:pointer;text-align:start;width:100%}
+.offnote small{display:block;font-weight:400;color:var(--muted);font-size:.86em}
+.offnote>svg{width:18px;height:18px;color:var(--muted);transform:scaleX(-1)}
+.offnote .vk{width:20px;height:20px}
+.taxi{background:var(--surface);border-radius:20px;padding:22px 18px;display:grid;gap:6px;box-shadow:var(--shadow);text-align:start;direction:ltr}
+.taxi .es{font-size:.95em;color:var(--muted)}
+.taxi b{font:800 2em/1.15 var(--f-d);color:var(--ink)}
+.taxi span.l{font:600 1.45em/1.3 var(--f-d)}
+.pkrow{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.pkrow small{display:block;color:var(--muted);font-size:.78em}
+.pkx{border:0;background:var(--surface-2);color:var(--muted);width:32px;height:32px;border-radius:10px;cursor:pointer;font:600 1em var(--f-b)}
+.navs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.navs a{display:grid;justify-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:var(--surface);box-shadow:var(--shadow);color:var(--ink);text-decoration:none;font:600 .82em var(--f-b)}
+.navs a i{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font:700 1.05em var(--f-b);font-style:normal;color:#fff}
+.kv dd.addr{font-weight:500;line-height:1.35}
+.cdn{display:flex;gap:6px;justify-content:center;direction:ltr}
+.card.brand.cdc{justify-items:center;text-align:center}
+.qd{background:var(--surface);border-radius:20px;padding:12px 12px 14px;display:grid;gap:10px;box-shadow:var(--shadow)}
+.qd-g{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.qd-g button{position:relative;display:grid;justify-items:center;gap:4px;background:var(--item);border:0;border-radius:14px;padding:10px 4px 8px;font:600 .78em var(--f-b);color:var(--ink);cursor:pointer;min-height:64px}
+.qd-g svg{width:26px;height:26px;color:var(--brand)}
+.qn{position:absolute;top:6px;inset-inline-end:8px;min-width:20px;height:20px;border-radius:10px;padding:0 5px;background:var(--brand);color:var(--brand-ink);font:700 .85em/20px var(--f-b);text-align:center}
+.pend{display:grid;gap:8px}
+.pend .pf{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.pend .pf:last-of-type{border-bottom:0}
+.pend .pf svg{width:20px;height:20px;color:var(--brand)}
+.qd .lnk{border:0;background:none;font:600 .82em var(--f-b);color:var(--brand);cursor:pointer;padding:6px 0}
+.dbt{font:700 1.25em var(--f-d)}
+.dprog{height:7px;border-radius:4px;background:rgb(255 255 255 / .22);overflow:hidden}
+.dprog i{display:block;height:100%;border-radius:4px;background:var(--brand-ink)}
+.dtiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dtiles>*{display:grid;justify-items:center;gap:1px;background:rgb(255 255 255 / .14);border:0;border-radius:14px;padding:8px 4px;color:inherit;font:inherit;font-size:.8em;text-align:center;min-width:0}
+.dtiles>button{cursor:pointer}
+.dtiles b{font:700 1.55em var(--f-d);line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap}
+.fxrow{display:flex;align-items:center;gap:8px;background:rgb(255 255 255 / .14);border-radius:12px;padding:8px 10px}
+.fxrow label{display:flex;align-items:center;gap:6px;font-size:.85em}
+.fxrow input{width:84px;min-height:40px;border:0;border-radius:10px;padding:0 10px;font:600 1em var(--f-b);background:var(--surface);color:var(--ink);direction:ltr}
+.fxrow b{font:700 1.15em var(--f-d);margin-inline-start:auto}
+.acb{background:var(--brand-ink);color:var(--brand);border:0}
+.acg{background:rgb(255 255 255 / .16);color:var(--brand-ink);border:0}
+.demo-ph{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px dashed var(--line);padding-top:10px;flex-wrap:wrap}
+.ldoc{background:var(--surface);border-radius:20px;padding:16px;display:grid;gap:10px;box-shadow:var(--shadow);line-height:1.6;font-size:.95em}
+.ldoc h3{font:700 1.02em var(--f-d);margin:8px 0 0}
+.ldoc p{margin:0}
+.ldoc ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+.ldoc .sum{background:var(--item);border-radius:14px;padding:10px 12px;display:grid;gap:4px}
+.ldoc .fill{background:var(--warn-soft);border-radius:4px;padding:0 3px}
+.share{gap:10px}
+.chatrow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;text-align:start}
+.av{width:48px;height:48px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:var(--brand-soft);color:var(--brand);font:700 1em var(--f-d)}
+.av svg{width:100%;height:100%;display:block}
+.av.lg{width:96px;height:96px;font-size:1.8em}
+.cdn span{display:grid;justify-items:center;background:rgb(255 255 255 / .16);border-radius:12px;padding:6px 4px;font-size:.74em;width:64px;flex:none}
+.cdn b{font:700 1.9em var(--f-d);line-height:1.1;font-variant-numeric:tabular-nums}
+.tpw{position:relative}
+.tdd{position:absolute;top:calc(100% + 6px);inset-inline-end:0;z-index:6;width:min(290px,100%);display:grid;padding:4px;border-radius:16px;background:var(--surface);border:1px solid var(--line);box-shadow:0 12px 32px rgb(0 0 0 / .18)}
+.tpick{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px;padding:8px 12px;border:0;background:none;border-radius:12px;font:inherit;color:inherit;text-align:start;cursor:pointer;width:100%}
+.tpick+.tpick{border-top:1px solid var(--line);border-radius:0}
+.tpick:hover{background:var(--item)}
+.tpick b{font-family:var(--f-d);font-weight:600}
+.tpick small{display:block;color:var(--muted);font-size:.8em;font-variant-numeric:tabular-nums}
+.tpick.ended b{color:var(--muted)}
+.tpick .tck{width:22px;height:22px;flex:none;color:var(--brand)}
+.tpick .tend{font-size:.74em;color:var(--muted);white-space:nowrap}
+.tdd .tnote{font-size:.74em;color:var(--muted);padding:8px 12px 6px;border-top:1px solid var(--line)}
+.ttog[aria-expanded="true"] svg{transform:rotate(180deg)}
+.lt{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:8px;margin-top:2px}
+.lt b{font:700 1.35em var(--f-m);direction:ltr}
+.big{font-family:var(--f-d);font-size:1.85em;font-weight:700;line-height:1.1}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.between{justify-content:space-between}
+.nw{flex-wrap:nowrap}
+.muted{color:var(--muted)}
+.sm{font-size:.84em}
+.xs{font-size:.76em}
+.mono{font-family:var(--f-m);direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:.76em;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.info{background:var(--info-soft);color:var(--info)}.pill.br{background:var(--brand-soft);color:var(--brand)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:0 16px;border-radius:13px;font:600 .9em var(--f-b);border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--brand);color:var(--brand-ink);border-color:transparent}
+.btn.ghost{background:var(--surface-2);border-color:transparent}
+.btn.danger{background:var(--bad);color:#fff;border-color:transparent}
+.btn.s{min-height:36px;padding:0 12px;font-size:.82em;border-radius:10px}
+.btn.full{width:100%}
+.btn:focus-visible,.ib:focus-visible,.tabs button:focus-visible,.chip:focus-visible,.card.click:focus-visible,.sos:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.qa{border:0;cursor:pointer;background:var(--surface);border-radius:16px;padding:12px 4px;display:grid;justify-items:center;gap:4px;font:600 .82em var(--f-b);color:var(--ink);box-shadow:var(--shadow)}
+.qa svg{width:26px;height:26px;color:var(--brand)}
+.qa small{font-weight:400;color:var(--muted);font-size:.86em}
+.ic{width:42px;height:42px;border-radius:12px;background:var(--brand-soft);color:var(--brand);display:grid;place-items:center;flex:none}
+.ic svg{width:21px;height:21px}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:.92em}
+dl.kv dt{color:var(--muted)}dl.kv dd{margin:0;font-weight:600}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;flex:none}
+.chips.swipe{flex-wrap:nowrap;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
+.chips.swipe::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:12px;padding:7px 12px;font:500 .8em var(--f-b);cursor:pointer;line-height:1.25;text-align:center}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:transparent}
+.tl{display:grid}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:12px;padding:3px;align-self:flex-start;flex:none}
+.seg button{border:0;background:none;font:600 .86em var(--f-b);color:var(--muted);padding:8px 18px;border-radius:10px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.seg button:focus-visible{outline:3px solid var(--focus)}
+.wday{background:var(--surface);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;flex:none}
+.wday>button.wh{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;background:var(--surface-2);font:600 .86em var(--f-b);color:var(--ink);padding:8px 12px;cursor:pointer}
+.wev{display:grid;grid-template-columns:48px minmax(0,1fr);gap:8px;padding:8px 12px;border:0;border-top:1px solid var(--line);background:none;font:inherit;color:inherit;text-align:start;width:100%;cursor:pointer;font-size:.88em}
+.wev .tm{font-family:var(--f-m);font-weight:600;direction:ltr;text-align:right}
+.wfree{padding:8px 12px;font-size:.82em;color:var(--muted)}
+.wkh{display:flex;gap:8px;overflow-x:auto;padding:2px 2px 10px;scroll-snap-type:x mandatory;flex:none}
+.wc{flex:0 0 104px;display:flex;flex-direction:column;gap:6px;scroll-snap-align:start}
+.wch{border:0;background:var(--surface);border-radius:12px;padding:6px 0;font:500 .78em var(--f-b);color:var(--muted);box-shadow:var(--shadow);cursor:pointer;display:grid;justify-items:center}
+.wch b{font:700 1.4em var(--f-d);color:var(--ink)}
+.wcb{border:0;background:var(--brand-soft);color:var(--ink);border-radius:10px;padding:7px 8px;font:500 .78em var(--f-b);text-align:start;display:grid;gap:1px;cursor:pointer;line-height:1.3}
+.wcb .mono{font-weight:600;color:var(--brand)}
+.wcb.upd{background:var(--warn-soft)}
+.wcf{font-size:.76em;color:var(--muted);text-align:center;border:1px dashed var(--line);border-radius:10px;padding:8px 0}
+@media (min-width:761px){.device .wc{flex-basis:104px}}
+.tli{display:grid;grid-template-columns:52px 14px minmax(0,1fr);gap:8px}
+.tlt{font-family:var(--f-m);font-size:.84em;font-weight:600;text-align:end;padding-top:15px;direction:ltr}
+.tlr{position:relative}
+.tlr::before{content:"";position:absolute;inset-inline-start:6px;top:0;bottom:0;width:2px;background:var(--line)}
+.tlr i{position:absolute;inset-inline-start:2px;top:19px;width:10px;height:10px;border-radius:50%;background:var(--brand);border:2px solid var(--bg)}
+.tli .card{margin-block:5px;padding:12px}
+.list{display:grid;gap:10px}
+.doc{display:grid;grid-template-columns:42px minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px 14px;background:var(--item);border-radius:16px;box-shadow:none;border:0;cursor:pointer;font:inherit;color:inherit;text-align:start;width:100%}
+.doc b{display:block;font-size:.95em}
+.doc .ic{background:transparent;width:36px;height:36px}.doc .ic svg{width:28px;height:28px}
+.doc small{color:var(--muted);font-size:.8em}
+.banner{border-radius:14px;padding:12px 14px;font-size:.88em;display:grid;gap:6px}
+.banner.warn{background:var(--warn-soft)}.banner.info{background:var(--info-soft)}.banner.ok{background:var(--ok-soft)}
+.trow{display:grid;grid-template-columns:54px minmax(0,1fr) auto;gap:12px;align-items:center;background:var(--surface);border-radius:18px;padding:12px;box-shadow:var(--shadow);border:0;font:inherit;color:inherit;cursor:pointer;text-align:start;width:100%}
+.trow .d{width:54px;height:58px;border-radius:13px;background:var(--surface-2);display:grid;place-items:center;text-align:center;line-height:1.1;font-size:.72em;color:var(--muted)}
+.trow .d b{display:block;font-size:1.5em;color:var(--ink);font-family:var(--f-d)}
+.trow.cur{outline:2px solid var(--brand)}
+.trow.cur .d{background:var(--brand);color:var(--brand-ink)}.trow.cur .d b{color:var(--brand-ink)}
+.legal-note{font-size:.8em;color:var(--muted);text-align:center;line-height:1.5}
+.legal-note summary{cursor:pointer;list-style:none}
+.legal-note summary::-webkit-details-marker{display:none}
+.legal-note summary u{text-decoration-color:var(--line);text-underline-offset:3px}
+.legal-note p{text-align:start;margin:8px 0 0;background:var(--item);border-radius:12px;padding:10px 12px;color:var(--ink)}
+.setrow{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.setrow:last-child{border-bottom:0}
+.setrow svg{width:20px;height:20px;color:var(--brand)}
+.tog{width:48px;height:28px;border-radius:999px;border:0;background:var(--line);position:relative;cursor:pointer;flex:none}
+.tog::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:inset .15s}
+.tog[aria-checked="true"]{background:var(--brand)}
+.tog[aria-checked="true"]::after{inset-inline-start:23px}
+.tog.lock{opacity:.6}
+.menuitem{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;padding:14px 4px;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;color:inherit;cursor:pointer;text-align:start;width:100%}
+.menuitem svg{width:22px;height:22px;color:var(--brand)}
+.menuitem > svg:last-child{transform:scaleX(-1);color:var(--muted);width:16px;height:16px}
+.mapbox{border-radius:18px;overflow:hidden;background:var(--surface-2);flex:none}
+.mapbox svg{display:block;width:100%;height:auto}
+.stop{display:grid;grid-template-columns:26px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);font-size:.9em}
+.stop:last-child{border-bottom:0}
+.num{width:26px;height:26px;border-radius:50%;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font:700 .72em var(--f-m)}
+.num.q{background:transparent;color:var(--warn);border:2px dashed var(--warn)}
+.paper{background:var(--surface);border-radius:12px;padding:18px;display:grid;gap:9px;font-family:var(--f-m);font-size:.74em;direction:ltr;text-align:left;color:var(--muted);box-shadow:var(--shadow)}
+.paper .ln{height:7px;border-radius:3px;background:var(--surface-2)}
+.paper b{color:var(--ink)}
+.ib.bell{position:relative}
+.ib.bell .dot{position:absolute;top:-3px;inset-inline-end:-3px;min-width:19px;height:19px;border-radius:10px;background:var(--bad);color:#fff;font:700 .68em var(--f-b);display:grid;place-items:center;padding:0 4px}
+.ib.bell.ring svg{animation:ring .8s ease 1}
+@keyframes ring{0%,100%{transform:rotate(0)}20%{transform:rotate(14deg)}40%{transform:rotate(-12deg)}60%{transform:rotate(8deg)}80%{transform:rotate(-4deg)}}
+.nrow{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;padding:12px;border:0;border-radius:14px;background:var(--surface);box-shadow:var(--shadow);text-align:start;font:inherit;color:inherit;cursor:pointer}
+.nrow.un{border-inline-start:4px solid var(--brand)}
+.nrow.un b{font-weight:700}
+.nrow b{font-weight:500}
+.fld{display:grid;gap:5px;font-size:.88em;color:var(--muted)}
+.fld input,.fld select{font:inherit;font-size:1.08em;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:12px;min-height:48px;padding:0 12px}
+.fld input:focus,.fld select:focus{outline:3px solid var(--focus);border-color:transparent}
+.byme{font-size:.72em;font-weight:600;background:var(--info-soft);color:var(--info);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.fileinput{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.login{display:grid;gap:14px;padding:28px 20px;align-content:center;min-height:100%}
+.otp{display:flex;gap:8px;justify-content:center;direction:ltr}
+.otp input{width:42px;height:52px;text-align:center;font:600 1.3em var(--f-m);border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink)}
+.otp input:focus{outline:3px solid var(--focus);border-color:transparent}
+.msgs{display:flex;flex-direction:column;gap:8px}
+.msg{max-width:84%;padding:10px 13px;border-radius:16px;font-size:.92em;display:grid;gap:3px}
+.msg.me{align-self:flex-start;background:var(--brand);color:var(--brand-ink);border-end-start-radius:4px}
+.msg.them{align-self:flex-end;background:var(--surface);box-shadow:var(--shadow);border-end-end-radius:4px}
+.msg small{font-size:.74em;opacity:.75}
+.composer{display:flex;gap:8px;align-items:center;padding:10px 14px 14px;background:var(--surface);border-top:1px solid var(--line);flex:none}
+.composer input{flex:1;min-height:46px;border-radius:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:0 14px;font:inherit}
+.composer input:focus{outline:3px solid var(--focus);border-color:transparent}
+.ecard{background:var(--surface);border-radius:16px;padding:12px 14px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 12px;align-items:center;box-shadow:var(--shadow)}
+.ecard .n{font:600 1.6em var(--f-m);direction:ltr;text-align:right}
+.tsheet{position:absolute;inset-inline:0;bottom:0;z-index:6;background:var(--surface);border-radius:22px 22px 0 0;padding:18px 18px 22px;display:grid;gap:10px;box-shadow:0 -12px 32px rgb(0 0 0 / .2)}
+.tsheet h3{margin:0;font:700 1.08em var(--f-d)}
+.tsheet .lnk{border:0;background:none;padding:0;font:600 .9em var(--f-b);color:var(--brand);text-decoration:underline;cursor:pointer;justify-self:start}
+.toast{position:absolute;inset-inline:16px;bottom:96px;background:var(--ink);color:var(--bg);border-radius:14px;padding:12px 14px;font-size:.88em;display:flex;justify-content:space-between;gap:10px;align-items:center;box-shadow:0 8px 24px rgb(0 0 0 / .25);z-index:5}
+.empty{display:grid;justify-items:center;text-align:center;gap:8px;padding:40px 16px;color:var(--muted)}
+.empty svg{width:44px;height:44px;color:var(--brand)}
+svg.i{width:18px;height:18px;flex:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="plane" viewBox="0 0 24 24"><path fill="currentColor" d="M21 15.5v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V8.5l-8 5v2l8-2.5V18l-2 1.5V21l3.5-1 3.5 1v-1.5L13 18v-5z"/></symbol>
+  <symbol id="bed" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h2v7h6V8h7a3 3 0 0 1 3 3v8h-2v-2H5v2H3zm4.5 6A2 2 0 1 1 7.5 8a2 2 0 0 1 0 4"/></symbol>
+  <symbol id="doc" viewBox="0 0 24 24"><path fill="currentColor" d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m7 1.5V8h4.5zM8 12v1.5h8V12zm0 3.5V17h8v-1.5z"/></symbol>
+  <symbol id="cal" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2zm-2 8v9h14v-9z"/></symbol>
+  <symbol id="map" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7m0 4.5A2.5 2.5 0 1 0 12 11.5 2.5 2.5 0 0 0 12 6.5"/></symbol>
+  <symbol id="home" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3l9 8h-3v9h-5v-6h-2v6H6v-9H3z"/></symbol>
+  <symbol id="menu" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path fill="currentColor" d="M8.6 5.6 10 4.2l7.8 7.8L10 19.8l-1.4-1.4 6.4-6.4z"/></symbol>
+  <symbol id="shield" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5zm-1 13l6-6-1.4-1.4L11 12.2 8.4 9.6 7 11z"/></symbol>
+  <symbol id="sos" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m-1 5v7h2V7zm0 9v2h2v-2z"/></symbol>
+  <symbol id="user" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9m0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5"/></symbol>
+  <symbol id="cloud" viewBox="0 0 24 24"><path fill="currentColor" d="M6.5 19a4.5 4.5 0 0 1-.9-8.9A6 6 0 0 1 17.4 9 5 5 0 0 1 17.5 19zm4-3.5 5-5-1.4-1.4-3.6 3.6-1.6-1.6L7.5 12.5z"/></symbol>
+  <symbol id="lock" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10V7a5 5 0 0 1 10 0v3h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2zm2 0h6V7a3 3 0 0 0-6 0z"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
+  <symbol id="alert" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2 1 21h22zm-1 7h2v6h-2zm0 8h2v2h-2z"/></symbol>
+  <symbol id="car" viewBox="0 0 24 24"><path fill="currentColor" d="M5 11l1.5-4.5A2 2 0 0 1 8.4 5h7.2a2 2 0 0 1 1.9 1.5L19 11a2 2 0 0 1 2 2v5h-2v2h-2v-2H7v2H5v-2H3v-5a2 2 0 0 1 2-2m2.1 0h9.8l-1-3.3H8.1zM6.5 16a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m11 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/></symbol>
+  <symbol id="food" viewBox="0 0 24 24"><path fill="currentColor" d="M7 2h2v7a2 2 0 0 1-1 1.7V22H6V10.7A2 2 0 0 1 5 9V2h2v5zm9 0c2 0 3 2.5 3 6s-1 4-2 4v10h-2V2z"/></symbol>
+  <symbol id="ticket" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4zm9 1v2h2V7zm0 4v2h2v-2zm0 4v2h2v-2z"/></symbol>
+  <symbol id="bus" viewBox="0 0 24 24"><path fill="currentColor" d="M4 16V6c0-3 3.6-3 8-3s8 0 8 3v10a2 2 0 0 1-1 1.7V20h-3v-2H8v2H5v-2.3A2 2 0 0 1 4 16m2-9v4h12V7zm1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/></symbol>
+  <symbol id="walk" viewBox="0 0 24 24"><path fill="currentColor" d="M13.5 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4M9.8 8.9 7 23h2.1l1.8-8 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 19 13v-2a5 5 0 0 1-4.3-2.4l-1-1.6a2 2 0 0 0-1.7-1c-.3 0-.5.1-.8.1L6 8.3V13h2V9.6z"/></symbol>
+  <symbol id="chat" viewBox="0 0 24 24"><path fill="currentColor" d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 1-2m3 6v2h10V9zm0 4v2h7v-2z"/></symbol>
+  <symbol id="phone" viewBox="0 0 24 24"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.6 3.6a1 1 0 0 1-.25 1z"/></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2m7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></symbol>
+  <symbol id="sun" viewBox="0 0 24 24"><path fill="currentColor" d="M12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10M11 1h2v3h-2zm0 19h2v3h-2zM1 11h3v2H1zm19 0h3v2h-3zM4.2 5.6l1.4-1.4 2.1 2.1-1.4 1.4zm12.1 12.1 1.4-1.4 2.1 2.1-1.4 1.4zM4.2 18.4l2.1-2.1 1.4 1.4-2.1 2.1zM16.3 6.3l2.1-2.1 1.4 1.4-2.1 2.1z"/></symbol>
+  <symbol id="text" viewBox="0 0 24 24"><path fill="currentColor" d="M3 5h11v3h-4v11H7V8H3zm11 6h7v2.5h-2.2V19h-2.6v-5.5H14z"/></symbol>
+  <symbol id="swap" viewBox="0 0 24 24"><path fill="currentColor" d="M7 7h12v2H7v3L3 8l4-4zm10 8H5v-2h12v-3l4 4-4 4z"/></symbol>
+  <symbol id="down" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10l5 5 5-5z"/></symbol>
+  <symbol id="send" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12 3 20l2-8-2-8zM5.5 11h7v2h-7z" transform="scale(-1,1) translate(-24,0)"/></symbol>
+  <symbol id="heart" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21 10.6 19.7C5.4 15 2 12 2 8.4 2 5.4 4.4 3 7.4 3c1.7 0 3.4.8 4.6 2.1A6.2 6.2 0 0 1 16.6 3C19.6 3 22 5.4 22 8.4c0 3.6-3.4 6.6-8.6 11.3z"/></symbol>
+  <symbol id="info" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m-1 8v7h2v-7zm0-4v2h2V6z"/></symbol>
+  <symbol id="logo" viewBox="0 0 220 60"><circle cx="190" cy="30" r="22" fill="#f2a417"/><path d="M190 12a18 18 0 0 1 0 36" fill="none" stroke="#fff" stroke-width="3"/><path d="M174 30h32M190 14v32" stroke="#fff" stroke-width="2"/><text x="160" y="28" text-anchor="end" font-family="Assistant,Arial" font-weight="700" font-size="22" fill="currentColor">מסעות הדרים</text><text x="160" y="47" text-anchor="end" font-family="Assistant,Arial" font-size="12" fill="currentColor" opacity=".7">סוכנות לדוגמה</text></symbol>
+</defs></svg>
+
+<div class="stage" dir="rtl" lang="he">
+  <aside class="guide" aria-label="הסבר">
+    <img src="brand/logo/svg/wordmark.svg" alt="PALAMI" style="height:28px;justify-self:start"><span class="tag">אב טיפוס לחיץ · מערכת הנוסעים</span>
+    <h1>מה רואה הנוסע</h1>
+    <p>אפליקציית Web שנפתחת מקישור, בלי התקנה, בשפת PALAMI לנוסעים: רקע חם, שורות בגוון שמנת עם V מרווה לכל מה שמוכן, והבונה ברגעים הנכונים. הלוגו של הסוכנות בכותרת. נכנסים עם נייד וסיסמה (באב הטיפוס כל סיסמה עובדת, ו"שלחו לי קוד" מדגים כניסה ראשונה). כל הנתונים לדוגמה: דנה כהן, שלוש נסיעות עם "מסעות הדרים" (סוכנות בדויה).</p>
+    <span class="tag">נסו</span>
+    <ol>
+      <li><button class="lnk" data-go="event:f1">פתחו את פרטי הטיסה</button></li>
+      <li><button class="lnk" data-act="tripdd">החליפו נסיעה מהשם שבראש המסך</button>: רק נסיעות שנשלחו, ונסיעות שהסתיימו</li>
+      <li><button class="lnk" data-go="notifs">פתחו את הפעמון</button> ולחצו על התראה</li>
+      <li><button class="lnk" data-act="phase" data-ph="during">מסך הבית בזמן הנסיעה</button> ו<button class="lnk" data-act="phase" data-ph="after">אחרי החזרה</button>: הכרטיס הירוק משתנה לפי שלב הנסיעה. לחצו על שער האירו</li>
+      <li><button class="lnk" data-go="add">הוסיפו מסמך</button>: בוחרים עם מי לשתף ואת הקבצים, מאשרים ב"הוספה למסמכים", ובסוף "סיום וחזרה למסמכים". בהדמיה כרטיס נכנס גם ללו״ז, ביטוח רק למסמכים, ובשובר רכב בלי שעת החזרה מבקשים להשלים</li>
+      <li><button class="lnk" data-go="addev">הוסיפו פעילות ללו״ז</button>, אפשר עם מסמך מצורף</li>
+      <li><button class="lnk" data-go="emergency">לחצו על "חירום"</button>, ומשם <button class="lnk" data-go="taxi">הכתובת לנהג</button> בשפת המדינה, עם מעבר לאנגלית</li>
+      <li><button class="lnk" data-go="legal">פרטיות ונגישות</button>: מדיניות הפרטיות, תנאי השימוש והצהרת הנגישות המלאים, והגרסה שראית</li>
+      <li><button class="lnk" data-act="termsdemo">הדמיה: עדכון מהותי במדיניות הפרטיות</button>: הודעה חד־פעמית עם "הבנתי"</li>
+      <li><button class="lnk" data-go="chat">שלחו הודעה לסוכנת</button></li>
+      <li><button class="lnk" data-go="schedule">לו״ז: עברו בין "יום" ל"שבוע"</button></li>
+      <li><button class="lnk" data-act="logout">צאו ונכנסו שוב</button> עם נייד וסיסמה</li>
+      <li><button class="lnk" data-go="settings">הפעילו "טקסט גדול"</button></li>
+      <li><button class="lnk" data-go="offline">אופליין: הכול נשמר לבד</button></li>
+      <li><button class="lnk" data-go="settings">בחרו ערוצי עדכון (Push, WhatsApp, אימייל)</button></li>
+    </ol>
+    <p class="xs">הלחיצות על "התקשר", "ניווט" ו"הורדה" מציגות הודעה בלבד. באפליקציה האמיתית הן מחייגות, פותחות מפות או מורידות קובץ.</p>
+  </aside>
+  <div class="device"><div class="app" id="app"></div></div>
+</div>
+
+<script>
+(function(){
+var S={agentPhoto:true,agentEPhone:true,logged:false,lstep:'login',travUp:true,ring:false,adds:[],phase:'before',share:'me',sharePick:{},pend:[],termsNotice:false,ver:{terms:'1.0',privacy:'1.0',at:'2.10.2026 · בכניסה הראשונה'},taxiEn:false,fx:false,
+  notifs:[
+    {id:'t1',t:'הטיסה LY 395: איסוף ההסעה עודכן ל־11:00',at:'לפני 5 דקות',un:true,go:'event:t1',ic:'bus'},
+    {id:'t2',t:'הצ\'ק־אין לטיסה LY 395 ייפתח מחר ב־06:10',at:'לפני שעה',un:true,go:'home',ic:'plane'},
+    {id:'t3',t:'רונית ענתה לך בצ\'אט',at:'היום 10:51',un:false,go:'chat',ic:'chat'},
+    {id:'t4',t:'כרטיס הטיסה שלך עודכן',at:'אתמול',un:false,go:'doc:d2',ic:'doc'}
+  ],
+  trip:'bcn',stack:['home'],day:'12',week:false,docf:'all',unlocked:false,offline:false,big:false,checkin:false,
+  notif:{checkin:true,morning:true,events:false,offers:true},chan:{push:true,wa:true,mail:false},chat:[
+    {me:true,t:'היי רונית, יש עגלת תינוק בהסעה מהשדה? אנחנו עם נועה הקטנה',at:'10:42'},
+    {me:false,t:'היי דנה, בודקת מול חברת ההסעות ומעדכנת עד הצהריים',at:'10:51'},
+    {me:true,t:'סגרנו ביטוח נסיעות לבד, והעליתי את הפוליסה לאפליקציה',at:'10:53'}],
+  packing:{pass:true,adapt:false,umb:false,meds:true},packList:[['pass','דרכונים בתוקף','auto'],['adapt','מתאם חשמל (תקע אירופאי)','auto'],['umb','מטרייה קטנה','auto'],['meds','תרופות קבועות','auto'],['shoes','נעליים נוחות להליכה בעיר','רונית']]};
+try{var sv=JSON.parse(localStorage.getItem('proto-trav')||'null');if(sv){S.big=!!sv.big;}}catch(e){}
+
+var TRIPS={
+  bcn:{name:'ברצלונה',dates:'12–19 בנובמבר 2026',pax:4,live:true,d:'12',m:'נוב׳',count:'עוד 3 ימים',when:'יום ה׳, 12 בנובמבר · 06:10 שעון ישראל'},
+  rom:{name:'רומא ופירנצה',dates:'4–11 במרץ 2027',pax:2,live:false,d:'4',m:'מרץ'},
+  cre:{name:'כרתים',dates:'9–16 באוגוסט 2027',pax:5,live:false,d:'9',m:'אוג׳'},
+  ath:{name:'אתונה',dates:'18–23 במאי 2026',pax:2,live:false,ended:true,d:'18',m:'מאי'}
+};
+var DAYS=[['12','ה׳'],['13','ו׳'],['14','ש׳'],['15','א׳'],['16','ב׳'],['17','ג׳'],['18','ד׳'],['19','ה׳']];
+var EV={
+  f1:{addr:'נמל התעופה בן גוריון, טרמינל 3',day:'12',t:'06:10',tz:'שעון ישראל',ic:'plane',title:'המראה · LY 395',sub:'נתב״ג טרמינל 3',kv:[['טיסה','LY 395'],['מ־','תל אביב, טרמינל 3'],['אל','ברצלונה, טרמינל 1'],['המראה','06:10 שעון ישראל'],['נחיתה','10:05 שעון ברצלונה'],['הזמנה','X7KQ2P'],['כבודה','23 ק״ג לנוסע']],doc:'d1',src:'אישור-הזמנת-טיסה.pdf · שובץ אוטומטית · 2 באוק׳'},
+  f2:{day:'12',t:'10:05',tz:'שעון ברצלונה',ic:'plane',title:'נחיתה בברצלונה',sub:'טרמינל 1',kv:[['טיסה','LY 395'],['נחיתה','10:05 שעון ברצלונה'],['טרמינל','1']],doc:'d1',src:'אישור-הזמנת-טיסה.pdf'},
+  t1:{addr:'Aeroport de Barcelona-El Prat, Terminal 1',day:'12',t:'11:00',tz:'שעון ברצלונה',ic:'bus',title:'הסעה למלון',sub:'מפגש באולם הנוסעים המגיעים, שלט "כהן"',upd:true,kv:[['איסוף','11:00 (עודכן, היה 10:45)'],['מפגש','אולם נוסעים מגיעים, שלט "כהן"'],['נהג','+34 611 220 118'],['נוסעים','4 + עגלה']],doc:'d7',src:'עדכון-הסעה.pdf · עודכן ע״י רונית · אתמול'},
+  h1:{addr:'Carrer de Pujades 145, Barcelona',day:'12',t:'15:00',tz:'שעון ברצלונה',ic:'bed',title:"צ'ק-אין · Hotel Mar Blau",sub:'אישור 88412 · 2 חדרים',kv:[["צ'ק-אין",'12/11 מ־15:00'],["צ'ק-אאוט",'19/11 עד 11:00'],['אורחים','2 מבוגרים, 2 ילדים'],['חדרים','2 חדרים משפחתיים'],['ארוחות','ארוחת בוקר כלולה'],['בקשות מיוחדות','לול לתינוקת בחדר. כדאי לוודא בקבלה'],['אישור','88412']],doc:'d3',src:'שובר-מלון.pdf · שובץ אוטומטית'},
+  r1:{by:'דנה',day:'12',t:'20:30',tz:'שעון ברצלונה',ic:'food',title:'ארוחת ערב · El Pati',sub:'כתובת לא אומתה',unv:true,kv:[['שעה','20:30'],['סועדים','4'],['כתובת','לא אומתה']],src:'הוסף על ידי דנה'},
+  g1:{addr:'Plaça Nova 5, Barcelona',day:'13',t:'09:45',tz:'שעון ברצלונה',ic:'walk',title:'סיור מודרך ברובע הגותי',sub:'Plaça Nova, ליד הקתדרלה',kv:[['שעות','09:45–12:45'],['כתובת','Plaça Nova 5, Barcelona · נקודת המפגש ליד הקתדרלה'],['שפה','עברית'],['הזמנה','TR-5521']],doc:'d8',src:'שובר-סיור.pdf · שובץ אוטומטית'},
+  l1:{addr:'Carrer del Bisbe 8, Barcelona',day:'13',t:'13:00',tz:'שעון ברצלונה',ic:'food',title:'ארוחת צהריים',sub:'הזמנה ל־4',kv:[['שעות','13:00–14:30'],['כתובת','Carrer del Bisbe 8, Barcelona'],['סועדים','4']],src:'הוזן ע״י רונית'},
+  c1:{addr:'Aeroport de Barcelona-El Prat, Terminal 1',day:'14',t:'10:00',tz:'שעון ברצלונה',ic:'car',title:'איסוף רכב שכור',sub:'תחנת ההשכרה בשדה, טרמינל 1',kv:[['איסוף','14/11 10:00'],['מקום איסוף','תחנת ההשכרה, שדה התעופה אל פראט, טרמינל 1'],['החזרה','19/11 12:30'],['מקום החזרה','אותה תחנה'],['קטגוריה','רכב משפחתי'],['נהג','דנה כהן']],doc:'d5',src:'שובר-רכב.pdf'},
+  m1:{addr:'Camp Nou, Carrer d\'Arístides Maillol 12, Barcelona',day:'14',t:'21:00',tz:'שעון ברצלונה',ic:'ticket',title:'משחק כדורגל',sub:'שער 9 · 4 מושבים',kv:[['שעות','21:00–22:45'],['כתובת','Camp Nou, Carrer d\'Arístides Maillol 12, Barcelona'],['פתיחת שערים','19:30'],['שער','9'],['מושבים','שורה 12, 4 מושבים']],doc:'d6',src:'כרטיסים.pdf'},
+  o1:{addr:'Carrer de Pujades 145, Barcelona',day:'19',t:'11:00',tz:'שעון ברצלונה',ic:'bed',title:"צ'ק-אאוט מהמלון",sub:'Hotel Mar Blau',kv:[["צ'ק-אאוט",'עד 11:00']],doc:'d3',src:'שובר-מלון.pdf'},
+  f3:{addr:'Aeroport de Barcelona-El Prat, Terminal 1',day:'19',t:'16:20',tz:'שעון ברצלונה',ic:'plane',title:'טיסה הביתה · LY 396',sub:'נחיתה 21:05 שעון ישראל',kv:[['טיסה','LY 396'],['המראה','16:20 שעון ברצלונה'],['נחיתה','21:05 שעון ישראל'],['הזמנה','X7KQ2P']],doc:'d1',src:'אישור-הזמנת-טיסה.pdf'}
+};
+var DOCS=[
+  {id:'d4',cat:'ins',ic:'shield',t:'ביטוח נסיעות · Securitas',dt:'כל הנסיעה',who:'רק לך',k:'0',by:'דנה',off:true,name:'ביטוח נסיעות · Securitas · דנה כהן'},
+  {id:'d1',cat:'flight',ic:'plane',t:'טיסות הלוך וחזור · LY 395',dt:'12–19 בנוב׳',who:'לכל הנוסעים',k:'202611120000',off:true,name:'טיסה LY395 · תל אביב–ברצלונה · 12.11.2026'},
+  {id:'d2',cat:'flight',ic:'plane',t:'כרטיס טיסה הלוך · LY 395',dt:'ה׳ 12 בנוב׳ · 06:10',who:'רק לך',k:'202611120610',tm:'06:10',neu:'עודכן',off:true,name:'כרטיס טיסה · LY395 · דנה כהן'},
+  {id:'d7',cat:'other',ic:'bus',t:'הסעה · שדה התעופה–המלון',dt:'ה׳ 12 בנוב׳ · 11:00',who:'לכל הנוסעים',k:'202611121100',tm:'11:00',neu:'עודכן',off:true,name:'הסעה · שדה–מלון · 12.11.2026'},
+  {id:'d3',cat:'hotel',ic:'bed',t:'מלון Hotel Mar Blau',dt:'12–19 בנוב׳ · 7 לילות',who:'לכל הנוסעים',k:'202611121500',off:true,name:'מלון Hotel Mar Blau · 12–19.11.2026'},
+  {id:'d8',cat:'tix',ic:'walk',t:'סיור מודרך · הרובע הגותי',dt:'ו׳ 13 בנוב׳ · 09:45',who:'לכל הנוסעים',k:'202611130945',tm:'09:45',off:true,name:'סיור · הרובע הגותי · 13.11.2026'},
+  {id:'d9',cat:'tix',ic:'ticket',t:'הופעה · פאלאו דה לה מוזיקה',dt:'ו׳ 13 בנוב׳ · 20:30',who:'רק לך',k:'202611132030',tm:'20:30',by:'דנה',off:true,name:'כרטיס · הופעה בפאלאו דה לה מוזיקה · 13.11.2026 · דנה כהן'},
+  {id:'d5',cat:'car',ic:'car',t:'רכב שכור · Sixt',dt:'14–19 בנוב׳ · איסוף 10:00',who:'לכל הנוסעים',k:'202611141000',tm:'10:00',off:true,name:'רכב שכור · Sixt · 14–19.11.2026'},
+  {id:'d6',cat:'tix',ic:'ticket',t:'כדורגל · ברצלונה–ריאל מדריד',dt:'ש׳ 14 בנוב׳ · 21:00',who:'לך, לאורי וליואב',x:'3 מושבים',k:'202611142100',tm:'21:00',off:true,name:'כרטיסים · ברצלונה–ריאל מדריד · 14.11.2026'}
+];
+var MON=['ינו׳','פבר׳','מרץ','אפר׳','מאי','יוני','יולי','אוג׳','ספט׳','אוק׳','נוב׳','דצמ׳'];
+function docMeta(d){return [d.dt,d.who,d.x].filter(Boolean).join(' · ');}
+function docsSorted(f){return DOCS.filter(function(d){return !f||f==='all'||d.cat===f;}).slice().sort(function(a,b){return String(a.k||'0').localeCompare(String(b.k||'0'));});}
+function docRow(d){var tail=d.neu?'<span class="pill warn">'+(d.neu===true?'חדש':d.neu)+'</span>':d.lock&&!S.unlocked?ic('lock'):'<i class="vk" title="שמור בטלפון" aria-label="שמור בטלפון"></i>';
+  return '<button class="doc" data-go="doc:'+d.id+'"><span class="ic">'+ic(d.ic)+'</span><div><b>'+d.t+'</b><small>'+docMeta(d)+'</small>'+(d.by?'<span class="byme">הוספת בעצמך</span>':'')+'</div>'+tail+'</button>';}
+function whoLbl(){if(S.share==='all')return 'לכל הנוסעים';if(S.share==='me')return 'רק לך';var n=PAXN.filter(function(p){return S.sharePick[p[0]];}).map(function(p){return 'ל'+p[1].split(' ')[0];});return n.length?'לך, '+(n.length>1?n.slice(0,-1).join(', ')+' ו'+n[n.length-1]:n[0]):'רק לך';}
+
+var MAPDAY={'12':['f2','t1','h1','r1'],'13':['g1','l1'],'14':['c1','m1'],'19':['o1','f3']};
+
+function ic(n,c){return '<svg class="'+(c||'i')+'" aria-hidden="true"><use href="#'+n+'"/></svg>';}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var app=document.getElementById('app');
+function cur(){return S.stack[S.stack.length-1];}
+function go(v){if(v===cur())return;S.navOpen=false;var tabs=['home','schedule','docs','info'];if(tabs.indexOf(v)>=0)S.stack=[v];else S.stack.push(v);render();}
+function back(){S.navOpen=false;if(S.stack.length>1)S.stack.pop();render();}
+var toastT;
+function toast(msg,undo){var old=app.querySelector('.toast');if(old)old.remove();clearTimeout(toastT);var d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.innerHTML='<span>'+msg+'</span>'+(undo?'<button class="btn s ghost" data-act="undo">בטל</button>':'');app.appendChild(d);toastT=setTimeout(function(){d.remove();},3200);}
+function save(){try{localStorage.setItem('proto-trav',JSON.stringify({big:S.big}));}catch(e){}}
+
+function top(kind,title){
+  if(kind==='home'){return '<div class="top"><div class="logo">'+'<svg viewBox="0 0 220 60"><use href="#logo"/></svg></div><div class="row nw" style="gap:6px"><button class="sos" data-go="emergency">'+ic('sos')+'חירום</button>'+bellBtn()+'<button class="ib" data-go="more" aria-label="עוד">'+ic('menu')+'</button></div></div>';}
+  var b=S.stack.length>1?'<button class="ib" data-act="back" aria-label="חזרה">'+ic('back')+'</button>':'';
+  return '<div class="top">'+b+'<h2>'+title+'</h2>'+(kind==='nobell'?'':bellBtn())+'<button class="sos" data-go="emergency">'+ic('sos')+'חירום</button></div>';
+}
+function bellBtn(){var n=S.notifs.filter(function(x){return x.un;}).length;return '<button class="ib bell'+(S.ring?' ring':'')+'" data-go="notifs" aria-label="התראות'+(n?', '+n+' חדשות':'')+'">'+ic('bell')+(n?'<span class="dot">'+n+'</span>':'')+'</button>';}
+function addNotif(t,go,icn){S.notifs.unshift({id:'n'+Date.now(),t:t,at:'עכשיו',un:true,go:go,ic:icn||'bell'});S.ring=true;setTimeout(function(){S.ring=false;},900);}
+function avatar(cls){return S.agentPhoto?'<span class="av '+cls+'" aria-label="תמונה של רונית" role="img"><svg viewBox="0 0 96 96" aria-hidden="true"><rect width="96" height="96" fill="#f9e2c5"/><circle cx="48" cy="38" r="17" fill="#c99a7c"/><path d="M29 36c0-14 9-22 19-22s20 8 20 22c-3-6-9-9-20-9s-16 3-19 9z" fill="#3b2a22"/><path d="M29 36c-2 10 0 22 6 26l3-24zM67 36c2 10 0 22-6 26l-3-24z" fill="#3b2a22"/><path d="M16 96c2-18 15-28 32-28s30 10 32 28z" fill="#08402a"/></svg></span>':'<span class="av '+cls+'" aria-label="רונית לוי" role="img">רל</span>';}
+var TGT=Date.now()+((3*24+4)*60+22)*60000+45000;
+function cdHTML(){var sec=Math.max(0,Math.floor((TGT-Date.now())/1000)),m=Math.floor(sec/60),ss=sec%60,d=Math.floor(m/1440),hh=Math.floor(m%1440/60),mm=m%60;var u=function(n,one,many){return '<span><b>'+n+'</b>'+(n===1?one:many)+'</span>';};return '<div class="cdn" role="timer" aria-label="עד ההמראה: '+d+' ימים, '+hh+' שעות ו־'+mm+' דקות" aria-live="off">'+u(d,'יום','ימים')+u(hh,'שעה','שעות')+u(mm,'דקה','דקות')+u(ss,'שנייה','שניות')+'</div>';}
+function localTime(){try{var o={hour:'2-digit',minute:'2-digit',hour12:false};var b=new Intl.DateTimeFormat('he-IL',Object.assign({timeZone:'Europe/Madrid'},o)).format(new Date());var off=function(z){var p=new Intl.DateTimeFormat('en-US',{timeZone:z,hour:'numeric',hour12:false,day:'numeric'}).formatToParts(new Date());var g=function(t){return +p.filter(function(x){return x.type===t;})[0].value;};return g('day')*24+(g('hour')%24);};var dif=off('Asia/Jerusalem')-off('Europe/Madrid');return {t:b,d:dif===0?'כמו בישראל':dif===1?'שעה פחות מישראל':dif+' שעות פחות מישראל'};}catch(e){return {t:'—',d:''};}}
+setInterval(function(){var c=document.getElementById('cd');if(c)c.innerHTML=cdHTML();},1000);
+setInterval(function(){var l=document.getElementById('lt');if(l){var x=localTime();l.textContent=x.t;}},15000);
+function tabs(active){var t=[['home','home','בית'],['schedule','cal','לו״ז'],['docs','doc','מסמכים'],['info','info','מידע']];return '<nav class="tabs" aria-label="ניווט ראשי">'+t.map(function(x){return '<button data-go="'+x[0]+'"'+(active===x[0]?' aria-current="page"':'')+'>'+ic(x[1])+x[2]+'</button>';}).join('')+'</nav>';}
+function evRow(id){var e=EV[id];return '<div class="tli"><div class="tlt">'+e.t+'</div><div class="tlr"><i></i></div><button class="card click" data-go="event:'+id+'"><div class="row between nw"><b>'+e.title+'</b>'+(e.upd?'<span class="pill warn">עודכן</span>':'')+(e.by?'<span class="byme">הוסף על ידי '+e.by+'</span>':'')+'</div><span class="sm" style="color:'+(e.unv?'var(--warn)':'var(--muted)')+'">'+e.tz+' · '+e.sub+'</span></button></div>';}
+function notLive(){var t=TRIPS[S.trip];if(t.ended)return '<div class="empty"><img class="mascot" src="brand/mascot/mascot.png" alt="">'+'<b style="color:var(--ink);font-size:1.1em">'+t.name+' · '+t.dates+'</b><span>הנסיעה הסתיימה. המסמכים והלו״ז נשארים כאן לצפייה.</span><span class="xs muted">באב הטיפוס מוצגת במלואה רק הנסיעה לברצלונה.</span><button class="btn" data-trip="bcn">חזרה לברצלונה</button></div>';return '<div class="empty"><img class="mascot" src="brand/mascot/mascot.png" alt="">'+'<b style="color:var(--ink);font-size:1.1em">'+t.name+' · '+t.dates+'</b><span>רונית עדיין מכינה את הנסיעה הזו. כשהיא תהיה מוכנה תקבלי הודעה, והכול יופיע כאן.</span><button class="btn" data-go="chat">'+ic('chat')+'שאלה לרונית</button></div>';}
+
+var QD={before:[['d2','plane','כרטיס טיסה'],['d3','bed','מלון'],['d4','shield','ביטוח'],['d5','car','רכב'],['d7','bus','הסעה'],['g:tix','ticket','אטרקציות']],
+  during:[['d3','bed','מלון'],['d5','car','רכב'],['d4','shield','ביטוח'],['g:tix','ticket','אטרקציות'],['d7','bus','הסעה'],['d1','plane','טיסה הביתה']],
+  after:[['g:fl','plane','טיסות'],['d3','bed','מלון'],['d4','shield','ביטוח'],['d5','car','רכב'],['g:tix','ticket','אטרקציות'],['d7','bus','הסעה']]};
+var DG={tix:{t:'אטרקציות',cat:'tix'},fl:{t:'טיסות',cat:'flight'}};
+function dgItems(g){return docsSorted(g.cat);}
+function qdocs(){return '<div class="qd"><div class="row between nw"><span class="k">מסמכים חשובים</span><button class="lnk" data-go="docs">לכל המסמכים ('+DOCS.length+') ‹</button></div><div class="qd-g">'+QD[S.phase].map(function(x){var g=x[0].indexOf('g:')===0?DG[x[0].slice(2)]:null;return '<button data-go="'+(g?'dgroup:'+x[0].slice(2):'doc:'+x[0])+'"'+(g?' aria-label="'+x[2]+', '+dgItems(g).length+' מסמכים"':'')+'>'+(g?'<span class="qn" aria-hidden="true">'+dgItems(g).length+'</span>':'')+ic(x[1])+x[2]+'</button>';}).join('')+'</div></div>';}
+var FX=4.05;
+function fxcalc(v){var n=parseFloat(String(v).replace(',','.'));return isNaN(n)?'—':(Math.round(n*FX*100)/100).toLocaleString('he-IL')+' ₪';}
+function dboard(){var x=localTime();return '<div class="card brand"><div class="row between nw"><b class="dbt">יום 3 מתוך 8</b><span class="sm" style="opacity:.9">שבת 14.11</span></div><div class="dprog" role="progressbar" aria-label="התקדמות הנסיעה: יום 3 מתוך 8" aria-valuemin="1" aria-valuemax="8" aria-valuenow="3"><i style="width:37.5%"></i></div><div class="dtiles"><div><span>עכשיו</span><b id="lt">'+x.t+'</b><span>'+String(x.d).replace(' מישראל','')+'</span></div><div><span>היום</span><b>22°</b><span>שמשי</span></div><button data-act="fxcalc" aria-expanded="'+!!S.fx+'"><span>1 אירו</span><b>'+FX.toFixed(2)+' ₪</b><span>'+(S.fx?'סגירה':'מחשבון')+'</span></button></div>'+(S.fx?'<div class="fxrow"><label>אירו<input id="fxin" inputmode="decimal" value="'+esc(S.fxv||'10')+'" aria-label="סכום באירו"></label><span aria-hidden="true">=</span><b id="fxout" aria-live="polite">'+fxcalc(S.fxv||'10')+'</b></div><span class="xs" style="opacity:.85">שער יציג של בנק ישראל · עודכן היום 09:00</span>':'')+'<span class="sm" style="opacity:.9">מחר 19° וגשם קל. כדאי מטרייה.</span></div>';}
+function nextDuring(){var e=EV.c1;return '<button class="card click" data-go="event:c1"><span class="k">האירוע הבא</span><div class="row nw" style="gap:12px"><span class="ic">'+ic(e.ic)+'</span><div><b style="font-size:1.05em">'+e.title+'</b><div class="muted sm">היום · '+e.t+' '+e.tz+'</div><div class="muted sm">'+e.sub+'</div></div></div></button>';}
+function afterCard(){return '<div class="card brand"><span class="k">הנסיעה הסתיימה</span><b class="dbt">מקווים שנהניתם בברצלונה!</b><span>להזמנת הטיול הבא, צרו קשר:<br><b style="white-space:nowrap">רונית לוי · <span class="mono" style="white-space:nowrap">03-555-0142</span></b></span><div class="row nw" style="gap:8px"><button class="btn s acb" data-act="toast" data-msg="באפליקציה האמיתית: חיוג ל־03-555-0142">'+ic('phone')+'התקשרות</button><button class="btn s acg" data-act="toast" data-msg="באפליקציה האמיתית: נפתח WhatsApp">WhatsApp</button></div><span class="xs" style="opacity:.85">הנוסח נקבע על ידי מסעות הדרים</span></div>';}
+function phaseSw(){return '<div class="demo-ph" role="group" aria-label="הדמיה: שלב הנסיעה"><span class="xs muted">הדמיה: שלב הנסיעה</span><div class="seg">'+[['before','לפני'],['during','במהלך'],['after','אחרי']].map(function(p){return '<button aria-pressed="'+(S.phase===p[0])+'" data-act="phase" data-ph="'+p[0]+'">'+p[1]+'</button>';}).join('')+'</div></div>';}
+var PAXN=[['ori','אורי כהן'],['yoav','יואב כהן'],['noa','נועה כהן']];
+function shareLbl(){if(S.share==='all')return 'כל הנוסעים';if(S.share==='me')return 'רק את';var n=PAXN.filter(function(p){return S.sharePick[p[0]];}).map(function(p){return p[1].split(' ')[0];});return n.length?'את ו'+n.join(', '):'רק את';}
+function shareBox(){return '<div class="card share"><b>עם מי לשתף?</b><div class="chips" role="radiogroup" aria-label="עם מי לשתף">'+[['all','כל הנוסעים'],['me','רק אני'],['pick','נוסעים שאבחר']].map(function(o){return '<button class="chip" role="radio" aria-checked="'+(S.share===o[0])+'" aria-pressed="'+(S.share===o[0])+'" data-act="share" data-sh="'+o[0]+'">'+o[1]+'</button>';}).join('')+'</div>'+(S.share==='pick'?'<div class="chips" role="group" aria-label="בחירת נוסעים">'+PAXN.map(function(p){return '<button class="chip" aria-pressed="'+!!S.sharePick[p[0]]+'" data-act="sharep" data-p="'+p[0]+'">'+p[1]+'</button>';}).join('')+'</div>':'')+'<span class="xs muted">מופיע כי בנסיעה 4 נוסעים. כשנוסעים לבד, לא צריך לבחור. רונית תמיד רואה, ואפשר לשנות גם אחר כך, מפרטי המסמך.</span></div>';}
+function pendCard(){if(!S.pend.length)return '';return '<div class="card pend"><b>'+(S.pend.length===1?'נבחר קובץ אחד':'נבחרו '+S.pend.length+' קבצים')+'</b>'+S.pend.map(function(n,i){return '<div class="pf">'+ic('doc')+'<span class="mono sm" style="text-align:right">'+esc(n)+'</span><button class="pkx" data-act="pendx" data-i="'+i+'" aria-label="הסרת '+esc(n)+'">×</button></div>';}).join('')+'<span class="sm">משותף עם: <b>'+(S.share==='all'?'כל הנוסעים':shareLbl())+'</b></span><button class="btn pri full" data-act="addconfirm">'+ic('check')+'הוספה למסמכים</button><button class="btn s ghost" data-act="pendclear">ביטול</button></div>';}
+function needCard(a){var i=S.adds.indexOf(a);return '<div class="card" style="gap:8px;box-shadow:inset 0 0 0 2px var(--copper)"><div class="row nw"><i class="vk attn"></i><b>'+a.name+'</b></div><span class="sm">לא הצלחנו לקרוא בוודאות את <b>שעת החזרת הרכב</b>, ולכן הרכב עוד לא נוסף ללו״ז. מה כתוב בשובר?</span><div class="row nw" style="gap:8px;align-items:flex-end"><label class="fld" style="flex:1">שעת החזרה, 18/11<input id="need'+i+'" type="time" value=""></label><button class="btn pri s" style="min-height:48px" data-act="needok" data-i="'+i+'">שמירה</button></div><span class="xs muted">הועלה בשם <span class="mono">'+esc(a.orig)+'</span> · משותף: '+a.sh+'</span></div>';}
+var LEGAL={"privacy":{"t":"מדיניות פרטיות","h":"<p>עדכון אחרון: <span class=\"fill\">1.10.2026<\/span><\/p><div class=\"sum\"><p><b>בקצרה<\/b><\/p><ul><li>את פרטי הנסיעה שלך מנהלת <span class=\"fill\">מסעות הדרים<\/span>. PALAMI מפעילה את האפליקציה בשבילה.<\/li><li>המידע משמש רק לנסיעה שלך: לו״ז, מסמכים, עדכונים וקשר עם הסוכנות. הוא לא נמכר.<\/li><li>אפשר לעיין במידע, לתקן אותו או לבקש למחוק אותו. פשוט כותבים לסוכן.<\/li><\/ul><\/div><h3>1. מי מנהל את המידע<\/h3><p><span class=\"fill\">מסעות הדרים<\/span> (<span class=\"fill\">ח.פ. 51-555555-5<\/span>, <span class=\"fill\">רחוב הדוגמה 1, תל אביב<\/span>), להלן \"הסוכנות\", אחראית למידע עליך. לפי חוק הגנת הפרטיות היא \"בעלת השליטה\" במאגר.<\/p><p>את האפליקציה מפעילה <span class=\"fill\">PALAMI בע״מ<\/span> (<span class=\"fill\">ח.פ. 51-666666-6<\/span>), להלן \"PALAMI\". PALAMI מעבדת את המידע רק בשביל הסוכנות, לפי ההוראות שלה ולפי הסכם בכתב ביניהן.<\/p><p><b>פניות בנושא פרטיות:<\/b> <span class=\"fill\">privacy@hadarim.co.il<\/span> · <span class=\"fill\">03-555-0142<\/span><\/p><p><span class=\"fill\">ממונה הגנת פרטיות, אם מונה<\/span><\/p><h3>2. איזה מידע נאסף<\/h3><ul><li><b>פרטי קשר:<\/b> שם, נייד ואימייל.<\/li><li><b>פרטי הנסיעה:<\/b> יעדים, תאריכים, טיסות, לינה, רכב, לו״ז, ושמות הנוסעים בנסיעה.<\/li><li><b>מסמכים:<\/b> כרטיסים, שוברים ופוליסות ביטוח שהסוכנות העלתה או שהעלית בעצמך. חלקם כוללים פרטים אישיים, למשל מספר דרכון.<\/li><li><b>מה שכתבת או הוספת:<\/b> הודעות לסוכנות, פריטים ברשימת האריזה ופעילויות שהוספת ללו״ז.<\/li><li><b>מידע טכני:<\/b> סוג המכשיר והדפדפן, מועדי כניסה, וההגדרות שבחרת (למשל טקסט גדול וערוצי עדכון).<\/li><\/ul><p><b>מה לא נאסף:<\/b> מיקום מה־GPS, אנשי הקשר בטלפון ופרטי תשלום.<\/p><h3>3. למה המידע משמש<\/h3><ul><li>להציג לך את הנסיעה: לו״ז, מסמכים, מידע שימושי ומסך חירום.<\/li><li>לשלוח לך תזכורות ועדכונים בערוצים שבחרת: באפליקציה, ב־WhatsApp או באימייל.<\/li><li>לאפשר קשר עם הסוכנות, גם בחירום.<\/li><li>לאבטחת החשבון, לתמיכה ולתיקון תקלות.<\/li><li><b>הצעות מהסוכנות:<\/b> רק אם הסכמת לקבל אותן. כל הודעה כזו מסומנת \"פרסומת\", ואפשר להפסיק בכל רגע.<\/li><\/ul><p>המידע לא נמכר, ולא משמש לפרסום של אף גורם אחר.<\/p><h3>4. האם חובה למסור את המידע<\/h3><p>אין חובה לפי חוק. עם זאת, בלי נייד או אימייל לא נוכל לשלוח לך את הנסיעה ולתת לך גישה לאפליקציה. בלי המסמכים, הנסיעה לא תופיע במלואה.<\/p><h3>5. מי רואה את המידע<\/h3><ul><li><b>הסוכנות<\/b> והסוכן שמטפל בנסיעה שלך.<\/li><li><b>הנוסעים האחרים בנסיעה:<\/b> לפי הגדרת השיתוף שהסוכנות קבעה, ולפי מה שבחרת כשהעלית מסמך (\"רק אני\", כל הנוסעים, או נוסעים שבחרת).<\/li><li><b>PALAMI וספקים שעובדים בשבילה:<\/b> אחסון בענן, שליחת הודעות (WhatsApp, אימייל ו־SMS) וקריאת מסמכים בעזרת בינה מלאכותית. הם מקבלים רק את מה שנדרש לשירות, ומחויבים לסודיות. <b>המסמכים שלך לא משמשים לאימון מודלים.<\/b><\/li><li><b>רשויות:<\/b> רק אם החוק מחייב.<\/li><\/ul><h3>6. מידע שנשמר מחוץ לישראל<\/h3><p>חלק מהספקים שומרים מידע בשרתים מחוץ לישראל. ההעברה נעשית לפי תקנות הגנת הפרטיות (העברת מידע אל מאגרי מידע שמחוץ לגבולות המדינה), התשס״א-2001.<\/p><h3>7. כמה זמן המידע נשמר<\/h3><p>הנסיעה זמינה לך באפליקציה <span class=\"fill\">12 חודשים<\/span> אחרי החזרה. לאחר מכן פרטי הנסיעה, המסמכים והפרטים האישיים נמחקים, וגם מהגיבויים תוך 30 יום. נשארים רק מספרים לסטטיסטיקה, בלי פרטים מזהים.<\/p><p>כמה דברים נשמרים יותר זמן, כי החוק מחייב או כי צריך אותם להגנה משפטית:<\/p><ul><li>רישום הכניסות והפעולות במערכת: 24 חודשים, לצורכי אבטחת מידע.<\/li><li>התיעוד שראית את התנאים ואת מדיניות הפרטיות: עד 7 שנים מסיום השימוש.<\/li><\/ul><h3>8. אבטחת מידע<\/h3><p>המידע מוצפן בהעברה ובאחסון. הגישה אליו לפי הרשאות, וכל פעולה מתועדת. כניסה ממכשיר חדש דורשת סיסמה וקוד חד־פעמי לנייד. אין אבטחה מושלמת. אם יקרה אירוע אבטחה חמור, נפעל לפי החוק ונודיע לרשות להגנת הפרטיות.<\/p><h3>9. הזכויות שלך<\/h3><ul><li><b>לעיין<\/b> במידע עליך (סעיף 13 לחוק הגנת הפרטיות).<\/li><li><b>לבקש תיקון או מחיקה<\/b> של מידע שאינו נכון, שלם, ברור או מעודכן (סעיף 14 לחוק).<\/li><li><b>להפסיק לקבל הצעות<\/b> בכל רגע: בהגדרות האפליקציה, בקישור שבכל הודעה, או בפנייה לסוכנות.<\/li><\/ul><p><b>איך:<\/b> כותבים לסוכן בצ'אט באפליקציה, או ל־<span class=\"fill\">privacy@hadarim.co.il<\/span>. נענה תוך 30 יום. אם הבקשה לא טופלה, אפשר לפנות לרשות להגנת הפרטיות.<\/p><h3>10. ילדים<\/h3><p>ילד בלי טלפון לא נרשם בעצמו. המסמכים וההתראות שלו מגיעים למבוגר מהנסיעה שהסוכנות שייכה אליו.<\/p><h3>11. מידע שנשמר בטלפון<\/h3><p>כדי שהנסיעה תהיה זמינה גם בלי אינטרנט, האפליקציה שומרת את פרטיה בטלפון. משתמשים רק בעוגיות שנחוצות לפעולת האפליקציה, כמו שמירת הכניסה וההגדרות. אין עוגיות פרסום או מעקב.<\/p><h3>12. שינויים במדיניות<\/h3><p>כשנעדכן את המדיניות, תאריך העדכון בראש העמוד ישתנה. על שינוי מהותי נודיע באפליקציה.<\/p>"},"terms":{"t":"תנאי שימוש","h":"<p>עדכון אחרון: <span class=\"fill\">1.10.2026<\/span><\/p><div class=\"sum\"><p><b>בקצרה<\/b><\/p><ul><li>PALAMI היא אפליקציה שהסוכנות שלך נותנת לך, כדי שכל פרטי הנסיעה יהיו במקום אחד. השימוש בה חינם.<\/li><li>את הנסיעה הזמנת דרך הסוכנות. על מחירים, ביטולים ושינויים מדברים איתה.<\/li><li>כדאי לבדוק זמנים חשובים, כמו שעת טיסה, גם מול החברה שמפעילה את השירות.<\/li><\/ul><\/div><h3>1. מה זה PALAMI<\/h3><p>PALAMI היא אפליקציה לנוסעים שמרכזת את פרטי הנסיעה: לו״ז, מסמכים, תזכורות, מידע שימושי ומסך חירום. <span class=\"fill\">מסעות הדרים<\/span>, להלן \"הסוכנות\", נותנת לך את האפליקציה כחלק מהשירות שלה. <span class=\"fill\">PALAMI בע״מ<\/span>, להלן \"PALAMI\", מפעילה את האפליקציה בשביל הסוכנות.<\/p><p>PALAMI אינה סוכנות נסיעות ואינה צד להזמנה שלך. ההתקשרות לגבי הנסיעה עצמה, כמו מחירים, תשלומים, ביטולים ושינויים, היא מול הסוכנות ומול ספקי השירות: חברות תעופה, מלונות, חברות השכרה וכדומה.<\/p><p>השימוש באפליקציה מהווה הסכמה לתנאים האלה. התנאים כתובים בלשון זכר מטעמי נוחות, ומיועדים לכל המגדרים.<\/p><h3>2. השימוש באפליקציה<\/h3><ul><li>השימוש חינם, ומיועד לשימוש אישי בנסיעה שלך.<\/li><li>מי שמתחת לגיל 18 משתמש באפליקציה בהסכמת הורה.<\/li><li>כדי להיכנס צריך נייד או אימייל שהסוכנות שייכה לנסיעה, וסיסמה שבחרת.<\/li><\/ul><h3>3. החשבון שלך<\/h3><ul><li>שמור את הסיסמה לעצמך, ואל תמסור אותה לאחרים.<\/li><li>אם נראה לך שמישהו אחר נכנס לחשבון שלך, הודע לסוכנות. הסוכנות יכולה לנתק את כל המכשירים מהחשבון.<\/li><\/ul><h3>4. המידע באפליקציה<\/h3><ul><li>המידע מגיע מהמסמכים שהסוכנות העלתה ומהמסמכים שהעלית בעצמך. הסוכנות בודקת ומאשרת את פרטי הנסיעה לפני שהם נשלחים אליך.<\/li><li>ספקים משנים לפעמים זמנים ופרטים, ולא תמיד מעדכנים מיד. לפני יציאה לשדה או לאירוע חשוב, כדאי לבדוק את הפרטים גם מול הספק, למשל באתר חברת התעופה.<\/li><li>האפליקציה לא מחליפה את המסמך המקורי. המסמכים המקוריים שמורים בה, ואפשר להציג אותם בכל רגע.<\/li><li>מידע כללי, כמו מזג אוויר ושערי מטבע, מגיע ממקורות חיצוניים, ומוצג לנוחות בלבד.<\/li><\/ul><h3>5. חירום<\/h3><p>מסך החירום עוזר להגיע מהר למספרים הנכונים. <b>במצב של סכנה, חייגו מיד למספר החירום המקומי.<\/b> המספרים נבדקים מדי פעם, אבל הם עלולים להשתנות.<\/p><h3>6. תזכורות והתראות<\/h3><p>אנחנו משתדלים לשלוח כל תזכורת בזמן, אבל הן תלויות ברשת, במכשיר ובספקי ההודעות. לכן אין להסתמך רק עליהן.<\/p><h3>7. מסמכים ותוכן שאתה מוסיף<\/h3><ul><li>אתה אחראי לכך שמותר לך להעלות את המסמכים והתוכן שאתה מוסיף.<\/li><li>אסור להעלות תוכן פוגעני, מפר זכויות או לא חוקי.<\/li><li>מסמך שבחרת לשתף, יראו הנוסעים שבחרת. הסוכנות רואה כל מה שהועלה לנסיעה.<\/li><li>אתה מרשה ל־PALAMI ולסוכנות לעבד את מה שהעלית, רק כדי לתת לך את השירות. המסמכים שלך נשארים שלך.<\/li><\/ul><h3>8. מה אסור<\/h3><p>אסור לנסות לגשת למידע של אחרים, לפרוץ למערכת או לשבש אותה, להעתיק את האפליקציה או חלקים ממנה, או להשתמש בה למטרה מסחרית.<\/p><h3>9. זמינות<\/h3><p>לפעמים תהיה תקלה או עבודת תחזוקה. פרטי הנסיעה נשמרים בטלפון, ולכן רובם זמינים גם בלי אינטרנט. הנסיעה נשארת זמינה באפליקציה <span class=\"fill\">12 חודשים<\/span> אחרי החזרה.<\/p><h3>10. אחריות<\/h3><p>האפליקציה ניתנת כמו שהיא. PALAMI אינה אחראית לשינויים, לעיכובים או לביטולים של ספקי הנסיעה, ולא לנזק שנגרם בגלל הסתמכות על פרט שלא נבדק מול הספק. אין בתנאים האלה כדי להגביל אחריות שהחוק לא מאפשר להגביל, ואין בהם כדי לפגוע בזכויות שלך כצרכן.<\/p><h3>11. קניין רוחני<\/h3><p>האפליקציה, העיצוב, הסימנים והבונה של PALAMI שייכים ל־PALAMI. הלוגו והשם של הסוכנות שייכים לסוכנות.<\/p><h3>12. פרטיות<\/h3><p>איך משתמשים במידע עליך מוסבר ב<span class=\"fill\">מדיניות הפרטיות<\/span>.<\/p><h3>13. הפסקת שימוש<\/h3><p>אפשר להפסיק להשתמש באפליקציה בכל רגע, ולבקש מהסוכנות למחוק את המידע. PALAMI רשאית לחסום גישה במקרה של שימוש לרעה.<\/p><h3>14. שינויים בתנאים<\/h3><p>כשנעדכן את התנאים, תאריך העדכון בראש העמוד ישתנה. על שינוי מהותי נודיע באפליקציה.<\/p><h3>15. דין ושיפוט<\/h3><p>על התנאים האלה חל הדין הישראלי. סכסוך יידון בבית המשפט המוסמך בישראל.<\/p><h3>16. יצירת קשר<\/h3><ul><li>בנושא הנסיעה: <span class=\"fill\">מסעות הדרים<\/span> · <span class=\"fill\">03-555-0142<\/span> · <span class=\"fill\">office@hadarim.co.il<\/span><\/li><li>בנושא האפליקציה: PALAMI · <span class=\"fill\">hello@palami.io<\/span><\/li><\/ul>"},"access":{"t":"הצהרת נגישות","h":"<p>עדכון אחרון: <span class=\"fill\">1.10.2026<\/span><\/p><p>PALAMI ו־<span class=\"fill\">מסעות הדרים<\/span> רוצות שכל נוסע יוכל להשתמש באפליקציה בקלות, כולל אנשים עם מוגבלות ונוסעים מבוגרים. השקענו בזה מהיום הראשון, ונמשיך לשפר.<\/p><h3>רמת הנגישות<\/h3><p>האפליקציה נבנתה לפי תקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג-2013, ולפי התקן הישראלי ת״י 5568, המבוסס על הנחיות WCAG, ברמה AA. היעד שלנו הוא WCAG 2.2 ברמה AA.<\/p><p>הבדיקה האחרונה: <span class=\"fill\">9.2026<\/span>, על ידי <span class=\"fill\">בודק נגישות מוסמך<\/span>.<\/p><h3>מה עשינו<\/h3><ul><li>מבנה ברור מימין לשמאל, עם כותרות ותוויות שקוראי מסך מזהים.<\/li><li>אפשר להפעיל הכול עם מקלדת ועם קורא מסך: VoiceOver ב־iPhone, TalkBack ב־Android ו־NVDA במחשב.<\/li><li>\"טקסט גדול\" בהגדרות. גם הגדלה בדפדפן עובדת בלי שהתוכן נחתך.<\/li><li>ניגודיות צבעים לפי התקן. מידע לא מועבר רק בצבע: יש גם סימן, טקסט או אייקון.<\/li><li>כפתורים גדולים, שקל ללחוץ עליהם במגע.<\/li><li>אין תוכן מהבהב ואין סאונד שמתחיל לבד. מי שביקש מהמכשיר להפחית תנועה, יקבל פחות אנימציות.<\/li><li>טקסט חלופי לתמונות ולאייקונים. בטפסים יש תוויות, והודעות השגיאה ברורות.<\/li><li>הודעות קצרות, כמו \"בטל\", נשארות על המסך מספיק זמן, וקורא המסך מקריא אותן.<\/li><li>פרטי הנסיעה נשמרים בטלפון, וזמינים גם בלי אינטרנט.<\/li><\/ul><h3>מה עוד לא נגיש<\/h3><ul><li><b>מסמכים מהספקים<\/b>, כמו כרטיסי טיסה, שוברים ופוליסות, מוצגים כפי שהספק הפיק אותם, וייתכן שאינם נגישים. הפרטים החשובים שבהם מופיעים גם כטקסט נגיש באפליקציה. צריכים את המסמך בפורמט אחר? כתבו לסוכן.<\/li><li><b>אתרים ואפליקציות חיצוניים<\/b> שאליהם מקשרים, כמו אתר חברת התעופה ואפליקציות ניווט, נמצאים באחריות בעליהם.<\/li><li><span class=\"fill\">ליקויים שנמצאו בבדיקה, אם יש, ומתי יתוקנו<\/span><\/li><\/ul><h3>מכשירים ודפדפנים<\/h3><p>האפליקציה נבדקה ב־Safari ב־iPhone, ב־Chrome ב־Android, וב־Chrome, Edge ו־Safari במחשב, בשתי הגרסאות האחרונות של כל אחד.<\/p><h3>נתקלתם בבעיה?<\/h3><p>נשמח לעזור, ולתקן.<\/p><ul><li><b>רכז הנגישות של הסוכנות:<\/b> <span class=\"fill\">רונית לוי<\/span> · <span class=\"fill\">03-555-0142<\/span> · <span class=\"fill\">access@hadarim.co.il<\/span><\/li><li><b>נגישות האפליקציה (PALAMI):<\/b> <span class=\"fill\">access@palami.io<\/span><\/li><\/ul><p>כדי שנוכל לעזור מהר, כדאי לכתוב מה ניסיתם לעשות ובאיזה מסך, באיזה מכשיר ודפדפן, ואיזו טכנולוגיה מסייעת הפעלתם, אם הפעלתם. נחזור אליכם תוך <span class=\"fill\">5<\/span> ימי עבודה.<\/p><h3>הסדרי נגישות בסוכנות<\/h3><p><span class=\"fill\">כתובת הסוכנות, כניסה נגישה, חניה נגישה ושעות קבלת קהל. אם אין קבלת קהל, למשל: \"קבלת קהל בתיאום מראש בלבד.\"<\/span><\/p>"}};
+
+var V={
+home:function(){var t=TRIPS[S.trip];var h=top('home');
+  h+='<div class="view"><div class="row between tpw"><span class="muted sm">בוקר טוב, דנה</span><button class="btn s ghost ttog" data-act="tripdd" aria-expanded="'+!!S.tripDD+'" aria-controls="tdd" aria-haspopup="listbox">'+t.name+' '+ic('down')+'</button>'+(S.tripDD?tripPicker():'')+'</div>';
+  if(!t.live){h+=notLive()+'</div>'+tabs('home');return h;}
+  if(S.phase==='during'){h+=dboard()+nextDuring()+qdocs();}
+  else if(S.phase==='after'){h+=afterCard()+qdocs();}
+  else{
+  h+='<div class="card brand cdc"><span class="k">עד ההמראה</span><div id="cd">'+cdHTML()+'</div><span class="sm" style="opacity:.9">'+t.when+'</span></div>';
+  h+=qdocs();
+  h+='<button class="card click" data-go="event:f1"><span class="k">האירוע הבא</span><div class="row nw" style="gap:12px"><span class="ic">'+ic('plane')+'</span><div><b style="font-size:1.05em">טיסה לברצלונה</b><div class="muted sm">LY 395 · טרמינל 3 · 4 נוסעים</div></div></div><dl class="kv"><dt>המראה</dt><dd>06:10 <span class="muted" style="font-weight:400">שעון ישראל</span></dd><dt>נחיתה</dt><dd>10:05 <span class="muted" style="font-weight:400">שעון ברצלונה</span></dd><dt>הזמנה</dt><dd class="mono">X7KQ2P</dd></dl><span class="xs muted">עודכן לפני יומיים ע״י רונית</span></button>';
+  h+='<button class="btn pri full" data-go="doc:d2">'+ic('ticket')+'הצג את כרטיס הטיסה</button>';
+  h+='<div class="card"><div class="row nw" style="gap:10px"><span class="ic" style="background:var(--info-soft);color:var(--info)">'+ic('plane')+'</span><div style="flex:1"><b>צ\'ק-אין לטיסה</b><div class="muted sm">'+(S.checkin?'סימנת שביצעת. נתראה בשדה!':'ייפתח מחר ב־06:10, לפי כלל של חברת התעופה')+'</div></div></div>'+(S.checkin?'<span class="row nw" style="gap:8px"><i class="vk"></i><b style="color:var(--ok)">בוצע</b></span>':'<div class="row"><button class="btn s" data-act="toast" data-msg="באפליקציה האמיתית: נפתח אתר חברת התעופה">לאתר החברה</button><button class="btn s ghost" data-act="checkin">ביצעתי צ\'ק-אין</button></div>')+'</div>';
+  }
+  h+='<button class="card click chatrow" data-go="chat">'+avatar('')+'<div><b>שאלה לרונית?</b><div class="muted sm">צ\'אט עם הסוכנת שלך · עונה בדרך כלל תוך שעתיים</div></div><span class="ic">'+ic('chat')+'</span></button>'+phaseSw();
+  h+='<div class="foot">מופעל על ידי <img src="brand/logo/svg/wordmark.svg" alt="PALAMI"></div></div>'+tabs('home');return h;},
+trips:function(){var h=top('',"הנסיעות שלי")+'<div class="view">';
+  h+='<span class="k">הקרובה</span>'+tripRow('bcn','עוד 3 ימים','br');
+  h+='<span class="k">הסתיימו</span>'+tripRow('ath','הסתיימה','');
+  h+='<div class="banner info sm">כאן מופיעות נסיעות שרונית כבר שלחה לך, ונסיעות שהסתיימו. נסיעה שעוד בהכנה תופיע כשתהיה מוכנה.</div></div>';return h;},
+schedule:function(){var t=TRIPS[S.trip];var h=top('','לוח זמנים')+'<div class="view">';
+  if(!t.live){return h+notLive()+'</div>'+tabs('schedule');}
+  h+='<div class="row nw" style="gap:8px;justify-content:space-between"><div class="seg" role="group" aria-label="תצוגה"><button aria-pressed="'+(!S.week)+'" data-week="0">יום</button><button aria-pressed="'+S.week+'" data-week="1">שבוע</button></div><button class="btn pri s" data-go="addev" style="min-height:42px">+ הוספה ללו״ז</button></div><button class="offnote" data-go="cal"><span class="ic" style="color:var(--brand)">'+ic('cal')+'</span><span>'+(S.calOn?'הלו״ז ביומן הטלפון שלך':'הוספה ליומן הטלפון')+'<small>'+(S.calOn?'מתעדכן לבד · '+S.calOn:'הלו״ז ייכנס ליומן ויתעדכן לבד')+'</small></span>'+ic('back')+'</button>';
+  if(S.week){h+='<span class="xs muted">12–19 בנובמבר · גוללים לצדדים · לחיצה על יום פותחת אותו</span><div class="wkh">';DAYS.forEach(function(d){var ids=Object.keys(EV).filter(function(k){return EV[k].day===d[0];});h+='<div class="wc"><button class="wch" data-dayopen="'+d[0]+'">'+d[1]+'<b>'+d[0]+'</b></button>'+(ids.length?ids.map(function(id){var e=EV[id];return '<button class="wcb'+(e.upd?' upd':'')+'" data-go="event:'+id+'"><span class="mono">'+e.t+'</span>'+e.title.split(' · ')[0]+'</button>';}).join(''):'<span class="wcf">חופשי</span>')+'</div>';});return h+'</div></div>'+tabs('schedule');}
+  h+='<div class="chips" role="group" aria-label="בחירת יום">'+DAYS.map(function(d){return '<button class="chip" aria-pressed="'+(S.day===d[0])+'" data-day="'+d[0]+'">'+d[1]+'<br><b>'+d[0]+'</b></button>';}).join('')+'</div><span class="xs muted">השעות לפי המקום שבו מתקיים האירוע</span>';
+  var ids=Object.keys(EV).filter(function(k){return EV[k].day===S.day;});
+  h+=ids.length?'<div class="tl">'+ids.map(evRow).join('')+'</div>':'<div class="empty">'+ic('sun')+'<span>יום חופשי. אין אירועים מתוכננים.</span></div>';
+  return h+'</div>'+tabs('schedule');},
+docs:function(){var t=TRIPS[S.trip];var h=top('','מסמכים')+'<div class="view">';
+  if(!t.live){return h+notLive()+'</div>'+tabs('docs');}
+  h+='<button class="offnote" data-go="offline"><i class="vk"></i><span>'+(S.offline?'אין רשת עכשיו. הכול זמין מהטלפון':'כל המסמכים שמורים בטלפון')+'<small>עובד גם בלי אינטרנט · איך זה עובד</small></span>'+ic('back')+'</button><button class="btn pri full" data-go="add">+ הוספת מסמך</button><span class="xs muted">הזמנתם משהו לבד? מעלים כאן, והכול נשאר במקום אחד.</span>';
+  var f=[['all','הכול'],['flight','טיסות'],['hotel','לינה'],['tix','אטרקציות'],['car','רכב'],['ins','ביטוח'],['other','אחר']].filter(function(x){return x[0]==='all'||DOCS.some(function(d){return d.cat===x[0];});});if(!f.some(function(x){return x[0]===S.docf;}))S.docf='all';
+  h+='<div class="chips swipe" role="group" aria-label="סינון">'+f.map(function(x){return '<button class="chip" aria-pressed="'+(S.docf===x[0])+'" data-docf="'+x[0]+'">'+x[1]+'</button>';}).join('')+'</div><div class="list">';
+  var L=docsSorted(S.docf);h+=L.length?L.map(docRow).join(''):'<div class="empty">'+ic('doc')+'<span>אין מסמכים מהסוג הזה בנסיעה.</span></div>';
+  return h+'</div><span class="xs muted">לפי התאריך. בכל שורה: מה זה, מתי, ולמי.</span></div>'+tabs('docs');},
+map:function(){var t=TRIPS[S.trip];var h=top('','מפה')+'<div class="view">';
+  if(!t.live){return h+notLive()+'</div>'+tabs('map');}
+  var md=Object.keys(MAPDAY);if(!MAPDAY[S.day])S.day='13';
+  h+='<div class="chips" role="group" aria-label="בחירת יום">'+md.map(function(d){return '<button class="chip" aria-pressed="'+(S.day===d)+'" data-day="'+d+'">'+d+'/11</button>';}).join('')+'</div>';
+  var ids=MAPDAY[S.day],pts=[[80,150],[115,70],[210,80],[235,140]],ver=ids.filter(function(i){return !EV[i].unv;});
+  var svg='<svg viewBox="0 0 320 200" role="img" aria-label="מפה סכמטית של מסלול היום"><rect width="320" height="200" style="fill:var(--surface-2)"/><path d="M0 150 L320 112M80 0 L120 200M0 56 L320 76M220 0 L200 200" style="stroke:var(--surface);stroke-width:8;fill:none"/>';
+  svg+='<polyline points="'+ver.map(function(x,i){return pts[i].join(',');}).join(' ')+'" style="fill:none;stroke:var(--brand);stroke-width:3;stroke-dasharray:6 4"/>';
+  ver.forEach(function(x,i){svg+='<circle cx="'+pts[i][0]+'" cy="'+pts[i][1]+'" r="12" style="fill:var(--brand)"/><text x="'+pts[i][0]+'" y="'+(pts[i][1]+4)+'" text-anchor="middle" style="fill:var(--brand-ink);font:700 11px var(--f-m)">'+(i+1)+'</text>';});
+  h+='<div class="mapbox">'+svg+'</svg></div><div class="card" style="gap:0">';var n=0;
+  ids.forEach(function(id){var e=EV[id];if(e.unv){h+='<div class="stop"><span class="num q">?</span><div><b>'+e.title+'</b><div class="xs" style="color:var(--warn)">כתובת לא אומתה, אין מיקום ומרחק</div></div><span></span></div>';}else{n++;h+='<div class="stop"><span class="num">'+n+'</span><div><b>'+e.title+'</b><div class="xs muted">'+e.t+' '+e.tz+'</div></div><button class="btn s" data-act="toast" data-msg="באפליקציה האמיתית: נפתח Google Maps לניווט">נווט</button></div>';}});
+  h+='</div><button class="btn full" data-act="toast" data-msg="קישור למסלול היום הועתק">שתפי את מסלול היום</button>';
+  return h+'</div>'+tabs('map');},
+cal:function(){var h=top('','יומן הטלפון')+'<div class="view"><div class="card" style="gap:8px"><b style="font-size:1.1em">הלו״ז שלך ביומן של הטלפון</b><span class="sm">נרשמים פעם אחת. כל האירועים של הנסיעה נכנסים ליומן, וכשמשהו משתנה (למשל שעת טיסה) הוא מתעדכן שם לבד.</span><span class="xs muted">בכיוון אחד בלבד: מ־PALAMI ליומן. מה שיש ביומן הטלפון לא נכנס ל־PALAMI.</span></div>';
+  h+=(S.calOn?'<div class="banner info"><b>מחובר ל'+S.calOn+'</b><span>אפשר להפסיק בכל רגע, והאירועים יימחקו מהיומן.</span><button class="btn s" style="justify-self:start" data-act="caloff">הפסקת הסנכרון</button></div>':'')+'<div class="card" style="gap:0">'+[['apple','יומן אייפון (Apple)'],['google','Google Calendar'],['outlook','Outlook']].map(function(c){return '<button class="menuitem" data-act="calpick" data-cal="'+c[1]+'">'+ic('cal')+'<span>'+c[1]+'</span>'+ic('back','i')+'</button>';}).join('')+'</div><span class="xs muted">בכל אירוע אפשר גם להוסיף רק אותו, מ"פרטי האירוע".</span></div>';return h;},
+event:function(id){var e=EV[id];var h=top('',e.title)+'<div class="view">';
+  h+='<div class="card"><div class="row nw" style="gap:12px"><span class="ic">'+ic(e.ic)+'</span><div><b style="font-size:1.05em">'+e.title+'</b><div class="muted sm">'+e.t+' '+e.tz+'</div></div></div><dl class="kv">'+(e.addr&&!e.kv.some(function(k){return k[0]==='כתובת';})?e.kv.concat([['כתובת',e.addr]]):e.kv).map(function(k){return '<dt>'+k[0]+'</dt><dd'+(k[0]==='כתובת'?' class="addr"':'')+'>'+esc(k[1])+'</dd>';}).join('')+'</dl></div>';
+  if(e.upd)h+='<div class="banner warn"><b>השתנה אתמול</b><span>שעת האיסוף עודכנה מ־10:45 ל־11:00.</span></div>';
+  if(e.unv)h+='<div class="banner warn"><b>הכתובת לא אומתה</b><span>אפשר לשאול את רונית.</span></div>';
+  if(e.doc)h+='<button class="btn pri full" data-go="doc:'+e.doc+'">'+ic('doc')+'פתחי את המסמך</button>';
+  if(e.by)h+='<div class="banner info"><b>הוסף על ידי '+e.by+'</b><span>רונית רואה את זה בתיק. אפשר לערוך או למחוק.</span></div>';if(e.addr&&!e.unv){var q=encodeURIComponent(e.addr);var NU={waze:'https://waze.com/ul?q='+q+'&navigate=yes',google:'https://www.google.com/maps/dir/?api=1&destination='+q,apple:'https://maps.apple.com/?daddr='+q},NN={waze:'Waze',google:'Google Maps',apple:'Apple Maps'};h+='<div class="acts">'+(S.navApp?'<a class="btn" href="'+NU[S.navApp]+'" target="_blank" rel="noopener">'+ic('map')+'ניווט</a>':'<button class="btn" data-act="navopen" aria-expanded="'+!!S.navOpen+'">'+ic('map')+'ניווט</button>')+'<button class="btn" data-act="copyaddr" data-addr="'+esc(e.addr)+'">'+ic('doc')+'העתקת כתובת</button></div>';if(S.navApp)h+='<span class="xs muted">הניווט נפתח ב־'+NN[S.navApp]+'. אפשר לשנות בהגדרות</span>';else if(S.navOpen)h+='<span class="xs muted">באיזו אפליקציה לנווט? נזכור את הבחירה. באנדרואיד הטלפון שואל בעצמו</span><div class="navs" role="group" aria-label="בחירת אפליקציית ניווט">'+['waze','google','apple'].map(function(k2){return '<a href="'+NU[k2]+'" target="_blank" rel="noopener" data-navpick="'+k2+'"><i style="background:'+{waze:'#33ccff',google:'#1a73e8',apple:'#333'}[k2]+'">'+NN[k2][0]+'</i>'+NN[k2]+'</a>';}).join('')+'</div>';}
+  h+='<button class="btn s ghost" style="justify-self:start" data-act="toast" data-msg="באפליקציה האמיתית: נפתח קובץ יומן לאירוע הזה בלבד">'+ic('cal')+'הוספת האירוע ליומן</button><span class="xs muted">מקור: '+e.src+'</span></div>';return h;},
+doc:function(id){var d=DOCS.filter(function(x){return x.id===id;})[0]||DOCS[1];
+  if(d.lock&&!S.unlocked){S.stack[S.stack.length-1]='otp';return V.otp();}
+  var h=top('',d.t||d.name)+'<div class="view"><div class="paper"><b>'+(d.cat==='ins'?'SECURITAS TRAVEL · POLICY':d.cat==='hotel'?'HOTEL MAR BLAU · VOUCHER':d.cat==='flight'?'BOOKING CONFIRMATION · X7KQ2P':'VOUCHER')+'</b><div class="ln" style="width:70%"></div><div>COHEN / DANA'+(d.cat==='ins'?' · TRV-4482-1190':'')+'</div><div class="ln" style="width:90%"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:80%"></div><div>12 NOV 2026 – 19 NOV 2026</div><div class="ln" style="width:85%"></div><div class="ln" style="width:50%"></div><div class="ln" style="width:75%"></div><div class="ln" style="width:65%"></div></div>';
+  h+='<div class="row"><button class="btn pri" style="flex:1" data-act="toast" data-msg="באפליקציה האמיתית: הקובץ יורד לטלפון">הורדה</button><button class="btn" style="flex:1" data-act="toast" data-msg="המסמך כבר שמור בטלפון. הוא זמין גם בלי אינטרנט">'+ic('cloud')+'שמור בטלפון ✓</button></div><span class="sm">'+docMeta(d)+'</span><span class="xs muted">שם הקובץ בהורדה: '+esc(d.name||d.t)+'</span></div>';return h;},
+otp:function(){var h=top('','מסמך מוגן')+'<div class="view"><div class="card" style="gap:12px;text-align:center;justify-items:center"><span class="ic" style="width:56px;height:56px">'+ic('lock')+'</span><b style="font-size:1.1em">כדי לפתוח את פוליסת הביטוח</b><span class="muted sm">שלחנו קוד בן 6 ספרות למספר שמסתיים ב־<span class="mono">4417</span></span><div class="otp" id="otp">'+[0,1,2,3,4,5].map(function(i){return '<input inputmode="numeric" maxlength="1" aria-label="ספרה '+(i+1)+'" id="otp'+i+'">';}).join('')+'</div><span class="xs muted">באב הטיפוס כל קוד עובד</span><button class="btn s ghost" data-act="toast" data-msg="שלחנו קוד חדש">שלחו לי קוד חדש</button></div></div>';return h;},
+taxi:function(){var en=!!S.taxiEn,h=top('','כתובת לנהג')+'<div class="view"><div class="taxi" lang="'+(en?'en':'es')+'"><span class="es">'+(en?'Please take me to this address:':'Por favor, lléveme a esta dirección:')+'</span><b>Hotel Mar Blau</b><span class="l">Carrer de Pujades 145</span><span class="l">08005 Barcelona</span><span class="es">Tel. +34 93 555 0142</span></div><div class="row between nw" style="gap:10px;align-items:flex-start"><span class="sm muted">מראים את המסך לנהג. כתוב '+(en?'באנגלית':'בספרדית, כי המלון של הלילה בספרד')+': "בבקשה, קחו אותי לכתובת הזו". עובד גם בלי אינטרנט.</span><button class="btn s" data-act="taxilang" lang="'+(en?'es':'en')+'">'+(en?'Español':'English')+'</button></div>'+(function(){var q=encodeURIComponent('Carrer de Pujades 145, 08005 Barcelona'),NU={waze:'https://waze.com/ul?q='+q+'&navigate=yes',google:'https://www.google.com/maps/dir/?api=1&destination='+q,apple:'https://maps.apple.com/?daddr='+q},NN={waze:'Waze',google:'Google Maps',apple:'Apple Maps'};var x=S.navApp?'<a class="btn pri full" href="'+NU[S.navApp]+'" target="_blank" rel="noopener">'+ic('map')+'ניווט לכתובת</a>':'<button class="btn pri full" data-act="navopen" aria-expanded="'+!!S.navOpen+'">'+ic('map')+'ניווט לכתובת</button>';if(!S.navApp&&S.navOpen)x+='<span class="xs muted">באיזו אפליקציה לנווט? נזכור את הבחירה</span><div class="navs" role="group" aria-label="בחירת אפליקציית ניווט">'+['waze','google','apple'].map(function(k2){return '<a href="'+NU[k2]+'" target="_blank" rel="noopener" data-navpick="'+k2+'"><i style="background:'+{waze:'#33ccff',google:'#1a73e8',apple:'#333'}[k2]+'">'+NN[k2][0]+'</i>'+NN[k2]+'</a>';}).join('')+'</div>';return x;})()+'<div class="acts"><button class="btn" data-act="copyaddr" data-addr="Hotel Mar Blau, Carrer de Pujades 145, 08005 Barcelona">'+ic('doc')+'העתקת כתובת</button><button class="btn" data-act="toast" data-msg="באפליקציה האמיתית: חיוג למלון">'+ic('phone')+'התקשרות למלון</button></div></div>';return h;},
+emergency:function(){var h='<div class="top" style="background:var(--bad);color:#fff">'+(S.stack.length>1?'<button class="ib" data-act="back" aria-label="חזרה" style="background:rgb(255 255 255 / .2);color:#fff">'+ic('back')+'</button>':'')+'<h2>חירום · ספרד</h2><span class="pill" style="background:#fff;color:#142030">עובד בלי אינטרנט</span></div><div class="view">';
+  var E=[['חירום מקומי: משטרה, אמבולנס, כיבוי','112','מספר החירום באיחוד האירופי',true],['מוקד הביטוח 24/7','+972-3-555-0170','Securitas Travel · פוליסה TRV-4482-1190'],['הסוכנות שלך 24/7','03-555-0199','מסעות הדרים · קו חירום']].concat(S.agentEPhone?[['הסוכנת שלך · נייד אישי','054-555-0186','רונית לוי']]:[]).concat([['נציגות ישראל בספרד','מהמאגר','שגרירות ישראל במדריד · נבדק 9/2026'],['המלון של הלילה','+34 93 555 0142','Hotel Mar Blau']]);
+  E.forEach(function(e){h+='<div class="ecard"><div><span class="k">'+e[0]+'</span><div class="n" style="'+(e[3]?'font-size:2.2em;color:var(--bad)':'')+'">'+e[1]+'</div><span class="xs muted">'+e[2]+'</span></div><button class="btn '+(e[3]?'danger':'')+'" data-act="toast" data-msg="באפליקציה האמיתית: חיוג ל־'+e[1]+'">'+ic('phone')+'התקשר</button></div>';});
+  h+='<button class="doc" data-go="doc:d4"><span class="ic">'+ic('shield')+'</span><div><b>פוליסת הביטוח שלך</b><small>Securitas · TRV-4482-1190 · שמורה בטלפון</small></div><i class="vk" aria-label="שמור בטלפון"></i></button>';
+  h+='<button class="btn full" data-go="taxi">'+ic('car')+'הכתובת של המלון לנהג מונית</button><span class="xs muted">המספרים במסך לדוגמה, חוץ מ־112.</span></div>';return h;},
+chat:function(){var h='<div class="top">'+(S.stack.length>1?'<button class="ib" data-act="back" aria-label="חזרה">'+ic('back')+'</button>':'')+''+avatar('')+'<div style="flex:1"><b>רונית · מסעות הדרים</b><div class="xs muted">עונה בדרך כלל תוך שעתיים, א׳–ה׳ 9:00–17:00</div></div><button class="sos" data-go="emergency">'+ic('sos')+'חירום</button></div>';
+  h+='<div class="view" id="chatview"><span class="xs muted" style="text-align:center">שיחה על '+TRIPS[S.trip].name+' · גלויה לכל הנוסעים בנסיעה</span><div class="msgs">'+S.chat.map(function(m){return '<div class="msg '+(m.me?'me':'them')+'">'+esc(m.t)+'<small>'+(m.me?'':'רונית · ')+m.at+'</small></div>';}).join('')+'</div></div>';
+  h+='<form class="composer" id="composer"><button type="button" class="ib" aria-label="צירוף קובץ" data-act="toast" data-msg="באפליקציה האמיתית: בחירת תמונה או קובץ">'+ic('doc')+'</button><input id="msgin" autocomplete="off" placeholder="כתבי הודעה…" aria-label="הודעה"><button class="btn pri s" type="submit">שלחי</button></form>';return h;},
+legal:function(){var h=top('','פרטיות ונגישות')+'<div class="view"><span class="xs muted">הגרסה שראית: תנאי שימוש '+S.ver.terms+' · מדיניות פרטיות '+S.ver.privacy+' · '+S.ver.at+'</span><div class="card" style="gap:8px"><b>המידע שלך, בקצרה</b><span class="sm">את פרטי הנסיעה שלך מנהלים <b>מסעות הדרים</b>. PALAMI מפעילה את האפליקציה בשבילם, ולא משתמשת במידע לשום דבר אחר.</span><span class="sm">המידע משמש רק לנסיעה: לו״ז, מסמכים ועדכונים. בלי נייד או אימייל לא נוכל לשלוח לך את הנסיעה.</span></div><div class="card" style="gap:8px"><b>לעיין, לתקן או למחוק</b><span class="sm muted">רונית מטפלת בזה בשבילך.</span><button class="btn full" data-go="chat">'+ic('chat')+'כתיבה לרונית</button></div><div class="card" style="gap:0;padding:4px 14px">'+[['privacy','מדיניות הפרטיות המלאה'],['terms','תנאי שימוש'],['access','הצהרת נגישות']].map(function(x){return '<button class="menuitem" data-go="ldoc:'+x[0]+'">'+ic('doc')+'<span>'+x[1]+'</span>'+ic('back','i')+'</button>';}).join('')+'</div></div>';return h;},
+ldoc:function(id){var L=LEGAL[id]||LEGAL.privacy;return top('',L.t)+'<div class="view"><div class="banner info"><b>טיוטה לבדיקה משפטית</b><span class="sm">הפרטים המסומנים ממולאים כאן לדוגמה. בפועל מנהל הסוכנות ממלא אותם פעם אחת, והם חלים על כל הנוסעים.</span></div><article class="ldoc">'+L.h+'</article></div>';},
+dgroup:function(id){var g=DG[id]||DG.tix,I=dgItems(g);return top('',g.t)+'<div class="view"><span class="muted sm">'+I.length+' '+g.t+' בנסיעה הזו, לפי התאריך. לחיצה פותחת את המסמך.</span>'+I.map(function(d){var k=String(d.k||'');return '<button class="trow" data-go="doc:'+d.id+'"><div class="d"><b>'+(+k.slice(6,8)||'·')+'</b>'+(k.length>6?MON[+k.slice(4,6)-1]:'')+'</div><div><b>'+d.t+'</b><div class="muted xs">'+docMeta(d)+'</div></div>'+(d.tm?'<span class="pill">'+d.tm+'</span>':'<span></span>')+'</button>';}).join('')+'<button class="btn ghost full" data-go="docs">לכל המסמכים</button></div>'+tabs('home');},
+more:function(){var h=top('','עוד')+'<div class="view"><div class="card" style="gap:0;padding:4px 14px">';
+  [['trips','swap','הנסיעות שלי'],['offline','cloud','שימוש בלי אינטרנט'],['settings','bell','התראות ותצוגה'],['agent','user','הסוכנת שלך'],['legal','info','פרטיות ונגישות']].forEach(function(m){h+='<button class="menuitem" data-go="'+m[0]+'">'+ic(m[1])+'<span>'+m[2]+'</span>'+ic('back','i')+'</button>';});
+  return h+'</div><button class="btn s ghost" data-act="logout">יציאה מהחשבון</button></div>';},
+notifs:function(){S.notifs.forEach(function(x){x.seen=true;});var h=top('nobell','התראות')+'<div class="view"><div class="row between"><span class="muted sm">'+S.notifs.filter(function(x){return x.un;}).length+' לא נקראו</span><button class="btn s ghost" data-act="readall">סמני הכול כנקרא</button></div>';
+  S.notifs.forEach(function(x){h+='<button class="nrow'+(x.un?' un':'')+'" data-nopen="'+x.id+'"><span class="ic">'+ic(x.ic)+'</span><span><b>'+esc(x.t)+'</b><div class="xs muted">'+TRIPS[S.trip].name+' · '+x.at+'</div></span></button>';});
+  return h+'<span class="xs muted">גם מה שנשלח אלייך ב־WhatsApp או באימייל מופיע כאן.</span></div>'+tabs('');},
+add:function(){var h=top('nobell','הוספת מסמך')+'<div class="view">';
+  if(!S.travUp){h+='<div class="empty">'+ic('doc')+'<b style="color:var(--ink)">רוצים להוסיף מסמך?</b><span>מסעות הדרים מעדכנים את הנסיעה בשבילכם. שלחו את המסמך לרונית, והיא תוסיף אותו.</span><button class="btn pri" data-go="chat">'+ic('chat')+'שליחה לרונית</button></div>';}
+  else{h+=shareBox()+'<div class="grid2"><label class="btn" style="cursor:pointer">📷 צילום<input type="file" accept="image/*" capture="environment" class="fileinput" data-up="1"></label><label class="btn" style="cursor:pointer">📎 קובץ<input type="file" class="fileinput" data-up="1" multiple></label></div>';
+    h+='<button class="btn s ghost" data-act="demoup">הדמיה: בחירת 4 קבצים לדוגמה</button>'+pendCard();
+    S.adds.slice().reverse().forEach(function(a){h+=a.st==='need'?needCard(a):a.st==='p'?'<div class="card" style="gap:4px"><b>קורא את הקובץ…</b><span class="xs muted mono">'+esc(a.orig)+'</span></div>':a.st==='x'?'<div class="banner warn"><b>'+a.t+'</b><span>'+a.m+'</span></div>':'<div class="card" style="gap:4px"><div class="row nw"><i class="vk"></i><b>'+a.name+'</b></div><span class="xs muted">הועלה בשם <span class="mono">'+esc(a.orig)+'</span></span><span class="sm">'+a.m+'</span><span class="xs muted">משותף: '+a.sh+'</span>'+(a.ev?'<button class="btn s ghost" style="justify-self:start" data-go="event:'+a.ev+'">לאירוע בלו״ז</button>':'')+'</div>';});
+    if(S.adds.length&&!S.adds.some(function(x){return x.st==='p';}))h+='<button class="btn pri full" data-act="adddone">'+ic('check')+'סיום וחזרה למסמכים</button>'+(S.adds.some(function(x){return x.st==='need';})?'<span class="xs muted">אפשר להשלים את הפרט החסר גם אחר כך, מפרטי המסמך.</span>':'');
+    h+='<div class="banner info"><b>מעלים רק את המסמך</b><span>אם זה כרטיס או הזמנה (הופעה, מסעדה, רכב), המערכת תוסיף לבד גם אירוע ללו״ז. אם זה מסמך בלבד, כמו ביטוח, הוא נשמר במסמכים וזהו.</span></div><span class="xs muted">רוצה להוסיף פעילות ללו״ז? עושים את זה בלשונית לו״ז.</span>';}
+  if(0){h+='<div class="card" style="gap:10px"><b>אטרקציה בלי מסמך</b><label class="fld">מה<input id="at-n" value="פארק גואל"></label><div class="grid2"><label class="fld">יום<select id="at-d">'+DAYS.map(function(d){return '<option value="'+d[0]+'"'+(d[0]==='15'?' selected':'')+'>'+d[1]+' '+d[0]+'/11</option>';}).join('')+'</select></label><label class="fld">שעה<input id="at-t" type="time" value="10:00"></label></div><button class="btn pri" data-act="addattr">הוספה ללו״ז</button></div>';
+    h+='<span class="xs muted">מה שתוסיפי יופיע עם התגית "הוסף על ידי דנה", ורונית תראה אותו בתיק. שינוי בטיסה או במלון שרונית הזמינה יחכה לאישור שלה.</span>';}
+  return h+'</div>'+tabs('docs');},
+addev:function(){var h=top('nobell','הוספה ללו״ז')+'<div class="view">';
+  if(!S.travUp){return h+'<div class="empty">'+ic('cal')+'<b style="color:var(--ink)">רוצים להוסיף משהו ללו״ז?</b><span>מסעות הדרים מעדכנים את הנסיעה בשבילכם. כתבו לרונית.</span><button class="btn pri" data-go="chat">'+ic('chat')+'כתיבה לרונית</button></div></div>'+tabs('schedule');}
+  h+='<div class="card" style="gap:12px"><label class="fld">מה *<input id="at-n" value="פארק גואל"></label><div><label class="fld">יום *<select id="at-d">'+DAYS.map(function(d){return '<option value="'+d[0]+'"'+(d[0]===(S.day||'15')?' selected':'')+'>'+d[1]+' '+d[0]+'/11</option>';}).join('')+'</select></label></div><div class="grid2"><label class="fld">שעת התחלה *<input id="at-t" type="time" value="10:00"></label><label class="fld">שעת סיום<input id="at-t2" type="time" value="12:00"></label></div><label class="fld">מקום (לא חובה)<input id="at-p" placeholder="כתובת או שם המקום"></label>';
+  h+='<div class="row between nw" style="border-top:1px solid var(--line);padding-top:10px"><div><b class="sm">מסמך (לא חובה)</b><div class="xs muted">'+(S.evFile?'מצורף: <span class="mono">'+esc(S.evFile)+'</span>':'למשל כרטיס כניסה או אישור הזמנה')+'</div></div>'+(S.evFile?'<button class="btn s ghost" data-act="evfileclear">הסרה</button>':'<label class="btn s" style="cursor:pointer">📎 צירוף<input type="file" class="fileinput" data-evfile="1"></label>')+'</div>';
+  h+='<button class="btn pri full" data-act="addattr">הוספה ללו״ז</button></div><span class="xs muted">יופיע בלו״ז עם התגית "הוסף על ידי דנה", ורונית תראה אותו בתיק. לשנות טיסה או מלון שרונית הזמינה אפשר רק דרכה.</span><button class="btn s ghost" data-act="evfiledemo">הדמיה: צירוף כרטיס לדוגמה</button></div>'+tabs('schedule');return h;},
+login:function(){var h='<div class="login"><div class="logo" style="justify-self:start;width:128px;height:36px"><svg viewBox="0 0 220 60"><use href="#logo"/></svg></div>';
+  if(S.lstep==='login'){h+='<img class="mascot" src="brand/mascot/mascot.png" alt="הבונה של PALAMI מחזיק מזוודה וטלפון"><div style="text-align:center"><b style="font-size:1.35em;font-family:var(--f-d)">ברצלונה מחכה לך</b><div class="muted sm">כניסה כדי לראות את הנסיעה</div></div><label class="fld">מספר נייד<input id="lg-ph" inputmode="tel" class="mono" value="050-555-4417" autocomplete="username"></label><label class="fld">סיסמה<input id="lg-pw" type="password" autocomplete="current-password" placeholder="הסיסמה שלך"></label><button class="btn pri full" data-act="login">כניסה</button><div class="row between sm"><span class="muted">✓ אשאר מחובר במכשיר הזה</span><button class="btn s ghost" data-act="lfirst">שכחתי סיסמה</button></div><div class="first"><div><b>פעם ראשונה כאן?</b><span class="sm muted">נשלח קוד ב־WhatsApp, ותבחרי סיסמה</span></div><button class="btn s" data-act="lfirst">שלחו לי קוד</button></div>';}
+  else if(S.lstep==='code'){h+='<div style="text-align:center"><b style="font-size:1.2em">שלחנו קוד ב־WhatsApp</b><div class="muted sm">למספר שמסתיים ב־<span class="mono">4417</span></div></div><div class="otp">'+[0,1,2,3,4,5].map(function(i){return '<input inputmode="numeric" maxlength="1" aria-label="ספרה '+(i+1)+'" id="otp'+i+'">';}).join('')+'</div><span class="xs muted" style="text-align:center">באב הטיפוס כל קוד עובד</span>';}
+  else{h+='<div style="text-align:center"><b style="font-size:1.2em">בחרי סיסמה</b><div class="muted sm">6 תווים לפחות. בפעמים הבאות: נייד וסיסמה</div></div><label class="fld">סיסמה חדשה<input id="lg-new" type="text" autocomplete="new-password" value=""></label><button class="btn pri full" data-act="setpw">שמירה וכניסה</button><details class="legal-note"><summary>בכניסה את מסכימה ל<u>תנאי השימוש ולמדיניות הפרטיות</u></summary><p>את פרטי הנסיעה שלך מנהלים <b>מסעות הדרים</b>, ו־PALAMI מפעילה את האפליקציה בשבילם. המידע משמש רק לנסיעה שלך: לו״ז, מסמכים ועדכונים. אפשר לעיין במידע, לתקן אותו או לבקש למחוק אותו דרך הסוכנת.</p></details>';}
+  return h+'<div class="foot">מופעל על ידי <img src="brand/logo/svg/wordmark.svg" alt="PALAMI"></div></div>';},
+info:function(){var h=top('','מידע שימושי')+'<div class="view"><div class="card"><span class="k">מזג אוויר בברצלונה</span><div class="row between"><span class="big">19°</span><span class="muted sm">בהיר חלקית · 12–19 בנובמבר: 13°–20°</span></div><span class="xs muted">מקור: שירות מזג אוויר · עודכן היום 07:00</span>'+(function(){var x=localTime();return '<div class="lt"><span><span class="k">השעה עכשיו בברצלונה</span><div class="xs muted">'+x.d+'</div></span><b id="lt">'+x.t+'</b></div>';})()+'</div>';
+  h+='<div class="card"><span class="k">טיפים מרונית</span><span class="sm">המטרו נוח וזול. כרטיס T-casual ל־10 נסיעות חוסך כסף. ברוב המסעדות ארוחת ערב מתחילה אחרי 20:30.</span><span class="xs muted">רונית כתבה את זה בתיק הנסיעה · עודכן אתמול</span></div>';
+  h+='<div class="card" style="gap:0"><span class="k">רשימת אריזה</span><span class="xs muted" style="padding-bottom:4px">משותפת לך ולרונית: שתיכן יכולות להוסיף ולמחוק. הסימון "ארזתי" הוא רק שלך</span>'+S.packList.map(function(p){return '<div class="pkrow"><span>'+esc(p[1])+'<small>'+(p[2]==='auto'?'הצעה אוטומטית לפי היעד והעונה':'נוסף ע״י '+p[2])+'</small></span><button class="tog" role="switch" aria-label="ארזתי: '+esc(p[1])+'" aria-checked="'+!!S.packing[p[0]]+'" data-pack="'+p[0]+'"></button><button class="pkx" data-act="packdel" data-id="'+p[0]+'" aria-label="מחיקת '+esc(p[1])+'">×</button></div>';}).join('')+'<div class="row nw" style="gap:8px;padding-top:10px"><label class="fld" style="flex:1"><input id="pk-new" placeholder="להוסיף פריט" aria-label="פריט חדש"></label><button class="btn s" data-act="packadd" style="min-height:48px">הוספה</button></div></div></div>'+tabs('info');return h;},
+offline:function(){var h=top('','בלי אינטרנט')+'<div class="view"><div class="card"><div class="row nw"><span style="color:var(--ok)">'+ic('cloud','i')+'</span><div><b>הכול שמור בטלפון</b><div class="muted sm">עודכן לבד היום ב־09:12</div></div></div></div><div class="banner info"><b>לא צריך לעשות כלום</b><span>בכל פעם שפותחים את הנסיעה עם אינטרנט, היא נשמרת בטלפון לבד: לו״ז, כתובות, טלפונים, מספרי הזמנה, מסך החירום וכל המסמכים, כולל פוליסת הביטוח.</span></div>';
+  h+='<div class="card"><div class="row between nw"><div><b>הדמיית מצב טיסה</b><div class="muted xs">כדי לראות שהכול עובד גם בלי רשת</div></div><button class="tog" role="switch" aria-label="הדמיית מצב טיסה" aria-checked="'+S.offline+'" data-act="offline"></button></div></div>';
+  h+='<div class="card" style="gap:6px"><span class="k">מה נשמר</span><span class="sm">הכול: '+DOCS.length+' מסמכים, הלו״ז, מסך החירום ופרטי הסוכנת. המידע מוצפן בטלפון ונמחק לבד אם מתנתקים מהחשבון.</span></div></div>';return h;},
+settings:function(){var h=top('','התראות ותצוגה')+'<div class="view"><div class="card" style="gap:0"><span class="k" style="padding-bottom:4px">ניווט</span><div class="setrow">'+ic('map')+'<span>אפליקציית ניווט<br><span class="xs muted">באנדרואיד: לפי הטלפון. באייפון: נבחרת בפעם הראשונה</span></span><select data-navsel aria-label="אפליקציית ניווט" style="font:inherit;border:1px solid var(--line);border-radius:10px;min-height:40px;background:var(--surface);color:var(--ink);padding:0 8px">'+[['','לפי הטלפון'],['waze','Waze'],['google','Google Maps'],['apple','Apple Maps']].map(function(o){return '<option value="'+o[0]+'"'+((S.navApp||'')===o[0]?' selected':'')+'>'+o[1]+'</option>';}).join('')+'</select></div></div><div class="card" style="gap:0"><span class="k" style="padding-bottom:4px">איך לעדכן אותי</span>'+[['push','bell','התראה בטלפון (Push)'],['wa','chat','WhatsApp'],['mail','doc','אימייל']].map(function(c){return '<div class="setrow">'+ic(c[1])+'<span>'+c[2]+'</span><button class="tog" role="switch" aria-label="'+c[2]+'" aria-checked="'+S.chan[c[0]]+'" data-chan="'+c[0]+'"></button></div>';}).join('')+'</div><div class="card" style="gap:0"><span class="k" style="padding-bottom:4px">מה לשלוח לי</span>';
+  h+='<div class="setrow">'+ic('plane')+'<span>שינויים בטיסות ובמסמכים<br><span class="xs muted">תמיד נשלח, חשוב לביטחון שלך</span></span><button class="tog lock" role="switch" aria-checked="true" aria-label="שינויים, תמיד פעיל" data-act="toast" data-msg="התראה קריטית. אי אפשר לכבות אותה"></button></div>';
+  [['checkin','bell',"תזכורות צ'ק-אין ויציאה לשדה"],['morning','sun','תדריך בוקר ב־08:00','מה מחכה היום: האירועים, השעות ומזג האוויר'],['events','cal','תזכורת לפני אירועים'],['offers','heart','הצעות לנסיעות הבאות','פרסומת מהסוכנות. נשלח רק אם הפעלת']].forEach(function(n){h+='<div class="setrow">'+ic(n[1])+'<span>'+n[2]+(n[3]?'<small class="muted" style="display:block;font-size:.8em">'+n[3]+'</small>':'')+'</span><button class="tog" role="switch" aria-label="'+n[2]+'" aria-checked="'+S.notif[n[0]]+'" data-notif="'+n[0]+'"></button></div>';});
+  h+='</div><div class="card"><span class="k">שעות שקט</span><div class="row between"><span>לא להעיר אותי בין</span><b class="mono">22:00–07:00</b></div><span class="xs muted">לפי השעה במקום שבו את נמצאת</span></div>';
+  h+='<div class="card"><div class="row between nw"><div><b style="font-size:1.1em">טקסט גדול</b><div class="muted xs">מגדיל את כל הטקסט באפליקציה</div></div><button class="tog" role="switch" aria-label="טקסט גדול" aria-checked="'+S.big+'" data-act="big"></button></div></div></div>';return h;},
+agent:function(){var h=top('','הסוכנת שלך')+'<div class="view"><div class="card" style="justify-items:center;text-align:center;gap:10px">'+avatar('lg')+'<b style="font-size:1.15em">רונית לוי</b><span class="muted sm">מסעות הדרים</span><span class="pill ok">● זמינה עכשיו</span><span class="xs muted">א׳–ה׳ 9:00–17:00 · עונה בדרך כלל תוך שעתיים</span></div>';
+  h+='<button class="btn pri full" data-go="chat">'+ic('chat')+"צ'אט עם רונית</button><button class=\"btn full\" data-act=\"toast\" data-msg=\"באפליקציה האמיתית: חיוג ל־03-555-0142\">"+ic('phone')+'התקשרי · <span class="mono">03-555-0142</span></button><button class="btn full" data-act="toast" data-msg="באפליקציה האמיתית: נפתח WhatsApp">WhatsApp</button>'+(S.agentEPhone?'<div class="ecard"><div><span class="k">בחירום, בזמן הנסיעה</span><div class="n" style="font-size:1.3em;white-space:nowrap;direction:ltr;text-align:right">054-555-0186</div><span class="xs muted">הנייד האישי של רונית. מוצג רק עד סוף הנסיעה</span></div><button class="btn" data-act="toast" data-msg="באפליקציה האמיתית: חיוג ל־054-555-0186">'+ic('phone')+'התקשרי</button></div>':'')+'<div class="setrow" style="border-top:1px dashed var(--line);padding-top:10px"><span></span><span class="xs muted">הדמיה: הסוכנת לא העלתה תמונה (יוצגו ראשי תיבות)</span><button class="tog" role="switch" aria-label="הדמיה: בלי תמונה" aria-checked="'+(!S.agentPhoto)+'" data-act="nophoto"></button></div><div class="setrow"><span></span><span class="xs muted">הדמיה: הסוכנת מסרה נייד לחירום</span><button class="tog" role="switch" aria-label="הדמיה: נייד לחירום" aria-checked="'+S.agentEPhone+'" data-act="noephone"></button></div></div>';return h;}
+};
+function shownTrips(){return Object.keys(TRIPS).filter(function(k){return TRIPS[k].live||TRIPS[k].ended;});}
+function tripPicker(){return '<div class="tdd" id="tdd" role="listbox" aria-label="בחירת נסיעה">'+shownTrips().map(function(k){var t=TRIPS[k],cur=S.trip===k;return '<button class="tpick'+(cur?' cur':'')+(t.ended?' ended':'')+'" role="option" aria-selected="'+cur+'" data-trip="'+k+'"><span><b>'+t.name+'</b><small>'+t.dates+'</small></span>'+(cur?'<svg class="tck" aria-hidden="true"><use href="#check"/></svg>':(t.ended?'<span class="tend">הסתיימה</span>':''))+'</button>';}).join('')+'<div class="tnote">נסיעות שרונית עוד מכינה יופיעו כאן כשהן מוכנות</div></div>';}
+function tripRow(id,label,cls){var t=TRIPS[id];return '<button class="trow'+(S.trip===id?' cur':'')+'" data-trip="'+id+'"><div class="d"><b>'+t.d+'</b>'+t.m+'</div><div><b>'+t.name+'</b><div class="muted xs">'+t.dates+' · '+t.pax+' נוסעים</div></div><span class="pill '+cls+'">'+label+'</span></button>';}
+
+function render(){
+  var v=S.logged?cur():'login',parts=v.split(':'),fn=V[parts[0]]||V.home;
+  app.style.setProperty('--fs',S.big?'19.5px':'16px');
+  var html='<div class="status"><span>9:41</span><span>'+(S.offline?'✈ מצב טיסה':'5G ▮▮▮')+'</span></div>';
+  if(S.offline&&parts[0]!=='emergency')html+='<div class="offbar">'+ic('cloud')+'<span>אין חיבור. מוצג המידע ששמרת היום ב־09:12</span></div>';
+  html+=fn(parts[1]);if(S.logged&&S.termsNotice&&parts[0]!=='ldoc'&&parts[0]!=='emergency')html+='<div class="tsheet" role="dialog" aria-labelledby="tsh"><h3 id="tsh">עדכנו את מדיניות הפרטיות</h3><span class="sm">מה השתנה: הוספנו ספק חדש לשליחת הודעות WhatsApp. אין שום דבר שצריך לעשות.</span><button class="lnk" data-go="ldoc:privacy">לקריאת המדיניות המעודכנת</button><button class="btn pri full" data-act="termsok">הבנתי</button><span class="xs muted">ההודעה מופיעה פעם אחת, ונשמרת גם בפעמון.</span></div>';app.innerHTML=html;var cpk=app.querySelector('.chips.swipe [aria-pressed="true"]');if(cpk&&cpk.parentNode.scrollWidth>cpk.parentNode.clientWidth)cpk.scrollIntoView({inline:"nearest",block:"nearest"});
+  var cv=document.getElementById('chatview');if(cv)cv.scrollTop=cv.scrollHeight;
+  var o0=document.getElementById('otp0');if(o0)o0.focus();var lp=document.getElementById('lg-pw')||document.getElementById('lg-new');if(lp)lp.focus();
+}
+document.addEventListener('click',function(ev){
+  if(S.tripDD&&!ev.target.closest('.tdd')&&!ev.target.closest('[data-act="tripdd"]')){S.tripDD=false;render();if(!ev.target.closest('[data-trip],[data-go],[data-act]'))return;}
+  var np=ev.target.closest('[data-navpick]');if(np){S.navApp=np.getAttribute('data-navpick');S.navOpen=false;setTimeout(render,30);toast('נזכור את הבחירה. אפשר לשנות בהגדרות');return;}
+  var g=ev.target.closest('[data-go]');
+  if(g){ev.preventDefault();go(g.getAttribute('data-go'));return;}
+  var a=ev.target.closest('[data-act]');
+  if(a){var k=a.getAttribute('data-act');
+    if(k==='back')back();
+    else if(k==='toast')toast(a.getAttribute('data-msg'));
+    else if(k==='calpick'){S.calOn=a.getAttribute('data-cal');render();toast('הלו״ז נוסף ל'+S.calOn+' ויתעדכן לבד');}
+    else if(k==='caloff'){var was=S.calOn;S.calOn=null;render();toast('הסנכרון הופסק והאירועים יימחקו מ'+was);}
+    else if(k==='packadd'){var pv=(document.getElementById('pk-new').value||'').trim();if(!pv){toast('מה להוסיף?');return;}S.packList.push(['p'+Date.now(),pv,'דנה']);render();toast('נוסף לרשימה. רונית רואה את זה בתיק');}
+    else if(k==='packdel'){var pid=a.getAttribute('data-id'),pi=S.packList.findIndex(function(x){return x[0]===pid;});if(pi>=0){S.packList.splice(pi,1);render();toast('הוסר מהרשימה');}}
+    else if(k==='checkin'){S.checkin=true;render();toast('מעולה. לא נשלח לך עוד תזכורת',true);}
+    else if(k==='undo'){S.checkin=false;render();}
+    else if(k==='offline'){S.offline=!S.offline;render();}
+    else if(k==='big'){S.big=!S.big;save();render();}
+    else if(k==='login'){var pw=document.getElementById('lg-pw').value;if(!pw){toast('צריך להקליד סיסמה');document.getElementById('lg-pw').focus();return;}S.logged=true;S.stack=['home'];render();toast('ברוכה הבאה, דנה. נשארת מחוברת במכשיר הזה');}
+    else if(k==='lfirst'){S.lstep='code';render();}
+    else if(k==='setpw'){var np=document.getElementById('lg-new').value;if(np.length<6){toast('צריך לפחות 6 תווים');return;}if(/^(\d)\1+$|^123456|^654321/.test(np)){toast('הסיסמה הזו נפוצה מדי. נסי אחרת');return;}S.logged=true;S.lstep='login';S.stack=['home'];render();toast('הסיסמה נשמרה. ברוכה הבאה');}
+    else if(k==='logout'){S.logged=false;S.lstep='login';render();}
+    else if(k==='readall'){S.notifs.forEach(function(x){x.un=false;});render();}
+    else if(k==='travup'){S.travUp=!S.travUp;render();}
+    else if(k==='demoup'){S.pend=['IMG_5520.jpg','policy_2026.pdf','sixt-voucher.pdf','scan_blurry.jpg'];render();}
+    else if(k==='pendx'){S.pend.splice(+a.getAttribute('data-i'),1);render();}
+    else if(k==='pendclear'){S.pend=[];render();}
+    else if(k==='addconfirm'){var pl=S.pend;S.pend=[];upload(pl);}
+    else if(k==='adddone'){S.adds.forEach(function(x,xi){if(x.st==='need')DOCS.unshift({id:'xn'+Date.now()+xi,cat:'car',ic:'car',t:x.name,dt:'16–18 בנוב׳ · חסרה שעת ההחזרה',who:x.who,k:'202611160900',neu:'להשלמה',name:x.fn,by:'דנה'});});var nOk=S.adds.filter(function(x){return x.st==='ok'||x.st==='need';}).length;S.adds=[];S.pend=[];go('docs');toast(nOk?(nOk===1?'המסמך נשמר':nOk+' מסמכים נשמרו')+' במסמכים':'לא נוספו מסמכים');}
+    else if(k==='termsdemo'){S.termsNotice=true;S.stack=['home'];addNotif('עדכנו את מדיניות הפרטיות','ldoc:privacy','doc');render();}
+    else if(k==='termsok'){S.termsNotice=false;S.ver={terms:S.ver.terms,privacy:'1.1',at:'היום · אחרי "הבנתי"'};render();toast('תודה. נשמר');}
+    else if(k==='phase'){S.phase=a.getAttribute('data-ph');S.trip='bcn';S.stack=['home'];S.tripDD=false;S.fx=false;render();var vw=app.querySelector('.view');if(vw)vw.scrollTop=0;}
+    else if(k==='fxcalc'){S.fx=!S.fx;render();if(S.fx){var fi=document.getElementById('fxin');if(fi)fi.focus();}}
+    else if(k==='taxilang'){S.taxiEn=!S.taxiEn;render();}
+    else if(k==='share'){S.share=a.getAttribute('data-sh');render();}
+    else if(k==='sharep'){var sp=a.getAttribute('data-p');S.sharePick[sp]=!S.sharePick[sp];render();}
+    else if(k==='needok'){var ni=+a.getAttribute('data-i'),na=S.adds[ni],nf=document.getElementById('need'+ni),nv=nf?nf.value:'';if(!nv){toast('מה שעת ההחזרה?');if(nf)nf.focus();return;}var nid='u'+Date.now();EV[nid]={by:'דנה',day:'16',t:'09:00',tz:'שעון ברצלונה',ic:'car',title:'איסוף רכב · Europcar',sub:'תחנת Sants · החזרה 18/11 ב־'+nv,kv:[['איסוף','16/11 09:00'],['החזרה','18/11 '+nv+' (השלמת)'],['מקור',na.name]],doc:'x'+nid,src:'הוסף על ידי דנה'};na.st='ok';na.ev=nid;na.m='תודה! הרכב נוסף ללו״ז: איסוף 16/11 ב־09:00, החזרה 18/11 ב־'+nv+'. התזכורת להחזרה תגיע בזמן';DOCS.unshift({id:'x'+nid,cat:'car',ic:'car',t:na.name,dt:'16–18 בנוב׳ · איסוף 09:00',who:na.who,k:'202611160900',tm:'09:00',neu:'חדש',name:na.fn,by:'דנה'});render();toast('נשמר. הרכב בלו״ז');}
+    else if(k==='evfileclear'){S.evFile=null;render();}
+    else if(k==='evfiledemo'){S.evFile='IMG_7781.jpg';render();}
+    else if(k==='noephone'){S.agentEPhone=!S.agentEPhone;render();}
+    else if(k==='nophoto'){S.agentPhoto=!S.agentPhoto;render();}
+    else if(k==='navopen'){S.navOpen=!S.navOpen;render();}
+    else if(k==='copyaddr'){var ad=a.getAttribute('data-addr');try{navigator.clipboard.writeText(ad);}catch(x){}toast('הכתובת הועתקה');}
+    else if(k==='tripdd'){S.tripDD=!S.tripDD;render();if(S.tripDD){var cu=document.querySelector('.tpick.cur');if(cu)cu.focus();}}
+    else if(k==='addattr'){var an=document.getElementById('at-n').value.trim(),ad=document.getElementById('at-d').value,at=document.getElementById('at-t').value||'10:00',at2=document.getElementById('at-t2').value,ap=document.getElementById('at-p').value.trim();if(!an){toast('מה מוסיפים? צריך שם');document.getElementById('at-n').focus();return;}if(at2&&at2<=at){toast('שעת הסיום לפני שעת ההתחלה');document.getElementById('at-t2').focus();return;}var id='u'+Date.now(),kv=[['מתי',ad+'/11'],['שעות',at+(at2?'–'+at2:'')]];if(ap)kv.push(['כתובת',ap]);var dref;if(S.evFile){dref='x'+id;DOCS.unshift({id:dref,cat:'other',ic:'ticket',name:'כרטיס · '+an+' · '+ad+'.11.2026 · דנה כהן',sub:'מצורף לאירוע · הועלה בשם '+S.evFile,by:'דנה',off:true});S.evFile=null;}EV[id]={addr:ap||undefined,by:'דנה',day:ad,t:at,tz:'שעון ברצלונה',ic:'walk',title:an,sub:ap||'הוסף על ידי דנה',kv:kv,doc:dref,src:'הוסף על ידי דנה'};S.day=ad;S.week=false;S.stack=['schedule'];render();toast('נוסף ללו״ז ביום '+ad+'/11. רונית רואה את זה בתיק');}
+    return;}
+  var no=ev.target.closest('[data-nopen]');if(no){var nx=S.notifs.filter(function(x){return x.id===no.getAttribute('data-nopen');})[0];nx.un=false;S.stack=['home'];if(nx.go&&nx.go!=='home')S.stack.push(nx.go);render();return;}
+  var t=ev.target.closest('[data-trip]');if(t){S.tripDD=false;S.trip=t.getAttribute('data-trip');S.stack=['home'];render();toast('עברת לנסיעה: '+TRIPS[S.trip].name);return;}
+  var wk=ev.target.closest('[data-week]');if(wk){S.week=wk.getAttribute('data-week')==='1';render();return;}
+  var dop=ev.target.closest('[data-dayopen]');if(dop){S.day=dop.getAttribute('data-dayopen');S.week=false;render();return;}
+  var d=ev.target.closest('[data-day]');if(d){S.day=d.getAttribute('data-day');render();return;}
+  var f=ev.target.closest('[data-docf]');if(f){S.docf=f.getAttribute('data-docf');render();return;}
+  var cn=ev.target.closest('[data-chan]');if(cn){var ck=cn.getAttribute('data-chan');S.chan[ck]=!S.chan[ck];if(!S.chan.push&&!S.chan.wa&&!S.chan.mail){S.chan.mail=true;toast('צריך לפחות ערוץ אחד. השארנו אימייל');}render();return;}
+  var n=ev.target.closest('[data-notif]');if(n){var key=n.getAttribute('data-notif');S.notif[key]=!S.notif[key];render();if(key==='offers')toast(S.notif.offers?'תקבלי הצעות מהסוכנות. אפשר להפסיק בכל רגע':'לא תקבלי יותר הצעות. עדכונים על הנסיעה ימשיכו להגיע');return;}
+  var p=ev.target.closest('[data-pack]');if(p){var pk=p.getAttribute('data-pack');S.packing[pk]=!S.packing[pk];render();return;}
+});
+document.addEventListener('input',function(ev){
+  var m=ev.target.id&&ev.target.id.match(/^otp(\d)$/);if(!m)return;
+  ev.target.value=ev.target.value.replace(/\D/g,'').slice(0,1);
+  var i=+m[1];if(ev.target.value&&i<5){document.getElementById('otp'+(i+1)).focus();}
+  var all=[0,1,2,3,4,5].every(function(j){return document.getElementById('otp'+j).value;});
+  if(all){if(!S.logged){S.lstep='setpw';render();return;}S.unlocked=true;S.stack[S.stack.length-1]='doc:d4';render();toast('אומת');}
+});
+document.addEventListener('change',function(ev){if(ev.target.hasAttribute&&ev.target.hasAttribute('data-navsel')){S.navApp=ev.target.value||null;toast('אפליקציית הניווט נשמרה');return;}if(ev.target.id==='pk-new')return;if(ev.target.getAttribute&&ev.target.getAttribute('data-evfile')){var fl=ev.target.files&&ev.target.files[0];if(fl){S.evFile=fl.name;render();}return;}if(!ev.target.getAttribute||!ev.target.getAttribute('data-up'))return;var n=[].map.call(ev.target.files||[],function(f){return f.name;});ev.target.value='';if(n.length){S.pend=S.pend.concat(n);render();}});
+var RES=[{cat:'tix',ic:'ticket',t:'מוזיאון פיקאסו · כרטיס כניסה',dt:'ב׳ 16 בנוב׳ · 10:00',k:'202611161000',tm:'10:00',name:'כרטיס · מוזיאון פיקאסו · 16.11.2026 · דנה כהן',m:'זה אירוע, אז הוא נוסף לבד גם ללו״ז, ביום ב׳ 16/11 ב־10:00',ev:{day:'16',t:'10:00',ic:'ticket',title:'מוזיאון פיקאסו',sub:'כרטיס כניסה'}},{cat:'ins',ic:'shield',t:'ביטוח ביטול · הפניקס',dt:'כל הנסיעה',k:'0',name:'ביטוח ביטול · הפניקס · דנה כהן',m:'נשמר במסמכים. זה מסמך בלבד, בלי אירוע, ולכן לא נוסף ללו״ז'},{cat:'other',ic:'car',name:'רכב Sixt · ברצלונה · 16–18.11.2026',m:'זה אירוע, אז נוסף לבד גם ללו״ז (איסוף והחזרה)',ev:{day:'16',t:'09:00',ic:'car',title:'איסוף רכב · Sixt',sub:'תחנת Sants'}}];var ri=0;
+function upload(names){names.forEach(function(n,j){var a={orig:n,st:'p',sh:shareLbl()};S.adds.push(a);setTimeout(function(){
+  if(!/\.(pdf|jpe?g|png|heic|webp)$/i.test(n)){a.st='x';a.t='אי אפשר להוסיף את "'+n+'"';a.m='אפשר להוסיף PDF או תמונה.';}
+  else if(/sixt/i.test(n)){a.st='need';a.name='רכב שכור · Europcar';a.fn='רכב שכור · Europcar · 16–18.11.2026';a.who=whoLbl();}
+  else if(/blur/i.test(n)){a.st='x';a.t='התמונה לא ברורה';a.m='לא הצלחנו לקרוא את "'+n+'". נסי לצלם שוב, באור טוב ובלי צל.';}
+  else{var r=RES[(ri++)%RES.length];a.st='ok';a.name=r.t||r.name;a.m=r.m;var id='u'+Date.now()+j;if(!r.ev){DOCS.unshift({id:'x'+id,cat:r.cat,ic:r.ic,t:r.t,dt:r.dt,who:whoLbl(),k:r.k,tm:r.tm,neu:'חדש',name:r.name,by:'דנה',off:true});addNotif('המסמך נקלט: '+r.name.split(' · ').slice(0,2).join(' · '),'doc:x'+id,'check');if(cur()==='add')render();return;}EV[id]={by:'דנה',day:r.ev.day,t:r.ev.t,tz:'שעון ברצלונה',ic:r.ev.ic,title:r.ev.title,sub:r.ev.sub,kv:[['מקור',r.name]],doc:'x'+id,src:'הוסף על ידי דנה'};a.ev=id;DOCS.unshift({id:'x'+id,cat:r.cat,ic:r.ic,t:r.t,dt:r.dt,who:whoLbl(),k:r.k,tm:r.tm,neu:'חדש',name:r.name,by:'דנה'});addNotif('המסמך נקלט: '+r.name.split(' · ').slice(0,2).join(' · '),'event:'+id,'check');}
+  if(cur()==='add')render();},1200+j*700);});render();}
+document.addEventListener('input',function(ev){if(ev.target.id==='fxin'){S.fxv=ev.target.value;var fo=document.getElementById('fxout');if(fo)fo.textContent=fxcalc(ev.target.value);}});
+document.addEventListener('submit',function(ev){
+  if(ev.target.id!=='composer')return;ev.preventDefault();
+  var inp=document.getElementById('msgin'),txt=inp.value.trim();if(!txt)return;
+  if(S.offline){S.chat.push({me:true,t:txt,at:'ממתינה לרשת'});render();return;}
+  S.chat.push({me:true,t:txt,at:'עכשיו'});render();
+  setTimeout(function(){S.chat.push({me:false,t:'קיבלתי, תודה! בודקת ועונה בהקדם',at:'עכשיו'});if(cur()==='chat')render();},1400);
+});
+render();
+})();
+</script>
+
+</body></html>

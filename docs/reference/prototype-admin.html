@@ -1,0 +1,337 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>PALAMI · ניהול</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* PALAMI admin theme (brand/tokens/theme-admin.css): functional, same density as the agent system,
+   brand-green top stripe with the beaver head and an ADMIN badge. Status colors per BR-48..53. */
+:root{
+  --bg:#f4f6f4; --surface:#ffffff; --surface-2:#eceeec; --ink:#16211c; --muted:#545d58; --line:#dee3df;
+  --acc:#08402a; --acc-ink:#ffffff; --acc-soft:#e8f1ec; --stripe:#08402a; --badge:#c28a0e;
+  --ok:#33704f; --ok-fill:#5e9677; --ok-soft:#e6f0ea; --warn:#8a5f00; --warn-fill:#c28a0e; --warn-soft:#fbf1d6; --bad:#b91c3c; --bad-soft:#fce8ec; --info:#1d5fa8; --info-soft:#e4eef8;
+  --shadow:0 1px 2px rgb(21 26 23 / .06),0 2px 8px rgb(21 26 23 / .06);
+  --f-d:"Rubik","Assistant",Arial,sans-serif; --f-b:"Assistant","Rubik",Arial,sans-serif; --f-m:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101512; --surface:#171d19; --surface-2:#1f2621; --ink:#e6ebe8; --muted:#9da8a1; --line:#2a322d;
+  --acc:#74b590; --acc-ink:#021209; --acc-soft:#18291f; --stripe:#041f15; --badge:#c28a0e;
+  --ok:#7fbf9a; --ok-fill:#5e9677; --ok-soft:#16271e; --warn:#e6b54a; --warn-fill:#c28a0e; --warn-soft:#2e2610; --bad:#f27a8c; --bad-soft:#331820; --info:#7fb2e8; --info-soft:#132235;
+  --shadow:0 1px 2px rgb(0 0 0 / .3); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#101512; --surface:#171d19; --surface-2:#1f2621; --ink:#e6ebe8; --muted:#9da8a1; --line:#2a322d;
+  --acc:#74b590; --acc-ink:#021209; --acc-soft:#18291f; --stripe:#041f15; --badge:#c28a0e;
+  --ok:#7fbf9a; --ok-fill:#5e9677; --ok-soft:#16271e; --warn:#e6b54a; --warn-fill:#c28a0e; --warn-soft:#2e2610; --bad:#f27a8c; --bad-soft:#331820; --info:#7fb2e8; --info-soft:#132235;
+  --shadow:0 1px 2px rgb(0 0 0 / .3); color-scheme:dark }
+*{box-sizing:border-box}
+html,body{height:100%}
+html{scrollbar-gutter:stable}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:15px;line-height:1.5}
+#root{min-height:100%;display:grid;grid-template-rows:auto 1fr}
+.stripe{display:flex;align-items:center;gap:10px;background:var(--stripe);color:#fff;padding:6px 18px;position:sticky;top:0;z-index:5}
+.stripe .mh{height:30px;width:auto;margin-block:-2px}
+.stripe .wm{height:16px;width:auto}
+.badge{font:700 .7em var(--f-m);letter-spacing:.08em;background:var(--badge);color:#151a17;padding:2px 8px;border-radius:4px}
+.stripe .me{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.sbtn{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:0 10px;border-radius:8px;border:0;background:rgb(255 255 255 / .12);color:#fff;font:600 .85em var(--f-b);cursor:pointer}
+.sbtn:hover{background:rgb(255 255 255 / .2)}
+.sbtn:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.sbtn svg{width:18px;height:18px}
+.sbtn .cnt{position:absolute;top:-5px;inset-inline-end:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--bad);color:#fff;font:700 .72em var(--f-b);display:grid;place-items:center;padding:0 4px}
+.sbtn .av{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--stripe);display:grid;place-items:center;font:700 .8em var(--f-d)}
+.pop{position:fixed;top:52px;inset-inline-end:14px;z-index:9;width:min(340px,calc(100vw - 28px));background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 18px 50px rgb(0 0 0 / .25);display:grid;max-height:70vh;overflow:auto}
+.pop .ph{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.pop .pi{display:grid;gap:2px;padding:10px 14px;border:0;border-bottom:1px solid var(--line);background:none;font:inherit;color:inherit;text-align:start;cursor:pointer;width:100%}
+.pop .pi:hover{background:var(--surface-2)}
+.pop .pi.un{background:var(--acc-soft)}
+.pop .pi:last-child{border-bottom:0}
+.pop .out{color:var(--bad);font-weight:600}
+button.tile{cursor:pointer}
+button.tile:hover{border-color:var(--acc)}
+button.tile[aria-pressed="true"]{outline:2px solid var(--acc);outline-offset:-2px;background:var(--acc-soft)}
+button.tile:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.login{min-height:100vh;display:grid;place-items:center;padding:24px 16px;background:var(--bg)}
+.login .card{width:min(400px,100%);padding:26px;gap:12px}
+.shell{display:grid;grid-template-columns:230px minmax(0,1fr);min-height:0}
+.side{background:var(--surface);border-inline-end:1px solid var(--line);padding:14px 10px;display:flex;flex-direction:column;gap:2px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 12px;border-radius:8px;color:var(--ink);background:none;border:0;font:inherit;cursor:pointer;text-align:start;width:100%}
+.nav[aria-current="page"]{background:var(--acc-soft);color:var(--acc);font-weight:700}
+.nav:focus-visible,.btn:focus-visible,.chip:focus-visible,tr.click:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.content{padding:22px 24px 60px;display:grid;gap:16px;align-content:start;max-width:1180px;width:100%;min-width:0}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.25;text-wrap:balance}
+h1{font-size:1.5em}h2{font-size:1.2em}h3{font-size:1.02em}
+.muted{color:var(--muted)}.sm{font-size:.88em}.xs{font-size:.78em}
+.mono{font-family:var(--f-m);direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.between{justify-content:space-between}.nw{flex-wrap:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:40px;padding:0 14px;border-radius:8px;font:600 .92em var(--f-b);border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.btn.pri{background:var(--acc);color:var(--acc-ink);border-color:transparent}
+.btn.ghost{background:var(--surface-2);border-color:transparent}
+.btn.s{min-height:32px;padding:0 10px;font-size:.84em}
+.btn.danger{color:var(--bad);border-color:var(--bad-soft)}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:.78em;font-weight:600;padding:2px 9px;border-radius:999px;background:var(--surface-2);color:var(--muted);white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}.pill.warn{background:var(--warn-soft);color:var(--warn)}.pill.bad{background:var(--bad-soft);color:var(--bad)}.pill.info{background:var(--info-soft);color:var(--info)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:10px;min-width:0}
+.tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px;text-align:start;font:inherit;color:inherit}
+.tile b{font-family:var(--f-d);font-size:1.8em;line-height:1.15}
+.tile span{color:var(--muted);font-size:.85em}
+.tile.hot{box-shadow:inset 0 3px 0 var(--bad)}.tile.attn{box-shadow:inset 0 3px 0 var(--warn-fill)}
+.tbl{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.92em}
+th,td{padding:10px 12px;text-align:start;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-weight:500;color:var(--muted);font-size:.86em;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+tr.click{cursor:pointer}tr.click:hover td{background:var(--surface-2)}
+tr.sig-b>td:first-child{box-shadow:inset -3px 0 0 var(--bad)}tr.sig-w>td:first-child{box-shadow:inset -3px 0 0 var(--warn-fill)}
+td.nw,td.mono{white-space:nowrap}
+input.inp,select.inp,textarea.inp{min-height:42px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);padding:0 10px;font:inherit;width:100%}
+textarea.inp{min-height:90px;padding:8px 10px;resize:vertical}
+input.inp:focus,select.inp:focus,textarea.inp:focus{outline:3px solid var(--acc);border-color:transparent}
+input.inp.err{border-color:var(--bad);background:var(--bad-soft)}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fgrid label,.fld{display:grid;gap:4px;font-size:.86em;font-weight:600}
+.fld span.h{font-weight:400;color:var(--muted)}
+.steps{display:flex;gap:6px;flex-wrap:wrap}
+.steps button{border:0;font:600 .8em var(--f-b);padding:5px 11px;border-radius:999px;background:var(--surface-2);color:var(--muted);cursor:pointer}
+.steps button.done{background:var(--ok-soft);color:var(--ok)}
+.steps button[aria-current="step"]{background:var(--acc);color:var(--acc-ink)}
+.drop{border:2px dashed color-mix(in srgb,var(--acc) 45%,var(--line));border-radius:10px;padding:16px;display:grid;justify-items:center;gap:6px;text-align:center;background:color-mix(in srgb,var(--acc-soft) 50%,transparent);position:relative}
+.drop input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;align-self:start}
+.seg button{border:0;background:var(--surface);padding:8px 14px;font:600 .86em var(--f-b);cursor:pointer;color:var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font:600 .82em var(--f-b);color:var(--muted);cursor:pointer;min-height:32px}
+.chip[aria-pressed="true"]{background:var(--acc);color:var(--acc-ink);border-color:transparent}
+.tog{width:44px;height:26px;border-radius:999px;border:0;background:var(--line);position:relative;cursor:pointer;flex:none}
+.tog::after{content:"";position:absolute;top:3px;inset-inline-start:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:inset .15s}
+.tog[aria-checked="true"]{background:var(--acc)}.tog[aria-checked="true"]::after{inset-inline-start:21px}
+.split{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:16px;align-items:start}
+.phone{width:230px;border:7px solid #062f1f;border-radius:28px;overflow:hidden;background:#fbf8f2;color:#16211c;justify-self:center}
+.phone .ph{background:#fff;border-bottom:1px solid #eee;padding:9px 12px;display:flex;align-items:center;gap:8px;min-height:44px}
+.phone .ph img{max-height:28px;max-width:120px}
+.phone .it{display:grid;grid-template-columns:22px 1fr auto;gap:8px;align-items:center;background:#fbf3e3;border-radius:12px;padding:8px 10px;font-size:.82em}
+.phone .vk{width:18px;height:18px;border-radius:50%;background:#5e9677;display:grid;place-items:center}
+.phone .vk::after{content:"";width:7px;height:4px;border:solid #fff;border-width:0 0 2px 2px;transform:translateY(-1px) rotate(-45deg)}
+.phone .pw{display:flex;justify-content:center;align-items:center;gap:5px;font-size:.7em;color:#545d58;padding:6px}
+.phone .pw img{height:10px}
+.logo-ph{width:120px;height:40px;border-radius:8px;display:grid;place-items:center;font:800 .95em var(--f-d);color:#1c4e80;background:#eef3fa}
+.shot{height:150px;border-radius:8px;background:repeating-linear-gradient(45deg,var(--surface-2),var(--surface-2) 10px,var(--bg) 10px,var(--bg) 20px);display:grid;place-items:center;color:var(--muted);font-size:.85em;border:1px solid var(--line)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.9em;margin:0}.kv dt{color:var(--muted)}.kv dd{margin:0}
+.msg{border-radius:10px;padding:10px 12px;display:grid;gap:3px;font-size:.92em}
+.msg.them{background:var(--surface-2)}.msg.me{background:var(--acc-soft)}
+.msg small{color:var(--muted);font-size:.8em}
+.toast{position:fixed;bottom:22px;inset-inline-start:50%;transform:translateX(50%);background:var(--ink);color:var(--bg);border-radius:12px;padding:11px 16px;display:flex;gap:12px;align-items:center;box-shadow:0 8px 30px rgb(0 0 0 / .3);z-index:20;max-width:calc(100% - 32px)}
+.overlay{position:fixed;inset:0;background:rgb(10 16 24 / .45);display:grid;place-items:center;padding:16px;z-index:10}
+.modal{background:var(--surface);border-radius:16px;max-width:560px;width:100%;padding:22px;display:grid;gap:12px;box-shadow:0 20px 60px rgb(0 0 0 / .3)}
+.banner{border-radius:8px;padding:10px 12px;display:grid;gap:3px;font-size:.9em}
+.banner.ok{background:var(--ok-soft)}.banner.warn{background:var(--warn-soft)}.banner.info{background:var(--info-soft)}.banner.bad{background:var(--bad-soft)}
+.health{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}.dot.ok{background:var(--ok-fill)}.dot.warn{background:var(--warn-fill)}.dot.bad{background:var(--bad)}
+.timer{font:700 1.1em var(--f-m)}
+.fileinput{position:absolute;width:1px;height:1px;opacity:0}
+@media (max-width:860px){
+  .shell{grid-template-columns:1fr;grid-template-rows:auto 1fr;align-content:start}
+  .side{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;border-inline-end:0;border-bottom:1px solid var(--line);padding:6px}
+  .nav{justify-content:center;text-align:center;padding:8px 4px;font-size:.84em;line-height:1.25;min-height:44px;position:relative}
+  .nav .pill{position:absolute;top:2px;inset-inline-end:2px;font-size:.66em;padding:0 6px}
+  .stripe{padding:6px 12px}
+  .stripe .wm{height:14px}
+  .sbtn .nm{display:none}
+  .content{padding:16px}
+  .tiles{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .split,.fgrid{grid-template-columns:1fr}
+
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div id="root" dir="rtl" lang="he"></div>
+
+<script>
+(function(){
+var S={view:'agencies',ag:null,agTab:'emp',tk:'1042',flt:'all',wiz:null,
+  log:[
+    ['היום 10:12','נועה','נכנסה לחשבון של מסעות הדרים (קריאה #1041), לקריאה בלבד, באישור רונית'],
+    ['היום 09:40','דן','טען 20 קרדיטים לשמש נופשים'],
+    ['אתמול 16:05','נועה','התחילה הקמה של גלובוס טורס, עצרה בשלב 3 (לוגו)'],
+    ['אתמול 11:30','עידו','השבית את המשתמש של יעל כץ (אופק תיירות), לבקשת המנהל']
+  ]};
+var AGS=[
+  {id:'sms',name:'שמש נופשים',code:'SMS',st:'late',emp:4,trips:17,credits:22,days:19,contact:'אבי שמש',email:'avi@shemesh.co.il',phone:'03-555-0301',hours:'א׳–ה׳ 9:00–18:00',emerg:'03-555-0399',pkg:'בסיס',agr:{st:'signed',date:'12.2.2026',file:'הסכם-שמש-נופשים-חתום.pdf'}},
+  {id:'glb',name:'גלובוס טורס',code:'GLB',st:'setup',step:3,emp:0,trips:0,credits:0,contact:'מיכל גלובוס',email:'michal@globus.co.il',phone:'03-555-0101',hours:'א׳–ה׳ 9:00–17:00',emerg:'052-555-0199',pkg:'Pro',agr:{st:'sent',date:'1.10.2026'}},
+  {id:'ofk',name:'אופק תיירות',code:'OFK',st:'low',emp:2,trips:6,credits:3,contact:'שי לוי',email:'office@ofek.co.il',phone:'04-555-0222',hours:'א׳–ה׳ 9:00–17:00',emerg:'04-555-0299',pkg:'בסיס',agr:{st:'signed',date:'20.6.2026',file:'הסכם-אופק-חתום.pdf'}},
+  {id:'hdr',name:'מסעות הדרים',code:'HDR',st:'active',emp:6,trips:41,credits:38,contact:'רונית לוי',email:'office@hadarim.co.il',phone:'03-555-0142',hours:'א׳–ה׳ 9:00–18:00',emerg:'03-555-0199',pkg:'Pro',agr:{st:'signed',date:'3.9.2026',file:'הסכם-מסעות-הדרים-חתום.pdf'}}
+];
+var EMP={hdr:[['רונית לוי','ronit@hadarim.co.il','050-555-0186','מנהלת','פעיל'],['דן כהן','dan@hadarim.co.il','052-555-0177','סוכן','פעיל'],['מאיה פרץ','maya@hadarim.co.il','054-555-0155','סוכנת','פעיל'],['אלון רז','alon@hadarim.co.il','050-555-0133','סוכן','הוזמן, עוד לא נכנס'],['נטע בר','neta@hadarim.co.il','053-555-0122','סוכנת','פעיל'],['יוסי לב','yossi@hadarim.co.il','058-555-0111','סוכן','מושבת']],
+  sms:[['אבי שמש','avi@shemesh.co.il','050-555-0301','מנהל','פעיל'],['רותי גל','ruti@shemesh.co.il','052-555-0302','סוכנת','פעיל'],['עמית אור','amit@shemesh.co.il','054-555-0303','סוכן','פעיל'],['ליה דור','lia@shemesh.co.il','053-555-0304','סוכנת','פעיל']],
+  ofk:[['שי לוי','shai@ofek.co.il','050-555-0222','מנהל','פעיל'],['יעל כץ','yael@ofek.co.il','052-555-0223','סוכנת','מושבת']],glb:[]};
+var TK=[
+  {n:'1042',ag:'ofk',who:'שי',t:'PDF של אישור טיסה לא נקלט',body:'העליתי את אישור הטיסה של משפחת אורן (קובץ PDF מ־Aegean) והוא נשאר על "בעיבוד…" כבר שעה.',st:'new',at:'לפני 5 שעות',late:true,shot:true,trip:'OFK-2610-0012',env:'Chrome 129 · Windows 11 · מסך: תיק נסיעה',owner:'',msgs:[]},
+  {n:'1041',ag:'hdr',who:'רונית',t:'הנוסע לא קיבל את הקישור ב־WhatsApp',body:'פרסמתי את פראג. עדי רון אומר שלא קיבל כלום.',st:'work',at:'לפני שעה',shot:false,trip:'HDR-2610-0041',env:'Safari · iPhone · מסך: תיק נסיעה › נוסעים',owner:'נועה',msgs:[{me:true,t:'בודקת. נכנסתי לחשבון לקריאה בלבד, באישורך.',at:'10:14'}]},
+  {n:'1039',ag:'sms',who:'אבי',t:'איך מוסיפים עובד חדש?',body:'הצטרפה אלינו סוכנת. מה צריך לשלוח לכם?',st:'agent',at:'אתמול',shot:false,trip:'',env:'Chrome · macOS · מסך: הגדרות',owner:'דן',msgs:[{me:true,t:'שלח לנו שם, אימייל ונייד, או קובץ CSV, ונוסיף אותה תוך שעה.',at:'אתמול 15:02'}]}
+];
+var TK_CLOSED=[{n:'1036',ag:'hdr',who:'דן',t:'לא מוצא איפה מוסיפים טיפים ליעד',st:'closed',at:'אתמול',shot:false,trip:'',env:'Chrome · Windows 11',owner:'נועה',msgs:[{me:true,t:'בתיק הנסיעה, לשונית "מידע לנוסע". אפשר לשמור כקבוע ליעד.',at:'אתמול 11:20'}]},{n:'1033',ag:'sms',who:'רותי',t:'איך מבטלים נסיעה שהלקוח ביטל?',st:'closed',at:'לפני 3 ימים',shot:false,trip:'SMS-2610-0007',env:'Safari · iPhone',owner:'דן',msgs:[{me:true,t:'בתיק הנסיעה: עוד › ביטול נסיעה. לפני פרסום לא נוכה קרדיט.',at:'לפני 3 ימים'}]}];
+var NOTIFS=[{t:'קריאה חדשה #1042 · אופק תיירות',s:'לא נענתה כבר 5 שעות',go:'tickets',un:true},{t:'מסעות הדרים אישרה כניסה לחשבון',s:'קריאה #1041 · פעילה עד 14:30',go:'access',un:true},{t:'שמש נופשים: תשלום באיחור 19 ימים',s:'קרדיטים וחיוב',go:'credits',un:false},{t:'גלובוס טורס: הסכם נשלח לחתימה',s:'עוד לא נחתם · 1.10.2026',go:'agencies',un:false}];
+var TKST={new:['חדשה','bad'],work:['בטיפול','warn'],agent:['ממתינה לסוכן',''],closed:['נסגרה','ok']};
+var ACC=[{ag:'hdr',who:'נועה',tk:'1041',until:'14:30',left:'3:58',st:'active'},{ag:'ofk',who:'נועה',tk:'1042',st:'pending'}];
+
+var root=document.getElementById('root');
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function agBy(id){return AGS.filter(function(a){return a.id===id;})[0];}
+var tt;function toast(m){var o=document.querySelector('.toast');if(o)o.remove();clearTimeout(tt);var d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=m;document.body.appendChild(d);tt=setTimeout(function(){d.remove();},3800);}
+function stPill(a){return a.st==='late'?'<span class="pill bad">‏✕ תשלום באיחור · '+a.days+' ימים</span>':a.st==='setup'?'<span class="pill warn">‏! בהקמה · שלב '+a.step+' מתוך 6</span>':a.st==='low'?'<span class="pill warn">‏! קרדיטים נמוכים</span>':'<span class="pill ok">‏✓ פעילה</span>';}
+function agrPill(a){var g=a.agr||{st:'none'};return g.st==='signed'?'<span class="pill ok">‏✓ נחתם · '+g.date+'</span>':g.st==='sent'?'<span class="pill warn">‏! נשלח לחתימה · '+g.date+'</span>':'<span class="pill bad">‏✕ טרם נשלח</span>';}
+function agrSave(id,file){if(id==='wiz'){S.wiz.agr=file;render();toast('ההסכם החתום נקלט: '+file);return;}var a=agBy(id);a.agr={st:'signed',date:'7.10.2026',file:file};S.log.unshift(['עכשיו','נועה','העלתה הסכם חתום: '+a.name]);render();toast('נשמר. ההסכם של '+a.name+' מסומן "נחתם"');}
+function sig(a){return a.st==='late'?'b':(a.st==='setup'||a.st==='low')?'w':'';}
+function openTk(){return TK.filter(function(t){return t.st!=='closed';}).length;}
+TK=TK.concat(TK_CLOSED);
+
+function stripe(){return '<div class="stripe"><img class="mh" src="brand/mascot/mascot-head.png" alt=""><img class="wm" src="brand/logo/svg/wordmark-on-dark.svg" alt="PALAMI"><span class="badge">ADMIN</span><span class="me"><button class="sbtn" data-act="bell" aria-haspopup="dialog" aria-expanded="'+(S.pop==='bell')+'" aria-label="התראות'+(unreadN()?', '+unreadN()+' חדשות':'')+'"><svg aria-hidden="true" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2m7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'+(unreadN()?'<span class="cnt">'+unreadN()+'</span>':'')+'</button><button class="sbtn" data-act="umenu" aria-haspopup="menu" aria-expanded="'+(S.pop==='user')+'"><span class="av" aria-hidden="true">נ</span><span class="nm">נועה · הקמה ותמיכה</span><span aria-hidden="true">▾</span></button></span></div>'+popup();}
+function unreadN(){return NOTIFS.filter(function(n){return n.un;}).length;}
+function popup(){if(S.pop==='bell')return '<div class="pop" role="dialog" aria-label="התראות"><div class="ph"><b>התראות</b><button class="btn s ghost" data-act="readall">סמני הכול כנקרא</button></div>'+NOTIFS.map(function(n,i){return '<button class="pi'+(n.un?' un':'')+'" data-notif="'+i+'"><b>'+esc(n.t)+'</b><span class="xs muted">'+esc(n.s)+'</span></button>';}).join('')+'</div>';
+  if(S.pop==='user')return '<div class="pop" role="menu" aria-label="תפריט משתמש" style="width:min(260px,calc(100vw - 28px))"><div class="ph" style="display:grid;gap:1px"><b>נועה</b><span class="xs muted">noa@palami.io · הקמה ותמיכה</span></div><button class="pi" role="menuitem" data-act="toast" data-msg="באפליקציה האמיתית: פרטים, סיסמה ואימות דו־שלבי">הפרופיל שלי</button><button class="pi out" role="menuitem" data-act="logout">יציאה מהחשבון</button></div>';
+  return '';}
+function loginView(){return '<div class="login"><form class="card" id="loginf" novalidate><div class="row nw" style="gap:8px"><img src="brand/logo/svg/wordmark.svg" alt="PALAMI" style="height:20px;width:auto"><span class="badge">ADMIN</span></div><h1 style="font-size:1.3em">כניסה למערכת הניהול</h1><div class="banner ok"><b>יצאת מהחשבון</b><span>המחשב פנוי לאיש צוות אחר.</span></div><label class="fld">אימייל<input class="inp mono" id="lg-em" type="email" autocomplete="username"></label><label class="fld">סיסמה<input class="inp" id="lg-pw" type="password" autocomplete="current-password"></label><label class="fld">קוד אימות <span class="h">מאפליקציית האימות</span><input class="inp mono" id="lg-code" inputmode="numeric" maxlength="6" autocomplete="one-time-code"></label><button class="btn pri" type="submit" style="min-height:46px">כניסה</button><button type="button" class="btn s ghost" style="justify-self:start" data-act="demologin">הדגמה: כניסה כנועה</button></form></div>';}
+function side(){var N=[['agencies','סוכנויות',''],['tickets','תמיכה',TK.some(function(t){return t.late&&t.st==='new';})?'<span class="pill bad">'+openTk()+'</span>':''],['credits','קרדיטים וחיוב',''],['access','כניסה לחשבון סוכנות',ACC.some(function(a){return a.st==='pending';})?'<span class="pill warn">1</span>':''],['health','תקינות המערכת','<span class="pill bad">1</span>'],['log','היסטוריית פעולות','']];
+  var v=(S.view==='agency'||S.view==='wizard')?'agencies':S.view;return '<nav class="side" aria-label="תפריט">'+N.map(function(n){return '<button class="nav" data-go="'+n[0]+'"'+(v===n[0]?' aria-current="page"':'')+'><span>'+n[1]+'</span>'+n[2]+'</button>';}).join('')+'</nav>';}
+
+var V={
+agencies:function(){var late=AGS.filter(function(a){return a.st==='late';}).length,setup=AGS.filter(function(a){return a.st==='setup';}).length;
+  var h='<div class="row between"><h1>סוכנויות</h1><button class="btn pri" data-act="newag">+ סוכנות חדשה</button></div>';
+  h+='<div class="tiles"><div class="tile'+(late?' hot':'')+'"><b style="color:'+(late?'var(--bad)':'inherit')+'">'+late+'</b><span>תשלום באיחור של יותר מ־14 יום</span></div><div class="tile'+(setup?' attn':'')+'"><b style="color:'+(setup?'var(--warn)':'inherit')+'">'+setup+'</b><span>הקמה לא הושלמה</span></div><div class="tile"><b>'+AGS.filter(function(a){return a.st!=='setup';}).length+'</b><span>סוכנויות פעילות</span></div><div class="tile"><b>1,284</b><span>נסיעות שפורסמו החודש</span></div></div>';
+  h+='<div class="tbl"><table><thead><tr><th>סוכנות</th><th>קוד</th><th>עובדים</th><th>נסיעות פעילות</th><th>קרדיטים</th><th>הסכם</th><th>סטטוס</th><th></th></tr></thead><tbody>';
+  var rk={b:0,w:1,'':2};AGS.slice().sort(function(a,b){return rk[sig(a)]-rk[sig(b)];}).forEach(function(a){var s=sig(a);h+='<tr class="click'+(s?' sig-'+s:'')+'" tabindex="0" data-ag="'+a.id+'"><td><b>'+esc(a.name)+'</b></td><td class="mono">'+a.code+'</td><td>'+(a.emp||'—')+'</td><td>'+(a.trips||'—')+'</td><td>'+(a.st==='setup'?'—':a.credits)+'</td><td>'+agrPill(a)+'</td><td>'+stPill(a)+'</td><td><span class="btn s ghost">'+(a.st==='setup'?'המשך הקמה':'פתיחה')+'</span></td></tr>';});
+  return h+'</tbody></table></div><span class="xs muted">שורות דחופות למעלה, עם פס צד. אדום: תשלום באיחור. דבש: הקמה שלא הושלמה או קרדיטים נמוכים.</span>';},
+
+agency:function(){var a=agBy(S.ag);if(!a)return V.agencies();
+  var h='<div><button class="btn s ghost" data-go="agencies">→ כל הסוכנויות</button></div><div class="row between"><div class="row nw" style="gap:12px"><span class="logo-ph">'+a.code+'</span><div><h1>'+esc(a.name)+'</h1><div class="row sm muted" style="gap:8px"><span class="mono">'+a.code+'</span><span>·</span><span>חבילת '+a.pkg+'</span><span>·</span>'+stPill(a)+'</div></div></div><div class="row"><button class="btn" data-act="reqaccess" data-ag="'+a.id+'">בקשת כניסה לחשבון</button><button class="btn danger" data-act="toast" data-msg="הסוכנות הושהתה. הסוכנים לא יכולים להיכנס, והנוסעים ממשיכים לראות את הנסיעות">השהיה</button></div></div>';
+  var T=[['emp','עובדים'],['details','פרטים ולוגו'],['credits','קרדיטים ושימוש'],['agr','הסכם'],['settings','הגדרות']];
+  h+='<div class="chips" role="tablist">'+T.map(function(t){return '<button class="chip" role="tab" aria-pressed="'+(S.agTab===t[0])+'" data-agtab="'+t[0]+'">'+t[1]+'</button>';}).join('')+'</div>';
+  if(S.agTab==='emp'){var E=EMP[a.id]||[];h+='<div class="card"><div class="row between"><div><b>עובדים · '+E.length+'</b><div class="muted sm">כל עובד מקבל מייל להגדרת סיסמה. מנהל רואה את כל נסיעות הסוכנות</div></div><div class="row"><button class="btn" data-act="empcsv" data-ag="'+a.id+'">העלאת קובץ CSV</button><button class="btn pri" data-act="empadd" data-ag="'+a.id+'">+ עובד</button></div></div><div class="tbl"><table><thead><tr><th>שם</th><th>אימייל</th><th>נייד</th><th>תפקיד</th><th>סטטוס</th><th></th></tr></thead><tbody>'+E.map(function(e,i){return '<tr><td><b>'+esc(e[0])+'</b></td><td class="mono">'+esc(e[1])+'</td><td class="mono">'+esc(e[2])+'</td><td>'+(/מנהל/.test(e[3])?'<span class="pill info">'+e[3]+'</span>':e[3])+'</td><td>'+(e[4]==='פעיל'?'<span class="pill ok">פעיל</span>':e[4]==='מושבת'?'<span class="pill">מושבת</span>':'<span class="pill warn">'+e[4]+'</span>')+'</td><td>'+(e[4]==='מושבת'?'<button class="btn s ghost" data-act="empon" data-ag="'+a.id+'" data-i="'+i+'">החזרה</button>':(e[4]==='פעיל'?'<button class="btn s ghost" data-act="empoff" data-ag="'+a.id+'" data-i="'+i+'">השבתה</button>':'<button class="btn s ghost" data-act="toast" data-msg="ההזמנה נשלחה שוב ל־'+esc(e[1])+'">שליחה מחדש</button>'))+'</td></tr>';}).join('')+'</tbody></table></div></div>';}
+  else if(S.agTab==='details'){h+='<div class="split"><div class="card"><b>פרטי הסוכנות</b><dl class="kv"><dt>איש קשר</dt><dd>'+esc(a.contact)+'</dd><dt>אימייל</dt><dd class="mono">'+esc(a.email)+'</dd><dt>טלפון</dt><dd class="mono">'+a.phone+'</dd><dt>שעות פעילות</dt><dd>'+a.hours+'</dd><dt>טלפון חירום 24/7</dt><dd class="mono">'+a.emerg+'</dd><dt>קוד לתיקים</dt><dd class="mono">'+a.code+'-2610-0001</dd></dl><button class="btn s" style="justify-self:start" data-act="toast" data-msg="באב הטיפוס: עריכה פותחת את אותם שדות כמו באשף ההקמה">עריכה</button></div><div class="card"><b>לוגו</b><div class="row"><span class="logo-ph">'+a.code+'</span><span class="logo-ph" style="width:44px">'+a.code.charAt(0)+'</span></div><span class="muted sm">רחב למסכי הנוסע, ריבועי למערכת הסוכן. צבע הסוכנות: גרסה 2.</span><button class="btn s" style="justify-self:start" data-act="toast" data-msg="באפליקציה האמיתית: החלפת הלוגו">החלפת לוגו</button></div></div>';}
+  else if(S.agTab==='agr'){var g=a.agr||(a.agr={st:'none'});h+='<div class="split"><div class="card"><div class="row between"><b>ההסכם עם '+esc(a.name)+'</b>'+agrPill(a)+'</div><span class="muted sm">מסמך אחד: הסכם השירות ונספח עיבוד המידע. חתימה אחת. סוכנות מופעלת רק אחרי שההסכם החתום נשמר כאן.</span><dl class="kv"><dt>גרסת ההסכם</dt><dd>1.0 · 9.2026</dd><dt>'+(g.st==='signed'?'נחתם בתאריך':g.st==='sent'?'נשלח בתאריך':'סטטוס')+'</dt><dd>'+(g.date||'טרם נשלח')+'</dd><dt>חתם/ה</dt><dd>'+(g.st==='signed'?esc(a.contact):'—')+'</dd></dl>'+(g.st!=='signed'?'<div class="row">'+(g.st==='none'?'<button class="btn" data-act="agrsent" data-ag="'+a.id+'">סימון: נשלח לחתימה</button>':'<button class="btn ghost" data-act="toast" data-msg="נשלחה תזכורת ל־'+esc(a.email)+'">תזכורת לחתימה</button>')+'</div>':'')+'</div><div class="card"><b>ההסכם החתום (סרוק)</b>'+(g.file?'<div class="row between" style="border:1px solid var(--line);border-radius:8px;padding:10px 12px"><span class="sm" style="min-width:0;overflow-wrap:anywhere">📄 '+esc(g.file)+'</span><span class="row nw"><button class="btn s ghost" data-act="toast" data-msg="נפתח ההסכם החתום">צפייה</button><label class="btn s" style="cursor:pointer">החלפה<input type="file" accept=".pdf,image/*" class="fileinput" data-agrfile="'+a.id+'" style="position:absolute;opacity:0;width:1px"></label></span></div><span class="xs muted">נשמר מוצפן. כל צפייה נרשמת בהיסטוריית הפעולות.</span>':'<div class="drop"><b>גוררים לכאן את ההסכם החתום</b><span class="sm muted">PDF או צילום, עד 10MB. השמירה מסמנת "נחתם" עם תאריך היום</span><input type="file" accept=".pdf,image/*" data-agrfile="'+a.id+'" aria-label="ההסכם החתום"></div><button class="btn s ghost" style="justify-self:start" data-act="agrdemo" data-ag="'+a.id+'">הדמיה עם קובץ לדוגמה</button>')+'</div></div>';}
+  else if(S.agTab==='credits'){h+='<div class="split"><div class="card"><b>יתרה: '+a.credits+' קרדיטים</b><span class="muted sm">חבילת '+a.pkg+' · 12 פגים ב־31/12 · החודש נוצלו 9</span><button class="btn pri" style="justify-self:start" data-act="credits" data-ag="'+a.id+'">טעינת קרדיטים</button></div><div class="card"><b>שימוש החודש</b><dl class="kv"><dt>נסיעות שפורסמו</dt><dd>9</dd><dt>נוסעים</dt><dd>31</dd><dt>קבוצות (מעל 20)</dt><dd>0</dd></dl><button class="btn s" style="justify-self:start" data-act="toast" data-msg="באפליקציה האמיתית: ייצוא לאקסל">ייצוא לאקסל</button></div></div>';}
+  else{h+='<div class="card">'+[['צ\'אט עם לקוחות','פעיל'],['מספרי חירום לכל יעד','מוזנים על ידי הסוכנות'],['מדיניות התראות','ברירות מחדל של PALAMI']].map(function(r){return '<div class="row between nw" style="border-bottom:1px solid var(--line);padding:8px 0"><span>'+r[0]+'</span><span class="muted sm">'+r[1]+'</span></div>';}).join('')+'<span class="xs muted">הוספת מסמכים על ידי נוסעים תמיד פעילה, ואין לה מתג.</span></div>';}
+  return h;},
+
+wizard:function(){var w=S.wiz;if(!w){w=S.wiz={step:1,name:'',code:'',contact:'',email:'',phone:'',hours:'א׳–ה׳ 9:00–18:00',emerg:'',logo:false,sq:false,mode:'csv',rows:[],chat:true,pkg:'Pro',credits:20};}
+  var ST=['פרטים','קוד לתיקים','לוגו','עובדים','ברירות מחדל','חבילה והפעלה'];
+  var h='<div class="row between"><h1>'+(w.name?'סוכנות חדשה: '+esc(w.name):'סוכנות חדשה')+'</h1><span class="muted sm">נשמר אוטומטית</span></div><div class="steps">'+ST.map(function(s,i){var n=i+1;return '<button class="'+(n<w.step?'done':'')+'"'+(n===w.step?' aria-current="step"':'')+' data-step="'+n+'">'+(n<w.step?'‏✓ ':'')+n+' · '+s+'</button>';}).join('')+'</div>';
+  h+='<div class="card">';
+  if(w.step===1){h+='<b>פרטי הסוכנות</b><div class="fgrid"><label>שם הסוכנות *<input class="inp" data-w="name" value="'+esc(w.name)+'" placeholder="גלובוס טורס"></label><label>איש קשר *<input class="inp" data-w="contact" value="'+esc(w.contact)+'"></label><label>אימייל *<input class="inp mono" data-w="email" value="'+esc(w.email)+'"></label><label>טלפון *<input class="inp mono" data-w="phone" value="'+esc(w.phone)+'"></label><label>שעות פעילות<input class="inp" data-w="hours" value="'+esc(w.hours)+'"></label><label>טלפון חירום 24/7 * <span class="h">מוצג לנוסעים במסך החירום</span><input class="inp mono" data-w="emerg" value="'+esc(w.emerg)+'"></label></div><button class="btn s ghost" style="justify-self:start" data-act="wfill">מילוי לדוגמה</button>';}
+  else if(w.step===2){var c=(w.code||'').toUpperCase(),taken=AGS.some(function(a){return a.code===c;}),ok=/^[A-Z]{3}$/.test(c)&&!taken;h+='<b>קוד לתיקים</b><span class="muted sm">שלוש אותיות באנגלית. נכנס לכל מזהה תיק ולא משתנה אחר כך.</span><label class="fld" style="max-width:220px">קוד *<input class="inp mono" data-w="code" maxlength="3" value="'+esc(c)+'" placeholder="GLB"></label>'+(c?(ok?'<div class="banner ok"><b>‏✓ פנוי</b><span>כך ייראה מזהה תיק: <span class="mono">'+c+'-2610-0001</span></span></div>':'<div class="banner bad"><b>'+(taken?'הקוד תפוס':'צריך 3 אותיות באנגלית')+'</b></div>'):'');}
+  else if(w.step===3){h+='<div class="split"><div style="display:grid;gap:10px"><b>לוגו</b><span class="muted sm">ב־MVP המיתוג הוא לוגו בלבד. צבע הסוכנות נכנס בגרסה 2.</span><div class="drop">'+(w.logo?'<span class="logo-ph">'+esc(w.name||'הלוגו')+'</span><span class="xs muted">הוחלף? גוררים קובץ אחר</span>':'<b>לוגו רחב</b><span class="sm muted">SVG או PNG שקוף, עד 2MB</span>')+'<input type="file" accept="image/*" data-logo="wide" aria-label="לוגו רחב"></div><div class="drop">'+(w.sq?'<span class="logo-ph" style="width:44px">'+esc((w.name||'ל').charAt(0))+'</span>':'<b>לוגו ריבועי (למערכת הסוכן)</b><span class="sm muted">אם אין, נחתוך אוטומטית מהלוגו הרחב</span>')+'<input type="file" accept="image/*" data-logo="sq" aria-label="לוגו ריבועי"></div><button class="btn s ghost" style="justify-self:start" data-act="wlogo">הדמיה עם לוגו לדוגמה</button></div><div style="display:grid;gap:8px;justify-items:center"><span class="xs muted">כך זה ייראה אצל הנוסע</span><div class="phone"><div class="ph">'+(w.logo?'<span class="logo-ph" style="height:28px;font-size:.8em">'+esc(w.name||'הלוגו')+'</span>':'<span class="muted xs">כאן יופיע הלוגו</span>')+'</div><div style="padding:10px;display:grid;gap:6px"><b style="font-size:.95em">ברצלונה מחכה לך</b><div class="it"><span>✈</span><span>טיסה הלוך · 06:40</span><i class="vk"></i></div><div class="it"><span>🛏</span><span>מלון · 7 לילות</span><i class="vk"></i></div><span class="btn s pri" style="width:100%">פתיחת כרטיס הטיסה</span></div><div class="pw">מופעל על ידי <img src="brand/logo/svg/wordmark.svg" alt="PALAMI"></div></div></div></div>';}
+  else if(w.step===4){h+='<b>עובדים</b><span class="muted sm">הזמנות יישלחו לעובדים רק כשמפעילים את הסוכנות בשלב האחרון.</span><div class="seg" role="group" aria-label="איך מוסיפים"><button aria-pressed="'+(w.mode==='csv')+'" data-wmode="csv">העלאת קובץ CSV</button><button aria-pressed="'+(w.mode==='man')+'" data-wmode="man">הוספה ידנית</button></div>';
+    if(w.mode==='csv')h+='<div class="drop"><b>גוררים לכאן קובץ CSV</b><span class="sm muted">עמודות, לפי הסדר: שם מלא, אימייל, נייד, תפקיד (מנהל או סוכן)</span><input type="file" accept=".csv,text/csv" data-csv="1" aria-label="קובץ CSV"></div><div class="row"><button class="btn s" data-act="csvdemo">הדמיה עם קובץ לדוגמה</button><button class="btn s ghost" data-act="csvtpl">העתקת שורת הכותרות</button></div>';
+    else h+='<div class="fgrid"><label>שם מלא *<input class="inp" id="m-n"></label><label>אימייל *<input class="inp mono" id="m-e"></label><label>נייד *<input class="inp mono" id="m-p"></label><label>תפקיד<select class="inp" id="m-r"><option>סוכן</option><option>מנהל</option></select></label></div><button class="btn pri" style="justify-self:start" data-act="manadd">הוספה לרשימה</button>';
+    h+=empTable(w.rows);}
+  else if(w.step===5){h+='<b>ברירות מחדל</b><span class="muted sm">הסוכנות יכולה לשנות את כל אלה בעצמה אחר כך.</span><div class="row between nw" style="border-bottom:1px solid var(--line);padding:8px 0"><div><b>צ\'אט עם לקוחות</b><div class="muted sm">כבוי: הלקוחות רואים רק טלפון, אימייל ו־WhatsApp</div></div><button class="tog" role="switch" aria-checked="'+w.chat+'" aria-label="צ\'אט עם לקוחות" data-act="wchat"></button></div><div class="row between nw" style="border-bottom:1px solid var(--line);padding:8px 0"><div><b>התראות לנוסעים</b><div class="muted sm">ברירות המחדל של PALAMI: סיכום 3 ימים לפני, צ\'ק-אין, תדריך בוקר 08:00</div></div><span class="pill ok">ברירת מחדל</span></div><div class="row between nw" style="padding:8px 0"><div><b>נוסעים מוסיפים מסמכים</b><div class="muted sm">תמיד פעיל</div></div><span class="pill">אין מתג</span></div>';}
+  else{var valid=w.rows.filter(function(r){return !r.err;}).length;h+='<b>חבילה והפעלה</b><div class="fgrid"><label>חבילה<select class="inp" data-w="pkg"><option'+(w.pkg==='בסיס'?' selected':'')+'>בסיס</option><option'+(w.pkg==='Pro'?' selected':'')+'>Pro</option><option'+(w.pkg==='קבוצות'?' selected':'')+'>קבוצות</option></select></label><label>קרדיטים לפתיחה<input class="inp mono" type="number" min="0" data-w="credits" value="'+w.credits+'"></label></div><div class="banner info"><b>סיכום</b><span>'+esc(w.name||'—')+' · קוד <span class="mono">'+esc((w.code||'—').toUpperCase())+'</span> · '+(w.logo?'לוגו הועלה':'בלי לוגו (יוצג שם הסוכנות)')+' · '+valid+' עובדים יקבלו הזמנה · צ\'אט '+(w.chat?'פעיל':'כבוי')+'</span></div><div style="display:grid;gap:8px;border-top:1px solid var(--line);padding-top:12px"><div class="row between"><b>ההסכם החתום *</b>'+(w.agr?'<span class="pill ok">‏✓ נחתם · היום</span>':'<span class="pill warn">‏! עוד לא הועלה</span>')+'</div><span class="muted sm">הסכם השירות ונספח עיבוד המידע, בחתימה אחת. בלעדיו אי אפשר להפעיל, אבל אפשר לשמור ולחזור.</span>'+(w.agr?'<span class="mono sm">'+esc(w.agr)+'</span>':'<div class="drop"><b>גוררים לכאן את ההסכם החתום</b><span class="sm muted">PDF או צילום</span><input type="file" accept=".pdf,image/*" data-agrfile="wiz" aria-label="ההסכם החתום"></div><button class="btn s ghost" style="justify-self:start" data-act="agrdemo" data-ag="wiz">הדמיה עם קובץ לדוגמה</button>')+'</div>';}
+  h+='</div><div class="row between"><button class="btn ghost" data-act="wback"'+(w.step===1?' disabled':'')+'>חזרה</button><button class="btn pri" data-act="wnext">'+(w.step===6?'הפעלת הסוכנות ושליחת הזמנות':'המשך')+'</button></div>';
+  return h;},
+
+tickets:function(){var t=TK.filter(function(x){return x.n===S.tk;})[0]||TK[0];var open=TK.filter(function(x){return x.st!=='closed';});
+  var FL={late:['לא נענו 4 שעות',function(x){return x.late&&x.st==='new';}],open:['פתוחות',function(x){return x.st!=='closed';}],work:['בטיפול',function(x){return x.st==='work';}],closed:['נסגרו',function(x){return x.st==='closed';}]};
+  var L=S.tkf?TK.filter(FL[S.tkf][1]):TK.filter(function(x){return x.st!=='closed';});if(L.length&&!L.some(function(x){return x.n===t.n;}))t=L[0];
+  function tl(k,cls,col,num,lab){return '<button class="tile'+(cls?' '+cls:'')+'" data-tkf="'+k+'" aria-pressed="'+(S.tkf===k)+'"><b'+(col?' style="color:'+col+'"':'')+'>'+num+'</b><span>'+lab+'</span></button>';}
+  var h='<div class="row between"><h1>תמיכה</h1><span class="muted sm">התראה לצוות בפעמון ובאימייל על כל קריאה חדשה</span></div>';
+  h+='<div class="tiles">'+tl('late','hot','var(--bad)',TK.filter(FL.late[1]).length,'לא נענו 4 שעות')+tl('open','attn','var(--warn)',open.length,'פתוחות')+tl('work','','',TK.filter(FL.work[1]).length,'בטיפול')+tl('closed','','',11+TK.filter(FL.closed[1]).length,'נסגרו השבוע · ממוצע 3.5 שעות')+'</div>';
+  h+='<div class="row sm"><span class="muted">'+(S.tkf?'מוצגות: '+FL[S.tkf][0]+' · '+L.length:'מוצגות: כל הקריאות הפתוחות · '+L.length)+'</span>'+(S.tkf?'<button class="btn s ghost" data-tkf="">הצגת כל הפתוחות</button>':'')+'</div>';
+  h+='<div class="split"><div class="tbl"><table><thead><tr><th>קריאה</th><th>סוכנות · סוכן</th><th>מה קרה</th><th>סטטוס</th></tr></thead><tbody>'+(L.length?'':'<tr><td colspan="4" class="muted">אין קריאות בקטגוריה הזו</td></tr>')+L.map(function(x){var a=agBy(x.ag),s=TKST[x.st];return '<tr class="click'+(x.late&&x.st==='new'?' sig-b':x.st==='work'?' sig-w':'')+'" tabindex="0" data-tk="'+x.n+'"'+(x.n===t.n?' style="background:var(--acc-soft)"':'')+'><td class="mono">#'+x.n+'</td><td><b>'+esc(a.name)+'</b> · '+x.who+'<div class="xs muted">'+x.at+'</div></td><td>'+esc(x.t)+(x.shot?' 📎':'')+'</td><td><span class="pill '+s[1]+'">'+s[0]+'</span></td></tr>';}).join('')+'</tbody></table></div>';
+  var a=agBy(t.ag),s=TKST[t.st];
+  h+='<div class="card"><div class="row between nw"><b><span class="mono">#'+t.n+'</span> · '+esc(t.t)+'</b><span class="pill '+s[1]+'">'+s[0]+'</span></div><span class="sm muted">'+esc(a.name)+' · '+t.who+' · '+t.at+'</span><p style="margin:0">'+esc(t.body)+'</p>'+(t.shot?'<div class="shot">צילום מסך שהסוכן צירף</div>':'')+'<dl class="kv xs"><dt>נשלח לבד</dt><dd>'+esc(t.env)+'</dd>'+(t.trip?'<dt>תיק</dt><dd class="mono">'+t.trip+'</dd>':'')+'</dl>';
+  h+='<div class="fgrid"><label>אחראי<select class="inp" data-tkowner="'+t.n+'"><option value="">— לא שויך —</option>'+['נועה','דן','עידו'].map(function(o){return '<option'+(t.owner===o?' selected':'')+'>'+o+'</option>';}).join('')+'</select></label><label>סטטוס<select class="inp" data-tkst="'+t.n+'">'+Object.keys(TKST).map(function(k){return '<option value="'+k+'"'+(t.st===k?' selected':'')+'>'+TKST[k][0]+'</option>';}).join('')+'</select></label></div>';
+  h+=t.msgs.map(function(m){return '<div class="msg '+(m.me?'me':'them')+'">'+esc(m.t)+'<small>'+(m.me?(t.owner||'הצוות'):t.who)+' · '+m.at+'</small></div>';}).join('');
+  h+='<label class="fld">תשובה לסוכן <span class="h">מגיעה אליו בפעמון ובאימייל</span><textarea class="inp" id="tk-r" placeholder="כתבי תשובה…"></textarea></label><div class="row"><button class="btn pri" data-act="tkreply" data-n="'+t.n+'">שליחה</button><button class="btn" data-act="reqaccess" data-ag="'+t.ag+'" data-n="'+t.n+'">בקשת כניסה לחשבון</button><button class="btn ghost" data-act="tkclose" data-n="'+t.n+'">סגירת הקריאה</button></div></div></div>';
+  return h;},
+
+access:function(){var h='<div><h1>כניסה לחשבון סוכנות</h1><p class="muted sm" style="margin:6px 0 0">כשאי אפשר להבין קריאה בלי לראות את המסך של הסוכן, מבקשים להיכנס לחשבון של הסוכנות. מנהל הסוכנות מאשר, והכניסה היא לקריאה בלבד, לזמן מוגבל (עד 24 שעות), ונרשמת בהיסטוריית הפעולות. מסמכים אישיים של נוסעים (דרכון, פוליסה) לא נפתחים גם כך.</p></div>';
+  h+='<div class="tbl"><table><thead><tr><th>סוכנות</th><th>מי</th><th>בגלל</th><th>מצב</th><th></th></tr></thead><tbody>'+ACC.map(function(x,i){var a=agBy(x.ag);return '<tr'+(x.st==='active'?' class="sig-w"':'')+'><td><b>'+esc(a.name)+'</b></td><td>'+x.who+'</td><td class="mono">#'+x.tk+'</td><td>'+(x.st==='active'?'<span class="pill warn">פעילה עד '+x.until+'</span> <span class="timer">'+x.left+'</span>':x.st==='pending'?'<span class="pill">ממתינה לאישור המנהל</span>':'<span class="pill ok">הסתיימה</span>')+'</td><td>'+(x.st==='active'?'<button class="btn s" data-act="accend" data-i="'+i+'">סיום עכשיו</button> <button class="btn s pri" data-act="toast" data-msg="באפליקציה האמיתית: נפתח חשבון הסוכנות, לקריאה בלבד">כניסה</button>':x.st==='pending'?'<button class="btn s ghost" data-act="toast" data-msg="תזכורת נשלחה למנהל הסוכנות">תזכורת למנהל</button>':'')+'</td></tr>';}).join('')+'</tbody></table></div>';
+  return h;},
+
+health:function(){var C=[['bad','קליטת מסמכים','קובץ אחד לא נקלט · אופק תיירות','Aegean-confirmation.pdf · נתקע ב"בעיבוד" 61 דקות','tickets'],['warn','WhatsApp','הודעה אחת לא נשלחה · מסעות הדרים','מספר בלי קידומת (עדי רון, HDR-2610-0041) · קריאה #1041','tickets'],['ok','קבצים שנחסמו כחשודים','0 היום',''],['ok','זמן עיבוד ממוצע','14 שניות למסמך','היעד: פחות מ־60'],['ok','אימיילים','99.8% נמסרו היום',''],['ok','Push','כל ההודעות נשלחו','']];
+  return '<div><h1>תקינות המערכת</h1><p class="muted sm" style="margin:6px 0 0">מה לא עובד עכשיו, כדי לגלות תקלה לפני שסוכן מתקשר.</p></div><div class="health">'+C.map(function(c){return '<div class="card" style="gap:4px'+(c[0]==='bad'?';box-shadow:inset 0 3px 0 var(--bad)':c[0]==='warn'?';box-shadow:inset 0 3px 0 var(--warn-fill)':'')+'"><div class="row nw" style="gap:8px"><i class="dot '+c[0]+'"></i><b>'+c[1]+'</b></div><span>'+c[2]+'</span>'+(c[3]?'<span class="xs muted">'+esc(c[3])+'</span>':'')+(c[4]?'<button class="btn s" style="justify-self:start" data-go="'+c[4]+'">לקריאה</button>':'')+'</div>';}).join('')+'</div>';},
+
+log:function(){return '<div><h1>היסטוריית פעולות</h1><p class="muted sm" style="margin:6px 0 0">כל פעולה של אנשי הצוות שלנו: מי, מתי ומה. לא ניתן למחוק או לערוך. נדרש לאבטחה ולחוק הגנת הפרטיות.</p></div><div class="chips"><button class="chip" aria-pressed="true">הכול</button><button class="chip" aria-pressed="false" data-act="toast" data-msg="באב הטיפוס: סינון לפי איש צוות">לפי איש צוות</button><button class="chip" aria-pressed="false" data-act="toast" data-msg="באב הטיפוס: סינון לפי סוכנות">לפי סוכנות</button></div><div class="tbl"><table><thead><tr><th>מתי</th><th>מי</th><th>מה</th></tr></thead><tbody>'+S.log.map(function(r){return '<tr><td class="nw">'+r[0]+'</td><td>'+r[1]+'</td><td>'+esc(r[2])+'</td></tr>';}).join('')+'</tbody></table></div>';},
+
+credits:function(){return '<div class="row between"><h1>קרדיטים וחיוב</h1><button class="btn" data-act="toast" data-msg="באפליקציה האמיתית: ייצוא לאקסל">ייצוא לאקסל</button></div><div class="tbl"><table><thead><tr><th>סוכנות</th><th>חבילה</th><th>יתרה</th><th>נוצלו החודש</th><th>תשלום</th><th></th></tr></thead><tbody>'+AGS.filter(function(a){return a.st!=='setup';}).map(function(a){return '<tr'+(a.st==='late'?' class="sig-b"':a.st==='low'?' class="sig-w"':'')+'><td><b>'+esc(a.name)+'</b></td><td>'+a.pkg+'</td><td>'+a.credits+(a.st==='low'?' <span class="pill warn">נמוך</span>':'')+'</td><td>'+(a.id==='hdr'?9:a.id==='sms'?6:2)+'</td><td>'+(a.st==='late'?'<span class="pill bad">באיחור '+a.days+' ימים</span>':'<span class="pill ok">שולם</span>')+'</td><td><button class="btn s" data-act="credits" data-ag="'+a.id+'">טעינה</button></td></tr>';}).join('')+'</tbody></table></div><span class="xs muted">מודל התשלום עוד לא נקבע. המערכת אוספת את הנתונים לכל מודל (פרק החיוב באפיון).</span>';}
+};
+function empTable(R){if(!R.length)return '<span class="muted sm">עוד לא נוספו עובדים.</span>';var bad=R.filter(function(r){return r.err;}).length,mgr=R.some(function(r){return /מנהל/.test(r.role)&&!r.err;});
+  return '<div class="tbl"><table><thead><tr><th>שם</th><th>אימייל</th><th>נייד</th><th>תפקיד</th><th>בדיקה</th><th></th></tr></thead><tbody>'+R.map(function(r,i){return '<tr'+(r.err?' class="sig-w"':'')+'><td>'+esc(r.name)+'</td><td><input class="inp mono'+(r.errE?' err':'')+'" data-fix="'+i+'" data-f="email" value="'+esc(r.email)+'" aria-label="אימייל"></td><td><input class="inp mono'+(r.errP?' err':'')+'" data-fix="'+i+'" data-f="phone" value="'+esc(r.phone)+'" aria-label="נייד"></td><td>'+(/מנהל/.test(r.role)?'<span class="pill info">'+esc(r.role)+'</span>':esc(r.role))+'</td><td>'+(r.err?'<span class="pill warn">‏! '+r.err+'</span>':'<span class="pill ok">‏✓ תקין</span>')+'</td><td><button class="btn s ghost" data-act="rowdel" data-i="'+i+'" aria-label="הסרה">✕</button></td></tr>';}).join('')+'</tbody></table></div><div class="row sm"><span class="pill ok">'+(R.length-bad)+' תקינים</span>'+(bad?'<span class="pill warn">'+bad+' לתיקון</span>':'')+(mgr?'':'<span class="pill bad">צריך לפחות מנהל אחד</span>')+'</div>';}
+function validate(R){var seen={};R.forEach(function(r){r.errE=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(r.email);r.errP=!/^0\d{8,9}$/.test((r.phone||'').replace(/[\s-]/g,''));var dup=seen[r.email.toLowerCase()];seen[r.email.toLowerCase()]=1;r.err=r.errE?'אימייל לא תקין':r.errP?'נייד לא תקין':dup?'אימייל כפול':'';});return R;}
+function parseCSV(txt){return txt.split(/\r?\n/).map(function(l){return l.split(/[,;\t]/).map(function(c){return c.trim().replace(/^"|"$/g,'');});}).filter(function(c){return c.length>=3&&c[0]&&!/שם|name/i.test(c[0]);}).map(function(c){return {name:c[0],email:c[1]||'',phone:c[2]||'',role:c[3]||'סוכן'};});}
+
+function render(){if(S.out){root.innerHTML=loginView();return;}var v=V[S.view]?S.view:'agencies';root.innerHTML=stripe()+'<div class="shell">'+side()+'<main class="content">'+V[v]()+'</main></div>';}
+function go(v){S.view=v;S.pop=null;render();window.scrollTo(0,0);}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&S.pop){S.pop=null;render();}});
+document.addEventListener('submit',function(e){if(e.target.id!=='loginf')return;e.preventDefault();var em=document.getElementById('lg-em').value.trim(),pw=document.getElementById('lg-pw').value,cd=document.getElementById('lg-code').value.trim();if(!em||!pw){toast('צריך אימייל וסיסמה');return;}if(!/^\d{6}$/.test(cd)){toast('צריך קוד אימות של 6 ספרות');return;}S.out=false;S.view='agencies';render();toast('נכנסת. באב הטיפוס כל פרטים נכנסים בתור נועה');});
+function closeModal(){var m=document.getElementById('modal');if(m)m.remove();}
+function modal(html){closeModal();var o=document.createElement('div');o.className='overlay';o.id='modal';o.innerHTML='<div class="modal" role="dialog" aria-modal="true">'+html+'</div>';document.body.appendChild(o);o.addEventListener('click',function(e){if(e.target===o)closeModal();});var f=o.querySelector('input,textarea,select');if(f)f.focus();}
+
+document.addEventListener('click',function(e){
+  if(S.pop&&!e.target.closest('.pop')&&!e.target.closest('[data-act="bell"],[data-act="umenu"]')){S.pop=null;render();if(!e.target.closest('[data-act],[data-go],[data-tkf],tr[data-ag],tr[data-tk],[data-agtab]'))return;}
+  var nf=e.target.closest('[data-notif]');if(nf){var N0=NOTIFS[+nf.getAttribute('data-notif')];N0.un=false;S.pop=null;if(N0.go==='tickets')S.tkf='late';go(N0.go);return;}
+  var tf=e.target.closest('[data-tkf]');if(tf){var fv=tf.getAttribute('data-tkf')||null;S.tkf=(S.tkf===fv)?null:fv;render();return;}
+  var cd=e.target.closest('[data-crd]');if(cd){var ci=document.getElementById('cr-v');if(ci)ci.value=cd.getAttribute('data-crd');return;}
+  var g=e.target.closest('[data-go]');if(g){go(g.getAttribute('data-go'));return;}
+  var ag=e.target.closest('tr[data-ag]');if(ag){var A=agBy(ag.getAttribute('data-ag'));if(A.st==='setup'){S.wiz={step:A.step,name:A.name,code:A.code,contact:A.contact,email:A.email,phone:A.phone,hours:A.hours,emerg:A.emerg,logo:false,sq:false,mode:'csv',rows:[],chat:true,pkg:A.pkg,credits:20,from:A.id};go('wizard');}else{S.ag=A.id;S.agTab='emp';go('agency');}return;}
+  var at=e.target.closest('[data-agtab]');if(at){S.agTab=at.getAttribute('data-agtab');render();return;}
+  var tk=e.target.closest('tr[data-tk]');if(tk){S.tk=tk.getAttribute('data-tk');render();return;}
+  var st=e.target.closest('[data-step]');if(st){var n=+st.getAttribute('data-step');if(n<=S.wiz.step){S.wiz.step=n;render();}return;}
+  var wm=e.target.closest('[data-wmode]');if(wm){S.wiz.mode=wm.getAttribute('data-wmode');render();return;}
+  var a=e.target.closest('[data-act]');if(!a)return;var k=a.getAttribute('data-act'),w=S.wiz;
+  if(k==='toast'){S.pop=null;render();toast(a.getAttribute('data-msg'));}
+  else if(k==='bell'){S.pop=S.pop==='bell'?null:'bell';render();}
+  else if(k==='umenu'){S.pop=S.pop==='user'?null:'user';render();var mi=document.querySelector('.pop [role="menuitem"]');if(mi)mi.focus();}
+  else if(k==='readall'){NOTIFS.forEach(function(n){n.un=false;});render();}
+  else if(k==='logout'){S.pop=null;S.out=true;closeModal();render();window.scrollTo(0,0);var em=document.getElementById('lg-em');if(em)em.focus();}
+  else if(k==='demologin'){S.out=false;S.view='agencies';render();toast('נכנסת בתור נועה');}
+  else if(k==='newag'){S.wiz=null;go('wizard');}
+  else if(k==='wfill'){w.name='גלובוס טורס';w.contact='מיכל גלובוס';w.email='michal@globus.co.il';w.phone='03-555-0101';w.emerg='052-555-0199';render();}
+  else if(k==='wlogo'){w.logo=true;w.sq=true;render();}
+  else if(k==='wback'){if(w.step>1){w.step--;render();}}
+  else if(k==='wnext'){
+    if(w.step===1&&(!w.name||!w.contact||!w.email||!w.phone||!w.emerg)){toast('חסרים שדות חובה. אפשר "מילוי לדוגמה"');return;}
+    if(w.step===2){var c=(w.code||'').toUpperCase();if(!/^[A-Z]{3}$/.test(c)||AGS.some(function(x){return x.code===c&&x.id!==w.from;})){toast('צריך קוד פנוי של 3 אותיות באנגלית');return;}w.code=c;}
+    if(w.step===4){if(w.rows.some(function(r){return r.err;})){toast('יש שורות לתיקון. אפשר לתקן בטבלה או להסיר');return;}if(!w.rows.some(function(r){return /מנהל/.test(r.role);})){toast('צריך לפחות מנהל אחד');return;}}
+    if(w.step<6){w.step++;render();return;}
+    if(!w.agr){toast('אי אפשר להפעיל לפני שההסכם החתום הועלה. ההקמה נשמרה, ואפשר לחזור אליה');return;}
+    var id=w.from||('n'+Date.now());var ex=agBy(id);var rec={id:id,name:w.name,code:w.code,st:'active',emp:w.rows.length,trips:0,credits:+w.credits||0,contact:w.contact,email:w.email,phone:w.phone,hours:w.hours,emerg:w.emerg,pkg:w.pkg,agr:{st:'signed',date:'7.10.2026',file:w.agr}};if(ex){Object.keys(rec).forEach(function(x){ex[x]=rec[x];});}else AGS.push(rec);
+    EMP[id]=w.rows.map(function(r){return [r.name,r.email,r.phone,r.role,'הוזמן, עוד לא נכנס'];});S.log.unshift(['עכשיו','נועה','הפעילה את '+w.name+' ושלחה הזמנות ל־'+w.rows.length+' עובדים']);S.wiz=null;S.ag=id;S.agTab='emp';go('agency');toast(w.name+' הופעלה. נשלחו הזמנות ל־'+w.rows.length+' עובדים');}
+  else if(k==='agrdemo'){agrSave(a.getAttribute('data-ag'),'הסכם-חתום-סרוק.pdf');}
+  else if(k==='agrsent'){var ga=agBy(a.getAttribute('data-ag'));ga.agr={st:'sent',date:'7.10.2026'};S.log.unshift(['עכשיו','נועה','סימנה שההסכם נשלח לחתימה: '+ga.name]);render();toast('סומן: נשלח לחתימה');}
+  else if(k==='csvdemo'){w.rows=validate(parseCSV('שם מלא,אימייל,נייד,תפקיד\nמיכל גלובוס,michal@globus.co.il,050-555-0101,מנהלת\nשי לוי,shai@globus.co.il,052-555-0102,סוכן\nאורנה בר,orna@globus,054-555-0103,סוכנת\nדני רוט,dani@globus.co.il,0505550104,סוכן'));render();toast('נקלטו 4 שורות. אחת צריכה תיקון');}
+  else if(k==='csvtpl'){var tx='שם מלא,אימייל,נייד,תפקיד';try{navigator.clipboard.writeText(tx).catch(function(){});}catch(_){}toast('הועתק: '+tx);}
+  else if(k==='manadd'){var r={name:document.getElementById('m-n').value.trim(),email:document.getElementById('m-e').value.trim(),phone:document.getElementById('m-p').value.trim(),role:document.getElementById('m-r').value};if(!r.name){toast('חסר שם');return;}w.rows.push(r);validate(w.rows);render();toast(r.err?'נוסף, אבל '+r.err:r.name+' נוסף לרשימה');}
+  else if(k==='rowdel'){w.rows.splice(+a.getAttribute('data-i'),1);validate(w.rows);render();}
+  else if(k==='wchat'){w.chat=!w.chat;render();}
+  else if(k==='empoff'||k==='empon'){var E=EMP[a.getAttribute('data-ag')][+a.getAttribute('data-i')];E[4]=k==='empoff'?'מושבת':'פעיל';S.log.unshift(['עכשיו','נועה',(k==='empoff'?'השביתה את ':'החזירה את ')+E[0]]);render();toast(k==='empoff'?E[0]+' הושבת/ה. לא יוכל/תוכל להיכנס':E[0]+' פעיל/ה שוב');}
+  else if(k==='empadd'){var gid=a.getAttribute('data-ag');modal('<h2>עובד חדש</h2><div class="fgrid"><label>שם מלא *<input class="inp" id="e-n"></label><label>אימייל *<input class="inp mono" id="e-e"></label><label>נייד *<input class="inp mono" id="e-p"></label><label>תפקיד<select class="inp" id="e-r"><option>סוכן</option><option>מנהל</option></select></label></div><span class="xs muted">העובד יקבל מייל להגדרת סיסמה.</span><div class="row"><button class="btn pri" data-act="empsave" data-ag="'+gid+'">הוספה ושליחת הזמנה</button><button class="btn ghost" data-act="close">ביטול</button></div>');}
+  else if(k==='empsave'){var R=validate([{name:document.getElementById('e-n').value.trim(),email:document.getElementById('e-e').value.trim(),phone:document.getElementById('e-p').value.trim(),role:document.getElementById('e-r').value}])[0];if(!R.name||R.err){toast(R.name?R.err:'חסר שם');return;}var gg=a.getAttribute('data-ag');(EMP[gg]=EMP[gg]||[]).push([R.name,R.email,R.phone,R.role,'הוזמן, עוד לא נכנס']);agBy(gg).emp=EMP[gg].length;closeModal();render();toast('ההזמנה נשלחה ל־'+R.email);}
+  else if(k==='empcsv'){var gc=a.getAttribute('data-ag');modal('<h2>העלאת עובדים מקובץ</h2><span class="sm muted">עמודות: שם מלא, אימייל, נייד, תפקיד. כל שורה נבדקת לפני השמירה.</span><button class="btn" data-act="empcsvdemo" data-ag="'+gc+'">הדמיה עם קובץ לדוגמה (2 עובדים)</button><button class="btn ghost" data-act="close">ביטול</button>');}
+  else if(k==='empcsvdemo'){var gd=a.getAttribute('data-ag');var RR=validate(parseCSV('גיא נבון,guy@x.co.il,050-555-0909,סוכן\nשירן אלמוג,shiran@x.co.il,052-555-0808,סוכנת'));RR.forEach(function(r){(EMP[gd]=EMP[gd]||[]).push([r.name,r.email,r.phone,r.role,'הוזמן, עוד לא נכנס']);});agBy(gd).emp=EMP[gd].length;closeModal();render();toast('נוספו 2 עובדים ונשלחו הזמנות');}
+  else if(k==='credits'){var gcr=a.getAttribute('data-ag'),A=agBy(gcr);modal('<h2>טעינת קרדיטים · '+esc(A.name)+'</h2><label class="fld">כמה קרדיטים<input class="inp mono" type="number" id="cr-n" value="20" min="1"></label><label class="fld">בתוקף עד <span class="h">בחירה מהלוח</span><input class="inp" type="date" id="cr-v" value="2026-12-31" min="2026-10-07"></label><div class="chips"><button type="button" class="chip" data-crd="2026-12-31">סוף השנה</button><button type="button" class="chip" data-crd="2027-10-07">שנה מהיום</button><button type="button" class="chip" data-crd="2027-04-07">חצי שנה</button></div><div class="row"><button class="btn pri" data-act="crsave" data-ag="'+gcr+'">טעינה</button><button class="btn ghost" data-act="close">ביטול</button></div>');}
+  else if(k==='crsave'){var gs=a.getAttribute('data-ag'),An=agBy(gs),nn=+document.getElementById('cr-n').value||0;var dv=(document.getElementById('cr-v')||{}).value||'';if(!dv){toast('צריך לבחור תאריך תוקף');return;}var dd=dv.split('-').reverse().join('.');An.credits+=nn;if(An.st==='low'&&An.credits>=10)An.st='active';S.log.unshift(['עכשיו','נועה','טענה '+nn+' קרדיטים ל'+An.name+', בתוקף עד '+dd]);closeModal();render();toast('נטענו '+nn+' קרדיטים ל'+An.name+', בתוקף עד '+dd);}
+  else if(k==='reqaccess'){var gr=a.getAttribute('data-ag'),tn=a.getAttribute('data-n')||'—';if(!ACC.some(function(x){return x.ag===gr&&x.st!=='done';}))ACC.unshift({ag:gr,who:'נועה',tk:tn,st:'pending'});S.log.unshift(['עכשיו','נועה','ביקשה כניסה לחשבון של '+agBy(gr).name]);render();toast('הבקשה נשלחה למנהל '+agBy(gr).name+'. נקבל התראה כשיאשר');}
+  else if(k==='accend'){var ac=ACC[+a.getAttribute('data-i')];ac.st='done';S.log.unshift(['עכשיו','נועה','סיימה את הכניסה לחשבון של '+agBy(ac.ag).name]);render();toast('הכניסה הסתיימה ונרשמה בהיסטוריה');}
+  else if(k==='tkreply'){var tr=TK.filter(function(x){return x.n===a.getAttribute('data-n');})[0],tv=document.getElementById('tk-r').value.trim();if(!tv){toast('כתבי תשובה');return;}tr.msgs.push({me:true,t:tv,at:'עכשיו'});if(tr.st==='new'){tr.st='work';tr.late=false;}if(!tr.owner)tr.owner='נועה';render();toast('התשובה נשלחה ל'+tr.who+' בפעמון ובאימייל');}
+  else if(k==='tkclose'){var tc=TK.filter(function(x){return x.n===a.getAttribute('data-n');})[0];tc.st='closed';tc.late=false;render();toast('הקריאה #'+tc.n+' נסגרה. '+tc.who+' קיבל/ה עדכון');}
+  else if(k==='close')closeModal();
+});
+document.addEventListener('input',function(e){var t=e.target;if(t.hasAttribute('data-w')){S.wiz[t.getAttribute('data-w')]=t.value;if(t.getAttribute('data-w')==='code'){var p=t.selectionStart;t.value=t.value.toUpperCase();S.wiz.code=t.value;render();var n=document.querySelector('[data-w="code"]');if(n){n.focus();n.setSelectionRange(p,p);}}}});
+document.addEventListener('change',function(e){var t=e.target;
+  if(t.hasAttribute('data-fix')){var r=S.wiz.rows[+t.getAttribute('data-fix')];r[t.getAttribute('data-f')]=t.value.trim();validate(S.wiz.rows);render();return;}
+  if(t.hasAttribute('data-agrfile')){if(t.files&&t.files[0])agrSave(t.getAttribute('data-agrfile'),t.files[0].name);return;}
+  if(t.hasAttribute('data-logo')){if(t.files&&t.files[0]){S.wiz[t.getAttribute('data-logo')==='wide'?'logo':'sq']=true;render();toast('הלוגו נקלט: '+t.files[0].name);}return;}
+  if(t.hasAttribute('data-csv')){var f=t.files&&t.files[0];if(!f)return;var rd=new FileReader();rd.onload=function(){var R=parseCSV(String(rd.result));S.wiz.rows=validate(S.wiz.rows.concat(R));render();toast('נקלטו '+R.length+' שורות מ־'+f.name);};rd.readAsText(f);return;}
+  if(t.hasAttribute('data-tkowner')){var a=TK.filter(function(x){return x.n===t.getAttribute('data-tkowner');})[0];a.owner=t.value;render();toast(t.value?'הקריאה שויכה ל'+t.value:'השיוך הוסר');return;}
+  if(t.hasAttribute('data-tkst')){var b=TK.filter(function(x){return x.n===t.getAttribute('data-tkst');})[0];b.st=t.value;if(t.value!=='new')b.late=false;render();toast('הסטטוס עודכן. '+b.who+' קיבל/ה עדכון');return;}
+  if(t.hasAttribute('data-w')){S.wiz[t.getAttribute('data-w')]=t.value;}
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();if(e.key==='Enter'){var r=e.target.closest&&e.target.closest('tr.click');if(r)r.click();}});
+render();
+})();
+</script>
+
+</body></html>
