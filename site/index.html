@@ -70,13 +70,19 @@ a{color:var(--g)}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
 .art{position:relative;height:560px}
-.art .desk{position:absolute;top:10px;right:0;width:94%;border-radius:14px;border:1px solid var(--ln);box-shadow:var(--sh3);background:var(--wh)}
-.art .phone{position:absolute;bottom:0;left:0;width:34%;max-width:220px}
-.phone{border:7px solid var(--g);border-radius:34px;overflow:hidden;background:#FBF8F2;box-shadow:var(--sh3)}
+.sc{position:absolute;display:grid;gap:1px;background:var(--wh);border:1px solid var(--ln);border-radius:12px;padding:8px 13px;box-shadow:0 6px 16px rgb(8 64 42 / .10)}
+.sc em{font:600 12.5px var(--f-b);font-style:normal;color:var(--cu6)}
+.sc b{font:500 13.5px var(--f-m);color:var(--mu);direction:ltr;text-align:right;white-space:nowrap}
+.s1{top:4px;right:3%;transform:rotate(-4deg)}.s2{top:18px;left:8%;transform:rotate(3deg)}.s3{top:86px;right:33%;transform:rotate(2deg)}.s4{top:100px;left:0;transform:rotate(-3deg)}
+.file{position:absolute;top:206px;right:0;width:64%;background:var(--wh);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh3);padding:16px;display:grid;gap:8px}
+.fh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
+.fh b{font:700 17px var(--f-d);color:var(--g)}
+.fh .ok{font:600 12.5px var(--f-b);background:var(--ok-s);color:var(--ok);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.file .ti small{font:500 12.5px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
+.art .phone{position:absolute;bottom:0;left:0;width:30%;max-width:190px}
 .callout{position:absolute;display:flex;align-items:center;gap:8px;font:600 14px var(--f-b);color:var(--g);background:var(--wh);border-radius:999px;padding:7px 14px;box-shadow:0 8px 20px rgb(8 64 42 / .16);white-space:nowrap}
 .callout::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cu)}
-.art .k1{top:-8px;right:18%}.art .k2{top:46%;right:-10px}.art .k3{bottom:16px;left:38%}
-.mdash{display:none}
+.art .k1{top:156px;right:22%}.art .k3{top:176px;left:-6px}
 
 /* ping-pong */
 .pp{background:var(--s2)}
@@ -179,13 +185,14 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 .fld input[aria-invalid="true"]{border-color:var(--bad);background:var(--bad-s)}
 .err{font:500 14px var(--f-b);color:var(--bad)}
 .priv{font-size:13.5px;color:var(--mu)}
-.okmsg{display:grid;gap:8px;justify-items:start}
+.okmsg{display:grid;gap:8px;justify-items:center;text-align:center;padding-block:8px}
+.okmsg img{width:120px;height:auto}
 .okmsg b{font:700 22px var(--f-d);color:var(--g)}
 
 /* footer */
 .ftr{padding-block:40px 48px;border-top:1px solid var(--ln)}
 .ftr .in{display:flex;flex-wrap:wrap;gap:16px 40px;align-items:center;justify-content:space-between}
-.ftr img{height:30px;width:auto}
+.ftr img{height:82px;width:auto}
 .ftr .ct{display:flex;flex-wrap:wrap;gap:8px 24px;color:var(--mu);font-size:15.5px}
 .ftr .ct a{color:var(--mu)}
 .mbar{display:none}
@@ -210,8 +217,14 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .get{grid-template-columns:1fr;gap:8px}
   .get div{grid-template-columns:auto 1fr;gap:2px 10px;padding:12px}
   .get b{grid-column:1 / -1}
-  .art{display:none}
-  .mdash{display:grid;gap:8px;position:relative;background:#F4F6F4;border:1px solid var(--ln);border-radius:20px;padding:12px;padding-inline-end:12px;padding-bottom:12px}
+  .hero .txt{display:contents}
+  .hero .get{order:1}
+  .art{height:auto;display:grid;gap:10px}
+  .src{display:flex;flex-wrap:wrap;gap:8px}
+  .sc{position:static;transform:none;padding:6px 11px}
+  .art .callout{position:static;justify-self:center}
+  .file{position:static;width:auto;padding:12px}
+  .art .phone,.art .k3{display:none}
   .pp .grid,.steps,.ben .cols,.demo .box{grid-template-columns:1fr}
   .side{padding:20px}
   .steps{gap:12px}
@@ -249,22 +262,8 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .mbar span{font-size:13.5px;color:var(--mu);max-width:42%}
 }
 /* mini dashboard (mobile hero) */
-.mdash .lbl{font:600 12.5px var(--f-b);color:var(--mu);display:flex;justify-content:space-between}
-.mdash .cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.mdash .cnt div{background:var(--wh);border:1px solid #DEE3DF;border-radius:10px;padding:6px 4px;text-align:center;display:grid;line-height:1.2}
-.mdash .cnt b{font:700 20px var(--f-d)}
-.mdash .cnt small{font-size:11px;color:var(--mu)}
-.mdash .cnt .r{box-shadow:inset 0 3px 0 var(--bad)}.mdash .cnt .r b{color:var(--bad)}
-.mdash .cnt .h{box-shadow:inset 0 3px 0 #C28A0E}.mdash .cnt .h b{color:var(--attn)}.mdash .cnt .p{box-shadow:inset 0 3px 0 var(--sa)}
-.mdash .trip{background:var(--wh);border:1px solid #DEE3DF;border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;font-size:13px;margin-inline-end:30%}
-.mdash .trip.r{box-shadow:inset -3px 0 0 var(--bad)}.mdash .trip.h{box-shadow:inset -3px 0 0 #C28A0E}
-.mdash .trip b{font:600 14px var(--f-d)}
-.mdash .trip small{font:500 11px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
-.mdash .pl{font:600 11px var(--f-b);padding:1px 8px;border-radius:999px;white-space:nowrap;justify-self:end}
 .pl.w{background:var(--attn-s);color:var(--attn)}.pl.b{background:var(--bad-s);color:var(--bad)}.pl.o{background:var(--ok-s);color:var(--ok)}
-.mdash .mph{position:absolute;left:10px;bottom:-14px;width:27%;border-width:4px;border-radius:18px}
-@media (max-width:380px){.mdash .trip{margin-inline-end:0}.mdash .mph{display:none}}
-</style>
+@media (max-width:380px){</style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <symbol id="i-plane" viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></symbol>
@@ -299,28 +298,31 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     <div class="txt">
       <span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span>
       <h1>ראש שקט לסוכן.<br><span>נסיעה מסודרת לנוסע</span><span class="dot"></span></h1>
-      <p class="lead">PALAMI היא מערכת לניהול הנסיעות של הסוכנות, עם אפליקציה לנוסע במיתוג שלכם. גוררים את אישורי ההזמנה לתיק והכול מסתדר: אתם רואים מה דורש טיפול והנוסע מוצא לבד כל כרטיס, שעה וכתובת.</p>
+      <p class="lead">מסמכי הנסיעה מפוזרים: חלק ב־WhatsApp, חלק במייל, חלק אצל הסוכן וחלק אצל הלקוחות. ב־PALAMI גוררים את הכול לתיק אחד, מערכת AI מסדרת אותם אוטומטית והנוסע מקבל את כל הנסיעה בטלפון, במיתוג הסוכנות.</p>
       <div class="ctas"><a class="btn" href="#demo">בקשת הדגמה</a><a class="btn ghost" href="#how">איך זה עובד</a></div>
       <div class="get" aria-label="מה מקבלים">
-        <div><b><svg aria-hidden="true"><use href="#i-dash"/></svg>מערכת לניהול הנסיעות</b><span>סטטוס לכל תיק, חוסרים והתראות במסך אחד</span></div>
+        <div><b><svg aria-hidden="true"><use href="#i-doc"/></svg>כל המסמכים בתיק אחד</b><span>גוררים והמערכת מזהה, נותנת שם ומתייקת</span></div>
         <div><b><svg aria-hidden="true"><use href="#i-phone"/></svg>אפליקציה לנוסע</b><span>כרטיסים, לו״ז וחירום, בשם הסוכנות</span></div>
-        <div><b><svg aria-hidden="true"><use href="#i-bell"/></svg>התראות ותקשורת</b><span>תזכורות ועדכונים לנוסע ב־Push, WhatsApp או אימייל, בזמן שקבעתם</span></div>
+        <div><b><svg aria-hidden="true"><use href="#i-bell"/></svg>התראות ותקשורת</b><span>תזכורות ועדכונים לנוסע ב־Push, WhatsApp, SMS או אימייל, בזמן שקבעתם</span></div>
       </div>
     </div>
     <div class="art" aria-hidden="true">
-      <img class="desk" src="img/r-dash.webp" alt="">
-      <span class="callout k1">מה דחוף היום</span>
-      <span class="callout k2">סטטוס לכל תיק</span>
+      <div class="src">
+        <span class="sc s1"><em>WhatsApp</em><b>Flight_LY395.pdf</b></span>
+        <span class="sc s2"><em>מייל</em><b>Hotel voucher.pdf</b></span>
+        <span class="sc s3"><em>צילום מסך</em><b>IMG_4471.jpg</b></span>
+        <span class="sc s4"><em>אצל הלקוח</em><b>Insurance.pdf</b></span>
+      </div>
+      <span class="callout k1">גוררים מכל מקום לתיק אחד</span>
+      <div class="file">
+        <div class="fh"><b>ברצלונה · משפחת כהן</b><span class="ok">✓ תויק אוטומטית</span></div>
+        <div class="ti"><svg aria-hidden="true"><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 12.11.2026</small></span><span class="vk sm"></span></div>
+        <div class="ti"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span class="tt"><b>מלון · 7 לילות</b><small>12.11.2026 – 19.11.2026</small></span><span class="vk sm"></span></div>
+        <div class="ti"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span class="tt"><b>כדורגל · קאמפ נואו</b><small>14.11.2026 · 21:00</small></span><span class="vk sm"></span></div>
+        <div class="ti"><svg aria-hidden="true"><use href="#i-doc"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>Securitas</small></span><span class="vk sm"></span></div>
+      </div>
       <span class="callout k3">כל הנסיעה בטלפון של הנוסע</span>
-      <div class="phone"><img src="img/t-home-before.webp" alt=""></div>
-    </div>
-    <div class="mdash" aria-label="דוגמה: תמונת המצב של הסוכן">
-      <div class="lbl"><span>אצל הסוכן · היום</span><span>תמונת מצב</span></div>
-      <div class="cnt"><div class="r"><b>1</b><small>דחוף</small></div><div class="h"><b>2</b><small>ביטוח חסר</small></div><div><b>2</b><small>לפרסום</small></div><div class="p"><b>23</b><small>מפורסמות</small></div></div>
-      <div class="trip r"><b>ברצלונה · כהן</b><span class="pl b">2 חוסרים</span><small>HDR-2609-0031</small><span class="pl w">יש עדכונים</span></div>
-      <div class="trip h"><b>לונדון · כנס</b><span class="pl w">1 חוסר</span><small>HDR-2610-0040</small><span class="pl w">להשלמה</span></div>
-      <div class="trip"><b>רומא · לוינסון</b><span class="pl o">✓ אין</span><small>HDR-2608-0027</small><span class="pl o">בנסיעה</span></div>
-      <div class="phone mph"><img src="img/t-home-before.webp" alt=""></div>
+      <div class="phone"><img src="img/t-docs.webp" alt=""></div>
     </div>
   </div></section>
 
@@ -420,7 +422,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 </main>
 
 <footer class="ftr" id="privacy"><div class="in">
-  <img src="img/wordmark-tagline.svg" alt="PALAMI · כל פרטי הנסיעה בכף ידך">
+  <img src="img/logo-full.webp" alt="PALAMI · כל פרטי הנסיעה בכף ידך" width="200" height="82">
   <div class="ct">
     <span class="ltr">hello@palami.io</span>
     <span class="ltr">054-2245627</span>
@@ -482,7 +484,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     [['name',!n],['email',!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m)],['phone',!/^\+?\d{9,13}$/.test(p)]].forEach(function(x){ f[x[0]].setAttribute('aria-invalid',String(x[1])); if(x[1]) bad.push(x[0]); });
     if(bad.length){ err.hidden=false; err.textContent= bad.indexOf('name')>=0?'צריך למלא שם מלא': bad.indexOf('email')>=0?'האימייל לא נראה תקין. כדאי לבדוק שוב':'מספר הטלפון לא נראה תקין'; f[bad[0]].focus(); return; }
     err.hidden=true;
-    f.innerHTML='<div class="okmsg"><span class="vk"></span><b>תודה, '+n.split(' ')[0].replace(/[<>&"]/g,'')+'!</b><span>בגרסת העיצוב הטופס עוד לא מחובר. באתר האמיתי הפנייה תגיע אלינו ונחזור אליכם בקרוב.</span></div>';
+    f.innerHTML='<div class="okmsg"><img src="img/mascot.webp" alt=""><b>תודה, '+n.split(' ')[0].replace(/[<>&"]/g,'')+'!</b><span>בגרסת העיצוב הטופס עוד לא מחובר. באתר האמיתי הפנייה תגיע אלינו ונחזור אליכם בקרוב.</span></div>';
   });
 })();
 </script>
