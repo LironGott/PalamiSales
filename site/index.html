@@ -303,7 +303,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .hero .txt{display:contents}
   .hero .get{order:1}
   .art{display:none}
-  .mdash{display:grid;gap:8px;position:relative;background:#F4F6F4;border:1px solid var(--ln);border-radius:20px;padding:12px;padding-inline-end:12px;padding-bottom:12px}
+  .mdash{display:grid;gap:8px;position:relative;margin-bottom:34px;background:#F4F6F4;border:1px solid var(--ln);border-radius:20px;padding:12px;padding-inline-end:12px;padding-bottom:12px}
   .howg{grid-template-columns:1fr;gap:22px}
   .pp .grid,.steps,.ben .cols,.demo .box{grid-template-columns:1fr}
   .side{padding:20px}
@@ -354,8 +354,9 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 .mdash .trip b{font:600 14px var(--f-d)}
 .mdash .trip small{font:500 11px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
 .mdash .pl{font:600 11px var(--f-b);padding:1px 8px;border-radius:999px;white-space:nowrap;justify-self:end}
+.mdash .mphl{position:absolute;left:4px;bottom:-44px;width:calc(27% + 12px);text-align:center;font:600 12.5px var(--f-b);color:var(--g);background:var(--wh);border-radius:999px;padding:3px 6px;box-shadow:0 4px 12px rgb(8 64 42 / .14)}
 .mdash .mph{position:absolute;left:10px;bottom:-14px;width:27%;border-width:4px;border-radius:18px}
-@media (max-width:380px){.mdash .trip{margin-inline-end:0}.mdash .mph{display:none}}
+@media (max-width:380px){.mdash .trip{margin-inline-end:0}.mdash .mph,.mdash .mphl{display:none}}
 .pl.w{background:var(--attn-s);color:var(--attn)}.pl.b{background:var(--bad-s);color:var(--bad)}.pl.o{background:var(--ok-s);color:var(--ok)}
 @media (max-width:380px){</style>
 
@@ -409,12 +410,13 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       <div class="phone"><img src="img/t-home-before.webp" alt=""></div>
     </div>
     <div class="mdash" aria-label="דוגמה: תמונת המצב של הסוכן">
-      <div class="lbl"><span>אצל הסוכן · היום</span><span>תמונת מצב</span></div>
+      <div class="lbl"><span>מערכת הסוכן</span><span>מה קורה היום</span></div>
       <div class="cnt"><div class="r"><b>1</b><small>דחוף</small></div><div class="h"><b>2</b><small>ביטוח חסר</small></div><div><b>2</b><small>לפרסום</small></div><div class="p"><b>23</b><small>מפורסמות</small></div></div>
       <div class="trip r"><b>ברצלונה · כהן</b><span class="pl b">2 חוסרים</span><small>HDR-2609-0031</small><span class="pl w">יש עדכונים</span></div>
       <div class="trip h"><b>לונדון · כנס</b><span class="pl w">1 חוסר</span><small>HDR-2610-0040</small><span class="pl w">להשלמה</span></div>
       <div class="trip"><b>רומא · לוינסון</b><span class="pl o">✓ אין</span><small>HDR-2608-0027</small><span class="pl o">בנסיעה</span></div>
       <div class="phone mph"><img src="img/t-home-before.webp" alt=""></div>
+      <span class="mphl">אפליקציית הנוסע</span>
     </div>
   </div></section>
 
@@ -425,7 +427,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       <div class="steps">
         <div class="step"><span class="no">1</span><h3>גוררים את המסמכים לתיק</h3><p>אישורי טיסה, שוברים, כרטיסים ופוליסות ביטוח, בקבצי PDF, JPEG או צילום מסך.</p></div>
         <div class="step"><span class="no">2</span><h3>PALAMI מסדרת</h3><p>מערכת AI ייחודית מזהה כל מסמך ומחלצת ממנו את המידע, נותנת לו שם ברור ומכניסה אותו ללו״ז, הכול אוטומטית.</p></div>
-        <div class="step"><span class="no">3</span><h3>הנוסע מקבל הכול</h3><p>קישור אחד במיתוג הסוכנות, עם לו״ז, מסמכים, מידע שימושי ליעד, חירום וצ'אט ישיר עם הסוכנות. הכול נגיש וידידותי, בלי להוריד אפליקציה וגם בלי אינטרנט.</p></div>
+        <div class="step"><span class="no">3</span><h3>הנוסע מקבל הכול</h3><p>קישור אחד במיתוג הסוכנות, עם לו״ז, מסמכים, מידע שימושי ליעד, חירום וצ'אט ישיר עם הסוכן. הכול נגיש וידידותי, בלי להוריד אפליקציה וגם בלי אינטרנט.</p></div>
       </div>
       <div class="hvw" aria-hidden="true"><div class="hv">
         <div class="hv-steps"><span class="p1"><b>1</b>גוררים מסמכים</span><span class="p2"><b>2</b>PALAMI מסדרת</span><span class="p3"><b>3</b>הנוסע מקבל הכול</span></div>
@@ -482,7 +484,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
           <div class="row"><span class="vk"></span><div><b>הכתובת של המלון</b><span>בשפה המקומית, להצגה לנהג, עם ניווט</span></div></div>
           <div class="row"><span class="vk"></span><div><b>השעה החדשה של ההסעה</b><span>עודכנה אחרי שהסוכן אישר, עם הודעה לנוסע</span></div></div>
         </div>
-        <span class="foot">ולמה שבאמת צריך סוכן: צ'אט עם הסוכן, בתוך הנסיעה.</span>
+        <span class="foot">ולמה שבאמת צריך סוכן: צ'אט עם הסוכן, ישירות מהאפליקציה.</span>
       </div>
     </div>
   </div></section>
@@ -493,7 +495,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     <div class="cols">
       <div class="col agency">
         <div class="ch"><span class="k">לסוכן ולמנהל הסוכנות</span><h3>שליטה מלאה, בלי לזכור הכול בראש</h3></div>
-        <div class="bl"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>כל הנסיעות במבט אחד</h4></summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>יומן ההמראות והנחיתות</h4></summary><p>כל הטיסות של הסוכנות בתצוגה חודשית או שבועית. רואים במבט מי טס היום ומי נוחת מחר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>התראות שזוכרות בשבילכם</h4></summary><p>קובעים פעם אחת מתי אתם והנוסעים מקבלים תזכורת.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-alert"/></svg></span><h4>רואים מה חסר בזמן</h4></summary><p>ביטוח שלא נקנה או כרטיס שלא הגיע מסומנים בתיק. מטפלים בזה בזמן.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-team"/></svg></span><h4>עבודת צוות, גם בחופשה</h4></summary><p>משתפים נסיעות עם מספר סוכנים, כך שהטיפול בנסיעה לא נעצר כשמישהו לא במשרד.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>קשר עם הנוסעים, גם אחרי החזרה</h4></summary><p>שיחה בתוך הנסיעה בזמן הטיול ואחרי החזרה הודעה מהסוכנות שמזמינה לנסיעה הבאה.</p></details></div>
+        <div class="bl"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>כל הנסיעות במבט אחד</h4></summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>יומן ההמראות והנחיתות</h4></summary><p>כל הטיסות של הסוכנות בתצוגה חודשית או שבועית. רואים במבט מי טס היום ומי נוחת מחר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>התראות שזוכרות בשבילכם</h4></summary><p>קובעים פעם אחת מתי אתם והנוסעים מקבלים תזכורת.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-alert"/></svg></span><h4>רואים מה חסר בכל תיק</h4></summary><p>ביטוח שלא נקנה או כרטיס שלא הגיע מסומנים לבד. מטפלים בזה בזמן.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-team"/></svg></span><h4>עבודת צוות, גם בחופשה</h4></summary><p>משתפים נסיעות עם מספר סוכנים, כך שהטיפול בנסיעה לא נעצר כשמישהו לא במשרד.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>קשר עם הנוסעים, גם אחרי החזרה</h4></summary><p>צ'אט עם הנוסעים בזמן הנסיעה ואחרי החזרה הודעה מהסוכנות שמזמינה לנסיעה הבאה.</p></details></div>
       </div>
       <div class="col trav">
         <div class="ch"><span class="k">לנוסע</span><h3>חוויית נסיעה שקופצת מדרגה</h3></div>
@@ -522,7 +524,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       <div class="txt">
         <h2 id="demo-h">רוצים לראות איך זה עובד אצלכם?</h2>
         <p>נשמח להראות לכם את PALAMI על נסיעה אמיתית ולענות על כל שאלה.</p>
-        <ul><li><span class="vk sm"></span>דשבורד, תיק נסיעה וקליטת מסמכים</li><li><span class="vk sm"></span>מה הנוסע רואה בטלפון</li><li><span class="vk sm"></span>בלי התחייבות</li></ul>
+        <ul><li><span class="vk sm"></span>דשבורד, תיק נסיעה וגרירת מסמכים</li><li><span class="vk sm"></span>מה הנוסע רואה בטלפון</li><li><span class="vk sm"></span>בלי התחייבות</li></ul>
       </div>
       <form class="f" id="demo-form" novalidate>
         <label class="fld" for="f-name">שם מלא<input id="f-name" name="name" autocomplete="name" required></label>
@@ -566,7 +568,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       ['לו״ז','כל יום בנסיעה, לפי השעה המקומית','img/t-schedule.webp','phone'],
       ['מסמכים','כל הכרטיסים והשוברים, שמורים בטלפון','img/t-docs.webp','phone'],
       ['מידע','כל המידע החשוב ליעד: מזג אוויר, השעה ביעד, טיפים מהסוכן ורשימת אריזה','img/t-info.webp','phone'],
-      ['צ\'אט עם הסוכן','שאלה לסוכן ישירות מהאפליקציה, בלי לחפש מספר','img/t-chat.webp','phone'],
+      ['צ\'אט עם הסוכן','שואלים את הסוכן ישירות מהאפליקציה, בלי לחפש מספר','img/t-chat.webp','phone'],
       ['חירום','מספרים מקומיים, ביטוח והסוכנות, גם בלי אינטרנט','img/t-emergency.webp','phone']
     ]
   };
