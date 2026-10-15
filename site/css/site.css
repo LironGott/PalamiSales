@@ -289,7 +289,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .sec-h p{font-size:17px}
   .hero{padding-block:28px 24px}
   .hero .in{grid-template-columns:1fr;gap:22px}
-  .hero h1{font-size:34px}
+  .hero h1{font-size:clamp(26px,8.4vw,34px)}
   .hero .lead{font-size:17px}
   .hero .ctas .btn{width:100%}
   .get{grid-template-columns:1fr;gap:8px}
@@ -357,7 +357,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 .mdash .pl{font:600 11px var(--f-b);padding:1px 8px;border-radius:999px;white-space:nowrap;justify-self:end}
 .mdash .mphl{position:absolute;left:4px;bottom:-44px;width:calc(27% + 12px);text-align:center;font:600 12.5px var(--f-b);color:var(--g);background:var(--wh);border-radius:999px;padding:3px 6px;box-shadow:0 4px 12px rgb(8 64 42 / .14)}
 .mdash .mph{position:absolute;left:10px;bottom:-14px;width:27%;border-width:4px;border-radius:18px}
-@media (max-width:380px){.mdash .trip{margin-inline-end:0}.mdash .mph,.mdash .mphl{display:none}}
+@media (max-width:380px){.mdash .trip{margin-inline-end:31%;padding:7px 8px;gap:2px 6px}.mdash .trip b{font-size:13px}.mdash .trip small{font-size:10px}.mdash .pl{font-size:10.5px;padding:1px 6px}.mdash .mph{width:28%}.mdash .mphl{width:calc(28% + 12px);font-size:11.5px}}
 .pl.w{background:var(--attn-s);color:var(--attn)}.pl.b{background:var(--bad-s);color:var(--bad)}.pl.o{background:var(--ok-s);color:var(--ok)}
 
 /* skip link */
