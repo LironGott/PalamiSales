@@ -73,7 +73,14 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 
 ## Marketing website project (palami.io), started 2026-10
 - Brief: a small, bilingual (HE RTL / EN LTR) one-page marketing site for agencies, for AWS Activate / Founders Club. Sections: Hero, How it works, Value, Product peek, Demo request form. No CRM, no invented claims, no publishing or DNS changes without approval. All communication with the user in Hebrew.
+- Homepage design draft v1 (concept E, full page, HE): https://claude.ai/artifact/XrnMu93fqebrtuckHTCDA2, source in `site/`. Hero headline now "ראש שקט לסוכן. נסיעה מסודרת לנוסע." with a "ping-pong" section (traveler questions vs answers in the app).
 - Stage 1–2 done: analysis, competitors, messaging and 4 design concepts. Published at https://claude.ai/artifact/6LFttB6EeWZ9st5nu8m6Ni (source: `docs/website/concepts/`). Research notes: `docs/website/competitors.md`, `docs/website/aws.md`. Prototype screenshots: `docs/website/screenshots/`.
 - Positioning (user clarification): PALAMI is a B2B SaaS with a B2B2C experience. Two value pillars: (1) the agency workspace and management system (dashboard, trip statuses, missing items, control, customers, documents) as the primary pillar; (2) the digital trip experience for travelers. Do not present it as only a traveler app.
 - Recommendation v2 awaiting approval: concept E "מרכז הבקרה של הסוכנות" (dashboard-first), with "how it works" from A and the V-row from D on mobile. Headline: "כל הנסיעות של הסוכנות, תחת שליטה. כל פרטי הנסיעה, בכף היד של הנוסע." Agency-side capabilities verified by the user (2026-10-15): all listed management features exist in the developed system (dashboard, statuses, missing items, urgency, trip file, ingestion with exceptions and approval, customers, chat, publish, notification policy, roles, simple view, history) EXCEPT basic reports, which must not be claimed. Traveler app status still to confirm.
 - AWS: apply with an email on @palami.io; site must be fully functioning and public.
+
+## Website: confirmed details and open reminders
+- Contact (approved 2026-10-15): email hello@palami.io (suggested; mailbox must exist before launch), phone 054-2245627.
+- TODO (reminder): registered company name not decided yet. Site uses "PALAMI" as placeholder in footer and privacy policy; replace once the company is registered.
+- TODO: user will give access to the developed system later; replace prototype screenshots with real ones then. Traveler app is specified (not yet developed): present without promising availability.
+- Technical questions (hosting, form provider, DNS) postponed by the user until design is final.
