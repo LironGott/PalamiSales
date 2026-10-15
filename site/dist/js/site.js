@@ -6,14 +6,14 @@
   var T={
     he:{
       menuOpen:'תפריט', menuClose:'סגירת התפריט',
-      pause:'השהיית האנימציה', play:'הפעלת האנימציה',
+      pause:'השהיית האנימציה', play:'הפעלת האנימציה', prevS:'המסך הקודם', nextS:'המסך הבא',
       errName:'צריך למלא שם מלא', errEmail:'האימייל לא נראה תקין. כדאי לבדוק שוב', errPhone:'מספר הטלפון לא נראה תקין',
       thanks:'תודה, ', sentDraft:'בגרסת העיצוב הטופס עוד לא מחובר. באתר האמיתי הפנייה תגיע אלינו ונחזור אליכם בקרוב.',
       sent:'קיבלנו את הפרטים ונחזור אליכם בקרוב.', sending:'שולחים…', failed:'משהו השתבש בשליחה. אפשר לנסות שוב או לכתוב לנו ל־info@palami.io'
     },
     en:{
       menuOpen:'Menu', menuClose:'Close menu',
-      pause:'Pause animation', play:'Play animation',
+      pause:'Pause animation', play:'Play animation', prevS:'Previous screen', nextS:'Next screen',
       errName:'Please enter your full name', errEmail:'That email doesn’t look right. Please check it', errPhone:'That phone number doesn’t look right',
       thanks:'Thank you, ', sentDraft:'This is a design draft, so the form is not connected yet. On the live site your request will reach us and we’ll get back to you soon.',
       sent:'We got your details and will get back to you soon.', sending:'Sending…', failed:'Something went wrong. Please try again or email us at info@palami.io'
@@ -74,26 +74,35 @@
       ? '<div class="browser"><img src="'+src+'" alt="'+alt+'"></div>'
       : '<div class="phone"><img src="'+src+'" alt="'+alt+'"></div>';
   }
-  /* a screen with stages (traveler home): the phone cycles through them once, and can be swiped or picked with the dots */
-  var slideT=null;
-  function stopSlides(){ if(slideT){ clearInterval(slideT); slideT=null; } }
+  /* a screen with stages (traveler home): the phone changes by itself while in view; arrows, dots and swipe (touch or mouse drag) take over */
+  var slideT=null, slideIO=null;
+  function stopSlides(){ if(slideT){ clearInterval(slideT); slideT=null; } if(slideIO){ slideIO.disconnect(); slideIO=null; } }
   function slides(s, alt){
-    var st=s[4], cur=0;
-    stage.innerHTML='<div class="phone slides" role="img" aria-label="'+alt+'">'+st.map(function(x,i){ return '<img src="'+BASE+'img/'+x[0]+'" alt=""'+(i?'':' class="on"')+'>'; }).join('')+'</div>'
+    var st=s[4], cur=0, held=false, rtl=root.getAttribute('dir')==='rtl';
+    stage.innerHTML='<div class="sw"><button type="button" class="sarr" data-d="-1" aria-label="'+T.prevS+'">'+(rtl?'→':'←')+'</button>'
+      +'<div class="phone slides" role="img" aria-label="'+alt+'">'+st.map(function(x,i){ return '<img src="'+BASE+'img/'+x[0]+'" alt="" draggable="false"'+(i?'':' class="on"')+'>'; }).join('')+'</div>'
+      +'<button type="button" class="sarr" data-d="1" aria-label="'+T.nextS+'">'+(rtl?'←':'→')+'</button></div>'
       +'<p class="scap">'+esc(st[0][1])+'</p><div class="sdots">'+st.map(function(x,i){ return '<button type="button" data-s="'+i+'" aria-pressed="'+(i===0)+'"><span>'+esc(x[1])+'</span></button>'; }).join('')+'</div>';
-    var cap=stage.querySelector('.scap'), ph=stage.querySelector('.slides'), imgs=ph.querySelectorAll('img'), dots=stage.querySelectorAll('[data-s]');
+    var sw=stage.querySelector('.sw'), cap=stage.querySelector('.scap'), ph=stage.querySelector('.slides'), imgs=ph.querySelectorAll('img'), dots=stage.querySelectorAll('[data-s]');
     var show=function(i){ cur=(i+st.length)%st.length; cap.textContent=st[cur][1];
       Array.prototype.forEach.call(imgs,function(im,k){ im.classList.toggle('on',k===cur); });
       Array.prototype.forEach.call(dots,function(d,k){ d.setAttribute('aria-pressed',String(k===cur)); }); };
-    Array.prototype.forEach.call(dots,function(d){ d.addEventListener('click',function(){ stopSlides(); show(+d.getAttribute('data-s')); }); });
+    var take=function(i){ held=true; stopSlides(); show(i); };
+    Array.prototype.forEach.call(dots,function(d){ d.addEventListener('click',function(){ take(+d.getAttribute('data-s')); }); });
+    sw.querySelectorAll('.sarr').forEach(function(b){ b.addEventListener('click',function(){ take(cur+(+b.getAttribute('data-d'))); }); });
     var x0=null;
-    ph.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
-    ph.addEventListener('touchend',function(e){ if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
-      if(Math.abs(dx)>30){ stopSlides(); var rtl=root.getAttribute('dir')==='rtl'; show(cur+((dx<0)!==rtl?1:-1)); } });
-    if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-      var n=0; slideT=setInterval(function(){ n++; show(cur+1); if(n>=st.length) stopSlides(); },3200); /* one full cycle, back to the first stage */
-      ph.addEventListener('mouseenter',stopSlides);
-    }
+    ph.addEventListener('pointerdown',function(e){ x0=e.clientX; });
+    ph.addEventListener('pointerup',function(e){ if(x0===null) return; var dx=e.clientX-x0; x0=null;
+      if(Math.abs(dx)>30) take(cur+((dx<0)!==rtl?1:-1)); });
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    var run=function(){ if(!slideT && !held) slideT=setInterval(function(){ show(cur+1); },3500); };
+    var pause=function(){ if(slideT){ clearInterval(slideT); slideT=null; } };
+    sw.addEventListener('mouseenter',pause); sw.addEventListener('mouseleave',run);
+    sw.addEventListener('focusin',pause); sw.addEventListener('focusout',run);
+    if('IntersectionObserver' in window){
+      slideIO=new IntersectionObserver(function(es){ if(es[0].isIntersecting) run(); else pause(); },{threshold:.5});
+      slideIO.observe(ph);
+    } else run();
   }
   if(list && stage){
     document.querySelectorAll('[data-side]').forEach(function(b){
