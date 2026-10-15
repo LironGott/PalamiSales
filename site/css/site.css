@@ -431,3 +431,16 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .pk{grid-template-columns:340px minmax(0,1fr)}.pk .list button b{font-size:19px}.pk .list button span{font-size:16px}
   .demo h2{font-size:46px}.demo .txt p{font-size:20px}
 }
+
+/* traveler column: lock screen with notifications (decorative; the list beside it carries the content) */
+.tvw{display:grid;grid-template-columns:minmax(0,1fr) 190px;gap:18px;align-items:start}
+.lock{border:7px solid var(--g);border-radius:30px;padding:26px 0 10px;min-height:390px;background:linear-gradient(165deg,var(--g6),var(--g) 55%,var(--cu));box-shadow:var(--sh3)}
+.lock .tm{color:var(--wh);text-align:center;font:300 44px/1.1 var(--f-d)}
+.lock .dt{color:var(--wh);text-align:center;font-size:12.5px;margin:4px 0 16px}
+.lock .nt{background:rgb(255 255 255 / .95);border-radius:13px;padding:8px 10px;margin:0 8px 7px;box-shadow:0 4px 14px rgb(0 0 0 / .12);font-size:12px;line-height:1.35;color:var(--in)}
+.lock .nh{display:flex;justify-content:space-between;gap:6px;color:var(--mu);font-size:10.5px}
+.lock .nt b{display:block;font-size:13px}
+.lock.anim .nt{opacity:0;transform:translateY(-12px);transition:opacity .45s ease,transform .45s ease}
+.lock.anim.go .nt{opacity:1;transform:none}
+.lock.anim.go .nt:nth-of-type(2){transition-delay:.5s}.lock.anim.go .nt:nth-of-type(3){transition-delay:1s}
+@media (max-width:860px){.tvw{grid-template-columns:1fr}.lock{order:-1;width:200px;min-height:0;margin:0 auto 8px}}

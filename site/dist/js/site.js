@@ -175,4 +175,10 @@
         .catch(function(){ err.hidden=false; err.textContent=T.failed; if(btn){ btn.disabled=false; btn.textContent=btn.getAttribute('data-label')||btn.textContent; } });
     });
   }
+  /* lock screen notifications: drop in once when the section scrolls into view */
+  var locks=document.querySelectorAll('.lock');
+  if(locks.length && 'IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+    var lo=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('go'); lo.unobserve(e.target); } }); },{threshold:.4});
+    Array.prototype.forEach.call(locks,function(l){ l.classList.add('anim'); lo.observe(l); });
+  }
 })();
