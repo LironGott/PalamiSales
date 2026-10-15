@@ -54,6 +54,7 @@ a{color:var(--g)}
 .hdr nav a{color:var(--mu);text-decoration:none;font-weight:500;padding-block:6px;border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s}
 .hdr nav a:hover{color:var(--g)}
 .hdr nav a[aria-current]{color:var(--g);border-bottom-color:var(--g)}
+.menu{display:none}
 .lang{font:600 14px var(--f-m);color:var(--g);border:1px solid var(--ln);border-radius:9px;padding:6px 11px;background:var(--wh);cursor:pointer}
 
 /* hero */
@@ -252,7 +253,15 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   html{scroll-padding-top:64px}
   .hdr .in{min-height:60px;gap:12px}
   .hdr .logo img{height:28px}
-  .hdr nav{display:none}
+  .hdr nav{display:none;position:absolute;top:100%;right:0;left:0;flex-direction:column;gap:0;margin:0;background:var(--wh);border-bottom:1px solid var(--ln);box-shadow:0 14px 24px rgb(8 64 42 / .12);padding:4px 16px 10px}
+  .hdr.open nav{display:flex}
+  .hdr nav a{display:flex;align-items:center;min-height:52px;padding:0 4px;font-size:17px;color:var(--in);border-bottom:1px solid var(--ln)}
+  .hdr nav a:last-child{border-bottom:0}
+  .hdr nav a[aria-current]{color:var(--g);font-weight:700;border-bottom-color:var(--ln)}
+  .hdr nav a[aria-current]:last-child{border-bottom:0}
+  .hdr .menu{display:grid;place-items:center;width:44px;height:44px;border:1px solid var(--ln);border-radius:10px;background:var(--wh);color:var(--g);cursor:pointer}
+  .menu .i-close,.hdr.open .menu .i-open{display:none}
+  .hdr.open .menu .i-close{display:block}
   .hdr .lang{margin-inline-start:auto}
   .hdr .btn{display:none}
   .sec{padding-block:56px}
@@ -330,8 +339,9 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 <div dir="rtl" lang="he">
 <header class="hdr"><div class="in">
   <a class="logo" href="#top" aria-label="PALAMI, לראש העמוד"><img src="img/wordmark-tagline.svg" alt="PALAMI · כל פרטי הנסיעה בכף ידך"></a>
-  <nav aria-label="ניווט ראשי"><a href="#how">איך זה עובד</a><a href="#benefits">יתרונות</a><a href="#peek">הצצה למערכת</a></nav>
+  <nav id="mnav" aria-label="ניווט ראשי"><a href="#how">איך זה עובד</a><a href="#benefits">יתרונות</a><a href="#peek">הצצה למערכת</a></nav>
   <button class="lang" type="button" title="English (בקרוב)">EN</button>
+  <button class="menu" type="button" aria-label="תפריט" aria-expanded="false" aria-controls="mnav"><svg class="i-open" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><svg class="i-close" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
   <a class="btn sm" href="#demo">בקשת הדגמה</a>
 </div></header>
 
@@ -531,6 +541,12 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   var art=document.querySelector('.hero .art');
   function fitHv(){ var k=Math.min(1,art.clientWidth/480); art.style.setProperty('--k',k); art.style.height=(500*k)+'px'; }
   window.addEventListener('resize',fitHv); fitHv();
+
+  var hdr=document.querySelector('.hdr'), mb=hdr.querySelector('.menu');
+  function setMenu(o){ hdr.classList.toggle('open',o); mb.setAttribute('aria-expanded',String(o)); mb.setAttribute('aria-label',o?'סגירת התפריט':'תפריט'); }
+  mb.addEventListener('click',function(){ setMenu(!hdr.classList.contains('open')); });
+  hdr.querySelectorAll('nav a').forEach(function(a){ a.addEventListener('click',function(){ setMenu(false); }); });
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape' && hdr.classList.contains('open')){ setMenu(false); mb.focus(); } });
 
   var navA=[].slice.call(document.querySelectorAll('.hdr nav a[href^="#"]'));
   function setCur(id){ navA.forEach(function(a){ if(a.getAttribute('href')==='#'+id) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current'); }); }
