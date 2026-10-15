@@ -5,6 +5,14 @@ Files in this folder:
 - `palami-linkedin-banner-1128x191.png` (Hebrew cover image; `@2x` is the same at double size, sharper on large screens)
 - `palami-linkedin-banner-en-1128x191.png` (English cover image; `@2x` at double size)
 - `palami-linkedin-banner-brand-he-1128x191.png` / `-brand-en-` (brand-level cover: "כל פרטי הנסיעה בכף ידך", traveler phones; fits agencies and a future consumer offering. Recommended cover)
+- `palami-linkedin-personal-banner-1584x396.png` (`@2x`): cover for the founder's personal profile (source `src/personal-banner.html`, render with `node src/shot.js`)
+- `posts/`: post images (trip documents, dashboard, traveler app, calendar)
+- `kit.html`: the full kit page (decisions, company page, personal profile, 7 ready posts, rules). Published at https://claude.ai/artifact/6wQWYtrBzZTD8bczyNsw8V. The post texts and personal-profile texts live there.
+
+## Decisions (recommended 2026-10-15)
+- Language: Hebrew first. Company About in Hebrew with a short English paragraph below; posts in Hebrew; English only for international milestones (AWS, funding, partners).
+- Positioning: two layers. Brand layer (name, logo, slogan, brand cover) stays neutral between agencies and future private travelers. Message layer (tagline, About opening, posts) targets agencies now; swap it when opening to everyone. Never write "only for agencies" or "free perk for travelers". Keep repeating "under the agency's brand" / "the relationship stays between the agent and the client" (agent trust).
+- Links from LinkedIn use https://www.palami.io/?utm_source=linkedin&utm_medium=social (the demo form records the source).
 
 ## Page details
 - Name: PALAMI
@@ -12,7 +20,7 @@ Files in this folder:
 - Industry: Software Development
 - Company size: 2–10 employees
 - Company type: Privately Held
-- Tagline (HE): העוזר האישי של סוכן הנסיעות
+- Tagline (HE): העוזר האישי של סוכן הנסיעות. כל מסמכי הנסיעה מסודרים אוטומטית ובכף היד של הנוסע.
 - Tagline (EN): The travel agent’s personal assistant
 
 ## About (Hebrew)
@@ -63,7 +71,7 @@ Image: `palami-linkedin-launch-post-he-1200.png` (EN: `-en-`), 1200×1200.
 Hebrew:
 עלינו לאוויר! 🚀
 
-כל מי שעובד בתיירות מכיר את זה: אישור הטיסה במייל, השובר של המלון ב־WhatsApp, פוליסת הביטוח אצל אחד מבני הזוג ושאלות מהנוסעים גם באמצע הלילה.
+בתיירות כולם מכירים את זה: אישור הטיסה במייל, השובר של המלון ב־WhatsApp, פוליסת הביטוח אצל אחד מבני הזוג ושאלות מהנוסעים גם באמצע הלילה.
 
 בנינו את PALAMI, העוזר האישי של סוכן הנסיעות:
 ✔️ גוררים את מסמכי הנסיעה לתיק ומערכת AI מתייקת אותם לבד

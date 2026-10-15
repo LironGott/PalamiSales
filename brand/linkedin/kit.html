@@ -1,0 +1,388 @@
+<title>PALAMI בלינקדאין</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;500;600;700&family=Rubik:wght@600;700;800&display=swap">
+<style>
+/* Layout: one reading column (RTL), sections as plain bands; copyable texts sit in cream "paste boxes" with a copy button */
+:root{
+  --bg:#FEFEFC; --surface:#FFFFFF; --cream:#FBF3E3; --line:#E3E8E4;
+  --fg:#1E2B24; --muted:#5E6862; --green:#08402A; --copper:#A85C28;
+  --sage:#33704F; --sage-bg:#E6F0EA; --honey:#8A5F00; --honey-bg:#FBF1D6;
+  --btn-fg:#FFFFFF;
+  --display:"Rubik","Assistant",system-ui,sans-serif;
+  --body:"Assistant",system-ui,"Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#111814; --surface:#18211C; --cream:#222A23; --line:#2C3830;
+  --fg:#E8EEEA; --muted:#A3B0A8; --green:#74B590; --copper:#D4884A;
+  --sage:#8CC7A5; --sage-bg:#1E3127; --honey:#E2B84E; --honey-bg:#33290F;
+  --btn-fg:#0E1A14; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#111814; --surface:#18211C; --cream:#222A23; --line:#2C3830;
+  --fg:#E8EEEA; --muted:#A3B0A8; --green:#74B590; --copper:#D4884A;
+  --sage:#8CC7A5; --sage-bg:#1E3127; --honey:#E2B84E; --honey-bg:#33290F;
+  --btn-fg:#0E1A14; color-scheme:dark}
+html{direction:rtl}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:760px;margin:0 auto;padding-block:40px 72px;display:flex;flex-direction:column;gap:56px}
+h1,h2,h3{font-family:var(--display);line-height:1.2;text-wrap:balance;margin:0;color:var(--green)}
+h1{font-size:clamp(32px,6vw,44px);font-weight:800}
+h1 span{color:var(--copper)}
+h2{font-size:28px;font-weight:700}
+h3{font-size:20px;font-weight:600;color:var(--fg)}
+p{margin:0}
+.lead{font-size:19px;color:var(--muted);max-width:62ch}
+header{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--copper)}
+nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
+nav a{font-weight:600;font-size:15px;color:var(--green);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:8px 14px;min-height:44px;display:inline-flex;align-items:center}
+nav a:hover{background:var(--cream)}
+section{display:flex;flex-direction:column;gap:20px}
+.block{display:flex;flex-direction:column;gap:10px}
+.answer{border-inline-start:4px solid var(--green);padding:4px 16px 4px 0;display:flex;flex-direction:column;gap:10px}
+.verdict{font-family:var(--display);font-weight:700;font-size:21px;color:var(--fg)}
+ul,ol{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:6px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:14px;direction:ltr;unicode-bidi:isolate}
+.tag{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:700;border-radius:999px;padding:2px 10px}
+.tag.ok{background:var(--sage-bg);color:var(--sage)}
+.tag.warn{background:var(--honey-bg);color:var(--honey)}
+table{border-collapse:collapse;width:100%;font-size:16px}
+.tbl{overflow-x:auto}
+td,th{text-align:start;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);width:34%}
+.paste{background:var(--cream);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:10px}
+.paste-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.paste-head b{font-size:15px;color:var(--muted);font-weight:600}
+.paste pre{margin:0;white-space:pre-wrap;word-break:break-word;font-family:var(--body);font-size:17px;line-height:1.65;color:var(--fg)}
+.paste pre[dir="ltr"]{text-align:left}
+button.copy{font-family:var(--body);font-weight:700;font-size:15px;background:var(--green);color:var(--btn-fg);border:0;border-radius:10px;padding:0 16px;min-height:44px;cursor:pointer}
+button.copy:focus-visible,nav a:focus-visible{outline:3px solid var(--copper);outline-offset:2px}
+button.copy.done{background:var(--sage)}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figure img{width:100%;height:auto;border-radius:10px;border:1px solid var(--line);background:#fff}
+figure.sq img{max-width:420px}
+figcaption{font-size:15px;color:var(--muted)}
+.post{display:flex;flex-direction:column;gap:12px;padding-top:24px;border-top:1px solid var(--line)}
+.post-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:15px;color:var(--muted)}
+.when{font-weight:700;color:var(--copper)}
+.note{font-size:15px;color:var(--muted)}
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.plan div{border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.plan b{font-family:var(--display);color:var(--green)}
+footer{font-size:15px;color:var(--muted);border-top:1px solid var(--line);padding-top:20px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">ערכת לינקדאין · אוקטובר 2026</div>
+  <h1>PALAMI <span>בלינקדאין</span></h1>
+  <p class="lead">כל מה שצריך לעמוד החברה, לפרופיל האישי ולחודש הראשון של פוסטים. כל טקסט מוכן להעתקה; לשמירת תמונה בטלפון: לחיצה ארוכה על התמונה.</p>
+  <nav aria-label="ניווט">
+    <a href="#decisions">שתי ההחלטות</a>
+    <a href="#company">עמוד החברה</a>
+    <a href="#personal">הפרופיל שלך</a>
+    <a href="#posts">פוסטים</a>
+    <a href="#rules">כללים</a>
+  </nav>
+</header>
+
+<!-- ============ DECISIONS ============ -->
+<section id="decisions">
+  <h2>שתי ההחלטות</h2>
+
+  <div class="answer">
+    <h3>עברית או אנגלית?</h3>
+    <p class="verdict">עברית. אנגלית רק כשכבה שנייה.</p>
+    <ul>
+      <li>הקונים הם בעלי סוכנויות וסוכנים בישראל. פוסט בעברית נקרא אצלם כפנייה אישית; פוסט באנגלית נקרא כמו חברה מחו״ל.</li>
+      <li><b>עמוד החברה:</b> ה־About בעברית ומתחתיו פסקה קצרה באנגלית. זה משרת את AWS Activate, משקיעים ושותפים בלי לוותר על השוק המקומי.</li>
+      <li><b>פוסטים:</b> בעברית. פוסט באנגלית רק לאבני דרך שמעניינות קהל בינלאומי (קבלה ל־AWS Activate, גיוס, שותפות).</li>
+      <li><b>הפרופיל האישי:</b> כותרת ו־About בעברית; אפשר להוסיף פרופיל משני באנגלית (הוספת שפה בפרופיל).</li>
+    </ul>
+  </div>
+
+  <div class="answer">
+    <h3>"העוזר האישי של סוכן הנסיעות" או מסר כללי?</h3>
+    <p class="verdict">שתי שכבות: מותג כללי, מסר ממוקד בסוכנים.</p>
+    <ul>
+      <li><b>השכבה הקבועה</b> (שם, לוגו, סלוגן "כל פרטי הנסיעה בכף ידך", תמונת הכיסוי עם הטלפונים): ניטרלית. מתאימה לסוכנויות היום ולנוסעים פרטיים מחר, ולא צריך לגעת בה כשנפתח לכולם.</li>
+      <li><b>השכבה המשתנה</b> (Tagline, הפסקה הראשונה ב־About ופוסטים): מדברת לסוכנים, כי הם הקונים עכשיו. מסר ממוקד מוכר יותר ממסר כללי, ובלינקדאין הקהל שלנו הוא בדיוק הסוכנים.</li>
+      <li>כשנפתח לכולם מחליפים Tagline ושורה ב־About בחמש דקות. הפוסטים הישנים נשארים נכונים, כי הם מתארים מה הסוכנות מקבלת.</li>
+      <li><b>מה לא לכתוב כבר עכשיו:</b> "רק לסוכנויות", "בלעדי לסוכנים" או "הטבה בחינם לנוסעים". אלה הניסוחים היחידים שיסתרו הצעה לנוסעים פרטיים בהמשך.</li>
+      <li><b>הנקודה הרגישה באמת</b> היא לא לינקדאין אלא אמון הסוכנים: סוכן ישאל אם PALAMI תעקוף אותו מול הלקוח. לכן כבר עכשיו חוזרים על "במיתוג של הסוכנות שלכם" ו"הקשר נשאר בין הסוכן ללקוח". כשתיפתח גרסה לנוסעים פרטיים, היא תוצג כ"לנוסעים שמזמינים לבד".</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ COMPANY PAGE ============ -->
+<section id="company">
+  <h2>עמוד החברה</h2>
+
+  <div class="block">
+    <h3>הקמה, צעד אחר צעד</h3>
+    <ol>
+      <li>לינקדאין › For Business › Create a Company Page › Company.</li>
+      <li>למלא את השדות מהטבלה למטה ולהעלות את הלוגו.</li>
+      <li>Edit page › Header: להעלות את תמונת הכיסוי.</li>
+      <li>Edit page › Overview: להדביק את ה־About (עברית ואחריה אנגלית).</li>
+      <li>Edit page › Buttons: כפתור <span class="ltr">Visit website</span> עם הקישור עם התיוג (למטה), כדי שפניות מטופס ההדגמה יסומנו כמגיעות מלינקדאין.</li>
+      <li>בפרופיל האישי: Experience › להוסיף תפקיד ב־PALAMI ולבחור את העמוד, כדי שהלוגו יופיע.</li>
+      <li>להזמין אנשי קשר לעקוב אחרי העמוד (Invite to follow) ולפרסם את פוסט ההשקה.</li>
+    </ol>
+  </div>
+
+  <div class="tbl"><table>
+    <tr><th>שם</th><td class="ltr">PALAMI</td></tr>
+    <tr><th>כתובת העמוד</th><td><span class="mono">linkedin.com/company/palami</span> <span class="note">(אם תפוסה: palami-io)</span></td></tr>
+    <tr><th>אתר</th><td><span class="mono">https://www.palami.io</span></td></tr>
+    <tr><th>קישור לכפתור ולפוסטים</th><td><span class="mono">https://www.palami.io/?utm_source=linkedin&amp;utm_medium=social</span></td></tr>
+    <tr><th>תעשייה</th><td class="ltr" style="text-align:right">Software Development</td></tr>
+    <tr><th>גודל החברה</th><td><span class="ltr">2–10</span></td></tr>
+    <tr><th>סוג</th><td class="ltr" style="text-align:right">Privately Held</td></tr>
+    <tr><th>מיקום</th><td>ישראל</td></tr>
+  </table></div>
+
+  <div class="paste"><div class="paste-head"><b>Tagline (עד 120 תווים)</b><button class="copy" type="button">העתקה</button></div>
+<pre>העוזר האישי של סוכן הנסיעות. כל מסמכי הנסיעה מסודרים אוטומטית ובכף היד של הנוסע.</pre></div>
+
+  <figure class="sq"><img src="palami-linkedin-logo-400.png" alt="לוגו PALAMI עם הבונה, 400 על 400" width="400" height="400" loading="lazy">
+    <figcaption>לוגו, <span class="ltr">400×400</span>. בקובץ <span class="ltr">-800</span> יש גרסה כפולה.</figcaption></figure>
+
+  <figure><img src="palami-linkedin-banner-brand-he-1128x191@2x.png" alt="תמונת כיסוי: כל פרטי הנסיעה בכף ידך, שלושה טלפונים" loading="lazy">
+    <figcaption><span class="tag ok">✓ מומלץ</span> כיסוי לעמוד החברה, <span class="ltr">1128×191</span>. ניטרלי בין סוכנויות לנוסעים פרטיים, לא צריך להחליף כשנפתח לכולם.</figcaption></figure>
+  <figure><img src="palami-linkedin-banner-1128x191@2x.png" alt="תמונת כיסוי: העוזר האישי של סוכן הנסיעות, לוח הבקרה וטלפון" loading="lazy">
+    <figcaption>חלופה ממוקדת סוכנים (לוח הבקרה ליד הטלפון). מתאימה לחודשים הראשונים אם רוצים שהעמוד יצעק "מערכת לסוכנות".</figcaption></figure>
+
+  <div class="paste"><div class="paste-head"><b>About בעברית (ראשון)</b><button class="copy" type="button">העתקה</button></div>
+<pre>PALAMI היא העוזר האישי של סוכן הנסיעות.
+
+מסמכי נסיעה מפוזרים בכל מקום: חלק במייל, חלק ב־WhatsApp, חלק אצל הסוכן וחלק אצל כל אחד מבני הזוג. PALAMI נולדה כדי לעשות בזה סדר.
+
+איך זה עובד:
+• הסוכן גורר את מסמכי הנסיעה לתיק: אישורי טיסה, שוברים, כרטיסים ופוליסות ביטוח.
+• מערכת AI מזהה כל מסמך, מחלצת ממנו את המידע, נותנת לו שם ברור ומכניסה אותו ללו״ז.
+• הנוסע מקבל קישור אחד לאפליקציה אישית במיתוג הסוכנות, בלי הורדה: מסמכים, לו״ז, מידע ליעד, חירום וצ'אט ישיר עם הסוכן, גם בלי אינטרנט.
+
+מה הסוכנות מקבלת:
+• כל הנסיעות במבט אחד: מה דחוף היום, מה חסר בכל תיק ומה מוכן לפרסום.
+• יומן של כל ההמראות והנחיתות ועבודת צוות גם בחופשה.
+• תזכורות ועדכונים לנוסעים בזמן שקבעתם ופחות שאלות חוזרות.
+• קשר עם הלקוח לפני הנסיעה, במהלכה ואחרי החזרה.
+
+ראש שקט לסוכן. נסיעה מסודרת לנוסע.
+
+לתיאום הדגמה: www.palami.io</pre></div>
+
+  <div class="paste"><div class="paste-head"><b>פסקה באנגלית (להדביק מתחת לעברית)</b><button class="copy" type="button">העתקה</button></div>
+<pre dir="ltr">PALAMI is the travel agent’s personal assistant. Agents drag trip documents into a trip file; an AI engine recognizes each document, extracts the details, names it and places it in the schedule. The agency sees what’s urgent and what’s missing in every trip, and travelers get one link with every trip detail on their phone, under the agency’s brand, even offline. Built in Israel for Israeli travel agencies. www.palami.io</pre></div>
+  <p class="note">הגרסה האנגלית המלאה (לשימוש בטפסים, AWS ומשקיעים) נמצאת בקובץ <span class="mono">brand/linkedin/about.md</span>.</p>
+</section>
+
+<!-- ============ PERSONAL ============ -->
+<section id="personal">
+  <h2>הפרופיל האישי שלך</h2>
+  <p>בלינקדאין פוסט מפרופיל אישי מגיע להרבה יותר אנשים מפוסט של עמוד חברה. העמוד הוא כרטיס הביקור; הפרופיל שלך הוא מה שיביא את הסוכנים.</p>
+
+  <figure><img src="palami-linkedin-personal-banner-1584x396@2x.png" alt="תמונת כיסוי לפרופיל אישי: כל פרטי הנסיעה בכף ידך" loading="lazy">
+    <figcaption><span class="tag ok">✓ חדש</span> כיסוי לפרופיל האישי, <span class="ltr">1584×396</span>. הטקסט בחלק העליון כדי שתמונת הפרופיל לא תסתיר אותו.</figcaption></figure>
+
+  <div class="paste"><div class="paste-head"><b>כותרת (Headline)</b><button class="copy" type="button">העתקה</button></div>
+<pre>Founder, PALAMI | העוזר האישי של סוכן הנסיעות | כל מסמכי הנסיעה מסודרים אוטומטית ובכף היד של הנוסע</pre></div>
+
+  <div class="paste"><div class="paste-head"><b>About אישי</b><button class="copy" type="button">העתקה</button></div>
+<pre>הקמתי את PALAMI כדי לעשות סדר במסמכי הנסיעה.
+
+היום המסמכים של כל נסיעה מפוזרים: חלק במייל, חלק ב־WhatsApp, חלק אצל הסוכן וחלק אצל הנוסעים. הסוכן מחפש, מקליד ועונה שוב ושוב על אותן שאלות והנוסע מחפש את השובר הנכון ברגע הכי פחות נוח.
+
+ב־PALAMI הסוכן רק גורר את המסמכים לתיק. מערכת AI מזהה כל מסמך, מתייקת אותו ומכניסה אותו ללו״ז והסוכנות רואה בכל רגע מה דחוף ומה חסר בכל תיק. הנוסע מקבל קישור אחד עם כל פרטי הנסיעה, במיתוג של הסוכנות. הקשר נשאר בין הסוכן ללקוח.
+
+סוכנויות שרוצות לראות איך זה עובד אצלן מוזמנות לתאם הדגמה: www.palami.io</pre></div>
+
+  <div class="block">
+    <h3>עוד בפרופיל</h3>
+    <ul>
+      <li><b>Experience:</b> Founder · PALAMI · מ־2026 (לבחור את עמוד החברה מהרשימה).</li>
+      <li><b>Featured:</b> קישור לאתר ופוסט ההשקה.</li>
+      <li><b>Open to › Providing services:</b> אפשר לדלג. זה נראה כמו פרילנס ולא כמו מוצר.</li>
+    </ul>
+  </div>
+
+  <div class="paste"><div class="paste-head"><b>הודעה לבעלי סוכנויות (אחרי חיבור)</b><button class="copy" type="button">העתקה</button></div>
+<pre>היי [שם], תודה על החיבור.
+אני מ־PALAMI, מערכת שמסדרת לסוכנויות את מסמכי הנסיעה: גוררים את המסמכים לתיק, AI מתייק הכל והנוסע מקבל את כל פרטי הנסיעה בטלפון, במיתוג של הסוכנות.
+אם מעניין, אשמח להראות ב־20 דקות איך זה נראה על נסיעה אמיתית שלכם. ואם לא, הכל טוב 🙂</pre></div>
+  <p class="note">חיבור ראשון בלי הודעת מכירה. את ההודעה שולחים רק אחרי שהחיבור אושר, ולא יותר מתזכורת אחת.</p>
+</section>
+
+<!-- ============ POSTS ============ -->
+<section id="posts">
+  <h2>החודש הראשון: שבעה פוסטים</h2>
+  <p>שניים בשבוע זה קצב שאפשר להחזיק. פוסטים אישיים (מהפרופיל שלך) והעמוד משתף אותם; פוסטים על המוצר מהעמוד ומשתפים אותם מהפרופיל עם משפט אישי. בקישורים כדאי להשתמש בכתובת עם התיוג.</p>
+
+  <div class="plan">
+    <div><b>שבוע 1</b><span>השקה · הסיפור</span></div>
+    <div><b>שבוע 2</b><span>איך זה עובד · סקר</span></div>
+    <div><b>שבוע 3</b><span>לוח הבקרה · הנוסע</span></div>
+    <div><b>שבוע 4</b><span>יומן ועבודת צוות</span></div>
+  </div>
+
+  <article class="post">
+    <h3>1. עלינו לאוויר</h3>
+    <div class="post-meta"><span class="when">שבוע 1</span> · מעמוד החברה ומשתפים מהפרופיל</div>
+    <figure class="sq"><img src="palami-linkedin-launch-post-he-1200.png" alt="תמונת השקה: העוזר האישי של סוכן הנסיעות" loading="lazy"></figure>
+    <div class="paste"><div class="paste-head"><b>טקסט</b><button class="copy" type="button">העתקה</button></div>
+<pre>עלינו לאוויר! 🚀
+
+בתיירות כולם מכירים את זה: אישור הטיסה במייל, השובר של המלון ב־WhatsApp, פוליסת הביטוח אצל אחד מבני הזוג ושאלות מהנוסעים גם באמצע הלילה.
+
+בנינו את PALAMI, העוזר האישי של סוכן הנסיעות:
+✔️ גוררים את מסמכי הנסיעה לתיק ומערכת AI מתייקת אותם לבד
+✔️ רואים בכל רגע מה דחוף ומה חסר בכל תיק
+✔️ הנוסע מקבל את כל פרטי הנסיעה בטלפון, במיתוג של הסוכנות וגם בלי אינטרנט
+
+ראש שקט לסוכן. נסיעה מסודרת לנוסע.
+
+סוכנויות שרוצות לראות איך זה עובד אצלן מוזמנות לתאם הדגמה: https://www.palami.io/?utm_source=linkedin&utm_medium=social
+
+#תיירות #סוכנינסיעות #TravelTech</pre></div>
+  </article>
+
+  <article class="post">
+    <h3>2. איך נולדה PALAMI</h3>
+    <div class="post-meta"><span class="when">שבוע 1</span> · מהפרופיל שלך, בלי תמונה או עם תמונה אישית</div>
+    <div class="paste"><div class="paste-head"><b>טקסט</b><button class="copy" type="button">העתקה</button></div>
+<pre>איך נולדה PALAMI?
+
+בכל נסיעה חזרה אותה תמונה: אישור הטיסה במייל, השובר של המלון ב־WhatsApp, הביטוח אצל אחד מבני הזוג ושאר המסמכים אצל הסוכן.
+ובאמצע הנסיעה, כשצריך משהו דחוף, מתחיל החיפוש.
+
+רציתי שכל זה יהיה במקום אחד. גם לסוכן וגם לנוסע.
+
+ככה נולדה PALAMI: הסוכן גורר את המסמכים לתיק, מערכת AI מזהה כל מסמך ומתייקת אותו והנוסע מקבל את כל פרטי הנסיעה בכף היד.
+
+ומה אצלכם בסוכנות: איפה מסמכים "הולכים לאיבוד" הכי הרבה?</pre></div>
+    <p class="note"><span class="tag warn">! להתאים</span> כדאי להחליף את הפתיחה בסיפור אישי אמיתי: נסיעה מסוימת, רגע מסוים. סיפור אמיתי עובד יותר טוב מכל ניסוח.</p>
+  </article>
+
+  <article class="post">
+    <h3>3. מה קורה כשגוררים מסמך</h3>
+    <div class="post-meta"><span class="when">שבוע 2</span> · מעמוד החברה</div>
+    <figure><img src="posts/post-trip-documents.png" alt="מסך מסמכי התיק במערכת הסוכנות" loading="lazy"></figure>
+    <div class="paste"><div class="paste-head"><b>טקסט</b><button class="copy" type="button">העתקה</button></div>
+<pre>מה קורה כשסוכן גורר מסמך לתיק ב־PALAMI?
+
+1. מערכת AI מזהה מה זה: טיסה, מלון, רכב, ביטוח או כרטיס.
+2. הפרטים נשלפים לבד: תאריכים, שעות ומספרי הזמנה. הקובץ מקבל שם ברור.
+3. האירוע נכנס ללו״ז של הנסיעה, בשעון של היעד.
+
+ומה אם המערכת לא בטוחה בפרט מסוים? הוא עובר ל"לטיפול" והסוכן מאשר בלחיצה. אם מגיע עדכון לטיסה קיימת, רואים לפני ואחרי ומאשרים.
+כל השאר קורה לבד.
+
+תיק מסודר, בלי הקלדה ובלי לחפש קבצים.
+https://www.palami.io/?utm_source=linkedin&utm_medium=social
+
+#סוכנינסיעות #תיירות #AI</pre></div>
+  </article>
+
+  <article class="post">
+    <h3>4. סקר: מה הנוסעים שואלים</h3>
+    <div class="post-meta"><span class="when">שבוע 2</span> · מהפרופיל שלך, כסקר (Poll) לשבוע</div>
+    <div class="paste"><div class="paste-head"><b>שאלה ותשובות</b><button class="copy" type="button">העתקה</button></div>
+<pre>על מה נוסעים הכי הרבה שואלים את הסוכנות במהלך הנסיעה?
+
+• איפה השובר / המסמך
+• מתי להגיע לשדה
+• שינויים בטיסה
+• משהו אחר (בתגובות)</pre></div>
+    <p class="note">סקר מביא תגובות מסוכנים, והתגובות הן חומר לפוסטים הבאים ופתח לשיחה אישית.</p>
+  </article>
+
+  <article class="post">
+    <h3>5. בוקר בסוכנות</h3>
+    <div class="post-meta"><span class="when">שבוע 3</span> · מעמוד החברה</div>
+    <figure><img src="posts/post-dashboard.png" alt="לוח הבקרה של הסוכנות" loading="lazy"></figure>
+    <div class="paste"><div class="paste-head"><b>טקסט</b><button class="copy" type="button">העתקה</button></div>
+<pre>בוקר. נכנסים ל־PALAMI ורואים מיד:
+
+• מה דחוף היום
+• באיזה תיק חסר ביטוח או כרטיס
+• מה מוכן לפרסום לנוסע
+• אילו תיקים כבר פורסמו
+
+בלי לפתוח תיק אחרי תיק ובלי רשימות בצד.
+ככה נראה ראש שקט בסוכנות.
+
+https://www.palami.io/?utm_source=linkedin&utm_medium=social
+#סוכנינסיעות #תיירות</pre></div>
+  </article>
+
+  <article class="post">
+    <h3>6. מה הנוסע רואה</h3>
+    <div class="post-meta"><span class="when">שבוע 3</span> · מעמוד החברה</div>
+    <figure class="sq"><img src="posts/post-traveler-app.png" alt="שלושה מסכים מאפליקציית הנוסע: לו״ז, בית ומסמכים" loading="lazy"></figure>
+    <div class="paste"><div class="paste-head"><b>טקסט</b><button class="copy" type="button">העתקה</button></div>
+<pre>מה הנוסע שלכם רואה?
+
+קישור אחד, בלי להוריד אפליקציה. בפנים:
+• לו״ז של כל הנסיעה, בשעון של היעד
+• כל המסמכים במקום אחד, גם בלי אינטרנט
+• מידע ליעד וכפתור חירום
+• צ'אט ישיר עם הסוכן
+
+והכל במיתוג של הסוכנות שלכם. הלקוח זוכר מי סידר לו את הנסיעה.
+
+כל פרטי הנסיעה בכף ידך.
+https://www.palami.io/?utm_source=linkedin&utm_medium=social</pre></div>
+    <p class="note"><span class="tag warn">! זמינות</span> האפליקציה לנוסע עדיין בפיתוח. לא לכתוב תאריך זמינות ולא "זמין עכשיו להורדה".</p>
+  </article>
+
+  <article class="post">
+    <h3>7. עבודת צוות, גם בחופשה</h3>
+    <div class="post-meta"><span class="when">שבוע 4</span> · מעמוד החברה</div>
+    <figure><img src="posts/post-calendar.png" alt="היומן של הסוכנות: המראות ונחיתות בחודש" loading="lazy"></figure>
+    <div class="paste"><div class="paste-head"><b>טקסט</b><button class="copy" type="button">העתקה</button></div>
+<pre>סוכן יוצא לחופשה. מה קורה עם הנוסעים שלו?
+
+ב־PALAMI מעבירים תיקים לסוכן אחר לתקופה מוגדרת: החלפה מלאה (כולל ההתראות) או שיתוף מידע לצפייה בלבד.
+יוצאים לחופשה ארוכה? תוכנית כיסוי מחלקת את הנסיעות הפעילות בין כמה מחליפים.
+
+וביומן של הסוכנות רואים את כל ההמראות והנחיתות בחודש או בשבוע, עם סינון לפי סוכן.
+
+עבודת צוות, גם בחופשה.
+https://www.palami.io/?utm_source=linkedin&utm_medium=social
+#סוכנינסיעות #תיירות</pre></div>
+  </article>
+</section>
+
+<!-- ============ RULES ============ -->
+<section id="rules">
+  <h2>כללים לכל פוסט</h2>
+  <ul>
+    <li><b>לא לכתוב:</b> "מערכת לניהול נסיעות" או CRM, דוחות, מספרים שלא נמדדו ("חוסך 5 שעות בשבוע"), תאריך זמינות לאפליקציית הנוסע, "בלעדי לסוכנויות".</li>
+    <li><b>לחזור על:</b> "גוררים מסמכים", "במיתוג של הסוכנות", "מה חסר בכל תיק", "ראש שקט לסוכן".</li>
+    <li>"מסמכים" ולא "הזמנות" או "אישורים". "הכל" בלי ו׳. בלי פסיק לפני ו׳ החיבור.</li>
+    <li>ניסוח ניטרלי מגדרית ("אפשר", "כדאי", פנייה ל"סוכנות" ולא ל"סוכן").</li>
+    <li>תמונה בכל פוסט מוצר; עד שלושה האשטגים; הקישור בגוף הפוסט.</li>
+    <li>מגיבים לכל תגובה בשעה הראשונה. זה מה שמגדיל את החשיפה.</li>
+  </ul>
+</section>
+
+<footer>
+  כל הקבצים במאגר, בתיקייה <span class="mono">brand/linkedin/</span>: לוגו, כיסויים, תמונות פוסטים (<span class="mono">posts/</span>) והטקסטים המלאים ב־<span class="mono">about.md</span>.
+</footer>
+</div>
+
+<script>
+document.querySelectorAll('button.copy').forEach(function(btn){
+  btn.addEventListener('click',function(){
+    var pre=btn.closest('.paste').querySelector('pre');
+    var text=pre.innerText;
+    function ok(){btn.textContent='הועתק ✓';btn.classList.add('done');setTimeout(function(){btn.textContent='העתקה';btn.classList.remove('done');},1800);}
+    function fallback(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='מסומן, להעתיק';}
+    try{navigator.clipboard.writeText(text).then(ok,fallback);}catch(e){fallback();}
+  });
+});
+</script>
