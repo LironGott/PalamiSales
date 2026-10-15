@@ -112,19 +112,13 @@
     list.addEventListener('click',function(e){ var b=e.target.closest('[data-i]'); if(!b) return; idx=+b.getAttribute('data-i'); render();
       var cur=list.querySelector('[data-i="'+idx+'"]'); if(cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'}); });
     render();
-    /* mobile: one scrollable row; fade + arrow show there are more screens */
-    var wrap=list.parentNode, more=wrap.querySelector('.more'), rtl=root.getAttribute('dir')==='rtl';
-    if(more){
-      more.textContent=rtl?'←':'→';
-      var edges=function(){ var max=list.scrollWidth-list.clientWidth, pos=Math.abs(list.scrollLeft);
-        var scrolls=max>4; wrap.classList.toggle('scrolls',scrolls);
-        wrap.classList.toggle('at-start',pos<4); wrap.classList.toggle('at-end',pos>max-4);
-        more.hidden=!scrolls || pos>max-4; };
-      list.addEventListener('scroll',edges,{passive:true}); window.addEventListener('resize',edges);
-      document.querySelectorAll('[data-side]').forEach(function(b){ b.addEventListener('click',function(){ list.scrollLeft=0; edges(); }); });
-      more.addEventListener('click',function(){ list.scrollBy({left:(rtl?-1:1)*list.clientWidth*0.6,behavior:'smooth'}); });
-      edges();
-    }
+    /* mobile: one scrollable row; a fade at the edge shows there are more screens */
+    var wrap=list.parentNode;
+    var edges=function(){ var max=list.scrollWidth-list.clientWidth, pos=Math.abs(list.scrollLeft);
+      wrap.classList.toggle('scrolls',max>4); wrap.classList.toggle('at-start',pos<4); wrap.classList.toggle('at-end',pos>max-4); };
+    list.addEventListener('scroll',edges,{passive:true}); window.addEventListener('resize',edges);
+    document.querySelectorAll('[data-side]').forEach(function(b){ b.addEventListener('click',function(){ list.scrollLeft=0; edges(); }); });
+    edges();
   }
 
   /* hero visual: clicking the agent screen or the phone opens that side in the product peek */
