@@ -51,8 +51,9 @@ a{color:var(--g)}
 .hdr .in{display:flex;align-items:center;gap:26px;min-height:72px}
 .hdr .logo img{height:36px;width:auto}
 .hdr nav{display:flex;gap:24px;margin-inline-start:auto}
-.hdr nav a{color:var(--mu);text-decoration:none;font-weight:500}
+.hdr nav a{color:var(--mu);text-decoration:none;font-weight:500;padding-block:6px;border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s}
 .hdr nav a:hover{color:var(--g)}
+.hdr nav a[aria-current]{color:var(--g);border-bottom-color:var(--g)}
 .lang{font:600 14px var(--f-m);color:var(--g);border:1px solid var(--ln);border-radius:9px;padding:6px 11px;background:var(--wh);cursor:pointer}
 
 /* hero */
@@ -132,7 +133,13 @@ a{color:var(--g)}
 .bi summary::-webkit-details-marker{display:none}
 .col.trav .bi .ic{background:var(--wh)}
 .bi h4{font-size:18px;font-weight:700;color:var(--in)}
-.bi p{padding-inline-start:62px;margin-top:-6px;font-size:15.5px;color:var(--mu);line-height:1.5}
+.bi p{font-size:15.5px;color:var(--mu);line-height:1.45}
+@media (min-width:861px){
+  .bi{position:relative;padding-inline-start:62px;min-height:48px}
+  .bi .ic{position:absolute;inset-inline-start:0;top:0}
+  .bi h4{padding-top:2px;line-height:1.3}
+  .bi p{margin-top:2px}
+}
 .agbar{margin-top:22px;display:flex;gap:16px;align-items:center;background:var(--g05);border-radius:20px;padding:18px 22px}
 .agbar img{width:56px;height:56px;flex:none}
 .agbar b{font:700 19px var(--f-d);color:var(--g)}
@@ -219,7 +226,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .bi[open] summary::after{content:"–"}
   .bi .ic{width:40px;height:40px;border-radius:12px}
   .bi h4{font-size:16.5px}
-  .bi p{padding:6px 2px 4px 0;margin:0;font-size:15px}
+  .bi p{padding:0 2px 4px 0;margin:-2px 0 0;font-size:15px}
   .col{padding:20px;border-radius:22px}
   .col .ch h3{font-size:23px}
   .pk{grid-template-columns:1fr;gap:14px}
@@ -368,11 +375,11 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     <div class="cols">
       <div class="col agency">
         <div class="ch"><span class="k">לסוכן ולמנהל הסוכנות</span><h3>שליטה מלאה, בלי לזכור הכול בראש</h3></div>
-        <div class="bl"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>כל הנסיעות במבט אחד</h4></summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>יומן ההמראות והנחיתות</h4></summary><p>כל הטיסות של הסוכנות בתצוגה חודשית או שבועית. רואים במבט מי טס היום ומי נוחת מחר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>התראות שזוכרות בשבילכם</h4></summary><p>קובעים פעם אחת מתי אתם והנוסעים מקבלים תזכורת.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-check"/></svg></span><h4>שום שינוי בלי האישור שלכם</h4></summary><p>מסמך שמשנה שעה מציג לפני ואחרי. אישור אחד והנוסעים מעודכנים.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-team"/></svg></span><h4>עבודת צוות, גם בחופשה</h4></summary><p>משתפים נסיעות עם מספר סוכנים, כך שהטיפול בנסיעה לא נעצר כשמישהו לא במשרד.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>קשר עם הנוסעים, גם אחרי החזרה</h4></summary><p>שיחה בתוך הנסיעה בזמן הטיול ואחרי החזרה הודעה מהסוכנות שמזמינה לנסיעה הבאה.</p></details></div>
+        <div class="bl"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>כל הנסיעות במבט אחד</h4></summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>יומן ההמראות והנחיתות</h4></summary><p>כל הטיסות של הסוכנות בתצוגה חודשית או שבועית. רואים במבט מי טס היום ומי נוחת מחר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>התראות שזוכרות בשבילכם</h4></summary><p>קובעים פעם אחת מתי אתם והנוסעים מקבלים תזכורת.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-alert"/></svg></span><h4>רואים מה חסר בזמן</h4></summary><p>ביטוח שלא נקנה או כרטיס שלא הגיע מסומנים בתיק. מטפלים בזה לפני שהנוסע מגלה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-team"/></svg></span><h4>עבודת צוות, גם בחופשה</h4></summary><p>משתפים נסיעות עם מספר סוכנים, כך שהטיפול בנסיעה לא נעצר כשמישהו לא במשרד.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>קשר עם הנוסעים, גם אחרי החזרה</h4></summary><p>שיחה בתוך הנסיעה בזמן הטיול ואחרי החזרה הודעה מהסוכנות שמזמינה לנסיעה הבאה.</p></details></div>
       </div>
       <div class="col trav">
         <div class="ch"><span class="k">לנוסע</span><h3>חוויית נסיעה שקופצת מדרגה</h3></div>
-        <div class="bl" style="grid-template-columns:1fr"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך בשם ברור.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp או אימייל: לפני הטיסה, בבוקר של כל יום וכשמשהו משתנה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות וכתובת המלון לנהג.</p></details></div>
+        <div class="bl" style="grid-template-columns:1fr"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך נגיש וזמין.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp או אימייל: לפני הטיסה, בבוקר של כל יום וכשמשהו משתנה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות וכתובת המלון לנהג.</p></details></div>
       </div>
     </div>
     <div class="agbar"><img src="img/mascot-head.webp" alt=""><div><b>ראש פנוי לנסיעה הבאה</b><br><span>PALAMI זוכרת לתזמן, להזכיר ולעדכן. אתם מתפנים ללקוח הבא ולנסיעה הבאה והלקוח מרגיש שהסוכנות איתו לאורך כל הדרך.</span></div></div>
@@ -462,6 +469,11 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   render();
   if(window.matchMedia('(max-width:860px)').matches){ document.querySelectorAll('details.bi').forEach(function(d){ d.open=false; }); }
   document.querySelectorAll('details.bi summary').forEach(function(su){ su.addEventListener('click',function(e){ if(!window.matchMedia('(max-width:860px)').matches) e.preventDefault(); }); });
+
+  var navA=[].slice.call(document.querySelectorAll('.hdr nav a[href^="#"]'));
+  function setCur(id){ navA.forEach(function(a){ if(a.getAttribute('href')==='#'+id) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current'); }); }
+  function spy(){ var y=window.innerHeight*0.4, cur=''; navA.forEach(function(a){ var s=document.querySelector(a.getAttribute('href')); if(!s) return; var r=s.getBoundingClientRect(); if(r.top<=y && r.bottom>y) cur=s.id; }); setCur(cur); }
+  window.addEventListener('scroll',spy,{passive:true}); window.addEventListener('resize',spy); spy();
 
   var f=document.getElementById('demo-form'), err=document.getElementById('f-err');
   f.addEventListener('submit',function(e){
