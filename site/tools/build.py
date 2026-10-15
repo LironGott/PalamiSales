@@ -17,7 +17,7 @@ import os, re, shutil, json, sys
 # Main address. DNS stays at GoDaddy, which cannot point the bare domain at Amplify, so www is primary
 # and palami.io forwards to it. Set SITE_URL=https://palami.io if DNS moves to Route 53.
 SITE_URL = os.environ.get('SITE_URL', 'https://www.palami.io').rstrip('/')
-FORM_ENDPOINT = os.environ.get('FORM_ENDPOINT', '').strip()
+FORM_ENDPOINT = os.environ.get('FORM_ENDPOINT', 'https://formspree.io/f/mwlvwbjn').strip()  # Formspree form, set up 2026-10-15
 PREVIEW = '--preview' in sys.argv  # keep explicit index.html links, for the claude.ai artifact preview
 
 HERE = os.path.dirname(os.path.abspath(__file__))
