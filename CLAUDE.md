@@ -88,7 +88,7 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Build: `python3 site/tools/build.py` → `site/dist/` (full HTML docs, canonical/hreflang/OG, robots, sitemap, 404, favicon.ico). `--preview` → `site/.preview/` for the artifact. `FORM_ENDPOINT=...` connects the form. See `site/DEPLOY.md`.
 - The artifact preview is published from `site/index.html` with `url` = the homepage artifact, plus the files from `site/.preview/`.
 - Measurement (user approved 2026-10-15): no analytics tool and no cookies at launch. The demo form sends a `source` field (UTM tags or referrer, else "direct"); Google Search Console after launch; Plausible only when paid campaigns start. See `site/DEPLOY.md`.
-- Decisions (user, 2026-10-15): AWS Amplify hosting; Formspree for the form; domain palami.io at GoDaddy (DNS stays there, www.palami.io is the main address, palami.io forwards); mailbox info@palami.io (replaces hello@); the user is the accessibility coordinator (name still needed); keep form data 24 months; company not registered yet ("PALAMI" for now); a lawyer will review the legal pages.
+- Decisions (user, 2026-10-15): AWS Amplify hosting; Formspree for the form; domain palami.io at GoDaddy (DNS stays there, www.palami.io is the main address, palami.io forwards); mailbox info@palami.io (replaces hello@); the user is the accessibility coordinator (statement lists info@ and phone, approved); keep form data 24 months; company not registered yet ("PALAMI" for now); a lawyer will review the legal pages.
 - Launch runbook and Amplify settings: `site/DEPLOY.md`, `site/amplify/`. Waiting on: Formspree endpoint, AWS account/Amplify upload, then DNS records (only with the user's approval).
 
 ## Website: confirmed details and open reminders

@@ -112,7 +112,7 @@ A11Y = {
   <h2>איך בדקנו</h2>
   <p>האתר נבדק בכלי בדיקה אוטומטי (axe) ובבדיקה ידנית של ניווט במקלדת, בדפדפן Chrome במחשב ובגודל מסך של נייד.</p>
   <h2>פנייה בנושא נגישות</h2>
-  <p>רכז/ת הנגישות: <span class="todo">[שם יעודכן]</span><br>אימייל: <a class="ltr" href="mailto:info@palami.io">info@palami.io</a><br>טלפון: <a class="ltr" href="tel:+972542245627">054-2245627</a></p>
+  <p>פנייה לרכז/ת הנגישות של PALAMI:<br>אימייל: <a class="ltr" href="mailto:info@palami.io">info@palami.io</a><br>טלפון: <a class="ltr" href="tel:+972542245627">054-2245627</a></p>
   <p>כדי שנוכל לעזור מהר, כדאי לציין באיזה עמוד הבעיה ומה ניסיתם לעשות.</p>
 '''),
 'en': dict(title='Accessibility statement', desc='Accessibility statement for the palami.io website.', body='''
@@ -133,7 +133,7 @@ A11Y = {
   <h2>How we tested</h2>
   <p>The site was tested with an automated checker (axe) and manual keyboard navigation, in Chrome on desktop and at mobile screen size.</p>
   <h2>Contact us about accessibility</h2>
-  <p>Accessibility coordinator: <span class="todo">[name to be added]</span><br>Email: <a href="mailto:info@palami.io">info@palami.io</a><br>Phone: <a href="tel:+972542245627">+972-54-224-5627</a></p>
+  <p>Contact PALAMI’s accessibility coordinator:<br>Email: <a href="mailto:info@palami.io">info@palami.io</a><br>Phone: <a href="tel:+972542245627">+972-54-224-5627</a></p>
   <p>To help us respond quickly, please tell us which page the problem is on and what you were trying to do.</p>
 '''),
 }

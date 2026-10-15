@@ -48,7 +48,7 @@ Later updates: rebuild, zip `dist/`, upload a new deployment in Amplify (or conn
 
 ## Before going live
 - [ ] Registered company name and number, once registered (privacy policy, footer). The site says "PALAMI" for now.
-- [ ] Accessibility coordinator name (accessibility statement).
+- [x] Accessibility contact: the user, via info@palami.io and the phone (approved 2026-10-15).
 - [ ] Mailbox info@palami.io exists (also needed for the AWS Activate application) with SPF/DKIM/DMARC.
 - [ ] Lawyer review of the privacy policy and accessibility statement (planned).
 - [ ] Final review of the full preview, then upload.
