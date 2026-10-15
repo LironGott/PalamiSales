@@ -57,6 +57,7 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 
 **Copy**
 - No comma before a word starting with the conjunction "ו" (user rule, 2026-10-15).
+- Spell "הכל" without vav (not "הכול") (user, 2026-10-15).
 - Website term for what the agent drags: "מסמכים" (not "הזמנות" or "אישורים"); keep it consistent sitewide (user, 2026-10-15).
 - Gender-neutral Hebrew ("אפשר", "כדאי"). The prototypes use feminine forms; neutralize them.
 - Short, calm, human ("הטיסה יוצאת בעוד 3 ימים", not "סטטוס: פורסם"). No jargon like PNR or OCR toward travelers.
