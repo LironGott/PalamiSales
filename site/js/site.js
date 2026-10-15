@@ -9,14 +9,14 @@
       pause:'השהיית האנימציה', play:'הפעלת האנימציה',
       errName:'צריך למלא שם מלא', errEmail:'האימייל לא נראה תקין. כדאי לבדוק שוב', errPhone:'מספר הטלפון לא נראה תקין',
       thanks:'תודה, ', sentDraft:'בגרסת העיצוב הטופס עוד לא מחובר. באתר האמיתי הפנייה תגיע אלינו ונחזור אליכם בקרוב.',
-      sent:'קיבלנו את הפרטים ונחזור אליכם בקרוב.', sending:'שולחים…', failed:'משהו השתבש בשליחה. אפשר לנסות שוב או לכתוב לנו ל־hello@palami.io'
+      sent:'קיבלנו את הפרטים ונחזור אליכם בקרוב.', sending:'שולחים…', failed:'משהו השתבש בשליחה. אפשר לנסות שוב או לכתוב לנו ל־info@palami.io'
     },
     en:{
       menuOpen:'Menu', menuClose:'Close menu',
       pause:'Pause animation', play:'Play animation',
       errName:'Please enter your full name', errEmail:'That email doesn’t look right. Please check it', errPhone:'That phone number doesn’t look right',
       thanks:'Thank you, ', sentDraft:'This is a design draft, so the form is not connected yet. On the live site your request will reach us and we’ll get back to you soon.',
-      sent:'We got your details and will get back to you soon.', sending:'Sending…', failed:'Something went wrong. Please try again or email us at hello@palami.io'
+      sent:'We got your details and will get back to you soon.', sending:'Sending…', failed:'Something went wrong. Please try again or email us at info@palami.io'
     }
   }[LANG];
 

@@ -29,7 +29,7 @@ SHELL = '''<title>{title} · PALAMI</title>
 <footer class="ftr"><div class="in">
   <img src="{b}img/logo-full.webp" alt="PALAMI" width="200" height="82">
   <div class="ct">
-    <a class="ltr" href="mailto:hello@palami.io">hello@palami.io</a>
+    <a class="ltr" href="mailto:info@palami.io">info@palami.io</a>
     <a class="ltr" href="tel:+972542245627">{phone}</a>
     <a href="privacy.html">{privacy}</a>
     <a href="accessibility.html">{a11y}</a>
@@ -52,7 +52,7 @@ PRIVACY = {
 'he': dict(title='מדיניות פרטיות', desc='מדיניות הפרטיות של האתר palami.io.', body='''
   <p>המדיניות הזאת מסבירה איזה מידע אנחנו מקבלים דרך האתר palami.io ומה אנחנו עושים איתו. היא חלה על האתר בלבד. למערכת PALAMI ולאפליקציית הנוסע יש תנאים נפרדים.</p>
   <h2>מי אנחנו</h2>
-  <p>האתר מופעל על ידי PALAMI <span class="todo">[שם החברה הרשום ומספר החברה יעודכנו]</span>. לכל שאלה: <a class="ltr" href="mailto:hello@palami.io">hello@palami.io</a> או <a class="ltr" href="tel:+972542245627">054-2245627</a>.</p>
+  <p>האתר מופעל על ידי PALAMI. לכל שאלה: <a class="ltr" href="mailto:info@palami.io">info@palami.io</a> או <a class="ltr" href="tel:+972542245627">054-2245627</a>.</p>
   <h2>איזה מידע אנחנו אוספים</h2>
   <p>רק את מה שממלאים בטופס בקשת ההדגמה: שם מלא, אימייל, טלפון ושם הסוכנות (לא חובה). אין חובה למסור את הפרטים, אבל בלעדיהם לא נוכל לחזור אליכם.</p>
   <p>יחד עם הטופס נשמר גם מאיזה אתר או קישור הגעתם אלינו (למשל לינקדאין, גוגל או קישור שקיבלתם מאיתנו), כדי שנדע אילו ערוצים עובדים. זה נעשה בלי עוגיות.</p>
@@ -60,11 +60,11 @@ PRIVACY = {
   <h2>למה אנחנו משתמשים במידע</h2>
   <p>כדי לחזור אליכם, לתאם את ההדגמה ולענות על שאלות. לא נשלח אליכם דיוור שיווקי בלי הסכמה מפורשת, ולא נמכור או נשכיר את הפרטים.</p>
   <h2>עם מי המידע משותף</h2>
-  <p>רק עם ספקי שירות שעוזרים לנו להפעיל את האתר ולקבל את הפניות (אחסון האתר ושירות הטפסים והדואר), ורק לצורך הזה. <span class="todo">[שמות הספקים יעודכנו לפני העלאה]</span> המידע יכול להישמר בשרתים מחוץ לישראל.</p>
+  <p>רק עם ספקי שירות שעוזרים לנו להפעיל את האתר ולקבל את הפניות, ורק לצורך הזה: Amazon Web Services (אחסון האתר) ו־Formspree (קבלת הפניות מהטופס והעברתן אלינו במייל). המידע יכול להישמר בשרתים מחוץ לישראל, כולל בארצות הברית.</p>
   <h2>כמה זמן נשמור את המידע</h2>
   <p>כל עוד צריך לטפל בפנייה ובקשר העסקי, ולא יותר מ־24 חודשים מהפנייה האחרונה, אלא אם החוק מחייב אחרת.</p>
   <h2>הזכויות שלכם</h2>
-  <p>אפשר לבקש לעיין במידע שלכם, לתקן אותו או למחוק אותו. פונים אלינו ב־<a class="ltr" href="mailto:hello@palami.io">hello@palami.io</a> ונטפל בבקשה בהקדם.</p>
+  <p>אפשר לבקש לעיין במידע שלכם, לתקן אותו או למחוק אותו. פונים אלינו ב־<a class="ltr" href="mailto:info@palami.io">info@palami.io</a> ונטפל בבקשה בהקדם.</p>
   <h2>אבטחה</h2>
   <p>האתר מוצפן ב־HTTPS והגישה לפניות מוגבלת לאנשים שמטפלים בהן.</p>
   <h2>שינויים במדיניות</h2>
@@ -73,7 +73,7 @@ PRIVACY = {
 'en': dict(title='Privacy policy', desc='Privacy policy for the palami.io website.', body='''
   <p>This policy explains what information we receive through the palami.io website and what we do with it. It covers the website only. The PALAMI system and the traveler app have separate terms.</p>
   <h2>Who we are</h2>
-  <p>The website is operated by PALAMI <span class="todo">[registered company name and number to be added]</span>. For any question: <a href="mailto:hello@palami.io">hello@palami.io</a> or <a href="tel:+972542245627">+972-54-224-5627</a>.</p>
+  <p>The website is operated by PALAMI. For any question: <a href="mailto:info@palami.io">info@palami.io</a> or <a href="tel:+972542245627">+972-54-224-5627</a>.</p>
   <h2>What we collect</h2>
   <p>Only what you enter in the demo request form: full name, email, phone and agency name (optional). You don’t have to give us these details, but without them we can’t get back to you.</p>
   <p>Along with the form we also record which website or link brought you to us (for example LinkedIn, Google or a link we sent you), so we know which channels work. This is done without cookies.</p>
@@ -81,11 +81,11 @@ PRIVACY = {
   <h2>How we use it</h2>
   <p>To get back to you, schedule the demo and answer your questions. We won’t send you marketing emails without your explicit consent and we won’t sell or rent your details.</p>
   <h2>Who we share it with</h2>
-  <p>Only service providers that help us run the website and receive requests (website hosting and the form and email service), and only for that purpose. <span class="todo">[provider names to be added before launch]</span> The information may be stored on servers outside Israel.</p>
+  <p>Only service providers that help us run the website and receive requests, and only for that purpose: Amazon Web Services (website hosting) and Formspree (receiving form submissions and forwarding them to us by email). The information may be stored on servers outside Israel, including in the United States.</p>
   <h2>How long we keep it</h2>
   <p>For as long as needed to handle your request and our business relationship, and no longer than 24 months after your last contact, unless the law requires otherwise.</p>
   <h2>Your rights</h2>
-  <p>You can ask to see, correct or delete your information. Email us at <a href="mailto:hello@palami.io">hello@palami.io</a> and we’ll handle it promptly.</p>
+  <p>You can ask to see, correct or delete your information. Email us at <a href="mailto:info@palami.io">info@palami.io</a> and we’ll handle it promptly.</p>
   <h2>Security</h2>
   <p>The website is served over HTTPS and access to requests is limited to the people who handle them.</p>
   <h2>Changes</h2>
@@ -112,7 +112,7 @@ A11Y = {
   <h2>איך בדקנו</h2>
   <p>האתר נבדק בכלי בדיקה אוטומטי (axe) ובבדיקה ידנית של ניווט במקלדת, בדפדפן Chrome במחשב ובגודל מסך של נייד.</p>
   <h2>פנייה בנושא נגישות</h2>
-  <p>רכז/ת הנגישות: <span class="todo">[שם יעודכן]</span><br>אימייל: <a class="ltr" href="mailto:hello@palami.io">hello@palami.io</a><br>טלפון: <a class="ltr" href="tel:+972542245627">054-2245627</a></p>
+  <p>רכז/ת הנגישות: <span class="todo">[שם יעודכן]</span><br>אימייל: <a class="ltr" href="mailto:info@palami.io">info@palami.io</a><br>טלפון: <a class="ltr" href="tel:+972542245627">054-2245627</a></p>
   <p>כדי שנוכל לעזור מהר, כדאי לציין באיזה עמוד הבעיה ומה ניסיתם לעשות.</p>
 '''),
 'en': dict(title='Accessibility statement', desc='Accessibility statement for the palami.io website.', body='''
@@ -133,7 +133,7 @@ A11Y = {
   <h2>How we tested</h2>
   <p>The site was tested with an automated checker (axe) and manual keyboard navigation, in Chrome on desktop and at mobile screen size.</p>
   <h2>Contact us about accessibility</h2>
-  <p>Accessibility coordinator: <span class="todo">[name to be added]</span><br>Email: <a href="mailto:hello@palami.io">hello@palami.io</a><br>Phone: <a href="tel:+972542245627">+972-54-224-5627</a></p>
+  <p>Accessibility coordinator: <span class="todo">[name to be added]</span><br>Email: <a href="mailto:info@palami.io">info@palami.io</a><br>Phone: <a href="tel:+972542245627">+972-54-224-5627</a></p>
   <p>To help us respond quickly, please tell us which page the problem is on and what you were trying to do.</p>
 '''),
 }

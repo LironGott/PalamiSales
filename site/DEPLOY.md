@@ -30,22 +30,26 @@ Decision (2026-10-15): launch without an analytics tool. Measure with:
 - **Host metrics** (Amplify/CloudFront): basic request counts.
 When paid campaigns start, consider Plausible (cookieless, no banner): one script tag, add its domain to the CSP and one line to the privacy policy.
 
-## Hosting (pending approval)
-Recommended: **AWS Amplify Hosting**, static site, no build on the server: upload `dist/` (or connect the repo with `site/dist` as the output folder). HTTPS certificate and CDN included, custom domain palami.io. Alternative: S3 + CloudFront.
+## Hosting: AWS Amplify (approved 2026-10-15)
+Decisions: AWS Amplify Hosting, Formspree for the form, domain palami.io registered at GoDaddy, mailbox info@palami.io.
+DNS stays at GoDaddy (so the email records are untouched). GoDaddy cannot point the bare domain at Amplify, so **www.palami.io is the main address** and palami.io forwards to it (`SITE_URL` in `tools/build.py`). Moving DNS to Route 53 would allow the bare domain; then rebuild with `SITE_URL=https://palami.io`.
 
-Host settings to apply:
-- 404 → `/404.html` (status 404).
-- Directory index: `/en/` → `/en/index.html`.
-- Headers: `Strict-Transport-Security: max-age=31536000; includeSubDomains`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy: camera=(), microphone=(), geolocation=()`, and `Content-Security-Policy: default-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; font-src 'self'; connect-src 'self' <form endpoint>; form-action 'self' <form endpoint>; frame-ancestors 'none'; base-uri 'self'`.
-  The pages have no inline scripts or `style` attributes, so this strict policy works as is.
-- Cache: long cache for `fonts/` and `img/`; short cache for `*.html`, `css/`, `js/`.
+Launch runbook:
+1. **Formspree:** sign up with info@palami.io, create a form, confirm the email, copy the endpoint `https://formspree.io/f/XXXXXXXX`.
+2. **Build:** `FORM_ENDPOINT=https://formspree.io/f/XXXXXXXX python3 site/tools/build.py`, then zip the *contents* of `site/dist/` (index.html at the zip root).
+3. **Amplify:** AWS console → Amplify → Create new app → Deploy without Git → upload the zip. Test on the temporary `*.amplifyapp.com` address.
+4. **Amplify settings:**
+   - Hosting → Custom headers: paste `amplify/custom-headers.yml` (security headers incl. CSP with formspree.io, cache rules).
+   - Hosting → Rewrites and redirects: add the rule in `amplify/rewrites.json` (`/<*>` → `/404.html`, type 404).
+5. **Domain (DNS change, only with approval):** Amplify → Custom domains → Add palami.io. Amplify lists a CNAME for `www` and a CNAME for certificate validation; add both in GoDaddy DNS. In GoDaddy, forward palami.io → `https://www.palami.io` (permanent 301). Do not touch MX/TXT email records.
+6. **After launch:** test the form end to end (a submission must reach info@palami.io), verify Google Search Console with a DNS TXT record, submit `sitemap.xml`.
+
+Later updates: rebuild, zip `dist/`, upload a new deployment in Amplify (or connect the GitHub repo with `site/dist` as the output folder and no build command).
 
 ## Before going live
-- [ ] Approval of hosting and form provider (no external service is connected yet).
-- [ ] Registered company name and number (privacy policy, footer). Placeholders are marked in `tools/legal.py`.
+- [ ] Registered company name and number, once registered (privacy policy, footer). The site says "PALAMI" for now.
 - [ ] Accessibility coordinator name (accessibility statement).
-- [ ] Form and hosting provider names in the privacy policy.
-- [ ] Mailbox hello@palami.io exists (also needed for the AWS Activate application) with SPF/DKIM/DMARC.
-- [ ] DNS records for the host, set only after approval.
+- [ ] Mailbox info@palami.io exists (also needed for the AWS Activate application) with SPF/DKIM/DMARC.
+- [ ] Lawyer review of the privacy policy and accessibility statement (planned).
 - [ ] Final review of the full preview, then upload.
 - [ ] After launch: test the form end to end, submit sitemap to Google Search Console.

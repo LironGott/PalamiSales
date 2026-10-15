@@ -14,7 +14,9 @@ Preview copy for the artifact: python3 site/tools/build.py --preview  (writes si
 """
 import os, re, shutil, json, sys
 
-SITE_URL = 'https://palami.io'
+# Main address. DNS stays at GoDaddy, which cannot point the bare domain at Amplify, so www is primary
+# and palami.io forwards to it. Set SITE_URL=https://palami.io if DNS moves to Route 53.
+SITE_URL = os.environ.get('SITE_URL', 'https://www.palami.io').rstrip('/')
 FORM_ENDPOINT = os.environ.get('FORM_ENDPOINT', '').strip()
 PREVIEW = '--preview' in sys.argv  # keep explicit index.html links, for the claude.ai artifact preview
 

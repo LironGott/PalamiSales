@@ -88,10 +88,11 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Build: `python3 site/tools/build.py` → `site/dist/` (full HTML docs, canonical/hreflang/OG, robots, sitemap, 404, favicon.ico). `--preview` → `site/.preview/` for the artifact. `FORM_ENDPOINT=...` connects the form. See `site/DEPLOY.md`.
 - The artifact preview is published from `site/index.html` with `url` = the homepage artifact, plus the files from `site/.preview/`.
 - Measurement (user approved 2026-10-15): no analytics tool and no cookies at launch. The demo form sends a `source` field (UTM tags or referrer, else "direct"); Google Search Console after launch; Plausible only when paid campaigns start. See `site/DEPLOY.md`.
-- Pending user decisions: hosting (recommended AWS Amplify), form provider, DNS, mailbox, company name, accessibility coordinator name. Nothing published or connected yet.
+- Decisions (user, 2026-10-15): AWS Amplify hosting; Formspree for the form; domain palami.io at GoDaddy (DNS stays there, www.palami.io is the main address, palami.io forwards); mailbox info@palami.io (replaces hello@); the user is the accessibility coordinator (name still needed); keep form data 24 months; company not registered yet ("PALAMI" for now); a lawyer will review the legal pages.
+- Launch runbook and Amplify settings: `site/DEPLOY.md`, `site/amplify/`. Waiting on: Formspree endpoint, AWS account/Amplify upload, then DNS records (only with the user's approval).
 
 ## Website: confirmed details and open reminders
-- Contact (approved 2026-10-15): email hello@palami.io (suggested; mailbox must exist before launch), phone 054-2245627.
+- Contact (approved 2026-10-15): email info@palami.io (being created by the user), phone 054-2245627.
 - TODO (reminder): registered company name not decided yet. Site uses "PALAMI" as placeholder in footer and privacy policy; replace once the company is registered.
 - Real agent-system screenshots (work in progress, from the user, 2026-10-15) are in `site/img/r-*.webp` and used for the agent side. Traveler screens still from the prototype. Real system also has: two filter rows (trip status, publish status), "only trips without active agent" toggle, trip actions (republish, view as traveler, edit trip, cancel trip). TODO: user will give system access later. Traveler app is specified (not yet developed): present without promising availability.
 - Technical questions (hosting, form provider, DNS) postponed by the user until design is final.
