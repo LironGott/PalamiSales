@@ -62,6 +62,7 @@ a{color:var(--g)}
 .hero h1{font-size:clamp(38px,4vw,54px);font-weight:800;color:var(--g);letter-spacing:-.01em}
 .hero h1 span{color:var(--cu6)}
 .hero .lead{font-size:20px;color:var(--mu);max-width:560px}
+.hero .lead strong{display:block;color:var(--in);font-weight:700;margin-bottom:6px}
 .hero .txt{display:grid;gap:24px}
 .hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
 .get{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px}
@@ -69,19 +70,21 @@ a{color:var(--g)}
 .get b{font:700 16px var(--f-d);color:var(--g);display:flex;gap:8px;align-items:center}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
-.art{display:grid;gap:14px}
+.art{display:grid;gap:22px}
 .src{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
 .sc{display:flex;gap:7px;align-items:center;justify-content:center;background:var(--wh);border:1px solid var(--ln);border-radius:12px;padding:10px 6px;font:600 14.5px var(--f-b);color:var(--mu);white-space:nowrap}
 .sc svg{width:18px;height:18px;fill:var(--cu6);flex:none}
-.arrow{justify-self:center;display:flex;align-items:center;gap:8px;font:600 14.5px var(--f-b);color:var(--g);background:var(--g05);border-radius:999px;padding:7px 16px}
-.arrow::after{content:"↓";font-size:16px}
-.res{display:flex;gap:18px;align-items:flex-end}
-.file{flex:1;min-width:0;background:var(--wh);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh3);padding:16px;display:grid;gap:8px}
+.stp{display:grid;gap:10px;align-content:start}
+.st{display:flex;align-items:center;gap:9px;font:700 16px var(--f-d);color:var(--g);white-space:nowrap}
+.st b{width:26px;height:26px;border-radius:50%;background:var(--g);color:var(--wh);display:grid;place-items:center;font:700 14px var(--f-d);flex:none}
+.res{display:flex;gap:18px;align-items:stretch}
+.res .grow{flex:1;min-width:0}
+.file{background:var(--wh);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh3);padding:16px;display:grid;gap:8px}
 .fh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
 .fh b{font:700 17px var(--f-d);color:var(--g)}
 .fh .ok{font:600 12.5px var(--f-b);background:var(--ok-s);color:var(--ok);border-radius:999px;padding:2px 10px;white-space:nowrap}
 .file .ti small{font:500 12.5px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
-.res .phone{width:168px;flex:none}
+.res .ph{width:168px;flex:none}
 .phone{border:7px solid var(--g);border-radius:34px;overflow:hidden;background:#FBF8F2;box-shadow:var(--sh3)}
 
 /* ping-pong */
@@ -222,7 +225,9 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .art{gap:10px}
   .src{grid-template-columns:repeat(2,minmax(0,1fr))}
   .file{padding:12px}
-  .res .phone{display:none}
+  .res{flex-direction:column}
+  .res .ph{width:auto}
+  .res .ph .phone{width:130px;border-width:5px;border-radius:22px;margin-inline:auto}
   .pp .grid,.steps,.ben .cols,.demo .box{grid-template-columns:1fr}
   .side{padding:20px}
   .steps{gap:12px}
@@ -296,7 +301,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     <div class="txt">
       <span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span>
       <h1>ראש שקט לסוכן.<br><span>נסיעה מסודרת לנוסע</span><span class="dot"></span></h1>
-      <p class="lead">מסמכי הנסיעה מפוזרים: חלק ב־WhatsApp, חלק במייל, חלק אצל הסוכן וחלק אצל הלקוחות. ב־PALAMI גוררים את הכול לתיק אחד, מערכת AI מסדרת אותם אוטומטית והנוסע מקבל את כל הנסיעה בטלפון, במיתוג הסוכנות.</p>
+      <p class="lead"><strong>PALAMI הופכת את מסמכי ההזמנה לאפליקציית נסיעה מסודרת לנוסע, אוטומטית.</strong> הסוכן גורר את האישורים מ־WhatsApp, מהמייל ומכל מקום, מערכת AI מתייקת והנוסע מקבל את כל הנסיעה בטלפון, במיתוג הסוכנות.</p>
       <div class="ctas"><a class="btn" href="#demo">בקשת הדגמה</a><a class="btn ghost" href="#how">איך זה עובד</a></div>
       <div class="get" aria-label="מה מקבלים">
         <div><b><svg aria-hidden="true"><use href="#i-doc"/></svg>כל המסמכים בתיק אחד</b><span>גוררים והמערכת מזהה, נותנת שם ומתייקת</span></div>
@@ -305,23 +310,29 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       </div>
     </div>
     <div class="art" aria-hidden="true">
-      <div class="src">
-        <span class="sc"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</span>
-        <span class="sc"><svg aria-hidden="true"><use href="#i-doc"/></svg>מייל</span>
-        <span class="sc"><svg aria-hidden="true"><use href="#i-phone"/></svg>צילום מסך</span>
-        <span class="sc"><svg aria-hidden="true"><use href="#i-team"/></svg>אצל הלקוח</span>
+      <div class="stp"><span class="st"><b>1</b>הסוכן גורר את המסמכים לתיק</span>
+        <div class="src">
+          <span class="sc"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</span>
+          <span class="sc"><svg aria-hidden="true"><use href="#i-doc"/></svg>מייל</span>
+          <span class="sc"><svg aria-hidden="true"><use href="#i-phone"/></svg>צילום מסך</span>
+          <span class="sc"><svg aria-hidden="true"><use href="#i-team"/></svg>אצל הלקוח</span>
+        </div>
       </div>
-      <span class="arrow">גוררים לתיק · PALAMI מתייקת אוטומטית</span>
       <div class="res">
-      <div class="file">
-        <div class="fh"><b>ברצלונה · משפחת כהן</b><span class="ok">✓ תויק אוטומטית</span></div>
-        <div class="ti"><svg aria-hidden="true"><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 12.11.2026</small></span><span class="vk sm"></span></div>
-        <div class="ti"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span class="tt"><b>מלון · 7 לילות</b><small>12.11.2026 – 19.11.2026</small></span><span class="vk sm"></span></div>
-        <div class="ti"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span class="tt"><b>כדורגל · קאמפ נואו</b><small>14.11.2026 · 21:00</small></span><span class="vk sm"></span></div>
-        <div class="ti"><svg aria-hidden="true"><use href="#i-doc"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>Securitas</small></span><span class="vk sm"></span></div>
+        <div class="stp grow"><span class="st"><b>2</b>מערכת AI מסדרת אוטומטית</span>
+        <div class="file">
+          <div class="fh"><b>ברצלונה · משפחת כהן</b><span class="ok">✓ תויק אוטומטית</span></div>
+          <div class="ti"><svg aria-hidden="true"><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 12.11.2026</small></span><span class="vk sm"></span></div>
+          <div class="ti"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span class="tt"><b>מלון · 7 לילות</b><small>12.11.2026 – 19.11.2026</small></span><span class="vk sm"></span></div>
+          <div class="ti"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span class="tt"><b>כדורגל · קאמפ נואו</b><small>14.11.2026 · 21:00</small></span><span class="vk sm"></span></div>
+          <div class="ti"><svg aria-hidden="true"><use href="#i-doc"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>Securitas</small></span><span class="vk sm"></span></div>
+        </div>
+        </div>
+        <div class="stp ph"><span class="st"><b>3</b>הנוסע מקבל הכול</span>
+          <div class="phone"><img src="img/t-docs.webp" alt=""></div>
+        </div>
       </div>
-        <div class="phone"><img src="img/t-docs.webp" alt=""></div>
-      </div>
+    </div>
     </div>
   </div></section>
 
