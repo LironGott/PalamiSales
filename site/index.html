@@ -73,7 +73,23 @@ a{color:var(--g)}
 .get b{font:700 16px var(--f-d);color:var(--g);display:flex;gap:8px;align-items:center}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
-.art{position:relative;height:500px}
+.art{position:relative;height:560px}
+.art .desk{position:absolute;top:10px;right:0;width:94%;border-radius:14px;border:1px solid var(--ln);box-shadow:var(--sh3);background:var(--wh)}
+.art .phone{position:absolute;bottom:0;left:0;width:34%;max-width:220px}
+.callout{position:absolute;display:flex;align-items:center;gap:8px;font:600 14px var(--f-b);color:var(--g);background:var(--wh);border-radius:999px;padding:7px 14px;box-shadow:0 8px 20px rgb(8 64 42 / .16);white-space:nowrap}
+.callout::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cu)}
+.art .k1{top:-8px;right:18%}.art .k2{top:46%;right:-10px}.art .k3{bottom:16px;left:38%}
+.mdash{display:none}
+.howg{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:44px;align-items:center}
+.howg .steps{grid-template-columns:1fr;gap:14px}
+.howg .step{grid-template-columns:40px 1fr;gap:4px 14px;padding:20px 22px;transition:border-color .3s}
+.howg .step .no{grid-row:span 2}
+.howg .step h3{font-size:21px}
+.howg .step:nth-child(1){animation:hvS1 12s infinite}.howg .step:nth-child(2){animation:hvS2 12s infinite}.howg .step:nth-child(3){animation:hvS3 12s infinite}
+@keyframes hvS1{0%,31%{border-color:var(--g);box-shadow:var(--sh1)}34%,100%{border-color:var(--ln);box-shadow:none}}
+@keyframes hvS2{0%,32%,59%,100%{border-color:var(--ln);box-shadow:none}35%,56%{border-color:var(--g);box-shadow:var(--sh1)}}
+@keyframes hvS3{0%,57%,97%,100%{border-color:var(--ln);box-shadow:none}60%,94%{border-color:var(--g);box-shadow:var(--sh1)}}
+.hvw{position:relative;height:500px}
 .hv{position:absolute;top:0;left:50%;width:480px;height:500px;transform:translateX(-50%) scale(var(--k,1));transform-origin:top center;--d:12s}
 .hv *{animation-duration:var(--d);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .hv-steps{position:absolute;top:0;right:0;left:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
@@ -128,7 +144,7 @@ a{color:var(--g)}
 .hv-pb svg{width:16px;height:16px;fill:var(--cu6);flex:none}
 @keyframes hvPb{0%,58%{opacity:0;transform:translateY(-12px)}61%,80%{opacity:1;transform:none}84%,100%{opacity:0;transform:translateY(-12px)}}
 @media (prefers-reduced-motion:reduce){
-  .hv *{animation:none!important}
+  .hv *,.howg .step{animation:none!important}
   .hv-chip,.hv-cur,.hv-pb,.hv-wait,.hv-dz .t2{display:none}
   .hv-row,.hv-ti{opacity:1}
   .hv-wait+.hv-ti{margin-top:0}
@@ -280,6 +296,9 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .get b{grid-column:1 / -1}
   .hero .txt{display:contents}
   .hero .get{order:1}
+  .art{display:none}
+  .mdash{display:grid;gap:8px;position:relative;background:#F4F6F4;border:1px solid var(--ln);border-radius:20px;padding:12px;padding-inline-end:12px;padding-bottom:12px}
+  .howg{grid-template-columns:1fr;gap:22px}
   .pp .grid,.steps,.ben .cols,.demo .box{grid-template-columns:1fr}
   .side{padding:20px}
   .steps{gap:12px}
@@ -317,6 +336,20 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .mbar span{font-size:13.5px;color:var(--mu);max-width:42%}
 }
 /* mini dashboard (mobile hero) */
+.mdash .lbl{font:600 12.5px var(--f-b);color:var(--mu);display:flex;justify-content:space-between}
+.mdash .cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mdash .cnt div{background:var(--wh);border:1px solid #DEE3DF;border-radius:10px;padding:6px 4px;text-align:center;display:grid;line-height:1.2}
+.mdash .cnt b{font:700 20px var(--f-d)}
+.mdash .cnt small{font-size:11px;color:var(--mu)}
+.mdash .cnt .r{box-shadow:inset 0 3px 0 var(--bad)}.mdash .cnt .r b{color:var(--bad)}
+.mdash .cnt .h{box-shadow:inset 0 3px 0 #C28A0E}.mdash .cnt .h b{color:var(--attn)}.mdash .cnt .p{box-shadow:inset 0 3px 0 var(--sa)}
+.mdash .trip{background:var(--wh);border:1px solid #DEE3DF;border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;font-size:13px;margin-inline-end:30%}
+.mdash .trip.r{box-shadow:inset -3px 0 0 var(--bad)}.mdash .trip.h{box-shadow:inset -3px 0 0 #C28A0E}
+.mdash .trip b{font:600 14px var(--f-d)}
+.mdash .trip small{font:500 11px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
+.mdash .pl{font:600 11px var(--f-b);padding:1px 8px;border-radius:999px;white-space:nowrap;justify-self:end}
+.mdash .mph{position:absolute;left:10px;bottom:-14px;width:27%;border-width:4px;border-radius:18px}
+@media (max-width:380px){.mdash .trip{margin-inline-end:0}.mdash .mph{display:none}}
 .pl.w{background:var(--attn-s);color:var(--attn)}.pl.b{background:var(--bad-s);color:var(--bad)}.pl.o{background:var(--ok-s);color:var(--ok)}
 @media (max-width:380px){</style>
 
@@ -354,7 +387,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     <div class="txt">
       <span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span>
       <h1>ראש שקט לסוכן.<br><span>נסיעה מסודרת לנוסע</span><span class="dot"></span></h1>
-      <p class="lead"><strong>PALAMI הופכת את מסמכי ההזמנה לאפליקציית נסיעה מסודרת לנוסע, אוטומטית.</strong> הסוכן גורר את כל מסמכי הנסיעה ו־<span class="ltr">PALAMI</span> דואגת לשאר.</p>
+      <p class="lead"><strong>מערכת לניהול הנסיעות של הסוכנות, עם אפליקציה לנוסע במיתוג שלכם.</strong> גוררים את כל מסמכי הנסיעה ו־<span class="ltr">PALAMI</span> דואגת לשאר: התיק מתויק לבד, אתם רואים מה דורש טיפול והנוסע מקבל את כל הנסיעה בטלפון.</p>
       <div class="ctas"><a class="btn ghost" href="#how">איך זה עובד</a></div>
       <div class="get" aria-label="מה מקבלים">
         <div><b><svg aria-hidden="true"><use href="#i-doc"/></svg>כל המסמכים בתיק אחד</b><span>גוררים והמערכת מזהה, נותנת שם ומתייקת</span></div>
@@ -362,34 +395,58 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
         <div><b><svg aria-hidden="true"><use href="#i-bell"/></svg>התראות ותקשורת</b><span>תזכורות ועדכונים לנוסע ב־Push, WhatsApp, SMS או אימייל, בזמן שקבעתם</span></div>
       </div>
     </div>
-    <div class="art" aria-hidden="true"><div class="hv">
-      <div class="hv-steps"><span class="p1"><b>1</b>גוררים מסמכים</span><span class="p2"><b>2</b>AI מסדר</span><span class="p3"><b>3</b>הנוסע מקבל</span></div>
-      <span class="hv-chip c1"><em>כרטיס טיסה</em><i>scan_0012(2).pdf</i></span>
-      <span class="hv-chip c2"><em>שובר למלון</em><i>voucher_FINAL.pdf</i></span>
-      <span class="hv-chip c3"><em>כרטיס למשחק כדורגל</em><i>IMG_20261028.jpg</i></span>
-      <svg class="hv-cur" viewBox="0 0 24 24" width="26" height="26"><path d="M5 3l14 8-6 1.6L10 19z" fill="#16241D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
-      <div class="hv-ag">
-        <div class="hv-agh"><b>ברצלונה · משפחת כהן</b><small>HDR-2609-0031</small></div>
-        <div class="hv-tab">מסמכים והעלאה</div>
-        <div class="hv-dz"><span class="t1">גוררים לכאן את המסמכים</span><span class="t2">AI מזהה ומתייק…</span></div>
-        <div class="hv-lh">המסמכים בתיק</div>
-        <div class="hv-row r1"><span><b>טיסה הלוך · LY 395</b><i>scan_0012(2).pdf</i></span><em>✓ תויק</em></div>
-        <div class="hv-row r2"><span><b>מלון · 7 לילות</b><i>voucher_FINAL.pdf</i></span><em>✓ תויק</em></div>
-        <div class="hv-row r3"><span><b>כדורגל · קאמפ נואו</b><i>IMG_20261028.jpg</i></span><em>✓ תויק</em></div>
-      </div>
-      <div class="hv-ph">
-        <div class="hv-pb"><svg aria-hidden="true"><use href="#i-bell"/></svg>הנסיעה עודכנה באפליקציה</div>
-        <div class="hv-phh">מסעות הדרים</div>
-        <div class="hv-pt"><b>ברצלונה</b><small>12–19 בנובמבר</small></div>
-        <div class="hv-wait">המסמכים בדרך…</div>
-        <div class="hv-ti t1"><svg aria-hidden="true"><use href="#i-plane"/></svg><span><b>טיסה הלוך</b><small>12 בנוב׳ · 06:10</small></span><i class="vk sm"></i></div>
-        <div class="hv-ti t2"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span><b>מלון</b><small>7 לילות</small></span><i class="vk sm"></i></div>
-        <div class="hv-ti t3"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span><b>כדורגל</b><small>14 בנוב׳ · 21:00</small></span><i class="vk sm"></i></div>
-        <div class="hv-tabs"><span>בית</span><span>לו״ז</span><span class="on">מסמכים</span><span>מידע</span></div>
-      </div>
-    </div></div>
-      </div>
+    <div class="art" aria-hidden="true">
+      <img class="desk" src="img/r-dash.webp" alt="">
+      <span class="callout k1">מה דחוף היום</span>
+      <span class="callout k2">סטטוס לכל תיק</span>
+      <span class="callout k3">כל הנסיעה בטלפון של הנוסע</span>
+      <div class="phone"><img src="img/t-home-before.webp" alt=""></div>
     </div>
+    <div class="mdash" aria-label="דוגמה: תמונת המצב של הסוכן">
+      <div class="lbl"><span>אצל הסוכן · היום</span><span>תמונת מצב</span></div>
+      <div class="cnt"><div class="r"><b>1</b><small>דחוף</small></div><div class="h"><b>2</b><small>ביטוח חסר</small></div><div><b>2</b><small>לפרסום</small></div><div class="p"><b>23</b><small>מפורסמות</small></div></div>
+      <div class="trip r"><b>ברצלונה · כהן</b><span class="pl b">2 חוסרים</span><small>HDR-2609-0031</small><span class="pl w">יש עדכונים</span></div>
+      <div class="trip h"><b>לונדון · כנס</b><span class="pl w">1 חוסר</span><small>HDR-2610-0040</small><span class="pl w">להשלמה</span></div>
+      <div class="trip"><b>רומא · לוינסון</b><span class="pl o">✓ אין</span><small>HDR-2608-0027</small><span class="pl o">בנסיעה</span></div>
+      <div class="phone mph"><img src="img/t-home-before.webp" alt=""></div>
+    </div>
+  </div></section>
+
+  <!-- B · HOW -->
+  <section class="sec" id="how" aria-labelledby="how-h"><div class="in">
+    <div class="sec-h"><span class="eyb">איך זה עובד</span><h2 id="how-h">הסוכן גורר. PALAMI מסדרת<span class="dot"></span></h2><p>שלושה צעדים מההזמנה ועד הנוסע. הסוכן מחליט רק כשבאמת צריך.</p></div>
+    <div class="howg">
+      <div class="steps">
+        <div class="step"><span class="no">1</span><h3>גוררים את ההזמנות לתיק</h3><p>אישורי טיסה, שוברים וכרטיסים, PDF או צילום. כולם יחד, או אחד היום ועוד אחד בשבוע הבא.</p></div>
+        <div class="step"><span class="no">2</span><h3>PALAMI מסדרת</h3><p>מערכת AI ייחודית מזהה כל מסמך, נותנת לו שם ברור ומכניסה אותו ללו״ז, הכול אוטומטית.</p></div>
+        <div class="step"><span class="no">3</span><h3>הנוסע מקבל הכול</h3><p>קישור אחד, במיתוג הסוכנות: לו״ז, מסמכים, חירום וצ'אט. בלי להוריד אפליקציה, גם בלי אינטרנט.</p></div>
+      </div>
+      <div class="hvw" aria-hidden="true"><div class="hv">
+        <div class="hv-steps"><span class="p1"><b>1</b>גוררים מסמכים</span><span class="p2"><b>2</b>AI מסדר</span><span class="p3"><b>3</b>הנוסע מקבל</span></div>
+        <span class="hv-chip c1"><em>כרטיס טיסה</em><i>scan_0012(2).pdf</i></span>
+        <span class="hv-chip c2"><em>שובר למלון</em><i>voucher_FINAL.pdf</i></span>
+        <span class="hv-chip c3"><em>כרטיס למשחק כדורגל</em><i>IMG_20261028.jpg</i></span>
+        <svg class="hv-cur" viewBox="0 0 24 24" width="26" height="26"><path d="M5 3l14 8-6 1.6L10 19z" fill="#16241D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <div class="hv-ag">
+          <div class="hv-agh"><b>ברצלונה · משפחת כהן</b><small>HDR-2609-0031</small></div>
+          <div class="hv-tab">מסמכים והעלאה</div>
+          <div class="hv-dz"><span class="t1">גוררים לכאן את המסמכים</span><span class="t2">AI מזהה ומתייק…</span></div>
+          <div class="hv-lh">המסמכים בתיק</div>
+          <div class="hv-row r1"><span><b>טיסה הלוך · LY 395</b><i>scan_0012(2).pdf</i></span><em>✓ תויק</em></div>
+          <div class="hv-row r2"><span><b>מלון · 7 לילות</b><i>voucher_FINAL.pdf</i></span><em>✓ תויק</em></div>
+          <div class="hv-row r3"><span><b>כדורגל · קאמפ נואו</b><i>IMG_20261028.jpg</i></span><em>✓ תויק</em></div>
+        </div>
+        <div class="hv-ph">
+          <div class="hv-pb"><svg aria-hidden="true"><use href="#i-bell"/></svg>הנסיעה עודכנה באפליקציה</div>
+          <div class="hv-phh">מסעות הדרים</div>
+          <div class="hv-pt"><b>ברצלונה</b><small>12–19 בנובמבר</small></div>
+          <div class="hv-wait">המסמכים בדרך…</div>
+          <div class="hv-ti t1"><svg aria-hidden="true"><use href="#i-plane"/></svg><span><b>טיסה הלוך</b><small>12 בנוב׳ · 06:10</small></span><i class="vk sm"></i></div>
+          <div class="hv-ti t2"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span><b>מלון</b><small>7 לילות</small></span><i class="vk sm"></i></div>
+          <div class="hv-ti t3"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span><b>כדורגל</b><small>14 בנוב׳ · 21:00</small></span><i class="vk sm"></i></div>
+          <div class="hv-tabs"><span>בית</span><span>לו״ז</span><span class="on">מסמכים</span><span>מידע</span></div>
+        </div>
+      </div></div>
     </div>
   </div></section>
 
@@ -421,22 +478,6 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
         </div>
         <span class="foot">ולמה שבאמת צריך סוכן: צ'אט עם הסוכן, בתוך הנסיעה.</span>
       </div>
-    </div>
-  </div></section>
-
-  <!-- B · HOW -->
-  <section class="sec" id="how" aria-labelledby="how-h"><div class="in">
-    <div class="sec-h"><span class="eyb">איך זה עובד</span><h2 id="how-h">הסוכן גורר. PALAMI מסדרת<span class="dot"></span></h2><p>שלושה צעדים מההזמנה ועד הנוסע. הסוכן מחליט רק כשבאמת צריך.</p></div>
-    <div class="steps">
-      <div class="step"><span class="no">1</span><h3>גוררים את ההזמנות לתיק</h3><p>אישורי טיסה, שוברים וכרטיסים, PDF או צילום. כולם יחד, או אחד היום ועוד אחד בשבוע הבא.</p>
-        <div class="vis"><span class="chip"><i></i>scan_0012.pdf</span><span class="chip"><i></i>IMG_4471.jpg</span><div class="drop">גוררים לכאן את המסמכים של הנסיעה</div></div></div>
-      <div class="step"><span class="no">2</span><h3>PALAMI מסדרת</h3><p>מערכת AI ייחודית מזהה כל מסמך, נותנת לו שם ברור ומכניסה אותו ללו״ז, הכול אוטומטית.</p>
-        <div class="vis"><div class="ren"><span class="f">scan_0012.pdf</span><span class="t">טיסה LY395 · תל אביב–ברצלונה · 12.11.2026</span></div><div class="q"><svg width="16" height="16" fill="currentColor" aria-hidden="true"><use href="#i-alert"/></svg>שאלה אחת: שעת החזרת הרכב</div></div></div>
-      <div class="step"><span class="no">3</span><h3>הנוסע מקבל הכול</h3><p>קישור אחד, במיתוג הסוכנות: לו״ז, מסמכים, חירום וצ'אט. בלי להוריד אפליקציה, גם בלי אינטרנט.</p>
-        <div class="vis"><div class="tl">
-          <div class="ti"><svg aria-hidden="true"><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 06:10</small></span><span class="vk sm"></span></div>
-          <div class="ti"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span class="tt"><b>כדורגל · קאמפ נואו</b><small>ש׳ 14 בנוב׳ · 21:00</small></span><span class="vk sm"></span></div>
-        </div></div></div>
     </div>
   </div></section>
 
@@ -541,7 +582,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   if(window.matchMedia('(max-width:860px)').matches){ document.querySelectorAll('details.bi').forEach(function(d){ d.open=false; }); }
   document.querySelectorAll('details.bi summary').forEach(function(su){ su.addEventListener('click',function(e){ if(!window.matchMedia('(max-width:860px)').matches) e.preventDefault(); }); });
 
-  var art=document.querySelector('.hero .art');
+  var art=document.querySelector('.hvw');
   function fitHv(){ var k=Math.min(1,art.clientWidth/480); art.style.setProperty('--k',k); art.style.height=(500*k)+'px'; }
   window.addEventListener('resize',fitHv); fitHv();
 
