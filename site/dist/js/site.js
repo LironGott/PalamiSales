@@ -27,13 +27,14 @@
         ['תיקי נסיעה','כל התיקים, עם סטטוס, חוסרים וסינון','r-trips.webp','desk','app.palami.io/trips'],
         ['יומן','כל ההמראות והנחיתות של הסוכנות','r-calendar.webp','desk','app.palami.io/calendar'],
         ['מסמכים והעלאה','גוררים את המסמכים והם נכנסים לתיק','r-trip-docs.webp','desk','app.palami.io/trips/HDR-2609-0031'],
-        ['סקירה וביטוח','מה יש בתיק ואם חסר ביטוח','r-trip-overview.webp','desk','app.palami.io/trips/HDR-2609-0031'],
+        ['ביטוח','מה יש בתיק ואם חסר ביטוח','r-trip-overview.webp','desk','app.palami.io/trips/HDR-2609-0031'],
         ['לקוחות','כל לקוח, עם כל הנסיעות שלו','r-customers.webp','desk','app.palami.io/customers']
       ],
       trav:[
         ['מסך הבית','ספירה לאחור, מסמכים חשובים והאירוע הבא','t-home-before.webp','phone'],
         ['לו״ז','כל יום בנסיעה, לפי השעה המקומית','t-schedule.webp','phone'],
         ['מסמכים','כל הכרטיסים והשוברים, שמורים בטלפון','t-docs.webp','phone'],
+        ['התראות','כל העדכונים והתזכורות על הנסיעה, במקום אחד','t-notifs.webp','phone'],
         ['מידע','כל המידע החשוב ליעד: מזג אוויר, השעה ביעד, טיפים מהסוכן ורשימת אריזה','t-info.webp','phone'],
         ['צ\'אט עם הסוכן','שואלים את הסוכן ישירות מהאפליקציה, בלי לחפש מספר','t-chat.webp','phone'],
         ['חירום','מספרים מקומיים, ביטוח והסוכנות, גם בלי אינטרנט','t-emergency.webp','phone']
@@ -45,13 +46,14 @@
         ['Trip files','Every trip file, with status, missing items and filters','r-trips.webp','desk','app.palami.io/trips'],
         ['Calendar','All of the agency’s departures and landings','r-calendar.webp','desk','app.palami.io/calendar'],
         ['Documents & upload','Drag the documents in and they’re filed into the trip','r-trip-docs.webp','desk','app.palami.io/trips/HDR-2609-0031'],
-        ['Overview & insurance','What’s in the file and whether insurance is missing','r-trip-overview.webp','desk','app.palami.io/trips/HDR-2609-0031'],
+        ['Insurance','What’s in the file and whether insurance is missing','r-trip-overview.webp','desk','app.palami.io/trips/HDR-2609-0031'],
         ['Customers','Every customer, with all of their trips','r-customers.webp','desk','app.palami.io/customers']
       ],
       trav:[
         ['Home','Countdown, key documents and what’s next','t-home-before.webp','phone'],
         ['Schedule','Every day of the trip, in local time','t-schedule.webp','phone'],
         ['Documents','All tickets and vouchers, saved on the phone','t-docs.webp','phone'],
+        ['Notifications','Every trip update and reminder, in one place','t-notifs.webp','phone'],
         ['Info','Everything that matters at the destination: weather, local time, tips from the agent and a packing list','t-info.webp','phone'],
         ['Chat with the agent','Ask the agent right from the app, no need to look for a number','t-chat.webp','phone'],
         ['Emergency','Local numbers, insurance and the agency, even offline','t-emergency.webp','phone']
@@ -75,8 +77,22 @@
       b.addEventListener('click',function(){ side=b.getAttribute('data-side'); idx=0;
         document.querySelectorAll('[data-side]').forEach(function(x){x.setAttribute('aria-selected',String(x===b));}); render(); });
     });
-    list.addEventListener('click',function(e){ var b=e.target.closest('[data-i]'); if(!b) return; idx=+b.getAttribute('data-i'); render(); });
+    list.addEventListener('click',function(e){ var b=e.target.closest('[data-i]'); if(!b) return; idx=+b.getAttribute('data-i'); render();
+      var cur=list.querySelector('[data-i="'+idx+'"]'); if(cur && cur.scrollIntoView) cur.scrollIntoView({block:'nearest',inline:'nearest',behavior:'smooth'}); });
     render();
+    /* mobile: one scrollable row; fade + arrow show there are more screens */
+    var wrap=list.parentNode, more=wrap.querySelector('.more'), rtl=root.getAttribute('dir')==='rtl';
+    if(more){
+      more.textContent=rtl?'←':'→';
+      var edges=function(){ var max=list.scrollWidth-list.clientWidth, pos=Math.abs(list.scrollLeft);
+        var scrolls=max>4; wrap.classList.toggle('scrolls',scrolls);
+        wrap.classList.toggle('at-start',pos<4); wrap.classList.toggle('at-end',pos>max-4);
+        more.hidden=!scrolls || pos>max-4; };
+      list.addEventListener('scroll',edges,{passive:true}); window.addEventListener('resize',edges);
+      document.querySelectorAll('[data-side]').forEach(function(b){ b.addEventListener('click',function(){ list.scrollLeft=0; edges(); }); });
+      more.addEventListener('click',function(){ list.scrollBy({left:(rtl?-1:1)*list.clientWidth*0.6,behavior:'smooth'}); });
+      edges();
+    }
   }
 
   /* benefits: open on desktop, collapsible on mobile */
@@ -124,6 +140,14 @@
   /* demo request form. When the form has a real action URL it is sent with fetch; otherwise it shows the design-draft message. */
   var f=document.getElementById('demo-form'), err=document.getElementById('f-err');
   if(f){
+    /* where the visitor came from (UTM tags or the referring site), sent with the form. No cookies or storage. */
+    var src=f.querySelector('input[name="source"]');
+    if(src){
+      var q=new URLSearchParams(location.search), parts=[];
+      ['utm_source','utm_medium','utm_campaign'].forEach(function(k){ var v=q.get(k); if(v) parts.push(k.slice(4)+'='+v.slice(0,60)); });
+      try{ if(document.referrer){ var h=new URL(document.referrer).hostname; if(h && h!==location.hostname) parts.push('ref='+h); } }catch(x){}
+      src.value=parts.join('; ')||'direct';
+    }
     f.addEventListener('submit',function(e){
       e.preventDefault();
       var bad=[], n=f.name.value.trim(), m=f.email.value.trim(), p=f.phone.value.replace(/[\s()-]/g,'');

@@ -23,6 +23,13 @@ The build adds `<!doctype>`, `lang`/`dir`, charset, viewport, canonical and href
 ## Demo form
 The form validates in the browser. Without `FORM_ENDPOINT` it shows a "design draft" message. With an endpoint it POSTs `name, email, phone, agency, lang` (multipart form data, `Accept: application/json`) and shows a thank-you message on any 2xx response. A hidden `website` field is a honeypot for bots.
 
+## Measurement (no cookies, no banner)
+Decision (2026-10-15): launch without an analytics tool. Measure with:
+- **Form source.** Each demo request includes `source`: UTM tags from the landing URL (`source=…; medium=…; campaign=…`) and the referring site (`ref=linkedin.com`), or `direct`. Links you share should carry UTM tags, for example `https://palami.io/?utm_source=linkedin&utm_medium=post&utm_campaign=launch` or `?utm_source=email&utm_medium=outreach`.
+- **Google Search Console** (free, verified by a DNS TXT record, no code on the site): search queries, impressions, clicks. Submit `sitemap.xml`.
+- **Host metrics** (Amplify/CloudFront): basic request counts.
+When paid campaigns start, consider Plausible (cookieless, no banner): one script tag, add its domain to the CSP and one line to the privacy policy.
+
 ## Hosting (pending approval)
 Recommended: **AWS Amplify Hosting**, static site, no build on the server: upload `dist/` (or connect the repo with `site/dist` as the output folder). HTTPS certificate and CDN included, custom domain palami.io. Alternative: S3 + CloudFront.
 

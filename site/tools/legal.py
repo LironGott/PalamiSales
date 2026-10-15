@@ -55,6 +55,7 @@ PRIVACY = {
   <p>האתר מופעל על ידי PALAMI <span class="todo">[שם החברה הרשום ומספר החברה יעודכנו]</span>. לכל שאלה: <a class="ltr" href="mailto:hello@palami.io">hello@palami.io</a> או <a class="ltr" href="tel:+972542245627">054-2245627</a>.</p>
   <h2>איזה מידע אנחנו אוספים</h2>
   <p>רק את מה שממלאים בטופס בקשת ההדגמה: שם מלא, אימייל, טלפון ושם הסוכנות (לא חובה). אין חובה למסור את הפרטים, אבל בלעדיהם לא נוכל לחזור אליכם.</p>
+  <p>יחד עם הטופס נשמר גם מאיזה אתר או קישור הגעתם אלינו (למשל לינקדאין, גוגל או קישור שקיבלתם מאיתנו), כדי שנדע אילו ערוצים עובדים. זה נעשה בלי עוגיות.</p>
   <p>האתר לא משתמש בעוגיות לפרסום או למעקב ולא בכלי ניתוח של צד שלישי. כמו בכל אתר, ספק האחסון שומר רישומים טכניים (כמו כתובת IP וסוג דפדפן) לצורכי אבטחה ותפעול.</p>
   <h2>למה אנחנו משתמשים במידע</h2>
   <p>כדי לחזור אליכם, לתאם את ההדגמה ולענות על שאלות. לא נשלח אליכם דיוור שיווקי בלי הסכמה מפורשת, ולא נמכור או נשכיר את הפרטים.</p>
@@ -75,6 +76,7 @@ PRIVACY = {
   <p>The website is operated by PALAMI <span class="todo">[registered company name and number to be added]</span>. For any question: <a href="mailto:hello@palami.io">hello@palami.io</a> or <a href="tel:+972542245627">+972-54-224-5627</a>.</p>
   <h2>What we collect</h2>
   <p>Only what you enter in the demo request form: full name, email, phone and agency name (optional). You don’t have to give us these details, but without them we can’t get back to you.</p>
+  <p>Along with the form we also record which website or link brought you to us (for example LinkedIn, Google or a link we sent you), so we know which channels work. This is done without cookies.</p>
   <p>The website does not use advertising or tracking cookies or third-party analytics. As with any website, the hosting provider keeps technical logs (such as IP address and browser type) for security and operation.</p>
   <h2>How we use it</h2>
   <p>To get back to you, schedule the demo and answer your questions. We won’t send you marketing emails without your explicit consent and we won’t sell or rent your details.</p>
