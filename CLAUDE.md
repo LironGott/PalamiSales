@@ -70,3 +70,9 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 ## Working conventions
 - Develop on the branch the session specifies; commit with clear messages and push.
 - Keep `CLAUDE.md` and `docs/` updated when decisions change.
+
+## Marketing website project (palami.io), started 2026-10
+- Brief: a small, bilingual (HE RTL / EN LTR) one-page marketing site for agencies, for AWS Activate / Founders Club. Sections: Hero, How it works, Value, Product peek, Demo request form. No CRM, no invented claims, no publishing or DNS changes without approval. All communication with the user in Hebrew.
+- Stage 1–2 done: analysis, competitors, messaging and 4 design concepts. Published at https://claude.ai/artifact/6LFttB6EeWZ9st5nu8m6Ni (source: `docs/website/concepts/`). Research notes: `docs/website/competitors.md`, `docs/website/aws.md`. Prototype screenshots: `docs/website/screenshots/`.
+- Recommendation awaiting approval: concept A "מהקבצים לנסיעה" plus the V-row signature from D on mobile; headline "הסוכן גורר. PALAMI מסדרת. הנוסע נוסע רגוע."
+- AWS: apply with an email on @palami.io; site must be fully functioning and public.

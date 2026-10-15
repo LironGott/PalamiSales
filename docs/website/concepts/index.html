@@ -1,0 +1,680 @@
+<title>אתר PALAMI · קונספטים</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a review document (single column, max 1180) for the website brief; each concept = desktop mock (scaled 1280px site) beside a scrollable phone mock. Brand tokens from PALAMI brand book v1.2. */
+:root{
+  --bg:#F7F6F2; --surface:#FFFFFF; --surface-2:#EFEDE7; --line:#E2DED5; --ink:#16241D; --muted:#5C5951;
+  --green:#08402A; --green-600:#0F5636; --green-400:#3F8F64; --green-50:#EEF6F1; --green-ink:#FFFFFF;
+  --copper:#C37237; --copper-text:#A85C28; --cream:#F9E2C5; --paper:#FEFEFC; --item:#FBF3E3; --sage:#5E9677;
+  --ok:#33704F; --ok-soft:#E6F0EA; --attn:#8A5F00; --attn-soft:#FBF1D6; --bad:#B91C3C; --bad-soft:#FCE8EC; --info:#1D5FA8; --info-soft:#E4EEF8;
+  --f-d:"Rubik","Assistant","Segoe UI",Arial,sans-serif; --f-b:"Assistant","Rubik","Segoe UI",Arial,sans-serif; --f-m:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1712; --surface:#13211A; --surface-2:#1A2B22; --line:#26392F; --ink:#E8EDE9; --muted:#9AA79F;
+  --green:#74B590; --green-600:#A9D3B9; --green-400:#74B590; --green-50:#14291F; --green-ink:#021209;
+  --copper:#D4884A; --copper-text:#E5A570; --ok:#7FBF9A; --ok-soft:#16271E; --attn:#E6B54A; --attn-soft:#2E2610; --bad:#F27A8C; --bad-soft:#331820; --info:#7FB2E8; --info-soft:#132235; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1712; --surface:#13211A; --surface-2:#1A2B22; --line:#26392F; --ink:#E8EDE9; --muted:#9AA79F;
+  --green:#74B590; --green-600:#A9D3B9; --green-400:#74B590; --green-50:#14291F; --green-ink:#021209;
+  --copper:#D4884A; --copper-text:#E5A570; --ok:#7FBF9A; --ok-soft:#16271E; --attn:#E6B54A; --attn-soft:#2E2610; --bad:#F27A8C; --bad-soft:#331820; --info:#7FB2E8; --info-soft:#132235; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.65}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 96px}
+h1,h2,h3,h4{font-family:var(--f-d);line-height:1.2;margin:0;text-wrap:balance}
+h2{font-size:clamp(26px,3.4vw,34px);font-weight:700;color:var(--green)}
+h3{font-size:20px;font-weight:600}
+p{margin:0;max-width:70ch}
+.mono,code{font-family:var(--f-m);font-size:.86em;direction:ltr;unicode-bidi:isolate}
+.muted{color:var(--muted)}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+.top{display:grid;gap:18px;padding-block:40px 28px;border-bottom:1px solid var(--line)}
+.top img{height:40px;width:auto}
+.top h1{font-size:clamp(30px,4.4vw,46px);font-weight:800}
+.top .lead{font-size:19px;color:var(--muted)}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font-size:15px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:5px 13px;border-radius:999px}
+.toc a:hover,.toc a:focus-visible{border-color:var(--green);outline:none}
+.stage-pill{display:inline-flex;gap:8px;align-items:center;font:600 14px var(--f-b);color:var(--attn);background:var(--attn-soft);border-radius:999px;padding:4px 12px;justify-self:start}
+
+section.s{display:grid;gap:22px;padding-block:52px 8px;scroll-margin-top:12px}
+.sh{display:grid;gap:8px}
+.eyebrow{font:600 13px var(--f-m);letter-spacing:.06em;color:var(--copper-text)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;display:grid;gap:10px;min-width:0}
+.grid2{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.grid3{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+ul.dots{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+ul.dots li{display:grid;grid-template-columns:18px 1fr;gap:6px}
+ul.dots li::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--copper);margin-top:10px}
+.note{background:var(--attn-soft);border-radius:14px;padding:14px 18px;font-size:16px}
+.note.ok{background:var(--ok-soft)}
+.tag{display:inline-flex;align-items:center;gap:4px;font:600 13px var(--f-b);padding:2px 10px;border-radius:999px;white-space:nowrap}
+.t-ok{background:var(--ok-soft);color:var(--ok)}.t-attn{background:var(--attn-soft);color:var(--attn)}.t-bad{background:var(--bad-soft);color:var(--bad)}.t-info{background:var(--info-soft);color:var(--info)}
+
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+th,td{text-align:right;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-family:var(--f-d);font-weight:600;font-size:14px;color:var(--muted);background:var(--surface-2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td b{font-family:var(--f-d);font-weight:600}
+td.num{font-variant-numeric:tabular-nums;text-align:center;font-weight:700}
+tr.win td{background:var(--green-50)}
+
+.val{display:grid;gap:12px}
+.val .card{grid-template-columns:44px 1fr;align-items:start;gap:4px 16px}
+.val .n{grid-row:span 2;width:44px;height:44px;border-radius:12px;background:var(--item);color:var(--green);display:grid;place-items:center;font:700 20px var(--f-d)}
+.val .chain{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:6px}
+.val .chain div{background:var(--surface-2);border-radius:10px;padding:10px 12px;font-size:15px;display:grid;gap:2px}
+.val .chain b{font:600 12.5px var(--f-m);color:var(--copper-text);letter-spacing:.03em}
+@media (max-width:820px){.val .chain{grid-template-columns:1fr 1fr}}
+@media (max-width:480px){.val .chain{grid-template-columns:1fr}.val .card{grid-template-columns:1fr}.val .n{grid-row:auto}}
+
+.heads{display:grid;gap:12px}
+.head{display:grid;gap:4px;border-inline-start:4px solid var(--line);padding:6px 16px}
+.head.rec{border-color:var(--green)}
+.head .he{font:700 22px var(--f-d)}
+.head .en{font:500 16px var(--f-b);color:var(--muted);direction:ltr;text-align:left}
+
+/* ---------- Concepts ---------- */
+.concept{display:grid;gap:18px;padding:24px;border-radius:22px;background:var(--surface);border:1px solid var(--line)}
+.concept-h{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;justify-content:space-between}
+.concept-h h3{font-size:26px;font-weight:700}
+.concept-h .letter{font:700 14px var(--f-m);color:var(--copper-text)}
+.views{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:22px;align-items:start}
+@media (max-width:1060px){.views{grid-template-columns:1fr}}
+.vlabel{font:600 13px var(--f-m);color:var(--muted);letter-spacing:.04em;margin-bottom:8px;display:block}
+.dframe{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#FFFFFF;box-shadow:0 18px 40px rgb(8 64 42 / .12)}
+.chrome{display:flex;align-items:center;gap:6px;padding:8px 12px;background:#EFEDE7;border-bottom:1px solid #E2DED5;direction:ltr}
+.chrome i{width:10px;height:10px;border-radius:50%;background:#CBC6BA}
+.chrome span{margin-inline-start:12px;font:500 12px var(--f-m);color:#5C5951;background:#FFFFFF;padding:2px 12px;border-radius:6px}
+.dview{position:relative;overflow:hidden}
+.dview .site{width:1280px;transform-origin:top right;position:absolute;top:0;right:0}
+.pframe{width:330px;max-width:100%;margin-inline:auto;border:9px solid #1B1A17;border-radius:40px;overflow:hidden;background:#FFFFFF;box-shadow:0 18px 40px rgb(8 64 42 / .16)}
+.pscroll{height:690px;overflow-y:auto;overscroll-behavior:contain;position:relative;scrollbar-width:thin}
+.phint{font-size:13px;color:var(--muted);text-align:center;margin-top:8px}
+.pros{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.pros h4{font-size:15px;font-weight:600;margin-bottom:4px;color:var(--muted)}
+.pros ul{margin:0;padding-inline-start:18px;display:grid;gap:4px;font-size:15.5px}
+
+/* ---------- The site mock (fixed palette: it is the actual website) ---------- */
+.mk{--g:#08402A;--g6:#0F5636;--g4:#3F8F64;--g1:#D5EADD;--g05:#EEF6F1;--cu:#C37237;--cu6:#A85C28;--cr:#F9E2C5;--pa:#FEFEFC;--it:#FBF3E3;--sa:#5E9677;--in:#16241D;--mu:#5C5951;--ln:#E2DED5;--s2:#F7F6F2;
+  font-family:var(--f-b);color:var(--in);background:var(--pa);direction:rtl;text-align:right;line-height:1.5}
+.mk *{box-sizing:border-box}
+.mk img{display:block;max-width:none}
+.mk .nav{display:flex;align-items:center;gap:28px;padding:22px 56px;background:#FFFFFF;border-bottom:1px solid var(--ln)}
+.mk .nav .logo{height:38px;width:auto}
+.mk .nav .links{display:flex;gap:26px;font:500 16px var(--f-b);color:var(--mu);margin-inline-start:auto}
+.mk .nav .lang{font:600 14px var(--f-m);color:var(--g);border:1px solid var(--ln);border-radius:8px;padding:5px 10px}
+.mk .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 17px var(--f-b);min-height:52px;padding:0 26px;border-radius:14px;background:var(--g);color:#FFFFFF;white-space:nowrap}
+.mk .btn.sm{min-height:42px;font-size:15px;padding:0 18px;border-radius:12px}
+.mk .btn.ghost{background:transparent;color:var(--g);box-shadow:inset 0 0 0 1.5px var(--g)}
+.mk .btn.paper{background:var(--pa);color:var(--g)}
+.mk .eyb{font:600 14px var(--f-b);color:var(--cu6);letter-spacing:.02em}
+.mk h1{font-family:var(--f-d);font-weight:800;color:var(--g);letter-spacing:-.01em}
+.mk .dot{display:inline-block;width:.2em;height:.2em;border-radius:50%;background:var(--cu);margin-inline-start:.06em;vertical-align:baseline}
+.mk .sub{font-size:20px;color:var(--mu);line-height:1.6}
+.mk .shot{border-radius:14px;box-shadow:0 1px 2px rgb(8 64 42 / .06),0 18px 44px rgb(8 64 42 / .16);border:1px solid var(--ln);background:#FFFFFF}
+.mk .phone{border:7px solid #08402A;border-radius:34px;overflow:hidden;background:#FBF8F2;box-shadow:0 22px 50px rgb(8 64 42 / .22)}
+.mk .phone img{width:100%;height:auto}
+.mk .chip{display:inline-flex;align-items:center;gap:8px;font:500 14px var(--f-m);direction:ltr;background:#FFFFFF;border:1px solid var(--ln);border-radius:10px;padding:8px 12px;box-shadow:0 4px 12px rgb(8 64 42 / .08);color:var(--mu)}
+.mk .chip i{width:20px;height:24px;border-radius:3px;background:var(--cr);position:relative;flex:none}
+.mk .chip i::after{content:"PDF";position:absolute;bottom:2px;left:1px;right:1px;font:700 6px var(--f-b);color:var(--cu6);text-align:center}
+.mk .chip.img i::after{content:"JPG"}
+.mk .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.mk .step{background:#FFFFFF;border:1px solid var(--ln);border-radius:20px;padding:26px;display:grid;gap:10px;align-content:start}
+.mk .step .no{width:36px;height:36px;border-radius:50%;background:var(--g);color:#FFFFFF;display:grid;place-items:center;font:700 16px var(--f-d)}
+.mk .step h4{font:700 21px var(--f-d)}
+.mk .step p{color:var(--mu);font-size:16px}
+.mk .ren{display:grid;gap:6px;font-size:13px}
+.mk .ren .from{font-family:var(--f-m);direction:ltr;text-align:right;color:var(--mu);text-decoration:line-through;text-decoration-color:var(--cu)}
+.mk .ren .to{font-weight:600;color:var(--g)}
+.mk .ti{display:flex;align-items:center;gap:14px;min-height:64px;padding:12px 16px;background:var(--it);border-radius:14px}
+.mk .ti svg{width:30px;height:30px;fill:var(--g);flex:none}
+.mk .ti .tt{flex:1;display:grid;line-height:1.3}
+.mk .ti .tt b{font:600 18px var(--f-d)}
+.mk .ti .tt small{color:var(--mu);font-size:14px}
+.mk .vk{width:30px;height:30px;border-radius:50%;background:var(--sa);display:grid;place-items:center;flex:none}
+.mk .vk::after{content:"";width:12px;height:7px;border:solid #FFFFFF;border-width:0 0 2.6px 2.6px;transform:translateY(-2px) rotate(-45deg)}
+.mk .vk.attn{background:var(--cu)}.mk .vk.attn::after{content:"!";border:0;width:auto;height:auto;transform:none;color:#FFFFFF;font:800 16px/1 var(--f-d)}
+.mk .vk.wait{background:transparent;border:2.4px dashed #A9C7B5}.mk .vk.wait::after{display:none}
+.mk .callout{position:absolute;display:flex;align-items:center;gap:8px;font:600 14px var(--f-b);color:var(--g);background:#FFFFFF;border-radius:999px;padding:6px 14px;box-shadow:0 6px 18px rgb(8 64 42 / .14);white-space:nowrap}
+.mk .callout::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cu)}
+.mk .fade{position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(to bottom,rgb(254 254 252 / 0),#FEFEFC)}
+.mk .sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:20px}
+.mk .sec-h h2{font:700 34px var(--f-d);color:var(--g)}
+
+/* A: from files to trip */
+.mk-a .hero{display:grid;grid-template-columns:520px 1fr;gap:40px;padding:72px 56px 40px;align-items:center;background:linear-gradient(180deg,#FFFFFF 0,#FEFEFC 100%)}
+.mk-a h1{font-size:60px;line-height:1.08}
+.mk-a h1 em{font-style:normal;color:var(--cu6)}
+.mk-a .art{position:relative;height:580px}
+.mk-a .art .files{position:absolute;top:0;right:0;display:flex;gap:10px;flex-wrap:wrap}
+.mk-a .art .arrow{position:absolute;top:56px;right:160px;font:600 13px var(--f-b);color:var(--cu6);display:flex;align-items:center;gap:6px}
+.mk-a .art .arrow::before{content:"";width:2px;height:16px;background:var(--cu)}
+.mk-a .art .desk{position:absolute;top:84px;right:0;width:500px}
+.mk-a .art .ph{position:absolute;bottom:0;left:10px;width:200px}
+.mk-a .how{padding:30px 56px 60px;display:grid;gap:24px;background:var(--s2)}
+
+/* B: agency at the center */
+.mk-b .band{margin:0 28px;border-radius:0 0 36px 36px;background:var(--g);color:#FFFFFF;display:grid;grid-template-columns:1fr 430px;gap:30px;padding:70px 64px 0;overflow:hidden;align-items:end}
+.mk-b .band .txt{display:grid;gap:22px;padding-bottom:70px}
+.mk-b h1{font-size:58px;line-height:1.1;color:#FFFFFF}
+.mk-b .eyb{color:var(--cr)}
+.mk-b .sub{color:#D5EADD}
+.mk-b .ph-wrap{position:relative;height:520px}
+.mk-b .ph-wrap .phone{position:absolute;bottom:-40px;right:60px;width:270px;border-color:#FEFEFC}
+.mk-b .ph-wrap .c1{top:70px;right:300px}
+.mk-b .ph-wrap .c2{bottom:70px;left:-30px}
+.mk-b .values{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:44px 56px}
+.mk-b .values div{display:grid;gap:6px;border-top:2px solid var(--ln);padding-top:16px}
+.mk-b .values b{font:700 19px var(--f-d);color:var(--g)}
+.mk-b .values span{color:var(--mu);font-size:15px}
+
+/* C: two sides */
+.mk-c .hero{padding:60px 56px 0;display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end}
+.mk-c h1{font-size:54px;line-height:1.1;max-width:780px}
+.mk-c .duo{margin:36px 56px 0;background:var(--it);border-radius:30px;padding:30px;display:grid;grid-template-columns:1fr 70px 300px;gap:0;align-items:center;position:relative}
+.mk-c .side{display:grid;gap:12px;justify-items:start}
+.mk-c .side .lbl{font:600 15px var(--f-b);color:var(--g);display:flex;gap:8px;align-items:center}
+.mk-c .side .lbl span{font:500 13px var(--f-m);color:var(--mu);direction:ltr}
+.mk-c .link{display:grid;gap:26px;justify-items:center;align-self:stretch;align-content:center;position:relative}
+.mk-c .link::before{content:"";position:absolute;top:10%;bottom:10%;left:50%;border-left:2.5px dashed var(--cu)}
+.mk-c .link .vk{position:relative}
+.mk-c .link small{position:relative;background:var(--it);font:600 12px var(--f-b);color:var(--g);padding:0 4px}
+.mk-c .ph{width:250px}
+.mk-c .toggle{display:flex;background:#FFFFFF;border-radius:999px;padding:4px;border:1px solid var(--ln)}
+.mk-c .toggle span{padding:8px 18px;border-radius:999px;font:600 15px var(--f-b);color:var(--mu)}
+.mk-c .toggle span.on{background:var(--g);color:#FFFFFF}
+
+/* D: everything checked */
+.mk-d .hero{display:grid;grid-template-columns:1fr 520px;gap:50px;padding:84px 56px 70px;align-items:center}
+.mk-d h1{font-size:72px;line-height:1.02;letter-spacing:-.02em}
+.mk-d .list{position:relative;display:grid;gap:12px;padding:30px 30px 30px 150px;background:#FFFFFF;border-radius:30px;border:1px solid var(--ln);box-shadow:0 18px 44px rgb(8 64 42 / .10)}
+.mk-d .list .mascot{position:absolute;left:-40px;bottom:-10px;width:200px}
+.mk-d .list .ttl{font:600 14px var(--f-b);color:var(--mu);display:flex;justify-content:space-between}
+.mk-d .slogan{font:600 16px var(--f-b);color:var(--cu6)}
+.mk-d .strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--ln);margin:0 56px}
+.mk-d .strip div{padding:28px 0 28px 30px;display:grid;gap:6px}
+.mk-d .strip b{font:700 22px var(--f-d);color:var(--g)}
+.mk-d .strip span{color:var(--mu)}
+
+/* Mobile site mock */
+.mm .mnav{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgb(255 255 255 / .96);border-bottom:1px solid var(--ln)}
+.mm .mnav img{height:26px;width:auto}
+.mm .mnav .lang{margin-inline-start:auto;font:600 12px var(--f-m);color:var(--g);border:1px solid var(--ln);border-radius:7px;padding:3px 8px}
+.mm .mnav .menu{width:34px;height:34px;border-radius:10px;background:var(--s2);display:grid;place-items:center}
+.mm .mnav .menu i{width:16px;height:2px;background:var(--in);box-shadow:0 5px 0 var(--in),0 -5px 0 var(--in)}
+.mm .mh{padding:22px 18px 18px;display:grid;gap:12px}
+.mm h1{font-size:32px;line-height:1.12}
+.mm .sub{font-size:16px}
+.mm .btn{min-height:48px;font-size:16px;width:100%}
+.mm .sec{padding:26px 18px;display:grid;gap:14px}
+.mm .sec h2{font:700 24px var(--f-d);color:var(--g)}
+.mm .swipe{display:grid;grid-auto-flow:column;grid-auto-columns:82%;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-18px;padding-inline:18px;scrollbar-width:none}
+.mm .swipe::-webkit-scrollbar{display:none}
+.mm .swipe .step{scroll-snap-align:start;padding:18px;border-radius:18px}
+.mm .swipe .step h4{font-size:18px}
+.mm .swipe .step p{font-size:14.5px}
+.mm details{background:#FFFFFF;border:1px solid var(--ln);border-radius:14px;padding:0 14px}
+.mm summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:52px;font:600 16px var(--f-d);color:var(--in)}
+.mm summary::-webkit-details-marker{display:none}
+.mm summary::after{content:"+";font:500 22px var(--f-b);color:var(--g)}
+.mm details[open] summary::after{content:"–"}
+.mm details p{padding-bottom:14px;color:var(--mu);font-size:14.5px}
+.mm .tabs{display:flex;background:var(--s2);border-radius:12px;padding:4px}
+.mm .tabs button{flex:1;border:0;background:none;font:600 14px var(--f-b);padding:9px 0;border-radius:9px;color:var(--mu);cursor:pointer}
+.mm .tabs button[aria-pressed="true"]{background:#FFFFFF;color:var(--g);box-shadow:0 1px 3px rgb(0 0 0 / .08)}
+.mm .peek img{width:100%;height:auto;border-radius:14px;border:1px solid var(--ln)}
+.mm .peek .t-ph{width:66%;margin-inline:auto;border:6px solid #08402A;border-radius:26px;overflow:hidden}
+.mm .peek .t-ph img{border:0;border-radius:0}
+.mm .form{display:grid;gap:10px;background:#FFFFFF;border:1px solid var(--ln);border-radius:18px;padding:16px}
+.mm .inp{min-height:46px;border:1px solid var(--ln);border-radius:12px;padding:0 12px;display:flex;align-items:center;color:#7B776D;font-size:15px;background:var(--pa)}
+.mm .foot{padding:22px 18px 90px;display:grid;gap:8px;font-size:13px;color:var(--mu);border-top:1px solid var(--ln)}
+.mm .foot img{height:20px;width:auto}
+.mm .sticky{position:sticky;bottom:0;z-index:4;padding:10px 14px 12px;background:rgb(255 255 255 / .96);border-top:1px solid var(--ln);display:flex;gap:10px;align-items:center}
+.mm .sticky .btn{flex:1}
+.mm-a .mh{background:linear-gradient(180deg,#FFFFFF,#FEFEFC)}
+.mm-a .mart{position:relative;height:250px;margin-top:6px}
+.mm-a .mart .desk{position:absolute;top:0;right:0;width:84%}
+.mm-a .mart .ph{position:absolute;bottom:0;left:6px;width:120px;border-width:5px;border-radius:22px}
+.mm-a .mart .chip{position:absolute;top:96px;left:0;font-size:11px;padding:5px 8px}
+.mm-b .mband{background:var(--g);color:#FFFFFF;border-radius:0 0 28px 28px;padding:24px 18px 0;display:grid;gap:12px;overflow:hidden}
+.mm-b .mband h1{color:#FFFFFF}
+.mm-b .mband .sub{color:#D5EADD}
+.mm-b .mband .eyb{color:var(--cr)}
+.mm-b .mband .phone{width:180px;margin:6px auto -60px;border-color:#FEFEFC;border-width:5px;border-radius:24px}
+.mm-b .after-band{height:70px}
+.mm-c .mduo{background:var(--it);border-radius:22px;padding:14px;display:grid;gap:10px}
+.mm-c .mduo .row{display:grid;grid-template-columns:1fr 104px;gap:10px;align-items:center}
+.mm-c .mduo .phone{border-width:5px;border-radius:20px}
+.mm-c .mduo .lbl{font:600 13px var(--f-b);color:var(--g)}
+.mm-d .mlist{display:grid;gap:8px;position:relative;padding-bottom:4px}
+.mm-d .mlist .ti{min-height:54px;padding:9px 12px;border-radius:12px}
+.mm-d .mlist .ti b{font-size:15px}
+.mm-d .mlist .ti small{font-size:12.5px}
+.mm-d .mlist .ti svg{width:24px;height:24px}
+.mm-d .mlist .vk{width:24px;height:24px}
+.mm-d .mmascot{width:96px;justify-self:end;margin-top:-8px}
+
+@media (prefers-reduced-motion:no-preference){.toc a{transition:border-color .15s}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="i-plane" viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></symbol>
+<symbol id="i-hotel" viewBox="0 0 24 24"><path d="M3 6h2v7h6V8h7a3 3 0 0 1 3 3v8h-2v-2H5v2H3zm4.5 6A2 2 0 1 1 7.5 8a2 2 0 0 1 0 4"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 1 3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></symbol>
+<symbol id="i-bus" viewBox="0 0 24 24"><path d="M4 16V6c0-3 3.6-3 8-3s8 0 8 3v10a2 2 0 0 1-1 1.7V20h-3v-2H8v2H5v-2.3A2 2 0 0 1 4 16m2-9v4h12V7zm1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4zm9 1v2h2V7zm0 4v2h2v-2zm0 4v2h2v-2z"/></symbol>
+</defs></svg>
+
+<!-- Shared mobile lower sections, cloned into each phone mock -->
+<template id="m-lower">
+  <div class="sec" style="background:#F7F6F2">
+    <h2>איך PALAMI עובדת</h2>
+    <div class="swipe">
+      <div class="step"><span class="no">1</span><h4>גוררים קבצים לתיק</h4><p>אישורי טיסה, שוברים וכרטיסים, PDF או צילום. כולם יחד או אחד־אחד.</p></div>
+      <div class="step"><span class="no">2</span><h4>PALAMI מסדרת</h4><div class="ren"><span class="from">scan_0012.pdf</span><span class="to">טיסה LY395 · תל אביב–ברצלונה · 12.11.2026</span></div><p>שאלה רק כשמשהו לא ודאי.</p></div>
+      <div class="step"><span class="no">3</span><h4>הנוסע מקבל קישור</h4><p>לו״ז, מסמכים וחירום בטלפון, במיתוג הסוכנות. גם בלי אינטרנט.</p></div>
+    </div>
+  </div>
+  <div class="sec">
+    <h2>מה הסוכנות מרוויחה</h2>
+    <details open><summary>מעלים פעם אחת, המערכת מסדרת</summary><p>זיהוי, שם ברור ושיבוץ בלו״ז. הסוכן עונה רק על מה שלא ודאי.</p></details>
+    <details><summary>הכול אצל הנוסע, בקישור אחד</summary><p>לו״ז, מסמכים, מספרי חירום וצ'אט עם הסוכן, גם בלי אינטרנט.</p></details>
+    <details><summary>שינוי מגיע לנוסע רק אחרי אישור</summary><p>לפני ואחרי, באישור אחד. הנוסע מקבל עדכון בערוץ שבחר.</p></details>
+    <details><summary>מסך אחד שאומר מה דורש טיפול</summary><p>חוסרים, ביטוח שלא נמצא ועדכונים לאישור, בלי לחפש.</p></details>
+    <details><summary>השירות שלכם, בשם הסוכנות</summary><p>לוגו הסוכנות בראש האפליקציה של הנוסע.</p></details>
+  </div>
+  <div class="sec peek" style="background:#F7F6F2">
+    <h2>הצצה למערכת</h2>
+    <div class="tabs" role="group" aria-label="בחירת צד"><button type="button" aria-pressed="true" data-peek="agent">אצל הסוכן</button><button type="button" aria-pressed="false" data-peek="trav">אצל הנוסע</button></div>
+    <div data-pane="agent"><img src="img/a-phone-dash.webp" alt="דשבורד הסוכן בטלפון" loading="lazy"></div>
+    <div data-pane="trav" hidden><div class="t-ph"><img src="img/t-schedule.webp" alt="לו״ז הנוסע" loading="lazy"></div></div>
+  </div>
+  <div class="sec" id="m-demo">
+    <h2>בקשת הדגמה</h2>
+    <div class="form"><div class="inp">שם מלא</div><div class="inp">אימייל</div><div class="inp">טלפון</div><div class="inp">שם הסוכנות (לא חובה)</div><span class="btn">בקשת הדגמה</span></div>
+  </div>
+  <div class="foot"><img src="img/wordmark.svg" alt="PALAMI"><span>[אימייל ליצירת קשר] · מדיניות פרטיות</span></div>
+  <div class="sticky"><span class="btn sm">בקשת הדגמה</span></div>
+</template>
+
+<main class="wrap" dir="rtl" lang="he">
+  <header class="top">
+    <img src="img/wordmark-tagline.svg" alt="PALAMI · כל פרטי הנסיעה בכף ידך">
+    <span class="stage-pill">שלבים 1–2 · ממתין לאישורך לפני פיתוח</span>
+    <h1>אתר התדמית של PALAMI: ניתוח, מסר וכיווני עיצוב</h1>
+    <p class="lead">מה למדתי מהאפיון וספר המותג, מה עובד אצל המתחרים, ומה האתר צריך להגיד לסוכנות. בסוף: ארבעה כיווני עיצוב לעמוד הבית, דסקטופ ומובייל, עם דירוג והמלצה.</p>
+    <nav class="toc" aria-label="תוכן">
+      <a href="#product">הבנת המוצר</a><a href="#values">5 היתרונות</a><a href="#competitors">מתחרים</a><a href="#message">המסר</a><a href="#structure">מבנה האתר</a><a href="#concepts">כיווני עיצוב</a><a href="#rank">דירוג והמלצה</a><a href="#aws">AWS</a><a href="#questions">שאלות אליך</a>
+    </nav>
+  </header>
+
+  <section class="s" id="product">
+    <div class="sh"><span class="eyebrow">01 · PRODUCT</span><h2>הבנת המוצר</h2></div>
+    <div class="grid2">
+      <div class="card"><h3>מה PALAMI עושה</h3><p>הסוכן פותח תיק נסיעה וגורר לתוכו את אישורי הטיסה, השוברים והכרטיסים. המערכת מזהה כל מסמך, נותנת לו שם ברור ומשבצת אותו בלו״ז ובמסמכים. הסוכן מתערב רק כשמשהו לא ודאי, כשמסמך חדש משנה אירוע קיים, ובפרסום. הנוסע מקבל קישור לאפליקציית רשת במיתוג הסוכנות: לו״ז, מסמכים, חירום, צ'אט והתראות, גם בלי אינטרנט.</p></div>
+      <div class="card"><h3>למי האתר מדבר</h3><ul class="dots"><li>בעלי סוכנויות ומנהלי סוכנויות: מקבלי ההחלטה.</li><li>סוכנים עצמאיים: משתמשים ומחליטים בעצמם.</li><li>שותפים פוטנציאליים ו־AWS: צריכים להבין במהירות חברה, מוצר וקהל.</li></ul><p class="muted">הנוסע מופיע באתר כחוויה שהסוכנות מעניקה, לא כקהל יעד.</p></div>
+    </div>
+    <div class="note"><b>מה מותר להציג כקיים.</b> לפי האפיון, רק יכולות ה־MVP ייכנסו לאתר: קליטה ושיבוץ אוטומטיים, "לטיפול", עדכון באישור, בדיקת ביטוח, פרסום, אפליקציית הנוסע (בית, לו״ז, מסמכים, אופליין, חירום, צ'אט) והתראות. לא נזכיר את מה שמתוכנן לגרסאות הבאות: עוזר חכם, מפה, קליטה מהמייל, צבע הסוכנות, אפליקציות בחנויות ושיווק. כתבת שצד הסוכן מפותח וצד הנוסע מאופיין. לכן צריך לאשר ביחד את הניסוח של מה שעוד לא עלה (שאלה 1 בסוף).</div>
+  </section>
+
+  <section class="s" id="values">
+    <div class="sh"><span class="eyebrow">02 · VALUE</span><h2>חמשת היתרונות המרכזיים</h2><p class="muted">כל יתרון בנוי מאותה שרשרת: יכולת במערכת, תועלת לסוכן, תועלת לנוסע וערך לסוכנות. בלי מספרים שלא נמדדו.</p></div>
+    <div class="val">
+      <div class="card"><span class="n">1</span><h3>מעלים פעם אחת, המערכת מסדרת</h3>
+        <div class="chain"><div><b>יכולת</b>גרירת PDF ותמונות לתיק. זיהוי, שם לפי התוכן ושיבוץ בלו״ז</div><div><b>לסוכן</b>בלי הקלדה של מה שכתוב במסמכים. שאלה רק על שדה לא ודאי</div><div><b>לנוסע</b>תיק שלם ומסודר, כל מסמך בשם ברור ובמקום שלו</div><div><b>לסוכנות</b>הקמת תיק מהירה יותר, ופחות עבודה כפולה</div></div></div>
+      <div class="card"><span class="n">2</span><h3>כל הנסיעה אצל הנוסע, בקישור אחד</h3>
+        <div class="chain"><div><b>יכולת</b>אפליקציית רשת בלי התקנה: בית, לו״ז, מסמכים, מידע, נשמרת בטלפון אוטומטית</div><div><b>לסוכן</b>פחות "תשלחי לי שוב את הכרטיס"</div><div><b>לנוסע</b>מוצא כל מסמך בשתי לחיצות, גם בשדה ובלי חבילת גלישה</div><div><b>לסוכנות</b>פחות פניות חוזרות, יותר זמן למכירה</div></div></div>
+      <div class="card"><span class="n">3</span><h3>שום שינוי לא מגיע לנוסע בלי אישור</h3>
+        <div class="chain"><div><b>יכולת</b>מסמך שמשנה אירוע קיים מציג לפני ואחרי, ומחכה לאישור</div><div><b>לסוכן</b>שליטה מלאה, באישור אחד. ההתראות מחושבות מחדש לבד</div><div><b>לנוסע</b>מקבל עדכון ב־WhatsApp, אימייל או Push, ורואה "עודכן"</div><div><b>לסוכנות</b>מידע מדויק ואמינות מקצועית</div></div></div>
+      <div class="card"><span class="n">4</span><h3>מסך אחד שאומר מה דורש טיפול</h3>
+        <div class="chain"><div><b>יכולת</b>דשבורד לפי חריגים: חוסרים, ביטוח שלא נמצא, עדכונים לאישור. תצוגה פשוטה וטקסט גדול</div><div><b>לסוכן</b>לא מחפש. כל מספר נפתח לרשימה עם פעולה</div><div><b>לנוסע</b>חוסר כמו ביטוח מתגלה לפני היציאה</div><div><b>לסוכנות</b>פחות טעויות של הרגע האחרון. מתאים גם לסוכנים ותיקים</div></div></div>
+      <div class="card"><span class="n">5</span><h3>השירות של הסוכנות, בכף היד של הנוסע</h3>
+        <div class="chain"><div><b>יכולת</b>לוגו הסוכנות בראש האפליקציה, צ'אט עם הסוכן, מסך חירום עם הקו של הסוכנות</div><div><b>לסוכן</b>הקשר נשאר איתו, לא עם אתר של חברת תעופה</div><div><b>לנוסע</b>מרגיש שהסוכנות איתו לאורך כל הנסיעה</div><div><b>לסוכנות</b>מותג, בידול ונאמנות להזמנה הבאה</div></div></div>
+    </div>
+  </section>
+
+  <section class="s" id="competitors">
+    <div class="sh"><span class="eyebrow">03 · COMPETITORS</span><h2>ניתוח מתחרים</h2></div>
+    <p class="muted">בחרתי חמישה מוצרים שנותנים לסוכנויות את מה שהכי קרוב ל־PALAMI: ייבוא הזמנות, לו״ז, ואפליקציה ממותגת לנוסע. הורדתי את Umapped: לפי פרסום של Travefy מיוני 2025, Umapped הפסיקה את המוצר. הגבלה: סביבת המחקר לא הצליחה לפתוח את אתרי המתחרים ישירות, ולכן הכול מבוסס על ציטוטים מתוצאות חיפוש של העמודים שלהם. ראוי לעבור על האתרים בעצמך לפני שמסתמכים על פרטי עיצוב.</p>
+    <div class="tbl"><table>
+      <thead><tr><th>מתחרה</th><th>הצעת הערך (כותרת)</th><th>חוזקות</th><th>עיצוב ו־UX</th><th>לקח ל־PALAMI</th></tr></thead>
+      <tbody>
+        <tr><td><b>Travefy</b><br><span class="mono">travefy.com</span></td><td class="ltr" style="text-align:left">"The software that connects your travel business."</td><td>בונה מסלולים, CRM ואתר במוצר אחד. ייבוא מ־200+ ספקים</td><td>ניסיון חינם, סרטון דמו, מחירים גלויים, עמודים לכל רשת סוכנים</td><td>האפליקציה הממותגת רק בחבילת Enterprise, והאפליקציה הרגילה דורשת הורדה. "בשם הסוכנות, בלי התקנה" הוא בידול ברור</td></tr>
+        <tr><td><b>Vamoos</b><br><span class="mono">vamoos.com</span></td><td class="ltr" style="text-align:left">"The app for travel companies that adds WOW."</td><td>ייבוא PDF עם AI (TripImport), אפליקציה ממותגת, אופליין, עדכון מיידי לנוסע</td><td>"Book a Demo" בסרגל העליון וחוזר בעמוד. דמו של 20 דקות "באפליקציה מותאמת אישית"</td><td>הכי קרוב לתהליך שלנו, והם כותבים בגלוי שהתוצאה מסומנת לבדיקה. רגע ה־PDF שהופך לנסיעה צריך להיות במרכז</td></tr>
+        <tr><td><b>mTrip</b><br><span class="mono">mtrip.com</span></td><td class="ltr" style="text-align:left">"Less work for your team. Better trips under your brand."</td><td>ייבוא AI ממייל, PDF ו־Excel, חיבור ל־GDS, אפליקציות White Label</td><td>דמו לפני הכול, בלי מחירים. עמודים לכל סוג לקוח, דירוג G2 ולוגואים של לקוחות</td><td>כותרת דו־צדדית (פחות עבודה, נסיעה טובה יותר) עובדת. אצלם White Label דורש דמי הקמה וזמן לחנות האפליקציות. אצלנו אין</td></tr>
+        <tr><td><b>AXUS</b><br><span class="mono">axustravelapp.com</span></td><td class="ltr" style="text-align:left">"The complete itinerary building &amp; collaboration platform…"</td><td>קליטה מהעברת מייל, PNR מ־GDS, מיתוג משותף</td><td>14 יום ניסיון בלי כרטיס אשראי, קישורים פומביים לנסיעה לדוגמה, המלצות עם שם</td><td>קישור חי ל"נסיעה לדוגמה" הוא דמו זול ומשכנע לחוויית הנוסע</td></tr>
+        <tr><td><b>Tern</b><br><span class="mono">tern.travel</span></td><td class="ltr" style="text-align:left">"One platform to run your travel business."</td><td>CRM, עמלות, AI Assist, התאמת מיילים לנסיעה, אפליקציה לנוסע</td><td>חלוקה לסוכנים ולסוכנויות, מחירים גלויים, דמו בוובינר</td><td>"let AI handle the busywork" הוא מסר רגשי שעובד. לפי מסמכי העזרה שלהם ה־AI לא מחלץ מספרי הזמנה, כך שהבדיקה והאישור שלנו הם יתרון</td></tr>
+      </tbody></table></div>
+    <h3 style="margin-top:6px">חמש תובנות לאתר של PALAMI</h3>
+    <div class="grid2">
+      <div class="card"><span class="tag t-ok" style="justify-self:start">יכולת שקיימת אצלנו</span><b>הקליטה והשליטה הן ה־Hero</b><p>כולם מוכרים ייבוא עם AI, וכולם מוסיפים הסתייגות. אצלנו הבדיקה היא חלק מהמוצר: רק שדה לא ודאי נשאל, ושינוי מגיע לנוסע רק באישור. מהירות עם שליטה.</p></div>
+      <div class="card"><span class="tag t-ok" style="justify-self:start">יכולת שקיימת אצלנו</span><b>בשם הסוכנות, בלי להוריד אפליקציה</b><p>אצל המתחרים אפליקציה ממותגת היא חבילה יקרה, אפליקציה מהחנות או הקמה של שבועות. אצלנו קישור במיתוג הסוכנות. נציין רק מה שקיים, בלי לרמוז לאפליקציה בחנויות.</p></div>
+      <div class="card"><span class="tag t-info" style="justify-self:start">שיפור בהצגת המוצר</span><b>לתת לגעת בחוויית הנוסע</b><p>AXUS ו־Vamoos מראים לנוסע אמיתי. אפשר לפרסם את אב הטיפוס של הנוסע כ"נסיעה לדוגמה" עם קוד QR, ולהציע דמו עם הלוגו של הסוכנות שמבקשת.</p></div>
+      <div class="card"><span class="tag t-ok" style="justify-self:start">יכולת שקיימת אצלנו</span><b>תרחישים מקומיים, לא "הכול במקום אחד"</b><p>"All-in-one" כבר תפוס. אצלנו: WhatsApp, מסך חירום עם הקו של הסוכנות, בדיקת ביטוח, קבוצות ומשפחות, עברית מלאה. דוגמה: נוסע בחו״ל בשתיים בלילה מוצא את הפוליסה ואת מספר החירום בלחיצה.</p></div>
+      <div class="card"><span class="tag t-info" style="justify-self:start">שיפור בהצגת המוצר</span><b>הבטחה ברורה לדמו, בלי אמון מזויף</b><p>להגיד כמה זמן הדמו ומה יראו בו. לוגואים, המלצות ומספרים רק כשיהיו אמיתיים. מחיר: עדיף "המחיר בהדגמה", כי מודל התשלום עוד לא נקבע.</p></div>
+      <div class="card"><span class="tag t-bad" style="justify-self:start">יכולת שאין לנו · רעיון עתידי</span><b>מה לא נכניס לאתר</b><p>קליטה מהעברת מייל (מתוכננת ל־1.1), חיבור ל־GDS, עדכוני טיסה בזמן אמת ו־CRM מלא. אפשר לשמור כרעיונות לפיתוח, אבל לא באתר.</p></div>
+    </div>
+  </section>
+
+  <section class="s" id="message">
+    <div class="sh"><span class="eyebrow">04 · MESSAGE</span><h2>המסר הראשי ושלוש כותרות</h2>
+      <p>המלצה: הכותרת מדברת אל הסוכן ומתארת את המעבר מעבודה לסדר. הסלוגן המאושר, "כל פרטי הנסיעה בכף ידך", נשאר בלוגו ובאזור הנוסע, כי הוא פונה לנוסע.</p></div>
+    <div class="heads">
+      <div class="head rec"><span class="tag t-ok" style="justify-self:start">מומלצת</span><span class="he">הסוכן גורר. PALAMI מסדרת. הנוסע נוסע רגוע.</span><span class="en">You drop the files. PALAMI builds the trip. Your travelers travel at ease.</span></div>
+      <div class="head"><span class="he">תיק נסיעה דיגיטלי, בשם הסוכנות שלך.</span><span class="en">The digital trip file, under your agency's name.</span></div>
+      <div class="head"><span class="he">כל פרטי הנסיעה, מסודרים לך ולנוסע שלך.</span><span class="en">Every trip detail, organized for you and your travelers.</span></div>
+    </div>
+    <div class="card"><b>משפט הסבר (לכל הכותרות)</b><p>מעלים לתיק את אישורי הטיסה, השוברים והכרטיסים, ו־PALAMI מסדרת אותם ללו״ז ולמסמכים. הנוסע מקבל קישור אחד במיתוג הסוכנות, עם כל מה שצריך לנסיעה, גם בלי אינטרנט.</p><p class="muted ltr" style="text-align:left">Upload flight confirmations, vouchers and tickets to the trip file, and PALAMI organizes them into a schedule and documents. Your traveler gets one link, in your agency's branding, with everything needed for the trip, even offline.</p></div>
+  </section>
+
+  <section class="s" id="structure">
+    <div class="sh"><span class="eyebrow">05 · STRUCTURE</span><h2>מבנה האתר</h2><p class="muted">עמוד אחד, חמישה אזורים, עברית ואנגלית. אותו תוכן בדסקטופ ובמובייל, בפריסה שונה.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>אזור</th><th>מה יש בו</th><th>במובייל</th></tr></thead>
+      <tbody>
+        <tr><td><b>A · Hero</b></td><td>לוגו, כותרת, משפט הסבר, "בקשת הדגמה", המחשה של המוצר</td><td>כותרת קצרה, המחשה אחת, וכפתור הדגמה שנשאר צמוד לתחתית המסך</td></tr>
+        <tr><td><b>B · איך זה עובד</b></td><td>שלושה שלבים: גוררים, PALAMI מסדרת, הנוסע מקבל קישור. עם דוגמה אמיתית לשם קובץ</td><td>שלושה כרטיסים בגלילה לצד</td></tr>
+        <tr><td><b>C · הערך לסוכנות</b></td><td>חמשת היתרונות</td><td>כותרות שנפתחות בלחיצה, כך שכל היתרונות גלויים בלי גלילה ארוכה</td></tr>
+        <tr><td><b>D · הצצה למערכת</b></td><td>כרטיסיות "אצל הסוכן" ו"אצל הנוסע", עם 3–4 מסכים לכל צד</td><td>אותן כרטיסיות, מסך אחד בכל פעם</td></tr>
+        <tr><td><b>E · בקשת הדגמה</b></td><td>שם מלא, אימייל, טלפון, שם סוכנות (לא חובה). Footer עם פרטי קשר ומדיניות פרטיות</td><td>טופס קצר באותו מסך</td></tr>
+      </tbody></table></div>
+  </section>
+
+  <section class="s" id="concepts">
+    <div class="sh"><span class="eyebrow">06 · CONCEPTS</span><h2>ארבעה כיווני עיצוב לעמוד הבית</h2>
+      <p>כל הכיוונים בשפה של PALAMI: הלוגו המאושר על רקע לבן, ירוק יער, נחושת לנקודות בלבד, Rubik ו־Assistant, ושורת פריט הנסיעה עם ה־V. המסכים הם צילומים אמיתיים מאבות הטיפוס, עם הסוכנות הבדויה "מסעות הדרים". במובייל אפשר לגלול בתוך הטלפון ולראות את כל העמוד.</p></div>
+
+    <!-- Concept A -->
+    <article class="concept" id="c-a">
+      <div class="concept-h"><h3>מהקבצים לנסיעה</h3><span class="letter">A · מוצרי־טכנולוגי</span></div>
+      <p>העמוד מראה את מה שהמוצר עושה: קבצים בשמות סתמיים נכנסים, מסך הסוכן מסדר אותם, והטלפון של הנוסע מקבל נסיעה מוכנה. הכותרת היא התהליך עצמו.</p>
+      <div class="views">
+        <div><span class="vlabel">DESKTOP · 1280px</span>
+          <div class="dframe"><div class="chrome"><i></i><i></i><i></i><span>palami.io</span></div>
+            <div class="dview" data-h="1130"><div class="site mk mk-a">
+              <div class="nav"><img class="logo" src="img/wordmark-tagline.svg" alt="PALAMI"><div class="links"><span>איך זה עובד</span><span>יתרונות</span><span>הצצה למערכת</span></div><span class="lang">EN</span><span class="btn sm">בקשת הדגמה</span></div>
+              <div class="hero">
+                <div style="display:grid;gap:22px">
+                  <span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span>
+                  <h1>הסוכן גורר.<br>PALAMI מסדרת.<br><em>הנוסע נוסע רגוע</em><span class="dot"></span></h1>
+                  <p class="sub">מעלים לתיק את אישורי הטיסה, השוברים והכרטיסים, ו־PALAMI מסדרת אותם ללו״ז ולמסמכים. הנוסע מקבל קישור אחד במיתוג הסוכנות.</p>
+                  <div style="display:flex;gap:12px"><span class="btn">בקשת הדגמה</span><span class="btn ghost">איך זה עובד</span></div>
+                </div>
+                <div class="art">
+                  <div class="files"><span class="chip"><i></i>scan_0012.pdf</span><span class="chip img"><i></i>IMG_4471.jpg</span><span class="chip"><i></i>booking (3).pdf</span></div>
+                  <span class="arrow">PALAMI מזהה, נותנת שם ומשבצת</span>
+                  <img class="shot desk" src="img/a-trip-upload.webp" alt="תיק נסיעה אצל הסוכן: מסמכים ששובצו">
+                  <div class="phone ph"><img src="img/t-home-before.webp" alt="מסך הבית של הנוסע"></div>
+                </div>
+              </div>
+              <div class="how">
+                <div class="sec-h"><h2>איך PALAMI עובדת</h2></div>
+                <div class="steps">
+                  <div class="step"><span class="no">1</span><h4>גוררים קבצים לתיק</h4><p>אישורי טיסה, שוברים וכרטיסים, PDF או צילום. כולם יחד, או אחד היום ועוד אחד בשבוע הבא.</p></div>
+                  <div class="step"><span class="no">2</span><h4>PALAMI מסדרת</h4><div class="ren"><span class="from">scan_0012.pdf</span><span class="to">טיסה LY395 · תל אביב–ברצלונה · 12.11.2026</span></div><p>שאלה רק כשמשהו לא ודאי.</p></div>
+                  <div class="step"><span class="no">3</span><h4>הנוסע מקבל קישור</h4><p>לו״ז, מסמכים, חירום וצ'אט בטלפון, במיתוג הסוכנות. גם בלי אינטרנט.</p></div>
+                </div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div><span class="vlabel">MOBILE · 390px</span>
+          <div class="pframe"><div class="pscroll"><div class="mk mm mm-a">
+            <div class="mnav"><img src="img/wordmark.svg" alt="PALAMI"><span class="lang">EN</span><span class="menu"><i></i></span></div>
+            <div class="mh">
+              <span class="eyb">לסוכנויות נסיעות</span>
+              <h1>הסוכן גורר. PALAMI מסדרת<span class="dot"></span></h1>
+              <p class="sub">הנוסע מקבל קישור אחד, במיתוג הסוכנות, עם כל הנסיעה.</p>
+              <div class="mart"><img class="shot desk" src="img/a-trip-upload.webp" alt=""><span class="chip"><i></i>scan_0012.pdf</span><div class="phone ph"><img src="img/t-home-before.webp" alt=""></div></div>
+            </div>
+            <div class="m-lower"></div>
+          </div></div></div>
+          <p class="phint">גוללים בתוך הטלפון</p>
+        </div>
+      </div>
+      <div class="pros">
+        <div><h4>צד הסוכן וצד הנוסע</h4><ul><li>שניהם כבר ב־Hero, בסדר של התהליך: קבצים, סוכן, נוסע</li><li>"איך זה עובד" עם דוגמה אמיתית לשם קובץ</li></ul></div>
+        <div><h4>כפתור ההדגמה</h4><ul><li>בסרגל העליון, שנשאר צמוד בגלילה</li><li>ראשי ב־Hero</li><li>במובייל צמוד לתחתית המסך</li></ul></div>
+        <div><h4>יתרונות</h4><ul><li>מבינים מה המוצר עושה תוך שניות</li><li>משכנע גם את AWS ושותפים</li><li>שימוש חוזר במסכים קיימים</li></ul></div>
+        <div><h4>חסרונות</h4><ul><li>הרבה פרטים במסך הראשון</li><li>תלוי באיכות צילומי המסך</li><li>פחות רגש</li></ul></div>
+      </div>
+    </article>
+
+    <!-- Concept B -->
+    <article class="concept" id="c-b">
+      <div class="concept-h"><h3>הסוכנות במרכז</h3><span class="letter">B · עסקי־יוקרתי</span></div>
+      <p>פס ירוק עמוק עם כותרת גדולה ושקטה, וטלפון אחד שמראה את לוגו הסוכנות אצל הנוסע. המסר הוא מקצועיות, אמון ובידול, ופחות התהליך.</p>
+      <div class="views">
+        <div><span class="vlabel">DESKTOP · 1280px</span>
+          <div class="dframe"><div class="chrome"><i></i><i></i><i></i><span>palami.io</span></div>
+            <div class="dview" data-h="1000"><div class="site mk mk-b">
+              <div class="nav"><img class="logo" src="img/wordmark-tagline.svg" alt="PALAMI"><div class="links"><span>איך זה עובד</span><span>יתרונות</span><span>הצצה למערכת</span></div><span class="lang">EN</span><span class="btn sm">בקשת הדגמה</span></div>
+              <div class="band">
+                <div class="txt">
+                  <span class="eyb">פלטפורמה לסוכנויות נסיעות</span>
+                  <h1>תיק נסיעה דיגיטלי,<br>בשם הסוכנות שלך<span class="dot"></span></h1>
+                  <p class="sub">הנוסע מקבל את כל הנסיעה בטלפון, עם הלוגו שלכם בראש המסך. אתם מעלים את המסמכים פעם אחת, ו־PALAMI מסדרת את השאר.</p>
+                  <div style="display:flex;gap:12px"><span class="btn paper">בקשת הדגמה</span><span class="btn ghost" style="color:#FFFFFF;box-shadow:inset 0 0 0 1.5px rgb(255 255 255 / .6)">איך זה עובד</span></div>
+                </div>
+                <div class="ph-wrap">
+                  <div class="phone"><img src="img/t-home-before.webp" alt="אפליקציית הנוסע עם לוגו הסוכנות"></div>
+                  <span class="callout c1">הלוגו של הסוכנות</span>
+                  <span class="callout c2">כל הנסיעה, גם בלי אינטרנט</span>
+                </div>
+              </div>
+              <div class="values">
+                <div><b>מעלים פעם אחת</b><span>המערכת מזהה, נותנת שם ומשבצת</span></div>
+                <div><b>הכול בקישור אחד</b><span>לו״ז, מסמכים, חירום וצ'אט</span></div>
+                <div><b>שינוי רק באישור</b><span>לפני ואחרי, באישור אחד</span></div>
+                <div><b>מה דורש טיפול</b><span>מסך אחד, בלי לחפש</span></div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div><span class="vlabel">MOBILE · 390px</span>
+          <div class="pframe"><div class="pscroll"><div class="mk mm mm-b">
+            <div class="mnav"><img src="img/wordmark.svg" alt="PALAMI"><span class="lang">EN</span><span class="menu"><i></i></span></div>
+            <div class="mband">
+              <span class="eyb">לסוכנויות נסיעות</span>
+              <h1>תיק נסיעה דיגיטלי, בשם הסוכנות שלך<span class="dot"></span></h1>
+              <p class="sub">כל הנסיעה בטלפון של הנוסע, עם הלוגו שלכם.</p>
+              <span class="btn paper">בקשת הדגמה</span>
+              <div class="phone"><img src="img/t-home-before.webp" alt=""></div>
+            </div>
+            <div class="after-band"></div>
+            <div class="m-lower"></div>
+          </div></div></div>
+          <p class="phint">גוללים בתוך הטלפון</p>
+        </div>
+      </div>
+      <div class="pros">
+        <div><h4>צד הסוכן וצד הנוסע</h4><ul><li>ב־Hero רק הנוסע, עם המיתוג של הסוכנות</li><li>צד הסוכן מופיע רק ב"הצצה למערכת"</li></ul></div>
+        <div><h4>כפתור ההדגמה</h4><ul><li>כפתור לבן בולט על הירוק</li><li>גם בסרגל העליון</li><li>במובייל בתוך הפס, ואחר כך צמוד לתחתית</li></ul></div>
+        <div><h4>יתרונות</h4><ul><li>נראה פרימיום ובטוח</li><li>מדגיש בידול ומותג לסוכנות</li><li>מהיר לפיתוח</li></ul></div>
+        <div><h4>חסרונות</h4><ul><li>לא מראה כמה קל לסוכן</li><li>פס ירוק גדול צריך מינון: ספר המותג מעדיף לבן ונייר</li></ul></div>
+      </div>
+    </article>
+
+    <!-- Concept C -->
+    <article class="concept" id="c-c">
+      <div class="concept-h"><h3>שני צדדים, נסיעה אחת</h3><span class="letter">C · חווייתי</span></div>
+      <p>הסוכן והנוסע זה לצד זה, מחוברים בקו של סימני V: "שובץ", "פורסם", "עודכן". הרעיון: מה שהסוכן עושה במחשב מופיע אצל הנוסע בטלפון.</p>
+      <div class="views">
+        <div><span class="vlabel">DESKTOP · 1280px</span>
+          <div class="dframe"><div class="chrome"><i></i><i></i><i></i><span>palami.io</span></div>
+            <div class="dview" data-h="1050"><div class="site mk mk-c">
+              <div class="nav"><img class="logo" src="img/wordmark-tagline.svg" alt="PALAMI"><div class="links"><span>איך זה עובד</span><span>יתרונות</span><span>הצצה למערכת</span></div><span class="lang">EN</span><span class="btn sm">בקשת הדגמה</span></div>
+              <div class="hero">
+                <div style="display:grid;gap:18px"><span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span><h1>כל פרטי הנסיעה, מסודרים לך ולנוסע שלך<span class="dot"></span></h1><p class="sub" style="max-width:700px">אתם עובדים במחשב, הנוסע רואה את התוצאה בטלפון. בלי לשלוח שוב את אותם מסמכים.</p></div>
+                <div style="display:grid;gap:12px;justify-items:end"><span class="btn">בקשת הדגמה</span><div class="toggle"><span class="on">שניהם</span><span>סוכן</span><span>נוסע</span></div></div>
+              </div>
+              <div class="duo">
+                <div class="side"><span class="lbl">אצל הסוכן <span>app.palami.io</span></span><img class="shot" src="img/a-dash.webp" alt="דשבורד הסוכן" style="width:100%"></div>
+                <div class="link"><span class="vk"></span><small>שובץ</small><span class="vk"></span><small>פורסם</small><span class="vk"></span><small>עודכן</small></div>
+                <div class="side" style="justify-items:center"><span class="lbl">אצל הנוסע <span>בטלפון</span></span><div class="phone ph"><img src="img/t-schedule.webp" alt="לו״ז הנוסע"></div></div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div><span class="vlabel">MOBILE · 390px</span>
+          <div class="pframe"><div class="pscroll"><div class="mk mm mm-c">
+            <div class="mnav"><img src="img/wordmark.svg" alt="PALAMI"><span class="lang">EN</span><span class="menu"><i></i></span></div>
+            <div class="mh">
+              <h1>מסודר לך, מסודר לנוסע<span class="dot"></span></h1>
+              <p class="sub">אתם עובדים במחשב, הנוסע רואה את התוצאה בטלפון.</p>
+              <div class="mduo">
+                <div class="row"><div style="display:grid;gap:6px"><span class="lbl">אצל הסוכן</span><img class="shot" src="img/a-dash.webp" alt="" style="width:100%"></div><div style="display:grid;gap:6px"><span class="lbl">אצל הנוסע</span><div class="phone"><img src="img/t-schedule.webp" alt=""></div></div></div>
+              </div>
+            </div>
+            <div class="m-lower"></div>
+          </div></div></div>
+          <p class="phint">גוללים בתוך הטלפון</p>
+        </div>
+      </div>
+      <div class="pros">
+        <div><h4>צד הסוכן וצד הנוסע</h4><ul><li>שווים במשקל, זה לצד זה</li><li>מתג "סוכן / נוסע" ממקד צד אחד</li></ul></div>
+        <div><h4>כפתור ההדגמה</h4><ul><li>ליד הכותרת, מעל ההמחשה</li><li>במובייל צמוד לתחתית</li></ul></div>
+        <div><h4>יתרונות</h4><ul><li>מראה את הקשר בין הסוכן לנוסע</li><li>ממחיש ערך לשני הצדדים</li></ul></div>
+        <div><h4>חסרונות</h4><ul><li>בטלפון שני מסכים קטנים מדי זה ליד זה</li><li>דשבורד מלא קשה לקריאה בגודל קטן</li><li>יותר עבודה</li></ul></div>
+      </div>
+    </article>
+
+    <!-- Concept D -->
+    <article class="concept" id="c-d">
+      <div class="concept-h"><h3>הכול מסומן ב־V</h3><span class="letter">D · מינימליסטי־מותגי</span></div>
+      <p>הכיוון שגזרתי מספר המותג. הרכיב המרכזי של PALAMI, שורת פריט הנסיעה עם ה־V שהבונה מחזיק בטלפון, הופך להמחשה הראשית. כותרת חדה, הרבה אוויר ומעט מילים.</p>
+      <div class="views">
+        <div><span class="vlabel">DESKTOP · 1280px</span>
+          <div class="dframe"><div class="chrome"><i></i><i></i><i></i><span>palami.io</span></div>
+            <div class="dview" data-h="900"><div class="site mk mk-d">
+              <div class="nav"><img class="logo" src="img/wordmark-tagline.svg" alt="PALAMI"><div class="links"><span>איך זה עובד</span><span>יתרונות</span><span>הצצה למערכת</span></div><span class="lang">EN</span><span class="btn sm">בקשת הדגמה</span></div>
+              <div class="hero">
+                <div style="display:grid;gap:24px">
+                  <span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span>
+                  <h1>הסוכן גורר.<br>PALAMI מסדרת<span class="dot"></span></h1>
+                  <p class="sub" style="max-width:560px">מעלים את המסמכים לתיק פעם אחת. הנוסע מקבל את כל הנסיעה בקישור אחד, במיתוג הסוכנות.</p>
+                  <div style="display:flex;gap:12px;align-items:center"><span class="btn">בקשת הדגמה</span><span class="slogan">כל פרטי הנסיעה בכף ידך</span></div>
+                </div>
+                <div class="list">
+                  <div class="ttl"><span>ברצלונה · משפחת כהן</span><span class="mono" style="font-size:13px">HDR-2609-0031</span></div>
+                  <div class="ti"><svg><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 12.11 · 06:10</small></span><span class="vk"></span></div>
+                  <div class="ti"><svg><use href="#i-hotel"/></svg><span class="tt"><b>Hotel Mar Blau</b><small>7 לילות · 2 חדרים</small></span><span class="vk"></span></div>
+                  <div class="ti"><svg><use href="#i-bus"/></svg><span class="tt"><b>הסעה למלון</b><small>11:00 · עודכן ואושר</small></span><span class="vk"></span></div>
+                  <div class="ti"><svg><use href="#i-shield"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>לא נמצאה פוליסה בתיק</small></span><span class="vk attn"></span></div>
+                  <img class="mascot" src="img/mascot.webp" alt="">
+                </div>
+              </div>
+              <div class="strip">
+                <div><b>מעלים פעם אחת</b><span>PDF או צילום, הכול לתוך התיק</span></div>
+                <div><b>PALAMI מסדרת</b><span>שם ברור, לו״ז ומסמכים</span></div>
+                <div><b>הנוסע מקבל קישור</b><span>במיתוג הסוכנות, גם בלי אינטרנט</span></div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div><span class="vlabel">MOBILE · 390px</span>
+          <div class="pframe"><div class="pscroll"><div class="mk mm mm-d">
+            <div class="mnav"><img src="img/wordmark.svg" alt="PALAMI"><span class="lang">EN</span><span class="menu"><i></i></span></div>
+            <div class="mh">
+              <h1>הסוכן גורר.<br>PALAMI מסדרת<span class="dot"></span></h1>
+              <p class="sub">הנוסע מקבל את כל הנסיעה בקישור אחד, במיתוג הסוכנות.</p>
+              <div class="mlist">
+                <div class="ti"><svg><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 06:10</small></span><span class="vk"></span></div>
+                <div class="ti"><svg><use href="#i-hotel"/></svg><span class="tt"><b>Hotel Mar Blau</b><small>7 לילות</small></span><span class="vk"></span></div>
+                <div class="ti"><svg><use href="#i-shield"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>לא נמצאה פוליסה</small></span><span class="vk attn"></span></div>
+                <img class="mmascot" src="img/mascot.webp" alt="">
+              </div>
+            </div>
+            <div class="m-lower"></div>
+          </div></div></div>
+          <p class="phint">גוללים בתוך הטלפון</p>
+        </div>
+      </div>
+      <div class="pros">
+        <div><h4>צד הסוכן וצד הנוסע</h4><ul><li>ב־Hero תוצאה אחת: תיק שכולו V, ושורה בנחושת שמראה מה הסוכן רואה</li><li>המסכים עצמם ב"הצצה"</li></ul></div>
+        <div><h4>כפתור ההדגמה</h4><ul><li>כפתור אחד בולט ליד הכותרת, בלי משני</li><li>במובייל צמוד לתחתית</li></ul></div>
+        <div><h4>יתרונות</h4><ul><li>הכי מזוהה עם המותג</li><li>חד וקריא, הכי טוב במובייל</li><li>הכי מהיר לפיתוח</li></ul></div>
+        <div><h4>חסרונות</h4><ul><li>המחשה סמלית, לא מסך אמיתי</li><li>הסוכן צריך לגלול כדי לראות את המערכת</li></ul></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="s" id="rank">
+    <div class="sh"><span class="eyebrow">07 · RANKING</span><h2>דירוג והמלצה</h2><p class="muted">ציון 1–5 בכל קריטריון.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>כיוון</th><th>התאמה למותג</th><th>בהירות המסר</th><th>המחשת המוצר</th><th>מובייל</th><th>הנעה לדמו</th><th>מהירות פיתוח</th><th>סה״כ</th></tr></thead>
+      <tbody>
+        <tr class="win"><td><b>A · מהקבצים לנסיעה</b> <span class="tag t-ok">מומלץ</span></td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">27</td></tr>
+        <tr><td><b>D · הכול מסומן ב־V</b></td><td class="num">5</td><td class="num">4</td><td class="num">3</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">26</td></tr>
+        <tr><td><b>B · הסוכנות במרכז</b></td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">24</td></tr>
+        <tr><td><b>C · שני צדדים, נסיעה אחת</b></td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">23</td></tr>
+      </tbody></table></div>
+    <div class="note ok"><b>ההמלצה: כיוון A, עם רכיב ה־V של D במובייל.</b>
+      <ul class="dots" style="margin-top:8px">
+        <li>הסוכן שנכנס לאתר צריך להבין קודם כול כמה העבודה פשוטה, ו־A מראה את זה במסך הראשון: קבצים בשמות סתמיים הופכים לנסיעה מסודרת אצל הנוסע.</li>
+        <li>זה גם מה ש־AWS ושותפים רוצים לראות: מוצר אמיתי, לא רק מסר.</li>
+        <li>במובייל, שבו מסך דסקטופ קטן קשה לקריאה, נשתמש ברשימת ה־V של D כהמחשה ראשית. ככה מקבלים את חוויית המובייל הטובה ביותר בלי לוותר על המוצר.</li>
+        <li>הסלוגן "כל פרטי הנסיעה בכף ידך" יופיע ליד הלוגו ובאזור הנוסע.</li>
+      </ul></div>
+  </section>
+
+  <section class="s" id="aws">
+    <div class="sh"><span class="eyebrow">08 · AWS</span><h2>מה AWS דורשת מהאתר</h2>
+      <p class="muted">סביבת המחקר לא הצליחה לפתוח ישירות את דפי AWS, אז הסיכום מבוסס על ציטוטים מתוצאות חיפוש של הדפים הרשמיים. כדאי לעבור עליהם שוב לפני ההגשה.</p></div>
+    <div class="grid2">
+      <div class="card"><h3>דרישות רשמיות</h3><ul class="dots">
+        <li>אתר חברה פעיל ("fully functioning website") או פרופיל חברה. AWS סורקת את האתר אוטומטית כחלק מבדיקת הבקשה.</li>
+        <li><b>אימייל עסקי בדומיין של החברה</b>, כלומר @palami.io, לפרופיל Activate ולבקשה. זו ההנחיה של AWS במדריך הרשמי.</li>
+        <li>Founders: חברה שלא גייסה כסף ממשקיעים, נוסדה ב־10 השנים האחרונות, לפני Series B.</li>
+        <li>החלטה לפי שיקול דעת AWS. האתר לבדו לא מבטיח קרדיטים.</li>
+        <li>Founders Club תל אביב: לא פורסמו קריטריונים לאתר.</li></ul></div>
+      <div class="card"><h3>המלצות איכות (לא רשמיות)</h3><ul class="dots">
+        <li>אתר על הדומיין palami.io, ב־HTTPS, לא דף "בבנייה".</li>
+        <li>שם החברה, המוצר והקהל ברורים, ותואמים לבקשה ולרישום החברה.</li>
+        <li>לתת ל־AWS את כתובת האתר הראשי, לא כתובת של אפליקציה.</li>
+        <li>טופס שעובד, בלי קישורים שבורים, מתאים למובייל.</li>
+        <li>עמוד חברה ב־LinkedIn באותו שם, אם אפשר.</li></ul></div>
+    </div>
+  </section>
+
+  <section class="s" id="questions">
+    <div class="sh"><span class="eyebrow">09 · QUESTIONS</span><h2>שאלות אליך, עם המלצה</h2></div>
+    <div class="tbl"><table>
+      <thead><tr><th>#</th><th>שאלה</th><th>ההמלצה שלי</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1</td><td><b>מה כבר עובד היום?</b> צד הסוכן מפותח, אבל האם הקליטה האוטומטית פועלת? אפליקציית הנוסע עדיין באפיון?</td><td>להציג את המוצר כמו שהוא מאופיין, בלי להבטיח זמינות. להוסיף שורה אחת כמו "PALAMI בשלב פיילוט עם סוכנויות ראשונות", רק אם זה נכון. בלי לקוחות, מספרים או ציטוטים.</td></tr>
+        <tr><td class="num">2</td><td><b>צילומי מסך:</b> יש מסכים מהמערכת המפותחת?</td><td>אם יש, להשתמש בהם לצד הסוכן. אם לא, אבות הטיפוס עם סוכנות בדויה, ובכיתוב "מסכים להמחשה".</td></tr>
+        <tr><td class="num">3</td><td><b>פרטי קשר ל־Footer:</b> אימייל, טלפון, שם החברה הרשום (בע״מ?)</td><td>אימייל בדומיין, למשל hello@palami.io. זה נדרש גם ל־AWS. מספר טלפון רק אם רוצים שיתקשרו. שם החברה כמו ברשם החברות, למדיניות הפרטיות.</td></tr>
+        <tr><td class="num">4</td><td><b>לאן יגיעו פניות הטופס?</b></td><td>לאימייל שלך, דרך שירות טפסים חינמי ופשוט (Web3Forms או Formspree), עם הגנה מספאם. בלי שרת ובלי מסד נתונים. אחבר רק אחרי אישורך.</td></tr>
+        <tr><td class="num">5</td><td><b>אחסון ו־DNS:</b> איפה רשום palami.io, ויש כבר אימייל על הדומיין?</td><td>אתר סטטי ב־Cloudflare Pages או ב־AWS Amplify Hosting: HTTPS אוטומטי, כמעט בלי עלות. Amplify מתאים לסיפור של AWS, Cloudflare הכי פשוט. לא אשנה DNS בלי אישור.</td></tr>
+        <tr><td class="num">6</td><td><b>כיוון העיצוב והכותרת</b></td><td>כיוון A עם רכיב ה־V של D במובייל, והכותרת "הסוכן גורר. PALAMI מסדרת. הנוסע נוסע רגוע."</td></tr>
+      </tbody></table></div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var tpl=document.getElementById('m-lower');
+  document.querySelectorAll('.m-lower').forEach(function(slot){ slot.appendChild(tpl.content.cloneNode(true)); });
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-peek]'); if(!b) return;
+    var box=b.closest('.peek'); var v=b.getAttribute('data-peek');
+    box.querySelectorAll('[data-peek]').forEach(function(x){ x.setAttribute('aria-pressed', String(x===b)); });
+    box.querySelectorAll('[data-pane]').forEach(function(p){ p.hidden = p.getAttribute('data-pane')!==v; });
+  });
+  function fit(){
+    document.querySelectorAll('.dview').forEach(function(v){
+      var s=v.querySelector('.site'); var k=v.clientWidth/1280; var h=+v.getAttribute('data-h')||1000;
+      s.style.transform='scale('+k+')'; v.style.height=Math.round(h*k)+'px';
+    });
+  }
+  fit(); window.addEventListener('resize',fit);
+  if('ResizeObserver' in window){ var ro=new ResizeObserver(fit); document.querySelectorAll('.dview').forEach(function(v){ ro.observe(v); }); }
+})();
+</script>
