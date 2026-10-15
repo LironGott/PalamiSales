@@ -89,8 +89,8 @@ a{color:var(--g)}
 @keyframes hvS1{0%,31%{border-color:var(--g);box-shadow:var(--sh1)}34%,100%{border-color:var(--ln);box-shadow:none}}
 @keyframes hvS2{0%,32%,59%,100%{border-color:var(--ln);box-shadow:none}35%,56%{border-color:var(--g);box-shadow:var(--sh1)}}
 @keyframes hvS3{0%,57%,97%,100%{border-color:var(--ln);box-shadow:none}60%,94%{border-color:var(--g);box-shadow:var(--sh1)}}
-.hvw{position:relative;height:500px}
-.hv{position:absolute;top:0;left:50%;width:480px;height:500px;transform:translateX(-50%) scale(var(--k,1));transform-origin:top center;--d:12s}
+.hvw{position:relative;height:524px}
+.hv{position:absolute;top:0;left:50%;width:480px;height:524px;transform:translateX(-50%) scale(var(--k,1));transform-origin:top center;--d:12s}
 .hv *{animation-duration:var(--d);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
 .hv-steps{position:absolute;top:0;right:0;left:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .hv-steps span{display:flex;align-items:center;justify-content:center;gap:7px;height:38px;border-radius:999px;background:var(--wh);border:1px solid var(--ln);font:700 14.5px var(--f-d);color:var(--mu)}
@@ -103,12 +103,12 @@ a{color:var(--g)}
 .hv-chip em{font:700 13px var(--f-b);font-style:normal;color:var(--in);white-space:nowrap}
 .hv-chip i{font:500 12px var(--f-m);font-style:normal;color:var(--mu);direction:ltr;text-align:right;white-space:nowrap}
 .hv-chip.c1{right:10px;animation-name:hvC1}.hv-chip.c2{right:175px;animation-name:hvC2}.hv-chip.c3{right:340px;animation-name:hvC3}
-@keyframes hvC1{0%{opacity:0;transform:none}4%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(-75px,0)}28%{opacity:1;transform:translate(-75px,178px) scale(.8)}32%,100%{opacity:0;transform:translate(-75px,178px) scale(.5)}}
-@keyframes hvC2{0%{opacity:0;transform:none}5%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(84px,6px)}28%{opacity:1;transform:translate(84px,184px) scale(.8)}32%,100%{opacity:0;transform:translate(84px,184px) scale(.5)}}
-@keyframes hvC3{0%{opacity:0;transform:none}6%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(243px,12px)}28%{opacity:1;transform:translate(243px,190px) scale(.8)}32%,100%{opacity:0;transform:translate(243px,190px) scale(.5)}}
+@keyframes hvC1{0%{opacity:0;transform:none}4%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(-75px,0)}28%{opacity:1;transform:translate(-75px,194px) scale(.8)}32%,100%{opacity:0;transform:translate(-75px,194px) scale(.5)}}
+@keyframes hvC2{0%{opacity:0;transform:none}5%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(84px,6px)}28%{opacity:1;transform:translate(84px,200px) scale(.8)}32%,100%{opacity:0;transform:translate(84px,200px) scale(.5)}}
+@keyframes hvC3{0%{opacity:0;transform:none}6%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(243px,12px)}28%{opacity:1;transform:translate(243px,206px) scale(.8)}32%,100%{opacity:0;transform:translate(243px,206px) scale(.5)}}
 .hv-cur{position:absolute;top:84px;right:66px;z-index:4;animation-name:hvCur}
-@keyframes hvCur{0%,11%{opacity:0;transform:translate(-30px,30px)}14%,16%{opacity:1;transform:none}28%{opacity:1;transform:translateY(178px)}32%,100%{opacity:0;transform:translateY(178px)}}
-.hv-ag{position:absolute;top:126px;right:0;width:290px;background:var(--wh);border:1px solid var(--ln);border-radius:16px;box-shadow:var(--sh3);padding:14px;display:grid;align-content:start;gap:8px}
+@keyframes hvCur{0%,11%{opacity:0;transform:translate(-30px,30px)}14%,16%{opacity:1;transform:none}28%{opacity:1;transform:translateY(194px)}32%,100%{opacity:0;transform:translateY(194px)}}
+.hv-ag{position:absolute;top:142px;right:0;width:290px;background:var(--wh);border:1px solid var(--ln);border-radius:16px;box-shadow:var(--sh3);padding:14px;display:grid;align-content:start;gap:8px}
 .hv-agh{display:grid;gap:1px}.hv-agh b{font:700 16px var(--f-d);color:var(--in)}.hv-agh small{font:500 12px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
 .hv-tab{justify-self:start;font:600 13.5px var(--f-b);color:var(--g);border-bottom:2.5px solid var(--g);padding-bottom:3px}
 .hv-dz{position:relative;height:66px;border:2px dashed #A9C7B5;border-radius:12px;display:grid;place-items:center;font:600 14px var(--f-b);color:var(--g);animation-name:hvDz}
@@ -125,7 +125,7 @@ a{color:var(--g)}
 @keyframes hvR1{0%,35%{opacity:0;transform:translateY(6px)}38%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
 @keyframes hvR2{0%,40%{opacity:0;transform:translateY(6px)}43%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
 @keyframes hvR3{0%,45%{opacity:0;transform:translateY(6px)}48%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
-.hv-ph{position:absolute;top:118px;left:0;width:180px;height:372px;border:7px solid var(--g);border-radius:30px;background:#FBF8F2;box-shadow:var(--sh3);overflow:hidden;display:grid;align-content:start;gap:7px;padding-bottom:10px}
+.hv-ph{position:absolute;top:142px;left:0;width:180px;height:372px;border:7px solid var(--g);border-radius:30px;background:#FBF8F2;box-shadow:var(--sh3);overflow:hidden;display:grid;align-content:start;gap:7px;padding-bottom:10px}
 .hv-phh{background:var(--g);color:var(--wh);font:700 13px var(--f-d);text-align:center;padding:9px 6px 8px}
 .hv-pt{display:grid;padding:2px 10px 4px}.hv-pt b{font:800 19px var(--f-d);color:var(--g)}.hv-pt small{font:600 12.5px var(--f-b);color:var(--mu)}
 .hv-wait{margin:6px 10px;border:1.5px dashed #A9C7B5;border-radius:12px;padding:10px;text-align:center;font:600 12.5px var(--f-b);color:var(--mu);animation-name:hvWait}
@@ -139,8 +139,13 @@ a{color:var(--g)}
 @keyframes hvT2{0%,65%{opacity:0;transform:scale(.96)}68%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
 @keyframes hvT3{0%,69%{opacity:0;transform:scale(.96)}72%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
 .hv-pb{position:absolute;top:4px;right:6px;left:6px;display:flex;align-items:center;gap:6px;background:var(--wh);border-radius:12px;padding:7px 9px;font:600 12px var(--f-b);color:var(--in);box-shadow:0 8px 18px rgb(8 64 42 / .2);z-index:2;opacity:0;animation-name:hvPb}
-.hv-tabs{position:absolute;bottom:0;right:0;left:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--wh);border-top:1px solid var(--ln);padding:8px 2px 9px;font:600 10.5px var(--f-b);color:var(--mu);text-align:center}
-.hv-tabs .on{color:var(--g)}
+.hv-tabs{position:absolute;bottom:0;right:0;left:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--wh);border-top:1px solid var(--ln);padding:6px 2px 7px;font:600 10.5px var(--f-b);color:var(--mu);text-align:center}
+.hv-tabs span{display:grid;justify-items:center;gap:2px}
+.hv-tabs svg{width:17px;height:17px;fill:#8B9A91}
+.hv-tabs .on{color:var(--g)}.hv-tabs .on svg{fill:var(--g)}
+.hv-lbl{position:absolute;top:114px;display:flex;align-items:center;gap:6px;font:600 13px var(--f-b);color:var(--mu)}
+.hv-lbl::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cu)}
+.hv-lbl.ag{right:4px}.hv-lbl.ph{left:4px}
 .hv-pb svg{width:16px;height:16px;fill:var(--cu6);flex:none}
 @keyframes hvPb{0%,58%{opacity:0;transform:translateY(-12px)}61%,80%{opacity:1;transform:none}84%,100%{opacity:0;transform:translateY(-12px)}}
 @media (prefers-reduced-motion:reduce){
@@ -419,7 +424,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       <div class="steps">
         <div class="step"><span class="no">1</span><h3>גוררים את המסמכים לתיק</h3><p>אישורי טיסה, שוברים, כרטיסים ופוליסות ביטוח, בקבצי PDF, JPEG או צילום מסך.</p></div>
         <div class="step"><span class="no">2</span><h3>PALAMI מסדרת</h3><p>מערכת AI ייחודית מזהה כל מסמך, נותנת לו שם ברור ומכניסה אותו ללו״ז, הכול אוטומטית.</p></div>
-        <div class="step"><span class="no">3</span><h3>הנוסע מקבל הכול</h3><p>קישור אחד, במיתוג הסוכנות: לו״ז, מסמכים, חירום וצ'אט. בלי להוריד אפליקציה, גם בלי אינטרנט.</p></div>
+        <div class="step"><span class="no">3</span><h3>הנוסע מקבל הכול</h3><p>קישור אחד במיתוג הסוכנות, עם לו״ז, מסמכים, מידע שימושי ליעד, חירום וצ'אט ישיר עם הסוכנות. הכול נגיש וידידותי, בלי להוריד אפליקציה וגם בלי אינטרנט.</p></div>
       </div>
       <div class="hvw" aria-hidden="true"><div class="hv">
         <div class="hv-steps"><span class="p1"><b>1</b>גוררים מסמכים</span><span class="p2"><b>2</b>AI מסדר</span><span class="p3"><b>3</b>הנוסע מקבל</span></div>
@@ -427,7 +432,9 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
         <span class="hv-chip c2"><em>שובר למלון</em><i>voucher_FINAL.pdf</i></span>
         <span class="hv-chip c3"><em>כרטיס למשחק כדורגל</em><i>IMG_20261028.jpg</i></span>
         <svg class="hv-cur" viewBox="0 0 24 24" width="26" height="26"><path d="M5 3l14 8-6 1.6L10 19z" fill="#16241D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
-        <div class="hv-ag">
+        <span class="hv-lbl ag">מערכת הסוכן</span>
+      <span class="hv-lbl ph">אפליקציית הנוסע</span>
+      <div class="hv-ag">
           <div class="hv-agh"><b>ברצלונה · משפחת כהן</b><small>HDR-2609-0031</small></div>
           <div class="hv-tab">מסמכים והעלאה</div>
           <div class="hv-dz"><span class="t1">גוררים לכאן את המסמכים</span><span class="t2">AI מזהה ומתייק…</span></div>
@@ -444,7 +451,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
           <div class="hv-ti t1"><svg aria-hidden="true"><use href="#i-plane"/></svg><span><b>טיסה הלוך</b><small>12 בנוב׳ · 06:10</small></span><i class="vk sm"></i></div>
           <div class="hv-ti t2"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span><b>מלון</b><small>7 לילות</small></span><i class="vk sm"></i></div>
           <div class="hv-ti t3"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span><b>כדורגל</b><small>14 בנוב׳ · 21:00</small></span><i class="vk sm"></i></div>
-          <div class="hv-tabs"><span>בית</span><span>לו״ז</span><span class="on">מסמכים</span><span>מידע</span></div>
+          <div class="hv-tabs"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>בית</span><span><svg aria-hidden="true"><use href="#i-cal"/></svg>לו״ז</span><span class="on"><svg aria-hidden="true"><use href="#i-doc"/></svg>מסמכים</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>מידע</span></div>
         </div>
       </div></div>
     </div>
@@ -583,7 +590,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   document.querySelectorAll('details.bi summary').forEach(function(su){ su.addEventListener('click',function(e){ if(!window.matchMedia('(max-width:860px)').matches) e.preventDefault(); }); });
 
   var art=document.querySelector('.hvw');
-  function fitHv(){ var k=Math.min(1,art.clientWidth/480); art.style.setProperty('--k',k); art.style.height=(500*k)+'px'; }
+  function fitHv(){ var k=Math.min(1,art.clientWidth/480); art.style.setProperty('--k',k); art.style.height=(524*k)+'px'; }
   window.addEventListener('resize',fitHv); fitHv();
 
   var hdr=document.querySelector('.hdr'), mb=hdr.querySelector('.menu');
