@@ -69,7 +69,7 @@
     list.innerHTML=L.map(function(s,i){return '<button type="button" aria-pressed="'+(i===idx)+'" data-i="'+i+'"><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></button>';}).join('');
     var s=L[idx], src=BASE+'img/'+s[2], alt=esc(s[0]+': '+s[1]);
     stage.innerHTML = s[3]==='desk'
-      ? '<div class="browser"><div class="bar"><i></i><i></i><i></i><span>'+s[4]+'</span></div><img src="'+src+'" alt="'+alt+'"></div>'
+      ? '<div class="browser"><img src="'+src+'" alt="'+alt+'"></div>'
       : '<div class="phone"><img src="'+src+'" alt="'+alt+'"></div>';
   }
   if(list && stage){
