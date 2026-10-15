@@ -88,4 +88,5 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 ## Agent calendar and trip sharing (spec 1.0, 12.10.2026; in development)
 - Spec: https://claude.ai/artifact/TgteZe9s616ZngiTruwLLv (`docs/reference/spec-calendar-sharing.html`), prototype: https://claude.ai/artifact/K2rQnoKuWBWBqtVfrbwPEf (`docs/reference/prototype-calendar.html`).
 - Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
+- Calendar and sharing will be available when the website launches (user, 2026-10-15): present them as existing, no "coming soon" tag.
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
