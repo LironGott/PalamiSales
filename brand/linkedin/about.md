@@ -56,3 +56,38 @@ What the agency gets:
 Peace of mind for the agent. An organized trip for the traveler.
 
 Book a demo: www.palami.io
+
+## Launch post
+Image: `palami-linkedin-launch-post-he-1200.png` (EN: `-en-`), 1200×1200.
+
+Hebrew:
+עלינו לאוויר! 🚀
+
+כל מי שעובד בתיירות מכיר את זה: אישור הטיסה במייל, השובר של המלון ב־WhatsApp, פוליסת הביטוח אצל אחד מבני הזוג ושאלות מהנוסעים גם באמצע הלילה.
+
+בנינו את PALAMI, העוזר האישי של סוכן הנסיעות:
+✔️ גוררים את מסמכי הנסיעה לתיק ומערכת AI מתייקת אותם לבד
+✔️ רואים בכל רגע מה דחוף ומה חסר בכל תיק
+✔️ הנוסע מקבל את כל פרטי הנסיעה בטלפון, במיתוג של הסוכנות וגם בלי אינטרנט
+
+ראש שקט לסוכן. נסיעה מסודרת לנוסע.
+
+סוכנויות שרוצות לראות איך זה עובד אצלן מוזמנות לתאם הדגמה: https://www.palami.io
+
+#תיירות #סוכנינסיעות #TravelTech
+
+English:
+We're live! 🚀
+
+Anyone in travel knows the drill: the flight confirmation in an email, the hotel voucher on WhatsApp, the insurance policy with one of the travelers, and questions coming in at all hours.
+
+We built PALAMI, the travel agent's personal assistant:
+✔️ Drag the trip documents into the file and AI files them automatically
+✔️ See at any moment what's urgent and what's missing in every trip
+✔️ Travelers get every trip detail on their phone, under the agency's brand, even offline
+
+Peace of mind for the agent. An organized trip for the traveler.
+
+Agencies that want to see how it works for them are welcome to book a demo: https://www.palami.io
+
+#TravelTech #TravelAgents #SaaS
