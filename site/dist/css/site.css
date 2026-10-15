@@ -61,7 +61,7 @@ a{color:var(--g)}
 .hero .txt{display:grid;gap:24px}
 .hero .ctas{display:flex;gap:12px;flex-wrap:wrap}
 .get{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:6px}
-.get div{display:grid;gap:4px;align-content:start;background:var(--wh);border:1px solid var(--ln);border-radius:16px;padding:14px}
+.get div,.get a{display:grid;gap:4px;align-content:start;background:var(--wh);border:1px solid var(--ln);border-radius:16px;padding:14px}
 .get b{font:700 16px var(--f-d);color:var(--g);display:flex;gap:8px;align-items:center}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
@@ -409,3 +409,5 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 .hero .art .desk,.hero .art .phone{transition:transform .2s}
 .hero .art:hover .desk{transform:translateY(-3px)}
 @media (prefers-reduced-motion:reduce){.hero .art .desk,.hero .art .phone{transition:none}}
+.get a{text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+.get a:hover{border-color:var(--g);box-shadow:var(--sh1)}

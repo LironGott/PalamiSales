@@ -97,6 +97,9 @@
 
   /* hero visual: clicking the agent screen or the phone opens that side in the product peek */
   var peek=document.getElementById('peek');
+  document.querySelectorAll('[data-peek]').forEach(function(a){
+    a.addEventListener('click',function(){ var tab=document.querySelector('[data-side="'+a.getAttribute('data-peek')+'"]'); if(tab && tab.getAttribute('aria-selected')!=='true') tab.click(); });
+  });
   document.querySelectorAll('.hero .art, .hero .mdash').forEach(function(el){
     el.addEventListener('click',function(e){
       var want=e.target.closest('.phone, .k3, .mphl')?'trav':'agent', tab=document.querySelector('[data-side="'+want+'"]');
