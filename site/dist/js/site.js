@@ -95,13 +95,10 @@
     }
   }
 
-  /* benefits: open on desktop, collapsible on mobile */
-  if(window.matchMedia('(max-width:860px)').matches){ document.querySelectorAll('details.bi').forEach(function(d){ d.open=false; }); }
-  var mq=window.matchMedia('(max-width:860px)');
+  /* benefits: always open, on every screen size (the explanation is part of the message) */
   document.querySelectorAll('details.bi summary').forEach(function(su){
-    su.addEventListener('click',function(e){ if(!mq.matches) e.preventDefault(); });
-    var setTab=function(){ if(mq.matches) su.removeAttribute('tabindex'); else su.setAttribute('tabindex','-1'); }; /* on desktop the cards are always open, so they are not a tab stop */
-    setTab(); if(mq.addEventListener) mq.addEventListener('change',setTab);
+    su.addEventListener('click',function(e){ e.preventDefault(); });
+    su.setAttribute('tabindex','-1');
   });
 
   /* how-it-works animation: scale to column, pause control */

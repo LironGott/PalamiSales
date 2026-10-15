@@ -309,9 +309,6 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .bl{grid-template-columns:1fr;gap:8px}
   .bi{background:rgb(255 255 255 / .6);border-radius:14px;padding:8px 10px}
   .col.agency .bi{background:var(--s2)}
-  .bi summary{cursor:pointer}
-  .bi summary::after{content:"+";margin-inline-start:auto;font:500 22px var(--f-b);color:var(--g)}
-  .bi[open] summary::after{content:"–"}
   .bi .ic{width:40px;height:40px;border-radius:12px}
   .bi h4{font-size:16.5px}
   .bi p{padding:0 2px 4px 0;margin:-2px 0 0;font-size:15px}
