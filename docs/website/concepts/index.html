@@ -202,6 +202,46 @@ tr.win td{background:var(--green-50)}
 .mk-d .strip b{font:700 22px var(--f-d);color:var(--g)}
 .mk-d .strip span{color:var(--mu)}
 
+
+/* E: control center */
+.mk-e .hero{display:grid;grid-template-columns:520px 1fr;gap:36px;padding:64px 56px 36px;align-items:center}
+.mk-e h1{font-size:48px;line-height:1.12}
+.mk-e .h1b{font:700 30px/1.25 var(--f-d);color:var(--cu6)}
+.mk-e .pills{display:flex;gap:10px;flex-wrap:wrap}
+.mk-e .pills span{font:600 14px var(--f-b);padding:6px 14px;border-radius:999px;background:var(--g05);color:var(--g)}
+.mk-e .pills span.t{background:var(--it);color:var(--cu6)}
+.mk-e .art{position:relative;height:540px}
+.mk-e .art .desk{position:absolute;top:20px;right:0;width:640px}
+.mk-e .art .ph{position:absolute;bottom:0;left:-10px;width:190px}
+.mk-e .art .k1{top:-4px;right:120px}.mk-e .art .k2{top:250px;left:60px}.mk-e .art .k3{bottom:30px;right:230px}
+.mk-e .pillars{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;padding:28px 56px 56px;background:var(--s2)}
+.mk-e .pillar{background:#FFFFFF;border:1px solid var(--ln);border-radius:20px;padding:26px;display:grid;gap:12px;align-content:start}
+.mk-e .pillar.main{border-color:var(--g);box-shadow:inset 0 3px 0 var(--g)}
+.mk-e .pillar .k{font:600 13px var(--f-b);color:var(--cu6)}
+.mk-e .pillar h4{font:700 24px var(--f-d);color:var(--g)}
+.mk-e .pillar ul{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:16px}
+.mk-e .pillar li{display:flex;gap:10px;align-items:center}
+.mk-e .pillar li .vk{width:22px;height:22px}.mk-e .pillar li .vk::after{width:9px;height:5px;border-width:0 0 2.2px 2.2px}
+.mm .mdash{display:grid;gap:8px;background:#F4F6F4;border:1px solid var(--ln);border-radius:18px;padding:12px}
+.mm .mdash .lbl{font:600 12px var(--f-b);color:var(--mu);display:flex;justify-content:space-between}
+.mm .mdash .cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.mm .mdash .cnt div{background:#FFFFFF;border:1px solid #DEE3DF;border-radius:10px;padding:6px 4px;text-align:center;display:grid;line-height:1.2}
+.mm .mdash .cnt b{font:700 20px var(--f-d)}
+.mm .mdash .cnt small{font-size:11px;color:var(--mu)}
+.mm .mdash .cnt .r{box-shadow:inset 0 3px 0 #B91C3C}.mm .mdash .cnt .r b{color:#B91C3C}
+.mm .mdash .cnt .h{box-shadow:inset 0 3px 0 #C28A0E}.mm .mdash .cnt .h b{color:#8A5F00}
+.mm .mdash .trip{background:#FFFFFF;border:1px solid #DEE3DF;border-radius:10px;padding:8px 10px;display:grid;grid-template-columns:1fr auto;gap:2px 8px;align-items:center;font-size:13px}
+.mm .mdash .trip.r{box-shadow:inset -3px 0 0 #B91C3C}.mm .mdash .trip.h{box-shadow:inset -3px 0 0 #C28A0E}
+.mm .mdash .trip b{font:600 14px var(--f-d)}
+.mm .mdash .trip small{font:500 11px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
+.mm .mdash .pl{font:600 11px var(--f-b);padding:1px 8px;border-radius:999px;white-space:nowrap;justify-self:end}
+.mm .pl.w{background:#FBF1D6;color:#8A5F00}.mm .pl.b{background:#FCE8EC;color:#B91C3C}.mm .pl.i{background:#E4EEF8;color:#1D5FA8}.mm .pl.o{background:#E6F0EA;color:#33704F}
+.mm-e h1{font-size:28px}.mm-e .h1b{font:700 17px/1.35 var(--f-d);color:var(--cu6)}
+.mm-e .tv{display:grid;gap:6px}
+.mm-e .tv .ti{min-height:50px;padding:8px 12px;border-radius:12px}
+.mm-e .tv .ti b{font-size:14.5px}.mm-e .tv .ti small{font-size:12px}.mm-e .tv .ti svg{width:22px;height:22px}.mm-e .tv .vk{width:22px;height:22px}
+.mm-e .tlabel{font:600 13px var(--f-b);color:var(--cu6);margin-top:4px}
+
 /* Mobile site mock */
 .mm .mnav{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgb(255 255 255 / .96);border-bottom:1px solid var(--ln)}
 .mm .mnav img{height:26px;width:auto}
@@ -282,12 +322,13 @@ tr.win td{background:var(--green-50)}
     </div>
   </div>
   <div class="sec">
-    <h2>מה הסוכנות מרוויחה</h2>
-    <details open><summary>מעלים פעם אחת, המערכת מסדרת</summary><p>זיהוי, שם ברור ושיבוץ בלו״ז. הסוכן עונה רק על מה שלא ודאי.</p></details>
-    <details><summary>הכול אצל הנוסע, בקישור אחד</summary><p>לו״ז, מסמכים, מספרי חירום וצ'אט עם הסוכן, גם בלי אינטרנט.</p></details>
-    <details><summary>שינוי מגיע לנוסע רק אחרי אישור</summary><p>לפני ואחרי, באישור אחד. הנוסע מקבל עדכון בערוץ שבחר.</p></details>
-    <details><summary>מסך אחד שאומר מה דורש טיפול</summary><p>חוסרים, ביטוח שלא נמצא ועדכונים לאישור, בלי לחפש.</p></details>
-    <details><summary>השירות שלכם, בשם הסוכנות</summary><p>לוגו הסוכנות בראש האפליקציה של הנוסע.</p></details>
+    <h2>לסוכנות</h2>
+    <details open><summary>תמונת מצב אחת לכל הנסיעות</summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום.</p></details>
+    <details><summary>רק מה שדורש החלטה</summary><p>שדה לא ודאי, עדכון לאישור, ביטוח שלא נמצא. כל השאר משובץ לבד.</p></details>
+    <details><summary>תיק מרוכז שמתמלא מהמסמכים</summary><p>גוררים PDF ותמונות. מסמכים, נוסעים, לו״ז ושיחה באותו תיק.</p></details>
+    <h2 style="margin-top:10px">ללקוחות שלכם</h2>
+    <details><summary>כל הנסיעה בקישור אחד</summary><p>לו״ז, מסמכים, חירום וצ'אט, גם בלי אינטרנט.</p></details>
+    <details><summary>בשם הסוכנות</summary><p>הלוגו שלכם בראש האפליקציה של הנוסע.</p></details>
   </div>
   <div class="sec peek" style="background:#F7F6F2">
     <h2>הצצה למערכת</h2>
@@ -306,11 +347,11 @@ tr.win td{background:var(--green-50)}
 <main class="wrap" dir="rtl" lang="he">
   <header class="top">
     <img src="img/wordmark-tagline.svg" alt="PALAMI · כל פרטי הנסיעה בכף ידך">
-    <span class="stage-pill">שלבים 1–2 · ממתין לאישורך לפני פיתוח</span>
+    <span class="stage-pill">שלבים 1–2 · גרסה 2, אחרי הבהרת המיצוב · ממתין לאישורך</span>
     <h1>אתר התדמית של PALAMI: ניתוח, מסר וכיווני עיצוב</h1>
-    <p class="lead">מה למדתי מהאפיון וספר המותג, מה עובד אצל המתחרים, ומה האתר צריך להגיד לסוכנות. בסוף: ארבעה כיווני עיצוב לעמוד הבית, דסקטופ ומובייל, עם דירוג והמלצה.</p>
+    <p class="lead">מה למדתי מהאפיון וספר המותג, מה עובד אצל המתחרים, ומה האתר צריך להגיד לסוכנות. עודכן אחרי ההבהרה: PALAMI היא פלטפורמת B2B SaaS עם חוויית B2B2C, והדגש על הערך לסוכנות. בסוף: חמישה כיווני עיצוב, דסקטופ ומובייל, עם דירוג והמלצה.</p>
     <nav class="toc" aria-label="תוכן">
-      <a href="#product">הבנת המוצר</a><a href="#values">5 היתרונות</a><a href="#competitors">מתחרים</a><a href="#message">המסר</a><a href="#structure">מבנה האתר</a><a href="#concepts">כיווני עיצוב</a><a href="#rank">דירוג והמלצה</a><a href="#aws">AWS</a><a href="#questions">שאלות אליך</a>
+      <a href="#product">הבנת המוצר</a><a href="#mgmt">יכולות הניהול</a><a href="#values">5 היתרונות</a><a href="#competitors">מתחרים</a><a href="#message">המסר</a><a href="#structure">מבנה האתר</a><a href="#concepts">כיווני עיצוב</a><a href="#rank">דירוג והמלצה</a><a href="#aws">AWS</a><a href="#questions">שאלות אליך</a>
     </nav>
   </header>
 
@@ -323,19 +364,47 @@ tr.win td{background:var(--green-50)}
     <div class="note"><b>מה מותר להציג כקיים.</b> לפי האפיון, רק יכולות ה־MVP ייכנסו לאתר: קליטה ושיבוץ אוטומטיים, "לטיפול", עדכון באישור, בדיקת ביטוח, פרסום, אפליקציית הנוסע (בית, לו״ז, מסמכים, אופליין, חירום, צ'אט) והתראות. לא נזכיר את מה שמתוכנן לגרסאות הבאות: עוזר חכם, מפה, קליטה מהמייל, צבע הסוכנות, אפליקציות בחנויות ושיווק. כתבת שצד הסוכן מפותח וצד הנוסע מאופיין. לכן צריך לאשר ביחד את הניסוח של מה שעוד לא עלה (שאלה 1 בסוף).</div>
   </section>
 
+  <section class="s" id="mgmt">
+    <div class="sh"><span class="eyebrow">01b · AGENCY SIDE</span><h2>יכולות הניהול בצד הסוכן</h2>
+      <p>בעקבות ההבהרה בדקתי שוב את צד הסוכן. אצל הסוכן PALAMI היא מערכת עבודה שלמה: תמונת מצב, סטטוסים, בקרה וניהול לקוחות. ההעלאה היא רק חלק ממנה. הטבלה מפרידה בין מה שבאפיון, מה שמופיע באב הטיפוס, ומה שעוד צריך לאמת מול המערכת המפותחת.</p></div>
+    <div class="tbl"><table>
+      <thead><tr><th>יכולת ניהול</th><th>באפיון</th><th>באב הטיפוס</th><th>במערכת המפותחת</th><th>באתר?</th></tr></thead>
+      <tbody>
+        <tr><td><b>דשבורד: מה דחוף היום, ביטוח חסר, מסמכים לטיפול, מוכנות לפרסום</b>. כל מונה נפתח לרשימה</td><td>MVP · SCR-A02</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>סטטוס אוטומטי לכל תיק</b> (טיוטה, ממתינה להשלמה, מוכנה לפרסום, פורסמה, יש עדכונים, בנסיעה, הסתיימה, בוטלה) וסינון לפיו</td><td>MVP · F3.10</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>עמודת "חוסרים"</b> בכל שורה: ביטוח, עדכון לאישור, שדה לבדיקה, נוסע בלי נייד, השלמה ישירה מהשורה</td><td>MVP · BR-58</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>סימוני דחיפות</b>: פס אדום או דבש, מיון לפי דחיפות ותאריך יציאה, "הכול בשליטה" כשאין מה לעשות</td><td>MVP · BR-48–53</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>תיק נסיעה מרוכז</b> עם מזהה קבוע: מסמכים, לו״ז, נוסעים וקבוצות, ביטוח, מידע לנוסע, שיחה, התראות לנסיעה</td><td>MVP · SCR-A04</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>קליטה אוטומטית</b> עם "לטיפול" ועדכון לאירוע קיים באישור בלבד (לפני ואחרי)</td><td>MVP · F4</td><td><span class="tag t-ok">✓ בהדמיה</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>לקוחות</b>: רשימה, כרטיס לקוח עם כל הנסיעות, ערוצי עדכון והסכמה לדיוור</td><td>MVP · SCR-A17/19</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>שיחות עם לקוחות</b> מרוכזות לפי תיק, תשובות מוכנות, קובץ מהשיחה ישר לתיק</td><td>MVP (חשוב)</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>אם קיים</td></tr>
+        <tr><td><b>פרסום ללקוח</b>: סיכום, אזהרות, קרדיטים, ושליחה בערוץ של כל נוסע</td><td>MVP · SCR-A08</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>מדיניות התראות</b> לסוכנות ושינוי לנסיעה מסוימת</td><td>MVP · SCR-A15/25</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>בקצרה</td></tr>
+        <tr><td><b>תפקידים</b>: מנהל סוכנות וסוכן. תצוגה פשוטה, טקסט גדול, "בטל" ועזרה</td><td>MVP · BR-77, F1.8–10</td><td><span class="tag t-ok">✓ מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>כן</td></tr>
+        <tr><td><b>היסטוריית שינויים</b> בתיק: מי, מתי, לפני ואחרי</td><td>MVP · SCR-A11</td><td><span class="tag t-attn">באפיון בלבד</span></td><td><span class="tag t-attn">לאמת</span></td><td>אם קיים</td></tr>
+        <tr><td><b>דוחות בסיסיים</b> לסוכנות</td><td>MVP (חשוב)</td><td><span class="tag t-bad">לא מוצג</span></td><td><span class="tag t-attn">לאמת</span></td><td>לא כרגע</td></tr>
+        <tr><td>מי פתח את הקישור וכניסה אחרונה · ניהול עובדים עצמי · משימות לתיק · קליטה מהמייל</td><td>1.1 / 2</td><td>—</td><td>—</td><td>לא</td></tr>
+      </tbody></table></div>
+    <div class="note">אין לי גישה למערכת המפותחת, רק לאפיון ולאבות הטיפוס. לכן העמודה "במערכת המפותחת" מסומנת "לאמת". באתר נציג רק מה שתאשר שקיים.</div>
+  </section>
+
   <section class="s" id="values">
-    <div class="sh"><span class="eyebrow">02 · VALUE</span><h2>חמשת היתרונות המרכזיים</h2><p class="muted">כל יתרון בנוי מאותה שרשרת: יכולת במערכת, תועלת לסוכן, תועלת לנוסע וערך לסוכנות. בלי מספרים שלא נמדדו.</p></div>
+    <div class="sh"><span class="eyebrow">02 · VALUE</span><h2>שני מוקדי ערך, חמישה יתרונות</h2><p class="muted">PALAMI היא פלטפורמת B2B SaaS עם חוויית B2B2C. היתרונות מסודרים לפי שני מוקדים, והדגש על הסוכנות. כל יתרון בנוי מאותה שרשרת: יכולת, סוכן, נוסע, סוכנות. בלי מספרים שלא נמדדו.</p></div>
+    <div class="grid2">
+      <div class="card" style="border-color:var(--green)"><span class="eyebrow">מוקד 1 · עיקרי</span><h3>מערכת העבודה של הסוכנות</h3><p>תמונת מצב אחת לכל הנסיעות והלקוחות, סטטוס לכל תיק, בקרה לפי חריגים, וריכוז כל המסמכים והמידע. פשוטה גם לסוכנים ותיקים.</p></div>
+      <div class="card"><span class="eyebrow">מוקד 2</span><h3>חוויית נסיעה דיגיטלית ללקוחות</h3><p>כל פרטי הנסיעה במקום אחד, בטלפון, במיתוג הסוכנות. שירות מסודר יותר, ופוטנציאל לפחות פניות חוזרות.</p></div>
+    </div>
     <div class="val">
-      <div class="card"><span class="n">1</span><h3>מעלים פעם אחת, המערכת מסדרת</h3>
-        <div class="chain"><div><b>יכולת</b>גרירת PDF ותמונות לתיק. זיהוי, שם לפי התוכן ושיבוץ בלו״ז</div><div><b>לסוכן</b>בלי הקלדה של מה שכתוב במסמכים. שאלה רק על שדה לא ודאי</div><div><b>לנוסע</b>תיק שלם ומסודר, כל מסמך בשם ברור ובמקום שלו</div><div><b>לסוכנות</b>הקמת תיק מהירה יותר, ופחות עבודה כפולה</div></div></div>
-      <div class="card"><span class="n">2</span><h3>כל הנסיעה אצל הנוסע, בקישור אחד</h3>
-        <div class="chain"><div><b>יכולת</b>אפליקציית רשת בלי התקנה: בית, לו״ז, מסמכים, מידע, נשמרת בטלפון אוטומטית</div><div><b>לסוכן</b>פחות "תשלחי לי שוב את הכרטיס"</div><div><b>לנוסע</b>מוצא כל מסמך בשתי לחיצות, גם בשדה ובלי חבילת גלישה</div><div><b>לסוכנות</b>פחות פניות חוזרות, יותר זמן למכירה</div></div></div>
-      <div class="card"><span class="n">3</span><h3>שום שינוי לא מגיע לנוסע בלי אישור</h3>
-        <div class="chain"><div><b>יכולת</b>מסמך שמשנה אירוע קיים מציג לפני ואחרי, ומחכה לאישור</div><div><b>לסוכן</b>שליטה מלאה, באישור אחד. ההתראות מחושבות מחדש לבד</div><div><b>לנוסע</b>מקבל עדכון ב־WhatsApp, אימייל או Push, ורואה "עודכן"</div><div><b>לסוכנות</b>מידע מדויק ואמינות מקצועית</div></div></div>
-      <div class="card"><span class="n">4</span><h3>מסך אחד שאומר מה דורש טיפול</h3>
-        <div class="chain"><div><b>יכולת</b>דשבורד לפי חריגים: חוסרים, ביטוח שלא נמצא, עדכונים לאישור. תצוגה פשוטה וטקסט גדול</div><div><b>לסוכן</b>לא מחפש. כל מספר נפתח לרשימה עם פעולה</div><div><b>לנוסע</b>חוסר כמו ביטוח מתגלה לפני היציאה</div><div><b>לסוכנות</b>פחות טעויות של הרגע האחרון. מתאים גם לסוכנים ותיקים</div></div></div>
-      <div class="card"><span class="n">5</span><h3>השירות של הסוכנות, בכף היד של הנוסע</h3>
-        <div class="chain"><div><b>יכולת</b>לוגו הסוכנות בראש האפליקציה, צ'אט עם הסוכן, מסך חירום עם הקו של הסוכנות</div><div><b>לסוכן</b>הקשר נשאר איתו, לא עם אתר של חברת תעופה</div><div><b>לנוסע</b>מרגיש שהסוכנות איתו לאורך כל הנסיעה</div><div><b>לסוכנות</b>מותג, בידול ונאמנות להזמנה הבאה</div></div></div>
+      <div class="card"><span class="n">1</span><h3>תמונת מצב אחת לכל הנסיעות <span class="tag t-ok">מוקד 1</span></h3>
+        <div class="chain"><div><b>יכולת</b>דשבורד עם סטטוס לכל תיק, מונים לחיצים, עמודת חוסרים, סינון וחיפוש לפי לקוח או מזהה</div><div><b>לסוכן</b>יודע מה דחוף היום ומה מוכן לפרסום, בלי לפתוח תיקים</div><div><b>לנוסע</b>פחות דברים נשכחים לפני היציאה</div><div><b>לסוכנות</b>למנהל יש תמונה מלאה ובקרה על הפעילות</div></div></div>
+      <div class="card"><span class="n">2</span><h3>ניהול לפי חריגים: רק מה שדורש החלטה <span class="tag t-ok">מוקד 1</span></h3>
+        <div class="chain"><div><b>יכולת</b>"לטיפול" לשדה לא ודאי, עדכון לאירוע קיים רק באישור (לפני ואחרי), בדיקת ביטוח, התראה על חוסרים</div><div><b>לסוכן</b>לא בודק כל שדה. מחליט רק כשצריך, בלחיצה אחת</div><div><b>לנוסע</b>רואה רק מידע שהסוכן אישר</div><div><b>לסוכנות</b>שליטה, דיוק ואחריות מקצועית</div></div></div>
+      <div class="card"><span class="n">3</span><h3>תיק נסיעה מרוכז, שמתמלא מהמסמכים <span class="tag t-ok">מוקד 1</span></h3>
+        <div class="chain"><div><b>יכולת</b>גוררים PDF ותמונות. זיהוי, שם לפי התוכן ושיבוץ בלו״ז. נוסעים, קבוצות, שיחה ומידע באותו תיק, עם מזהה קבוע</div><div><b>לסוכן</b>בלי הקלדה כפולה ובלי חיפוש במיילים</div><div><b>לנוסע</b>תיק שלם, כל מסמך בשם ברור</div><div><b>לסוכנות</b>פחות עבודה חוזרת, תהליך אחיד לכל הסוכנים</div></div></div>
+      <div class="card"><span class="n">4</span><h3>כל הנסיעה אצל הנוסע, בקישור אחד <span class="tag t-info">מוקד 2</span></h3>
+        <div class="chain"><div><b>יכולת</b>אפליקציית רשת בלי התקנה: לו״ז, מסמכים, חירום וצ'אט, נשמרת בטלפון לבד. עדכונים ב־WhatsApp, אימייל או Push</div><div><b>לסוכן</b>פחות בקשות לשלוח שוב את אותם מסמכים</div><div><b>לנוסע</b>מוצא כל מסמך בשתי לחיצות, גם בלי אינטרנט</div><div><b>לסוכנות</b>פוטנציאל לפחות פניות חוזרות ולנוסעים מרוצים יותר</div></div></div>
+      <div class="card"><span class="n">5</span><h3>השירות של הסוכנות, בשם הסוכנות <span class="tag t-info">מוקד 2</span></h3>
+        <div class="chain"><div><b>יכולת</b>לוגו הסוכנות בראש האפליקציה, צ'אט עם הסוכן, הקו של הסוכנות במסך החירום</div><div><b>לסוכן</b>הקשר עם הלקוח נשאר אצלו</div><div><b>לנוסע</b>מרגיש שהסוכנות איתו לאורך כל הנסיעה</div><div><b>לסוכנות</b>מותג, בידול ונאמנות להזמנה הבאה</div></div></div>
     </div>
   </section>
 
@@ -363,14 +432,14 @@ tr.win td{background:var(--green-50)}
   </section>
 
   <section class="s" id="message">
-    <div class="sh"><span class="eyebrow">04 · MESSAGE</span><h2>המסר הראשי ושלוש כותרות</h2>
-      <p>המלצה: הכותרת מדברת אל הסוכן ומתארת את המעבר מעבודה לסדר. הסלוגן המאושר, "כל פרטי הנסיעה בכף ידך", נשאר בלוגו ובאזור הנוסע, כי הוא פונה לנוסע.</p></div>
+    <div class="sh"><span class="eyebrow">04 · MESSAGE</span><h2>המסר הראשי: עודכן בעקבות ההבהרה</h2>
+      <p>בטיוטה הקודמת המלצתי על "הסוכן גורר. PALAMI מסדרת. הנוסע נוסע רגוע." הכותרת הזו מתארת רק את ההעלאה ואת הנוסע. היא מפספסת את מה שמנהל סוכנות קונה: מערכת שמנהלת את כל הנסיעות, עם תמונת מצב ובקרה. לכן המסר מתרחב לשני מוקדים, והסוכנות בא ראשונה. "הסוכן גורר. PALAMI מסדרת." עובר לאזור "איך זה עובד", שם הוא מסביר את התהליך.</p></div>
     <div class="heads">
-      <div class="head rec"><span class="tag t-ok" style="justify-self:start">מומלצת</span><span class="he">הסוכן גורר. PALAMI מסדרת. הנוסע נוסע רגוע.</span><span class="en">You drop the files. PALAMI builds the trip. Your travelers travel at ease.</span></div>
-      <div class="head"><span class="he">תיק נסיעה דיגיטלי, בשם הסוכנות שלך.</span><span class="en">The digital trip file, under your agency's name.</span></div>
-      <div class="head"><span class="he">כל פרטי הנסיעה, מסודרים לך ולנוסע שלך.</span><span class="en">Every trip detail, organized for you and your travelers.</span></div>
+      <div class="head rec"><span class="tag t-ok" style="justify-self:start">מומלצת</span><span class="he">כל הנסיעות של הסוכנות, תחת שליטה. כל פרטי הנסיעה, בכף היד של הנוסע.</span><span class="en">Every trip your agency runs, under control. Every trip detail, in your traveler's hand.</span><span class="muted" style="font-size:15px">שני חצאים, שני מוקדי ערך. החצי השני הוא הסלוגן המאושר של PALAMI, מנוסח לנוסע של הסוכנות.</span></div>
+      <div class="head"><span class="he">מערכת העבודה של סוכנות הנסיעות. חוויית הנסיעה של הלקוחות שלה.</span><span class="en">The workspace for travel agencies. The trip experience for their clients.</span></div>
+      <div class="head"><span class="he">לנהל כל נסיעה בשקט, ולתת לכל נוסע שירות מקצועי.</span><span class="en">Run every trip calmly. Give every traveler a professional service.</span></div>
     </div>
-    <div class="card"><b>משפט הסבר (לכל הכותרות)</b><p>מעלים לתיק את אישורי הטיסה, השוברים והכרטיסים, ו־PALAMI מסדרת אותם ללו״ז ולמסמכים. הנוסע מקבל קישור אחד במיתוג הסוכנות, עם כל מה שצריך לנסיעה, גם בלי אינטרנט.</p><p class="muted ltr" style="text-align:left">Upload flight confirmations, vouchers and tickets to the trip file, and PALAMI organizes them into a schedule and documents. Your traveler gets one link, in your agency's branding, with everything needed for the trip, even offline.</p></div>
+    <div class="card"><b>משפט הסבר (לכותרת המומלצת)</b><p>PALAMI מרכזת לסוכנות את כל הנסיעות, הלקוחות והמסמכים במקום אחד, עם סטטוס לכל תיק ותמונת מצב של מה שדורש טיפול. הנוסעים מקבלים את כל פרטי הנסיעה בטלפון, במיתוג הסוכנות.</p><p class="muted ltr" style="text-align:left">PALAMI brings all your agency's trips, clients and documents into one place, with a status for every trip and a clear view of what needs attention. Your travelers get every trip detail on their phone, in your agency's branding.</p></div>
   </section>
 
   <section class="s" id="structure">
@@ -379,16 +448,81 @@ tr.win td{background:var(--green-50)}
       <thead><tr><th>אזור</th><th>מה יש בו</th><th>במובייל</th></tr></thead>
       <tbody>
         <tr><td><b>A · Hero</b></td><td>לוגו, כותרת, משפט הסבר, "בקשת הדגמה", המחשה של המוצר</td><td>כותרת קצרה, המחשה אחת, וכפתור הדגמה שנשאר צמוד לתחתית המסך</td></tr>
-        <tr><td><b>B · איך זה עובד</b></td><td>שלושה שלבים: גוררים, PALAMI מסדרת, הנוסע מקבל קישור. עם דוגמה אמיתית לשם קובץ</td><td>שלושה כרטיסים בגלילה לצד</td></tr>
-        <tr><td><b>C · הערך לסוכנות</b></td><td>חמשת היתרונות</td><td>כותרות שנפתחות בלחיצה, כך שכל היתרונות גלויים בלי גלילה ארוכה</td></tr>
+        <tr><td><b>B · איך זה עובד</b></td><td>"הסוכן גורר. PALAMI מסדרת.": פותחים תיק וגוררים, המערכת משבצת ומסמנת מה דורש טיפול, מפרסמים ללקוח. עם דוגמה אמיתית לשם קובץ</td><td>שלושה כרטיסים בגלילה לצד</td></tr>
+        <tr><td><b>C · הערך לסוכנות</b></td><td>שני מוקדים: "לסוכנות" (3 יתרונות, ראשון ובולט) ו"ללקוחות שלכם" (2 יתרונות)</td><td>כותרות שנפתחות בלחיצה, כך שכל היתרונות גלויים בלי גלילה ארוכה</td></tr>
         <tr><td><b>D · הצצה למערכת</b></td><td>כרטיסיות "אצל הסוכן" ו"אצל הנוסע", עם 3–4 מסכים לכל צד</td><td>אותן כרטיסיות, מסך אחד בכל פעם</td></tr>
         <tr><td><b>E · בקשת הדגמה</b></td><td>שם מלא, אימייל, טלפון, שם סוכנות (לא חובה). Footer עם פרטי קשר ומדיניות פרטיות</td><td>טופס קצר באותו מסך</td></tr>
       </tbody></table></div>
   </section>
 
   <section class="s" id="concepts">
-    <div class="sh"><span class="eyebrow">06 · CONCEPTS</span><h2>ארבעה כיווני עיצוב לעמוד הבית</h2>
+    <div class="sh"><span class="eyebrow">06 · CONCEPTS</span><h2>חמישה כיווני עיצוב לעמוד הבית</h2>
       <p>כל הכיוונים בשפה של PALAMI: הלוגו המאושר על רקע לבן, ירוק יער, נחושת לנקודות בלבד, Rubik ו־Assistant, ושורת פריט הנסיעה עם ה־V. המסכים הם צילומים אמיתיים מאבות הטיפוס, עם הסוכנות הבדויה "מסעות הדרים". במובייל אפשר לגלול בתוך הטלפון ולראות את כל העמוד.</p></div>
+
+    <!-- Concept E -->
+    <article class="concept" id="c-e" style="border-color:var(--green);box-shadow:0 0 0 3px var(--green-50)">
+      <div class="concept-h"><h3>מרכז הבקרה של הסוכנות <span class="tag t-ok" style="vertical-align:middle">חדש · מומלץ</span></h3><span class="letter">E · ניהולי־מוצרי</span></div>
+      <p>נבנה בעקבות ההבהרה. הדשבורד של הסוכן הוא הגיבור: סטטוס לכל תיק, מה דחוף היום וחוסרים במבט אחד. הטלפון של הנוסע מופיע לצידו כמוקד הערך השני. מיד מתחת ל־Hero באים שני המוקדים, "לסוכנות" ו"ללקוחות שלכם", והסוכנות ראשונה ובולטת יותר.</p>
+      <div class="views">
+        <div><span class="vlabel">DESKTOP · 1280px</span>
+          <div class="dframe"><div class="chrome"><i></i><i></i><i></i><span>palami.io</span></div>
+            <div class="dview" data-h="1080"><div class="site mk mk-e">
+              <div class="nav"><img class="logo" src="img/wordmark-tagline.svg" alt="PALAMI"><div class="links"><span>לסוכנות</span><span>ללקוחות שלכם</span><span>איך זה עובד</span><span>הצצה למערכת</span></div><span class="lang">EN</span><span class="btn sm">בקשת הדגמה</span></div>
+              <div class="hero">
+                <div style="display:grid;gap:20px">
+                  <span class="eyb">פלטפורמה לסוכנויות נסיעות ולסוכנים עצמאיים</span>
+                  <h1>כל הנסיעות של הסוכנות, תחת שליטה<span class="dot"></span></h1>
+                  <span class="h1b">כל פרטי הנסיעה, בכף היד של הנוסע.</span>
+                  <p class="sub">כל הנסיעות, הלקוחות והמסמכים במקום אחד, עם סטטוס לכל תיק ותמונת מצב של מה שדורש טיפול. הנוסעים מקבלים את כל הנסיעה בטלפון, במיתוג הסוכנות.</p>
+                  <div style="display:flex;gap:12px"><span class="btn">בקשת הדגמה</span><span class="btn ghost">איך זה עובד</span></div>
+                </div>
+                <div class="art">
+                  <img class="shot desk" src="img/a-dash.webp" alt="דשבורד הסוכן: סטטוס לכל תיק וחוסרים">
+                  <span class="callout k1">מה דחוף היום</span>
+                  <span class="callout k2">חוסרים במבט אחד</span>
+                  <span class="callout k3">סטטוס לכל תיק</span>
+                  <div class="phone ph"><img src="img/t-home-before.webp" alt="מסך הבית של הנוסע"></div>
+                </div>
+              </div>
+              <div class="pillars">
+                <div class="pillar main"><span class="k">לסוכנות</span><h4>מערכת העבודה שמנהלת את הנסיעות</h4><ul><li><span class="vk"></span>תמונת מצב אחת לכל הנסיעות והלקוחות</li><li><span class="vk"></span>רק מה שדורש החלטה: שדה לא ודאי, עדכון לאישור, ביטוח חסר</li><li><span class="vk"></span>תיק נסיעה מרוכז שמתמלא מהמסמכים</li></ul></div>
+                <div class="pillar"><span class="k">ללקוחות שלכם</span><h4>חוויית נסיעה דיגיטלית</h4><ul><li><span class="vk"></span>כל הנסיעה בקישור אחד, גם בלי אינטרנט</li><li><span class="vk"></span>בשם הסוכנות, עם צ'אט וחירום</li></ul></div>
+              </div>
+            </div></div>
+          </div>
+        </div>
+        <div><span class="vlabel">MOBILE · 390px</span>
+          <div class="pframe"><div class="pscroll"><div class="mk mm mm-e">
+            <div class="mnav"><img src="img/wordmark.svg" alt="PALAMI"><span class="lang">EN</span><span class="menu"><i></i></span></div>
+            <div class="mh">
+              <span class="eyb">לסוכנויות נסיעות</span>
+              <h1>כל הנסיעות של הסוכנות, תחת שליטה<span class="dot"></span></h1>
+              <span class="h1b">וכל פרטי הנסיעה, בכף היד של הנוסע.</span>
+              <div class="mdash">
+                <div class="lbl"><span>אצל הסוכן · היום</span><span>תמונת מצב</span></div>
+                <div class="cnt"><div class="r"><b>1</b><small>דחוף</small></div><div class="h"><b>2</b><small>ביטוח חסר</small></div><div class="h"><b>1</b><small>לטיפול</small></div><div><b>2</b><small>לפרסום</small></div></div>
+                <div class="trip r"><b>ברצלונה · כהן</b><span class="pl b">2 חוסרים</span><small>HDR-2609-0031</small><span class="pl w">יש עדכונים לפרסום</span></div>
+                <div class="trip h"><b>לונדון · כנס</b><span class="pl w">1 חוסר</span><small>HDR-2610-0040</small><span class="pl w">ממתינה להשלמה</span></div>
+                <div class="trip"><b>רומא · זוג לוינסון</b><span class="pl o">✓ אין</span><small>HDR-2608-0027</small><span class="pl o">בנסיעה</span></div>
+              </div>
+              <span class="tlabel">אצל הנוסע</span>
+              <div class="tv">
+                <div class="ti"><svg><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 06:10</small></span><span class="vk"></span></div>
+                <div class="ti"><svg><use href="#i-hotel"/></svg><span class="tt"><b>Hotel Mar Blau</b><small>7 לילות</small></span><span class="vk"></span></div>
+              </div>
+            </div>
+            <div class="m-lower"></div>
+          </div></div></div>
+          <p class="phint">גוללים בתוך הטלפון</p>
+        </div>
+      </div>
+      <div class="pros">
+        <div><h4>צד הסוכן וצד הנוסע</h4><ul><li>הסוכן בגדול: הדשבורד עם סטטוסים וחוסרים</li><li>הנוסע לצידו, כטלפון</li><li>מתחת: שני מוקדים, הסוכנות ראשונה</li></ul></div>
+        <div><h4>כפתור ההדגמה</h4><ul><li>בסרגל העליון, שנשאר צמוד בגלילה</li><li>ראשי ב־Hero</li><li>במובייל צמוד לתחתית המסך</li></ul></div>
+        <div><h4>יתרונות</h4><ul><li>מציג את PALAMI כמערכת לסוכנות, לא כאפליקציה לנוסע</li><li>מדבר אל מנהל הסוכנות, שהוא מקבל ההחלטה</li><li>במובייל דשבורד מוקטן שקריא בגודל טלפון</li></ul></div>
+        <div><h4>חסרונות</h4><ul><li>דשבורד הוא ויזואל פחות רגשי</li><li>כותרת בשני חלקים ארוכה יותר</li><li>דורש צילומי מסך מעודכנים של הדשבורד</li></ul></div>
+      </div>
+    </article>
 
     <!-- Concept A -->
     <article class="concept" id="c-a">
@@ -606,21 +740,23 @@ tr.win td{background:var(--green-50)}
   </section>
 
   <section class="s" id="rank">
-    <div class="sh"><span class="eyebrow">07 · RANKING</span><h2>דירוג והמלצה</h2><p class="muted">ציון 1–5 בכל קריטריון.</p></div>
+    <div class="sh"><span class="eyebrow">07 · RANKING</span><h2>דירוג והמלצה, אחרי ההבהרה</h2><p class="muted">ציון 1–5 בכל קריטריון. הוספתי קריטריון: הצגת שני מוקדי הערך.</p></div>
     <div class="tbl"><table>
-      <thead><tr><th>כיוון</th><th>התאמה למותג</th><th>בהירות המסר</th><th>המחשת המוצר</th><th>מובייל</th><th>הנעה לדמו</th><th>מהירות פיתוח</th><th>סה״כ</th></tr></thead>
+      <thead><tr><th>כיוון</th><th>התאמה למותג</th><th>בהירות המסר</th><th>המחשת המוצר</th><th>שני מוקדי הערך</th><th>מובייל</th><th>הנעה לדמו</th><th>מהירות פיתוח</th><th>סה״כ</th></tr></thead>
       <tbody>
-        <tr class="win"><td><b>A · מהקבצים לנסיעה</b> <span class="tag t-ok">מומלץ</span></td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">27</td></tr>
-        <tr><td><b>D · הכול מסומן ב־V</b></td><td class="num">5</td><td class="num">4</td><td class="num">3</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">26</td></tr>
-        <tr><td><b>B · הסוכנות במרכז</b></td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">24</td></tr>
-        <tr><td><b>C · שני צדדים, נסיעה אחת</b></td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">23</td></tr>
+        <tr class="win"><td><b>E · מרכז הבקרה של הסוכנות</b> <span class="tag t-ok">מומלץ</span></td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">4</td><td class="num">33</td></tr>
+        <tr><td><b>A · מהקבצים לנסיעה</b></td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">3</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">30</td></tr>
+        <tr><td><b>C · שני צדדים, נסיעה אחת</b></td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">28</td></tr>
+        <tr><td><b>D · הכול מסומן ב־V</b></td><td class="num">5</td><td class="num">4</td><td class="num">3</td><td class="num">2</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">28</td></tr>
+        <tr><td><b>B · הסוכנות במרכז</b></td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">2</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">26</td></tr>
       </tbody></table></div>
-    <div class="note ok"><b>ההמלצה: כיוון A, עם רכיב ה־V של D במובייל.</b>
+    <div class="note ok"><b>ההמלצה השתנתה: כיוון E, "מרכז הבקרה של הסוכנות".</b>
       <ul class="dots" style="margin-top:8px">
-        <li>הסוכן שנכנס לאתר צריך להבין קודם כול כמה העבודה פשוטה, ו־A מראה את זה במסך הראשון: קבצים בשמות סתמיים הופכים לנסיעה מסודרת אצל הנוסע.</li>
-        <li>זה גם מה ש־AWS ושותפים רוצים לראות: מוצר אמיתי, לא רק מסר.</li>
-        <li>במובייל, שבו מסך דסקטופ קטן קשה לקריאה, נשתמש ברשימת ה־V של D כהמחשה ראשית. ככה מקבלים את חוויית המובייל הטובה ביותר בלי לוותר על המוצר.</li>
-        <li>הסלוגן "כל פרטי הנסיעה בכף ידך" יופיע ליד הלוגו ובאזור הנוסע.</li>
+        <li>A היה הכי טוב למסר "הסוכן גורר, הנוסע רגוע", אבל הוא מציג את PALAMI בעיקר ככלי העלאה ואפליקציה לנוסע.</li>
+        <li>אחרי ההבהרה, מה שמנהל הסוכנות צריך לראות קודם הוא מערכת עבודה: תמונת מצב, סטטוסים, חוסרים ובקרה. E שם את זה במרכז.</li>
+        <li>הנוסע מופיע ב־E לצד הדשבורד, כמוקד הערך השני.</li>
+        <li>מ־A נשמור את אזור "איך זה עובד" עם הדוגמה של שם הקובץ. מ־D נשמור את שורת ה־V לצד הנוסע במובייל.</li>
+        <li>במובייל, דשבורד מוקטן בקוד (לא צילום מסך) נשאר קריא גם בגודל טלפון.</li>
       </ul></div>
   </section>
 
@@ -653,7 +789,7 @@ tr.win td{background:var(--green-50)}
         <tr><td class="num">3</td><td><b>פרטי קשר ל־Footer:</b> אימייל, טלפון, שם החברה הרשום (בע״מ?)</td><td>אימייל בדומיין, למשל hello@palami.io. זה נדרש גם ל־AWS. מספר טלפון רק אם רוצים שיתקשרו. שם החברה כמו ברשם החברות, למדיניות הפרטיות.</td></tr>
         <tr><td class="num">4</td><td><b>לאן יגיעו פניות הטופס?</b></td><td>לאימייל שלך, דרך שירות טפסים חינמי ופשוט (Web3Forms או Formspree), עם הגנה מספאם. בלי שרת ובלי מסד נתונים. אחבר רק אחרי אישורך.</td></tr>
         <tr><td class="num">5</td><td><b>אחסון ו־DNS:</b> איפה רשום palami.io, ויש כבר אימייל על הדומיין?</td><td>אתר סטטי ב־Cloudflare Pages או ב־AWS Amplify Hosting: HTTPS אוטומטי, כמעט בלי עלות. Amplify מתאים לסיפור של AWS, Cloudflare הכי פשוט. לא אשנה DNS בלי אישור.</td></tr>
-        <tr><td class="num">6</td><td><b>כיוון העיצוב והכותרת</b></td><td>כיוון A עם רכיב ה־V של D במובייל, והכותרת "הסוכן גורר. PALAMI מסדרת. הנוסע נוסע רגוע."</td></tr>
+        <tr><td class="num">6</td><td><b>כיוון העיצוב והכותרת</b></td><td>כיוון E, עם "איך זה עובד" מ־A ושורת ה־V של D. הכותרת: "כל הנסיעות של הסוכנות, תחת שליטה. כל פרטי הנסיעה, בכף היד של הנוסע."</td></tr><tr><td class="num">7</td><td><b>אימות יכולות הניהול</b>: אילו מהיכולות בטבלה "יכולות הניהול" קיימות במערכת המפותחת?</td><td>אם אפשר, גישה לסביבת הדגמה או צילומי מסך של הדשבורד, תיק נסיעה ולקוחות. מה שלא אושר לא ייכנס לאתר.</td></tr>
       </tbody></table></div>
   </section>
 </main>
