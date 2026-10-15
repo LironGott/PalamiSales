@@ -405,3 +405,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 .nf img{margin:0 auto 18px;width:160px}
 .nf p{margin:12px auto 20px}
 .nf .alt{margin-top:28px}
+.hero .art,.hero .mdash{cursor:pointer}
+.hero .art .desk,.hero .art .phone{transition:transform .2s}
+.hero .art:hover .desk{transform:translateY(-3px)}
+@media (prefers-reduced-motion:reduce){.hero .art .desk,.hero .art .phone{transition:none}}
