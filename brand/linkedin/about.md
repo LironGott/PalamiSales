@@ -2,7 +2,8 @@
 
 Files in this folder:
 - `palami-linkedin-logo-400.png` (logo, 400×400; `-800` is the same at double size)
-- `palami-linkedin-banner-1128x191.png` (cover image; `@2x` is the same at double size, sharper on large screens)
+- `palami-linkedin-banner-1128x191.png` (Hebrew cover image; `@2x` is the same at double size, sharper on large screens)
+- `palami-linkedin-banner-en-1128x191.png` (English cover image; `@2x` at double size)
 
 ## Page details
 - Name: PALAMI
