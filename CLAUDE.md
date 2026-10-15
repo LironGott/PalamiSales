@@ -111,3 +111,9 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
 - Calendar and sharing will be available when the website launches (user, 2026-10-15): present them as existing, no "coming soon" tag.
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
+
+## Sales deck (2026-10-15)
+- Hebrew sales-meeting deck for agencies and independent agents (12 slides, speaker notes with discovery questions and objection handling): https://claude.ai/artifact/JohqzsSQcxnW1coJBM9tAE. Source copy: `docs/sales/deck/`. Research notes: `docs/sales/research.md`.
+- Flow: cover → what changed (US survey stats, sourced) → problem (scattered documents, ping-pong) → agent drags, PALAMI files → control center → exceptions only → teamwork → traveler app → "when the traveler gains, the agency gains" → joint time calculation (blanks, no invented numbers) → why PALAMI / not a CRM → pilot next step.
+- Placeholders to fill before meetings: pilot size and length, price and terms.
+- Hebrew text with Latin, digits or trailing punctuation is wrapped in RLI/PDI (&#8295;…&#8297;) because the slide format has no `dir` attribute.
