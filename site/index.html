@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
 <link rel="stylesheet" href="css/site.css">
 
-<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<svg class="sprite" width="0" height="0" aria-hidden="true"><defs>
 <symbol id="i-plane" viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></symbol>
 <symbol id="i-hotel" viewBox="0 0 24 24"><path d="M3 6h2v7h6V8h7a3 3 0 0 1 3 3v8h-2v-2H5v2H3zm4.5 6A2 2 0 1 1 7.5 8a2 2 0 0 1 0 4"/></symbol>
 <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4zm9 1v2h2V7zm0 4v2h2v-2zm0 4v2h2v-2z"/></symbol>
@@ -31,7 +31,7 @@
 <header class="hdr"><div class="in">
   <a class="logo" href="#top" aria-label="PALAMI, לראש העמוד"><img class="bv" src="img/mascot-head.webp" alt="" width="44" height="44"><img src="img/wordmark-tagline.svg" alt="PALAMI · כל פרטי הנסיעה בכף ידך"></a>
   <nav id="mnav" aria-label="ניווט ראשי"><a href="#how">איך זה עובד</a><a href="#benefits">יתרונות</a><a href="#peek">הצצה למערכת</a></nav>
-  <a class="lang" href="en/" hreflang="en" lang="en" aria-label="English">EN</a>
+  <a class="lang" href="en/index.html" hreflang="en" lang="en" aria-label="English">EN</a>
   <button class="menu" type="button" aria-label="תפריט" aria-expanded="false" aria-controls="mnav"><svg class="i-open" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><svg class="i-close" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
   <a class="btn sm" href="#demo">בקשת הדגמה</a>
 </div></header>
@@ -140,7 +140,7 @@
   </div></section>
 
   <!-- C · BENEFITS -->
-  <section class="sec ben" id="benefits" aria-labelledby="ben-h" style="background:var(--s2)"><div class="in">
+  <section class="sec ben" id="benefits" aria-labelledby="ben-h"><div class="in">
     <div class="sec-h"><span class="eyb">יתרונות</span><h2 id="ben-h">טוב לסוכן, טוב לנוסע, טוב לסוכנות</h2><p>המערכת זוכרת, מתזמנת ומעדכנת, כדי שהראש שלכם יישאר פנוי למה שחשוב באמת.</p></div>
     <div class="cols">
       <div class="col agency">
@@ -149,14 +149,14 @@
       </div>
       <div class="col trav">
         <div class="ch"><span class="k">לנוסע</span><h3>חוויית נסיעה שקופצת מדרגה</h3></div>
-        <div class="bl" style="grid-template-columns:1fr"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך נגיש וזמין. לכל כתובת יש ניווט בלחיצה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp, SMS או אימייל.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>צ'אט עם הסוכן</h4></summary><p>שואלים את הסוכן ישירות מהאפליקציה, בלי לחפש מספר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות וכתובת המלון לנהג.</p></details></div>
+        <div class="bl one"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך נגיש וזמין. לכל כתובת יש ניווט בלחיצה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp, SMS או אימייל.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>צ'אט עם הסוכן</h4></summary><p>שואלים את הסוכן ישירות מהאפליקציה, בלי לחפש מספר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות וכתובת המלון לנהג.</p></details></div>
       </div>
     </div>
     <div class="agbar"><img src="img/mascot-head.webp" alt=""><div><b>ראש פנוי לנסיעה הבאה</b><br><span>PALAMI זוכרת לתזמן, להזכיר ולעדכן. אתם מתפנים ללקוח הבא ולנסיעה הבאה והלקוח מרגיש שהסוכנות איתו לאורך כל הדרך.</span></div></div>
   </div></section>
 
   <!-- D · PEEK -->
-  <section class="sec peek" id="peek" aria-labelledby="peek-h" style="background:var(--pa)"><div class="in">
+  <section class="sec peek" id="peek" aria-labelledby="peek-h"><div class="in">
     <div class="sec-h"><span class="eyb">הצצה למערכת</span><h2 id="peek-h">ככה זה נראה</h2><p class="note-illus">מסכים מהמערכת, עם סוכנות ונתונים לדוגמה. מסכי הנוסע להמחשה.</p></div>
     <div class="tabs" role="tablist" aria-label="בחירת צד">
       <button type="button" role="tab" aria-selected="true" data-side="agent">אצל הסוכן</button>
@@ -180,10 +180,10 @@
         <input type="hidden" name="lang" value="he">
         <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
         <label class="fld" for="f-name">שם מלא<input id="f-name" name="name" autocomplete="name" required></label>
-        <label class="fld" for="f-email">אימייל<input id="f-email" name="email" type="email" autocomplete="email" class="ltr" style="text-align:right" required></label>
-        <label class="fld" for="f-phone">טלפון<input id="f-phone" name="phone" type="tel" autocomplete="tel" class="ltr" style="text-align:right" required></label>
+        <label class="fld" for="f-email">אימייל<input id="f-email" name="email" type="email" autocomplete="email" class="ltr" required></label>
+        <label class="fld" for="f-phone">טלפון<input id="f-phone" name="phone" type="tel" autocomplete="tel" class="ltr" required></label>
         <label class="fld" for="f-agency">שם הסוכנות <span class="opt">(לא חובה)</span><input id="f-agency" name="agency" autocomplete="organization"></label>
-        <span class="err" id="f-err" hidden></span>
+        <span class="err" id="f-err" role="alert" hidden></span>
         <button class="btn" type="submit" data-label="בקשת הדגמה">בקשת הדגמה</button>
         <span class="priv">הפרטים ישמשו רק כדי לחזור אליכם. <a href="privacy.html">מדיניות פרטיות</a></span>
       </form>

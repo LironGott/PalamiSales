@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08402A">
+<link rel="canonical" href="https://palami.io/en/">
+<link rel="alternate" hreflang="he" href="https://palami.io/">
+<link rel="alternate" hreflang="en" href="https://palami.io/en/">
+<link rel="alternate" hreflang="x-default" href="https://palami.io/">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="PALAMI">
+<meta property="og:title" content="PALAMI · Trip management for travel agencies">
+<meta property="og:description" content="PALAMI: a trip management system for travel agencies and independent agents, with a traveler app under the agency's brand.">
+<meta property="og:url" content="https://palami.io/en/">
+<meta property="og:image" content="https://palami.io/img/og-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<title>PALAMI · Trip management for travel agencies</title>
+<meta name="description" content="PALAMI: a trip management system for travel agencies and independent agents, with a traveler app under the agency's brand.">
+<link rel="icon" href="../img/favicon-32.png">
+<link rel="preload" href="../fonts/fonts.css" as="style">
+<link rel="stylesheet" href="../fonts/fonts.css">
+<link rel="stylesheet" href="../css/site.css">
+
+<svg class="sprite" width="0" height="0" aria-hidden="true"><defs>
+<symbol id="i-plane" viewBox="0 0 24 24"><path transform="rotate(45 12 12)" d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></symbol>
+<symbol id="i-hotel" viewBox="0 0 24 24"><path d="M3 6h2v7h6V8h7a3 3 0 0 1 3 3v8h-2v-2H5v2H3zm4.5 6A2 2 0 1 1 7.5 8a2 2 0 0 1 0 4"/></symbol>
+<symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 6h18v4a2 2 0 0 0 0 4v4H3v-4a2 2 0 0 0 0-4zm9 1v2h2V7zm0 4v2h2v-2zm0 4v2h2v-2z"/></symbol>
+<symbol id="i-bus" viewBox="0 0 24 24"><path d="M4 16V6c0-3 3.6-3 8-3s8 0 8 3v10a2 2 0 0 1-1 1.7V20h-3v-2H8v2H5v-2.3A2 2 0 0 1 4 16m2-9v4h12V7zm1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3m9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/></symbol>
+<symbol id="i-dash" viewBox="0 0 24 24"><path d="M4 4h7v9H4zm9 0h7v5h-7zM4 15h7v5H4zm9-4h7v9h-7z"/></symbol>
+<symbol id="i-phone" viewBox="0 0 24 24"><path d="M7 1h10a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2m0 4v14h10V5zm5 15.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2m7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></symbol>
+<symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 2 1 21h22zm-1 7h2v6h-2zm0 8h2v2h-2z"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 1-2m3 6v2h10V9zm0 4v2h7v-2z"/></symbol>
+<symbol id="i-hand" viewBox="0 0 24 24"><path d="M9 11V4.5a1.5 1.5 0 0 1 3 0V10h.5V3.5a1.5 1.5 0 0 1 3 0V10h.5V5.5a1.5 1.5 0 0 1 3 0V15a7 7 0 0 1-7 7h-.6a6 6 0 0 1-4.6-2.2L3.3 15.6a1.6 1.6 0 0 1 2.4-2.1L8 15V11z"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 2h8l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m7 1.5V8h4.5zM8 12v1.5h8V12zm0 3.5V17h8v-1.5z"/></symbol>
+<symbol id="i-cal" viewBox="0 0 24 24"><path d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2zm-2 8v9h14v-9z"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path d="M6.5 19a4.5 4.5 0 0 1-.9-8.9A6 6 0 0 1 17.4 9 5 5 0 0 1 17.5 19zm4-3.5 5-5-1.4-1.4-3.6 3.6-1.6-1.6L7.5 12.5z"/></symbol>
+<symbol id="i-sos" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m-1 5v7h2V7zm0 9v2h2v-2z"/></symbol>
+<symbol id="i-team" viewBox="0 0 24 24"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8m8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6M9 13c-4 0-7 2-7 4.5V20h14v-2.5C16 15 13 13 9 13m8 0c-.6 0-1.2.1-1.7.2A5 5 0 0 1 18 17.5V20h4v-2.5c0-2.5-2.2-4.5-5-4.5"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
+</defs></svg>
+</head>
+<body>
+<div class="site" id="top" dir="ltr" lang="en" data-lang="en" data-base="../">
+<a class="skip" href="#main">Skip to content</a>
+<header class="hdr"><div class="in">
+  <a class="logo" href="#top" aria-label="PALAMI, back to top"><img class="bv" src="../img/mascot-head.webp" alt="" width="44" height="44"><img src="../img/wordmark-tagline.svg" alt="PALAMI · Every trip detail in the palm of your hand"></a>
+  <nav id="mnav" aria-label="Main"><a href="#how">How it works</a><a href="#benefits">Benefits</a><a href="#peek">Product peek</a></nav>
+  <a class="lang" href="../" hreflang="he" lang="he" aria-label="עברית">עב</a>
+  <button class="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mnav"><svg class="i-open" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg><svg class="i-close" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>
+  <a class="btn sm" href="#demo">Request a demo</a>
+</div></header>
+
+<main id="main">
+  <!-- A · HERO -->
+  <section class="hero"><div class="in">
+    <div class="txt">
+      <span class="eyb">For travel agencies and independent travel agents</span>
+      <h1>Peace of mind for the agent.<br><span>An organized trip for the traveler</span><span class="dot"></span></h1>
+      <p class="lead"><strong>A trip management system for travel agencies, with a traveler app under your brand.</strong> Drag in all the trip documents and PALAMI takes care of the rest: the file organizes itself, you see what needs attention and the traveler gets the whole trip on their phone.</p>
+      <div class="ctas"><a class="btn" href="#how">How it works <span aria-hidden="true">↓</span></a></div>
+      <div class="get" aria-label="What you get">
+        <div><b><svg aria-hidden="true"><use href="#i-dash"/></svg>Agent workspace</b><span>A file for every trip that organizes itself. What’s urgent and what’s missing, on one screen</span></div>
+        <div><b><svg aria-hidden="true"><use href="#i-phone"/></svg>Traveler app</b><span>Schedule, tickets, destination info, chat with the agent and emergency help. Under the agency’s brand, even offline</span></div>
+        <div><b><svg aria-hidden="true"><use href="#i-bell"/></svg>Notifications</b><span>Reminders and updates to travelers by push, WhatsApp, SMS or email, on the schedule you set</span></div>
+      </div>
+    </div>
+    <div class="art" aria-hidden="true">
+      <img class="desk" src="../img/r-dash.webp" alt="">
+      <span class="callout k1">What’s urgent today</span>
+      <span class="callout k2">What’s missing in each file</span>
+      <span class="callout k3">Traveler app</span>
+      <div class="phone"><img src="../img/t-home-before.webp" alt=""></div>
+    </div>
+    <div class="mdash" aria-label="Example: the agent’s overview">
+      <div class="lbl"><span>Agent workspace</span><span>Today</span></div>
+      <div class="cnt"><div class="r"><b>1</b><small>Urgent</small></div><div class="h"><b>2</b><small>No insurance</small></div><div><b>2</b><small>To publish</small></div><div class="p"><b>23</b><small>Published</small></div></div>
+      <div class="trip r"><b>Barcelona · Cohen</b><span class="pl b">2 missing</span><small>HDR-2609-0031</small><span class="pl w">Updates</span></div>
+      <div class="trip h"><b>London · Conference</b><span class="pl w">1 missing</span><small>HDR-2610-0040</small><span class="pl w">To complete</span></div>
+      <div class="trip"><b>Rome · Levinson</b><span class="pl o">✓ None</span><small>HDR-2608-0027</small><span class="pl o">Traveling</span></div>
+      <div class="phone mph"><img src="../img/t-home-before.webp" alt=""></div>
+      <span class="mphl">Traveler app</span>
+    </div>
+  </div></section>
+
+  <!-- B · HOW -->
+  <section class="sec" id="how" aria-labelledby="how-h"><div class="in">
+    <div class="sec-h"><span class="eyb">How it works</span><h2 id="how-h">The agent drags. PALAMI organizes<span class="dot"></span></h2><p>Three steps from booking to traveler. The agent only steps in when it really matters.</p></div>
+    <div class="howg">
+      <div class="steps">
+        <div class="step"><span class="no">1</span><h3>Drag the documents into the file</h3><p>Flight confirmations, vouchers, tickets and insurance policies, as PDF, JPEG or screenshots.</p></div>
+        <div class="step"><span class="no">2</span><h3>PALAMI organizes</h3><p>A dedicated AI engine recognizes each document, extracts the details, gives it a clear name and places it in the schedule, all automatically.</p></div>
+        <div class="step"><span class="no">3</span><h3>The traveler gets it all</h3><p>One link under the agency’s brand, with the schedule, documents, useful destination info, emergency help and direct chat with the agent. Friendly and accessible, with no app to download, even offline.</p></div>
+      </div>
+      <div class="hvw"><div class="hv" aria-hidden="true">
+        <div class="hv-steps"><span class="p1"><b>1</b>Drag documents</span><span class="p2"><b>2</b>PALAMI organizes</span><span class="p3"><b>3</b>Traveler gets it</span></div>
+        <span class="hv-chip c1"><em>Flight ticket</em><i>scan_0012(2).pdf</i></span>
+        <span class="hv-chip c2"><em>Hotel voucher</em><i>voucher_FINAL.pdf</i></span>
+        <span class="hv-chip c3"><em>Football match ticket</em><i>IMG_20261028.jpg</i></span>
+        <svg class="hv-cur" viewBox="0 0 24 24" width="26" height="26"><path d="M5 3l14 8-6 1.6L10 19z" fill="#16241D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span class="hv-lbl ag">Agent workspace</span>
+        <span class="hv-lbl ph">Traveler app</span>
+        <div class="hv-ag">
+          <div class="hv-agh"><b>Barcelona · Cohen family</b><small>HDR-2609-0031</small></div>
+          <div class="hv-tab">Documents &amp; upload</div>
+          <div class="hv-dz"><span class="t1">Drag the documents here</span><span class="t2">AI is reading and filing…</span></div>
+          <div class="hv-lh">Documents in the file</div>
+          <div class="hv-row r1"><span><b>Outbound flight · LY 395</b><i>scan_0012(2).pdf</i></span><em>✓ Filed</em></div>
+          <div class="hv-row r2"><span><b>Hotel · 7 nights</b><i>voucher_FINAL.pdf</i></span><em>✓ Filed</em></div>
+          <div class="hv-row r3"><span><b>Football · Camp Nou</b><i>IMG_20261028.jpg</i></span><em>✓ Filed</em></div>
+        </div>
+        <div class="hv-ph">
+          <div class="hv-pb"><svg aria-hidden="true"><use href="#i-bell"/></svg>Your trip was updated in the app</div>
+          <div class="hv-phh">Hadarim Travel</div>
+          <div class="hv-pt"><b>Barcelona</b><small>12–19 November</small></div>
+          <div class="hv-wait">Documents on the way…</div>
+          <div class="hv-ti t1"><svg aria-hidden="true"><use href="#i-plane"/></svg><span><b>Outbound flight</b><small>12 Nov · 06:10</small></span><i class="vk sm"></i></div>
+          <div class="hv-ti t2"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span><b>Hotel</b><small>7 nights</small></span><i class="vk sm"></i></div>
+          <div class="hv-ti t3"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span><b>Football</b><small>14 Nov · 21:00</small></span><i class="vk sm"></i></div>
+          <div class="hv-tabs"><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Home</span><span><svg aria-hidden="true"><use href="#i-cal"/></svg>Schedule</span><span class="on"><svg aria-hidden="true"><use href="#i-doc"/></svg>Docs</span><span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>Info</span></div>
+        </div>
+      </div>
+        <button class="hv-pause" type="button" aria-pressed="false"><i class="pi" aria-hidden="true"></i><span>Pause animation</span></button>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- PING-PONG -->
+  <section class="sec pp" aria-labelledby="pp-h"><div class="in">
+    <div class="sec-h"><span class="eyb">No more ping-pong</span><h2 id="pp-h">Travelers find everything themselves. You get fewer questions</h2><p>Once the booking is closed, drag all the documents into the file. From then on the traveler finds what they used to ask about and your messages are left for questions that really need an agent.</p></div>
+    <div class="grid">
+      <div class="side before">
+        <span class="lbl">Without PALAMI</span>
+        <h3>Documents in emails, questions on WhatsApp</h3>
+        <div class="chat">
+          <div class="bub"><span class="who">Traveler</span>Where’s my flight ticket? Can’t find the email<small class="ltr">23:41</small></div>
+          <div class="bub me"><span class="who">Agent</span>Sending it again 🙂<small class="ltr">07:02</small></div>
+          <div class="bub"><span class="who">Traveler</span>When is the match we booked?<small class="ltr">07:15</small></div>
+          <div class="bub"><span class="who">Traveler</span>What’s the hotel address? The driver is asking<small class="ltr">10:20</small></div>
+          <div class="bub"><span class="who">Traveler</span>Did the shuttle time change?<small class="ltr">12:34</small></div>
+        </div>
+      </div>
+      <div class="side after">
+        <span class="lbl">With PALAMI</span>
+        <h3>Everything is already with the traveler, right on their phone</h3>
+        <div class="ans">
+          <div class="row"><span class="vk"></span><div><b>The flight ticket</b><span>In “Key documents”, saved on the phone even offline</span></div></div>
+          <div class="row"><span class="vk"></span><div><b>Tickets for attractions</b><span>Concerts, sports games, ski equipment and more. In the schedule on the right day and time, with the tickets attached and directions to the venue</span></div></div>
+          <div class="row"><span class="vk"></span><div><b>The hotel address</b><span>In the local language, ready to show the driver, with navigation</span></div></div>
+          <div class="row"><span class="vk"></span><div><b>The new shuttle time</b><span>Updated once the agent approved it, with a message to the traveler</span></div></div>
+        </div>
+        <span class="foot">And for what really needs an agent: chat with the agent, right from the app.</span>
+      </div>
+    </div>
+  </div></section>
+
+  <!-- C · BENEFITS -->
+  <section class="sec ben" id="benefits" aria-labelledby="ben-h"><div class="in">
+    <div class="sec-h"><span class="eyb">Benefits</span><h2 id="ben-h">Good for the agent, the traveler and the agency</h2><p>The system remembers, schedules and updates, so your mind stays free for what really matters.</p></div>
+    <div class="cols">
+      <div class="col agency">
+        <div class="ch"><span class="k">For agents and agency managers</span><h3>Full control, without keeping it all in your head</h3></div>
+        <div class="bl"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>All trips at a glance</h4></summary><p>A status for every file, what’s urgent today and what’s ready to publish.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>Departures and landings calendar</h4></summary><p>All of the agency’s flights in a monthly or weekly view. See at a glance who flies today and who lands tomorrow.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>Notifications that remember for you</h4></summary><p>Set once when you and your travelers get reminders.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-alert"/></svg></span><h4>See what’s missing in every file</h4></summary><p>Insurance not yet bought or a ticket that hasn’t arrived is flagged automatically. Handle it in time.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-team"/></svg></span><h4>Teamwork, even on vacation</h4></summary><p>Share trips with several agents, so a trip never stalls when someone is out of the office.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>Stay in touch, even after the trip</h4></summary><p>Chat with travelers during the trip and after they return, a message from the agency inviting them to the next one.</p></details></div>
+      </div>
+      <div class="col trav">
+        <div class="ch"><span class="k">For the traveler</span><h3>A travel experience on a whole new level</h3></div>
+        <div class="bl one"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>All tickets in one place</h4></summary><p>Flights, hotel, transfers and attractions, every document easy to reach. One tap to navigate to any address.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>Reminders and updates on the phone</h4></summary><p>Push, WhatsApp, SMS or email notifications.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>Chat with the agent</h4></summary><p>Ask the agent right from the app, no need to look for a number.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>Works offline</h4></summary><p>The trip is saved on the phone, including the insurance policy.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>Emergency help in one tap</h4></summary><p>Local emergency numbers, the insurance, the agency’s line and the hotel address for the driver.</p></details></div>
+      </div>
+    </div>
+    <div class="agbar"><img src="../img/mascot-head.webp" alt=""><div><b>A free mind for the next trip</b><br><span>PALAMI remembers to schedule, remind and update. You’re free for the next customer and the next trip and the customer feels the agency is with them all the way.</span></div></div>
+  </div></section>
+
+  <!-- D · PEEK -->
+  <section class="sec peek" id="peek" aria-labelledby="peek-h"><div class="in">
+    <div class="sec-h"><span class="eyb">Product peek</span><h2 id="peek-h">This is what it looks like</h2><p class="note-illus">Screens from the system with a sample agency and data, shown in Hebrew, the product’s interface language. Traveler screens are illustrative.</p></div>
+    <div class="tabs" role="tablist" aria-label="Choose a side">
+      <button type="button" role="tab" aria-selected="true" data-side="agent">Agent side</button>
+      <button type="button" role="tab" aria-selected="false" data-side="trav">Traveler side</button>
+    </div>
+    <div class="pk">
+      <div class="list" id="pk-list"></div>
+      <div class="stage" id="pk-stage" aria-live="polite"></div>
+    </div>
+  </div></section>
+
+  <!-- E · DEMO -->
+  <section class="sec demo" id="demo" aria-labelledby="demo-h"><div class="in">
+    <div class="box">
+      <div class="txt">
+        <h2 id="demo-h">Want to see how it works for your agency?</h2>
+        <p>We’d be happy to show you PALAMI on a real trip and answer any question.</p>
+        <ul><li><span class="vk sm"></span>Dashboard, trip file and document drag-and-drop</li><li><span class="vk sm"></span>What the traveler sees on their phone</li><li><span class="vk sm"></span>No commitment</li></ul>
+      </div>
+      <form class="f" id="demo-form" action="#" method="post" novalidate>
+        <input type="hidden" name="lang" value="en">
+        <div class="hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+        <label class="fld" for="f-name">Full name<input id="f-name" name="name" autocomplete="name" required></label>
+        <label class="fld" for="f-email">Email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+        <label class="fld" for="f-phone">Phone<input id="f-phone" name="phone" type="tel" autocomplete="tel" required></label>
+        <label class="fld" for="f-agency">Agency name <span class="opt">(optional)</span><input id="f-agency" name="agency" autocomplete="organization"></label>
+        <span class="err" id="f-err" role="alert" hidden></span>
+        <button class="btn" type="submit" data-label="Request a demo">Request a demo</button>
+        <span class="priv">We’ll only use your details to get back to you. <a href="privacy.html">Privacy policy</a></span>
+      </form>
+    </div>
+  </div></section>
+</main>
+
+<footer class="ftr"><div class="in">
+  <img src="../img/logo-full.webp" alt="PALAMI · Every trip detail in the palm of your hand" width="200" height="82">
+  <div class="ct">
+    <a href="mailto:hello@palami.io">hello@palami.io</a>
+    <a href="tel:+972542245627">+972-54-224-5627</a>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="accessibility.html">Accessibility statement</a>
+    <span>© 2026 PALAMI</span>
+  </div>
+</div></footer>
+
+<aside class="mbar" aria-label="Request a demo"><a class="btn" href="#demo">Request a demo</a></aside>
+</div>
+
+<script src="../js/site.js"></script>
+</body>
+</html>

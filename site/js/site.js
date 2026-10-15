@@ -81,7 +81,12 @@
 
   /* benefits: open on desktop, collapsible on mobile */
   if(window.matchMedia('(max-width:860px)').matches){ document.querySelectorAll('details.bi').forEach(function(d){ d.open=false; }); }
-  document.querySelectorAll('details.bi summary').forEach(function(su){ su.addEventListener('click',function(e){ if(!window.matchMedia('(max-width:860px)').matches) e.preventDefault(); }); });
+  var mq=window.matchMedia('(max-width:860px)');
+  document.querySelectorAll('details.bi summary').forEach(function(su){
+    su.addEventListener('click',function(e){ if(!mq.matches) e.preventDefault(); });
+    var setTab=function(){ if(mq.matches) su.removeAttribute('tabindex'); else su.setAttribute('tabindex','-1'); }; /* on desktop the cards are always open, so they are not a tab stop */
+    setTab(); if(mq.addEventListener) mq.addEventListener('change',setTab);
+  });
 
   /* how-it-works animation: scale to column, pause control */
   var art=document.querySelector('.hvw');

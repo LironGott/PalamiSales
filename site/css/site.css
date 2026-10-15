@@ -369,3 +369,31 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 .ftr .ct a{color:var(--mu)}
 .hv-pause .pi{display:inline-block;width:12px;height:14px;border-left:4px solid currentColor;border-right:4px solid currentColor}
 .hvw.paused .hv-pause .pi{width:0;height:0;border-right:0;border-left:12px solid currentColor;border-top:7px solid transparent;border-bottom:7px solid transparent}
+.site[dir="ltr"] .hero h1{font-size:clamp(34px,3.5vw,46px)}
+.site[dir="ltr"] .hv-steps span{font-size:13.5px;white-space:nowrap;gap:6px}
+.site[dir="ltr"] .bub{justify-self:start;border-radius:16px 16px 16px 4px}
+.site[dir="ltr"] .bub.me{justify-self:end;border-radius:16px 16px 4px 16px}
+
+/* legal pages */
+.doc-page .hdr .back{margin-inline-start:auto;color:var(--mu);text-decoration:none;font-weight:500}
+.doc-page .hdr .back:hover{color:var(--g)}
+.doc .in{max-width:760px;padding-block:56px 72px}
+.doc h1{font-size:clamp(32px,4vw,44px);font-weight:800;color:var(--g)}
+.doc .upd{color:var(--mu);font-size:15px;margin:8px 0 28px}
+.doc h2{font-size:22px;font-weight:700;color:var(--g);margin:30px 0 8px}
+.doc p,.doc li{color:var(--in);max-width:68ch}
+.doc p+p{margin-top:10px}
+.doc ul{padding-inline-start:22px;margin:6px 0;display:grid;gap:6px}
+.doc .todo{background:var(--attn-s);color:var(--attn);border-radius:6px;padding:0 6px;font-weight:600}
+@media (max-width:860px){.doc-page .hdr .back{font-size:15px}.doc .in{padding-block:32px 48px}}
+
+/* formerly inline styles (kept out of HTML for a strict CSP) */
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.ben{background:var(--s2)}
+.peek{background:var(--pa)}
+.bl.one{grid-template-columns:1fr}
+.site[dir="rtl"] .fld input.ltr{text-align:right}
+.nf{text-align:center}
+.nf img{margin:0 auto 18px;width:160px}
+.nf p{margin:12px auto 20px}
+.nf .alt{margin-top:28px}
