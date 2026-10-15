@@ -411,3 +411,22 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 @media (prefers-reduced-motion:reduce){.hero .art .desk,.hero .art .phone{transition:none}}
 .get a{text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
 .get a:hover{border-color:var(--g);box-shadow:var(--sh1)}
+/* large screens: wider layout and larger type, so it doesn't look small and empty at 100% browser zoom */
+@media (min-width:1440px){
+  body{font-size:18.5px}
+  .in{max-width:1380px}
+  .hdr .in{min-height:84px}.hdr nav a{font-size:18.5px}.hdr .logo img{height:42px}.hdr .logo .bv{height:52px}
+  .btn{font-size:18.5px;min-height:56px;padding:0 30px}.btn.sm{font-size:17px;min-height:46px}
+  .hero{padding-block:80px 56px}
+  .hero h1{font-size:64px}
+  .hero .lead{font-size:22.5px;max-width:660px}
+  .get b{font-size:18px}.get span{font-size:16px}.get div,.get a{padding:18px}
+  .art{height:700px}
+  .sec{padding-block:104px}
+  .sec-h{max-width:880px}.sec-h h2{font-size:50px}.sec-h p{font-size:21px}
+  .howg .step h3{font-size:24px}.step p{font-size:18px}
+  .bi h4{font-size:20px}.bi p{font-size:17px}.col .ch h3{font-size:32px}
+  .side h3{font-size:30px}.bub{font-size:17.5px}.ans .row b{font-size:18px}.ans .row span{font-size:16px}
+  .pk{grid-template-columns:340px minmax(0,1fr)}.pk .list button b{font-size:19px}.pk .list button span{font-size:16px}
+  .demo h2{font-size:46px}.demo .txt p{font-size:20px}
+}
