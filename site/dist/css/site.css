@@ -209,6 +209,7 @@ a{color:var(--g)}
 @media (min-width:861px){
   .bi{position:relative;padding-inline-start:62px;min-height:48px}
   .bl{grid-auto-rows:1fr}
+  .col.trav{grid-template-rows:auto 1fr;align-content:stretch}
   .bi .ic{position:absolute;inset-inline-start:0;top:0}
   .bi h4{padding-top:2px;line-height:1.3}
   .bi p{margin-top:2px}
