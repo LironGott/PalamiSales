@@ -31,7 +31,7 @@
         ['לקוחות','כל לקוח, עם כל הנסיעות שלו','r-customers.webp','desk','app.palami.io/customers']
       ],
       trav:[
-        ['מסך הבית','ספירה לאחור, מסמכים חשובים והאירוע הבא','t-home-before.webp','phone'],
+        ['מסך הבית','מתעדכן לבד לפי שלב הנסיעה: ספירה לאחור לפני, היום בנסיעה במהלכה וקשר עם הסוכן אחרי החזרה','t-home-before.webp','phone',[['t-home-before.webp','לפני הנסיעה'],['t-home-during.webp','במהלך הנסיעה'],['t-home-after.webp','אחרי החזרה']]],
         ['לו״ז','כל יום בנסיעה, לפי השעה המקומית','t-schedule.webp','phone'],
         ['מסמכים','כל הכרטיסים והשוברים, שמורים בטלפון','t-docs.webp','phone'],
         ['התראות','כל העדכונים והתזכורות על הנסיעה, במקום אחד','t-notifs.webp','phone'],
@@ -50,7 +50,7 @@
         ['Customers','Every customer, with all of their trips','r-customers.webp','desk','app.palami.io/customers']
       ],
       trav:[
-        ['Home','Countdown, key documents and what’s next','t-home-before.webp','phone'],
+        ['Home','Updates itself with the trip: a countdown before, the day of the trip during it and a line to the agent after returning','t-home-before.webp','phone',[['t-home-before.webp','Before the trip'],['t-home-during.webp','During the trip'],['t-home-after.webp','After returning']]],
         ['Schedule','Every day of the trip, in local time','t-schedule.webp','phone'],
         ['Documents','All tickets and vouchers, saved on the phone','t-docs.webp','phone'],
         ['Notifications','Every trip update and reminder, in one place','t-notifs.webp','phone'],
@@ -68,9 +68,32 @@
     var L=DATA[side];
     list.innerHTML=L.map(function(s,i){return '<button type="button" aria-pressed="'+(i===idx)+'" data-i="'+i+'"><b>'+esc(s[0])+'</b><span>'+esc(s[1])+'</span></button>';}).join('');
     var s=L[idx], src=BASE+'img/'+s[2], alt=esc(s[0]+': '+s[1]);
+    stopSlides();
+    if(s[3]==='phone' && s[4]){ slides(s, alt); return; }
     stage.innerHTML = s[3]==='desk'
       ? '<div class="browser"><img src="'+src+'" alt="'+alt+'"></div>'
       : '<div class="phone"><img src="'+src+'" alt="'+alt+'"></div>';
+  }
+  /* a screen with stages (traveler home): the phone cycles through them once, and can be swiped or picked with the dots */
+  var slideT=null;
+  function stopSlides(){ if(slideT){ clearInterval(slideT); slideT=null; } }
+  function slides(s, alt){
+    var st=s[4], cur=0;
+    stage.innerHTML='<div class="phone slides" role="img" aria-label="'+alt+'">'+st.map(function(x,i){ return '<img src="'+BASE+'img/'+x[0]+'" alt=""'+(i?'':' class="on"')+'>'; }).join('')+'</div>'
+      +'<p class="scap">'+esc(st[0][1])+'</p><div class="sdots">'+st.map(function(x,i){ return '<button type="button" data-s="'+i+'" aria-pressed="'+(i===0)+'"><span>'+esc(x[1])+'</span></button>'; }).join('')+'</div>';
+    var cap=stage.querySelector('.scap'), ph=stage.querySelector('.slides'), imgs=ph.querySelectorAll('img'), dots=stage.querySelectorAll('[data-s]');
+    var show=function(i){ cur=(i+st.length)%st.length; cap.textContent=st[cur][1];
+      Array.prototype.forEach.call(imgs,function(im,k){ im.classList.toggle('on',k===cur); });
+      Array.prototype.forEach.call(dots,function(d,k){ d.setAttribute('aria-pressed',String(k===cur)); }); };
+    Array.prototype.forEach.call(dots,function(d){ d.addEventListener('click',function(){ stopSlides(); show(+d.getAttribute('data-s')); }); });
+    var x0=null;
+    ph.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+    ph.addEventListener('touchend',function(e){ if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; x0=null;
+      if(Math.abs(dx)>30){ stopSlides(); var rtl=root.getAttribute('dir')==='rtl'; show(cur+((dx<0)!==rtl?1:-1)); } });
+    if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
+      var n=0; slideT=setInterval(function(){ n++; show(cur+1); if(n>=st.length) stopSlides(); },3200); /* one full cycle, back to the first stage */
+      ph.addEventListener('mouseenter',stopSlides);
+    }
   }
   if(list && stage){
     document.querySelectorAll('[data-side]').forEach(function(b){
