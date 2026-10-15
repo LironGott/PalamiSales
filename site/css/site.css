@@ -316,9 +316,8 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .col{padding:20px;border-radius:22px}
   .col .ch h3{font-size:23px}
   .pk{grid-template-columns:1fr;gap:14px}
-  .pk .list{grid-auto-flow:column;grid-auto-columns:max-content;overflow-x:auto;scrollbar-width:none;margin-inline:-20px;padding-inline:20px}
-  .pk .list::-webkit-scrollbar{display:none}
-  .pk .list button{padding:9px 14px;border-radius:999px;border-color:var(--ln);background:var(--wh)}
+  .pk .list{display:flex;flex-wrap:wrap;gap:8px}
+  .pk .list button{padding:0 14px;min-height:44px;align-content:center;border-radius:999px;border-color:var(--ln);background:var(--wh)}
   .pk .list button span{display:none}
   .pk .list button b{font-size:15px}
   .pk .list button[aria-pressed="true"]{background:var(--g);border-color:var(--g)}
