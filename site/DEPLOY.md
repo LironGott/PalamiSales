@@ -51,5 +51,5 @@ Later updates: rebuild, zip `dist/`, upload a new deployment in Amplify (or conn
 - [x] Accessibility contact: the user, via info@palami.io and the phone (approved 2026-10-15).
 - [ ] Mailbox info@palami.io exists (also needed for the AWS Activate application) with SPF/DKIM/DMARC.
 - [ ] Lawyer review of the privacy policy and accessibility statement (planned).
-- [ ] Final review of the full preview, then upload.
+- [x] Final review of the full preview, then upload. Live at https://www.palami.io (2026-10-15).
 - [ ] After launch: test the form end to end, submit sitemap to Google Search Console.

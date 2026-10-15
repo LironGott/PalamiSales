@@ -90,7 +90,12 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - The artifact preview is published from `site/index.html` with `url` = the homepage artifact, plus the files from `site/.preview/`.
 - Measurement (user approved 2026-10-15): no analytics tool and no cookies at launch. The demo form sends a `source` field (UTM tags or referrer, else "direct"); Google Search Console after launch; Plausible only when paid campaigns start. See `site/DEPLOY.md`.
 - Decisions (user, 2026-10-15): AWS Amplify hosting; Formspree for the form; domain palami.io at GoDaddy (DNS stays there, www.palami.io is the main address, palami.io forwards); mailbox info@palami.io (replaces hello@); the user is the accessibility coordinator (statement lists info@ and phone, approved); keep form data 24 months; company not registered yet ("PALAMI" for now); a lawyer will review the legal pages.
-- Launch runbook and Amplify settings: `site/DEPLOY.md`, `site/amplify/`. Formspree endpoint https://formspree.io/f/mwlvwbjn (default in build.py). Waiting on: AWS account/Amplify upload, then DNS records (only with the user's approval).
+- Launch runbook and Amplify settings: `site/DEPLOY.md`, `site/amplify/`. Formspree endpoint https://formspree.io/f/mwlvwbjn (default in build.py). **LIVE since 2026-10-15 at https://www.palami.io** (Amplify app palami-site, branch main, eu-north-1; temp URL main.derxdl2rg7k45.amplifyapp.com). Updates: rebuild, zip `site/dist/` contents, Amplify > main > Deploy updates.
+
+## Website: copy decisions (2026-10-15)
+- Hero eyebrow "העוזר האישי של סוכן הנסיעות" (EN "The travel agent’s personal assistant"); H1 unchanged; bold lead "כל מסמכי הנסיעה של הלקוחות, מסודרים אוטומטית ובכף היד של הנוסע." then "גוררים את המסמכים, מערכת AI מתייקת הכל ואתם יודעים בכל רגע מה עוד חסר בכל תיק."; hero CTAs: demo + how it works (demo hidden on phones, the sticky bar has it).
+- Page title/description start in Hebrew (no "PALAMI:" prefix, it breaks RTL in share previews); never "מערכת לניהול נסיעות" (sounds like CRM).
+- Motion: only the how-it-works animation, the traveler lock-screen notifications (drop in once) and the peek home screen cycling before/during/after (pauses on hover, arrows/drag/dots). No hero phone rotation, no auto-playing peek tabs, no scroll arrows in filter rows.
 
 ## Website: confirmed details and open reminders
 - Contact (approved 2026-10-15): email info@palami.io (being created by the user), phone 054-2245627.
