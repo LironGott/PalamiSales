@@ -31,7 +31,7 @@
         ['לקוחות','כל לקוח, עם כל הנסיעות שלו','r-customers.webp','desk','app.palami.io/customers']
       ],
       trav:[
-        ['מסך הבית','מתעדכן לבד לפי שלב הנסיעה: ספירה לאחור לפני, היום בנסיעה במהלכה וקשר עם הסוכן אחרי החזרה','t-home-before.webp','phone',[['t-home-before.webp','לפני הנסיעה'],['t-home-during.webp','במהלך הנסיעה'],['t-home-after.webp','אחרי החזרה']]],
+        ['מסך הבית','ספירה לאחור, מסמכים חשובים והאירוע הבא. מתעדכן לבד לפי שלב הנסיעה.','t-home-before.webp','phone',[['t-home-before.webp','לפני הנסיעה'],['t-home-during.webp','במהלך הנסיעה'],['t-home-after.webp','אחרי החזרה']]],
         ['לו״ז','כל יום בנסיעה, לפי השעה המקומית','t-schedule.webp','phone'],
         ['מסמכים','כל הכרטיסים והשוברים, שמורים בטלפון','t-docs.webp','phone'],
         ['התראות','כל העדכונים והתזכורות על הנסיעה, במקום אחד','t-notifs.webp','phone'],
@@ -50,7 +50,7 @@
         ['Customers','Every customer, with all of their trips','r-customers.webp','desk','app.palami.io/customers']
       ],
       trav:[
-        ['Home','Updates itself with the trip: a countdown before, the day of the trip during it and a line to the agent after returning','t-home-before.webp','phone',[['t-home-before.webp','Before the trip'],['t-home-during.webp','During the trip'],['t-home-after.webp','After returning']]],
+        ['Home','Countdown, key documents and what’s next. Updates itself with each stage of the trip.','t-home-before.webp','phone',[['t-home-before.webp','Before the trip'],['t-home-during.webp','During the trip'],['t-home-after.webp','After returning']]],
         ['Schedule','Every day of the trip, in local time','t-schedule.webp','phone'],
         ['Documents','All tickets and vouchers, saved on the phone','t-docs.webp','phone'],
         ['Notifications','Every trip update and reminder, in one place','t-notifs.webp','phone'],
