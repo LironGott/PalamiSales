@@ -57,8 +57,8 @@ a{color:var(--g)}
 
 /* hero */
 .hero{padding-block:64px 40px;background:linear-gradient(180deg,#FFFFFF 0%,var(--pa) 100%)}
-.hero .in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:48px;align-items:center}
-.hero h1{font-size:clamp(40px,4.6vw,60px);font-weight:800;color:var(--g);letter-spacing:-.01em}
+.hero .in{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,1fr);gap:44px;align-items:center}
+.hero h1{font-size:clamp(38px,4vw,54px);font-weight:800;color:var(--g);letter-spacing:-.01em}
 .hero h1 span{color:var(--cu6)}
 .hero .lead{font-size:20px;color:var(--mu);max-width:560px}
 .hero .txt{display:grid;gap:24px}
@@ -300,7 +300,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       </div>
     </div>
     <div class="art" aria-hidden="true">
-      <img class="desk" src="img/a-dash.webp" alt="">
+      <img class="desk" src="img/r-dash.webp" alt="">
       <span class="callout k1">מה דחוף היום</span>
       <span class="callout k2">סטטוס לכל תיק</span>
       <span class="callout k3">כל הנסיעה בטלפון של הנוסע</span>
@@ -391,7 +391,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 
   <!-- D · PEEK -->
   <section class="sec peek" id="peek" aria-labelledby="peek-h" style="background:var(--pa)"><div class="in">
-    <div class="sec-h"><span class="eyb">הצצה למערכת</span><h2 id="peek-h">ככה זה נראה</h2><p class="note-illus">מסכים להמחשה, עם סוכנות ונתונים לדוגמה.</p></div>
+    <div class="sec-h"><span class="eyb">הצצה למערכת</span><h2 id="peek-h">ככה זה נראה</h2><p class="note-illus">מסכים מהמערכת, עם סוכנות ונתונים לדוגמה. מסכי הנוסע להמחשה.</p></div>
     <div class="tabs" role="tablist" aria-label="בחירת צד">
       <button type="button" role="tab" aria-selected="true" data-side="agent">אצל הסוכן</button>
       <button type="button" role="tab" aria-selected="false" data-side="trav">אצל הנוסע</button>
@@ -440,10 +440,11 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 (function(){
   var DATA={
     agent:[
-      ['דשבורד','מה דחוף היום, סטטוס לכל תיק וחוסרים','img/a-dash.webp','desk','app.palami.io/home'],
-      ['תיק נסיעה','גוררים מסמכים, ורואים מה המערכת עשתה עם כל אחד','img/a-trip-upload.webp','desk','app.palami.io/trips/HDR-2609-0031'],
-      ['עדכון לאישור','לפני ואחרי. שום דבר לא משתנה אצל הנוסע בלי אישור','img/a-flight-modal.webp','desk','app.palami.io/trips/HDR-2609-0031'],
-      ['שיחות','כל השיחות עם הנוסעים, לפי נסיעה','img/a-chat.webp','desk','app.palami.io/messages']
+      ['דשבורד','מה דחוף היום, ביטוח חסר ומה מוכן לפרסום','img/r-dash.webp','desk','app.palami.io/home'],
+      ['תיקי נסיעה','כל התיקים, עם סטטוס, חוסרים וסינון','img/r-trips.webp','desk','app.palami.io/trips'],
+      ['תיק נסיעה','גוררים את המסמכים, והם נכנסים לתיק','img/r-trip-docs.webp','desk','app.palami.io/trips/HDR-2609-0031'],
+      ['סקירה וביטוח','מה יש בתיק, ואם חסר ביטוח','img/r-trip-overview.webp','desk','app.palami.io/trips/HDR-2609-0031'],
+      ['לקוחות','כל לקוח, עם כל הנסיעות שלו','img/r-customers.webp','desk','app.palami.io/customers']
     ],
     trav:[
       ['מסך הבית','ספירה לאחור, מסמכים חשובים והאירוע הבא','img/t-home-before.webp','phone'],

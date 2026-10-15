@@ -82,5 +82,5 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 ## Website: confirmed details and open reminders
 - Contact (approved 2026-10-15): email hello@palami.io (suggested; mailbox must exist before launch), phone 054-2245627.
 - TODO (reminder): registered company name not decided yet. Site uses "PALAMI" as placeholder in footer and privacy policy; replace once the company is registered.
-- TODO: user will give access to the developed system later; replace prototype screenshots with real ones then. Traveler app is specified (not yet developed): present without promising availability.
+- Real agent-system screenshots (work in progress, from the user, 2026-10-15) are in `site/img/r-*.webp` and used for the agent side. Traveler screens still from the prototype. Real system also has: two filter rows (trip status, publish status), "only trips without active agent" toggle, trip actions (republish, view as traveler, edit trip, cancel trip). TODO: user will give system access later. Traveler app is specified (not yet developed): present without promising availability.
 - Technical questions (hosting, form provider, DNS) postponed by the user until design is final.
