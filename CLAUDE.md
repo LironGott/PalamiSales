@@ -98,6 +98,7 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Motion: only the how-it-works animation, the traveler lock-screen notifications (drop in once) and the peek home screen cycling before/during/after (pauses on hover, arrows/drag/dots). No hero phone rotation, no auto-playing peek tabs, no scroll arrows in filter rows.
 
 - Idea (user, 2026-10-15): later, a separate site for private travelers who want to use PALAMI directly. Not planned yet; brand-level assets (slogan "כל פרטי הנסיעה בכף ידך") should stay neutral between agencies and consumers.
+- B2C layout options (2026-10-15, not decided): https://claude.ai/artifact/VsMDRaM7iYnHntEMGrTLxd, source `docs/website/b2c/`. A toggle, B split homepage, C traveler-first, D keep agency homepage + strip + /travelers page. Recommended: D for the first month, B later.
 
 ## Website: confirmed details and open reminders
 - Contact (approved 2026-10-15): email info@palami.io (being created by the user), phone 054-2245627.

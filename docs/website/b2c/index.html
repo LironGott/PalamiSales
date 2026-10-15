@@ -1,0 +1,141 @@
+<title>PALAMI לנוסעים פרטיים</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Assistant:wght@400;600;700&display=swap">
+<style>
+/* Layout: a decision memo. Options stacked as full-width studies (screens + where it changes + trade-offs), recommendation pinned first. PALAMI brand tokens. */
+:root{
+  --bg:#FEFEFC; --surface:#FFFFFF; --cream:#FBF3E3; --ink:#16241D; --muted:#5C5951; --line:#E2DED5;
+  --green:#08402A; --green-soft:#EEF6F1; --copper:#A85C28; --shot:#ECE8DF;
+  --f-d:"Rubik","Assistant","Segoe UI",Arial,sans-serif; --f-b:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1A15; --surface:#15231C; --cream:#1E2A22; --ink:#E9EFEA; --muted:#A9B3AC; --line:#2C3B33;
+  --green:#8FD3AE; --green-soft:#1B2E24; --copper:#E3A06B; --shot:#1A2620; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1A15; --surface:#15231C; --cream:#1E2A22; --ink:#E9EFEA; --muted:#A9B3AC; --line:#2C3B33;
+  --green:#8FD3AE; --green-soft:#1B2E24; --copper:#E3A06B; --shot:#1A2620; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:17px;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding-block:40px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:40px}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.2;text-wrap:balance;color:var(--green)}
+h1{font-size:clamp(30px,4vw,42px);font-weight:800}
+h2{font-size:clamp(23px,2.6vw,29px);font-weight:700}
+h3{font-size:18px;font-weight:700}
+p{margin:0}
+.eyb{font:700 14px var(--f-d);color:var(--copper);letter-spacing:.02em}
+header{display:grid;gap:12px;max-width:760px}
+header p{color:var(--muted);font-size:18px}
+.note{font-size:15px;color:var(--muted)}
+.rec{background:var(--green-soft);border-radius:22px;padding:26px;display:grid;gap:12px}
+.rec .tag{justify-self:start;background:var(--green);color:var(--bg);font:700 14px var(--f-d);padding:4px 14px;border-radius:999px}
+.rec ul,.opt ul{margin:0;padding-inline-start:20px;display:grid;gap:4px}
+.opt{display:grid;gap:18px;padding-top:34px;border-top:1px solid var(--line)}
+.opt .head{display:flex;gap:14px;align-items:baseline;flex-wrap:wrap}
+.opt .letter{font:800 15px var(--f-d);color:var(--bg);background:var(--green);border-radius:8px;padding:2px 10px}
+.opt .head p{color:var(--muted);flex-basis:100%}
+.shots{display:grid;grid-template-columns:minmax(0,3.2fr) minmax(0,1fr);gap:16px;align-items:start}
+.shots figure{margin:0;display:grid;gap:6px;min-width:0}
+.shots img{display:block;width:100%;height:auto;border-radius:12px;border:1px solid var(--line);background:var(--shot)}
+figcaption{font-size:14px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.cols div{display:grid;gap:6px;align-content:start;min-width:0}
+.cols h3{font-size:16px}
+.cols .good h3{color:var(--green)} .cols .bad h3{color:var(--copper)}
+.extra{display:grid;gap:10px}
+.qs{background:var(--cream);border-radius:22px;padding:26px;display:grid;gap:12px}
+.qs ol{margin:0;padding-inline-start:22px;display:grid;gap:6px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+@media (max-width:760px){.shots{grid-template-columns:minmax(0,1fr) minmax(0,.55fr)}.cols{grid-template-columns:1fr}}
+@media (max-width:460px){.shots{grid-template-columns:1fr}.shots figure.m{max-width:240px}}
+</style>
+
+<div class="wrap" dir="rtl" lang="he">
+  <header>
+    <span class="eyb">הדמיה · לא שינינו את האתר החי</span>
+    <h1>PALAMI גם לנוסעים פרטיים</h1>
+    <p>ארבע דרכים לפתוח את האתר גם לנוסעים שירצו להשתמש ב־<span class="ltr">PALAMI</span> בלי סוכן, בלי לפגוע במסר לסוכנויות. בכל אפשרות: צילומי מסך (מחשב ונייד), איפה השינוי באתר ומה היתרונות והחסרונות.</p>
+    <p class="note">הטקסטים לנוסעים הם טיוטה. ההנחה בהם: הנוסע מעלה בעצמו את מסמכי הנסיעה, ובשלב הראשון מצטרפים לרשימת המתנה.</p>
+  </header>
+
+  <section class="rec" aria-labelledby="rec-h">
+    <span class="tag">ההמלצה שלי</span>
+    <h2 id="rec-h">עכשיו ד׳, ובהמשך ב׳</h2>
+    <ul>
+      <li><b>להשקה לנוסעים בעוד חודש: אפשרות ד׳.</b> עמוד הבית נשאר לסוכנויות כמו שהוא, מוסיפים פס עליון ופריט "לנוסעים" בתפריט, ועמוד נפרד לנוסעים. הסיכון הכי קטן: לא נוגעים במה שעובד ובמה ש־<span class="ltr">AWS</span> והסוכנויות רואים.</li>
+      <li><b>כשהשימוש של נוסעים פרטיים יגדל: לעבור לב׳.</b> עמוד בית של המותג שמפצל לשני מסלולים שווים, עם עמוד מלא לכל קהל.</li>
+      <li><b>פחות מומלץ:</b> א׳ (מתג באותו עמוד), כי הרבה מבקרים לא שמים לב למתג וגוגל רואה רק גרסה אחת. ג׳ (הנוסע במרכז), כי הוא מעביר את הסוכנות, הלקוח המשלם היום, למקום משני.</li>
+    </ul>
+  </section>
+
+  <section class="opt" aria-labelledby="a-h">
+    <div class="head"><span class="letter">א׳</span><h2 id="a-h">מתג "לסוכנויות / לנוסעים" באותו עמוד</h2><p>עמוד אחד, ובראשו מתג. בחירה ב"לנוסעים" מחליפה את ה־Hero ואת הסקשנים לגרסה לנוסעים (בצילום: מצב "לנוסעים").</p></div>
+    <div class="shots">
+      <figure><img src="A-d.webp" alt="הדמיה: עמוד הבית עם מתג לסוכנויות ולנוסעים, במצב לנוסעים, במחשב" width="1100" height="644" loading="lazy"><figcaption>מחשב</figcaption></figure>
+      <figure class="m"><img src="A-m.webp" alt="אותה הדמיה בנייד" width="390" height="844" loading="lazy"><figcaption>נייד</figcaption></figure>
+    </div>
+    <div class="cols">
+      <div><h3>איפה השינוי</h3><p>מתג מעל ה־Hero, וגרסה לנוסעים לכל סקשן: Hero, איך זה עובד, יתרונות, הצצה וטופס. גם הכפתור בכותרת והפס התחתון בנייד מתחלפים.</p></div>
+      <div class="good"><h3>יתרונות</h3><p>כתובת אחת, מיתוג אחד, מעבר מהיר בין הקהלים.</p></div>
+      <div class="bad"><h3>חסרונות</h3><p>הרבה מבקרים לא לוחצים על מתגים. גוגל ושיתוף קישורים רואים רק גרסה אחת. כפול תוכן לתחזק בעמוד אחד.</p></div>
+    </div>
+  </section>
+
+  <section class="opt" aria-labelledby="b-h">
+    <div class="head"><span class="letter">ב׳</span><h2 id="b-h">עמוד בית מפצל: שני מסלולים</h2><p>עמוד הבית הופך לעמוד מותג קצר עם הסלוגן ושני כרטיסים שווים. כל כרטיס מוביל לעמוד מלא משלו.</p></div>
+    <div class="shots">
+      <figure><img src="B-d.webp" alt="הדמיה: עמוד בית עם הסלוגן ושני כרטיסים, לסוכנויות ולנוסעים, במחשב" width="1100" height="644" loading="lazy"><figcaption>מחשב</figcaption></figure>
+      <figure class="m"><img src="B-m.webp" alt="אותה הדמיה בנייד" width="390" height="844" loading="lazy"><figcaption>נייד</figcaption></figure>
+    </div>
+    <div class="cols">
+      <div><h3>איפה השינוי</h3><p>עמוד בית חדש. האתר הנוכחי עובר כמעט כמו שהוא ל־<span class="ltr">palami.io/agencies</span>, ונבנה עמוד חדש ל־<span class="ltr">palami.io/travelers</span>. התפריט: לסוכנויות, לנוסעים, על <span class="ltr">PALAMI</span>.</p></div>
+      <div class="good"><h3>יתרונות</h3><p>הכי ברור: כל קהל בוחר את הדרך שלו ומקבל מסר נקי. מתאים לצמיחה בשני השווקים, ולכל עמוד יש כתובת משלו לפרסום ולגוגל.</p></div>
+      <div class="bad"><h3>חסרונות</h3><p>לחיצה נוספת לסוכנויות. עמוד הבית פחות ממוקד במסר אחד. דורש לבנות עמוד נוסעים מלא לפני ההשקה.</p></div>
+    </div>
+  </section>
+
+  <section class="opt" aria-labelledby="c-h">
+    <div class="head"><span class="letter">ג׳</span><h2 id="c-h">הנוסע במרכז, סוכנויות בעמוד נפרד</h2><p>עמוד הבית מדבר לנוסעים ("כל פרטי הנסיעה בכף ידך"). לסוכנויות יש פריט בולט בתפריט ורצועה מתחת ל־Hero שמובילה למערכת לסוכנויות.</p></div>
+    <div class="shots">
+      <figure><img src="C-d.webp" alt="הדמיה: עמוד בית שמדבר לנוסעים עם רצועה לסוכנויות, במחשב" width="1100" height="644" loading="lazy"><figcaption>מחשב</figcaption></figure>
+      <figure class="m"><img src="C-m.webp" alt="אותה הדמיה בנייד" width="390" height="844" loading="lazy"><figcaption>נייד</figcaption></figure>
+    </div>
+    <div class="cols">
+      <div><h3>איפה השינוי</h3><p>עמוד בית חדש לנוסעים. האתר הנוכחי עובר ל־<span class="ltr">palami.io/agencies</span>. בתפריט "לסוכנויות" בצבע נחושת, ובראש העמוד רצועה עם הבונה.</p></div>
+      <div class="good"><h3>יתרונות</h3><p>מסר צרכני חזק ופשוט, מתאים לקמפיינים לקהל הרחב ולסלוגן של הלוגו.</p></div>
+      <div class="bad"><h3>חסרונות</h3><p>הסוכנות, הלקוח המשלם היום, הופכת למשנית. בקשת <span class="ltr">AWS</span> והפניות לסוכנויות נוחתות על מסר לא שלהן. סותר את ההחלטה שהאתר לא יהיה "רק אפליקציה לנוסע".</p></div>
+    </div>
+  </section>
+
+  <section class="opt" aria-labelledby="d-h">
+    <div class="head"><span class="letter">ד׳</span><h2 id="d-h">הבית נשאר לסוכנויות, מוסיפים עמוד לנוסעים</h2><p>האתר הנוכחי לא משתנה. מוסיפים פס עליון דק ("נוסעים פרטיים?") ופריט "לנוסעים" בתפריט, שמובילים לעמוד נפרד לנוסעים.</p></div>
+    <div class="shots">
+      <figure><img src="D-d.webp" alt="הדמיה: עמוד הבית הנוכחי עם פס עליון לנוסעים ופריט לנוסעים בתפריט, במחשב" width="1100" height="644" loading="lazy"><figcaption>עמוד הבית, מחשב</figcaption></figure>
+      <figure class="m"><img src="D-m.webp" alt="אותה הדמיה בנייד" width="390" height="844" loading="lazy"><figcaption>עמוד הבית, נייד</figcaption></figure>
+    </div>
+    <div class="extra">
+      <h3>העמוד לנוסעים (<span class="ltr">palami.io/travelers</span>)</h3>
+      <div class="shots">
+        <figure><img src="D2-d.webp" alt="הדמיה: עמוד נפרד לנוסעים פרטיים, במחשב" width="1100" height="644" loading="lazy"><figcaption>עמוד הנוסעים, מחשב</figcaption></figure>
+        <figure class="m"><img src="D2-m.webp" alt="אותה הדמיה בנייד" width="390" height="844" loading="lazy"><figcaption>עמוד הנוסעים, נייד</figcaption></figure>
+      </div>
+    </div>
+    <div class="cols">
+      <div><h3>איפה השינוי</h3><p>בעמוד הבית רק שתי תוספות: פס עליון ופריט בתפריט. עמוד חדש לנוסעים, עם ה־Hero, איך זה עובד, מה באפליקציה, שאלות נפוצות וטופס הצטרפות. גם באנגלית.</p></div>
+      <div class="good"><h3>יתרונות</h3><p>הכי מהיר ובטוח: לא נוגעים במה שעובד, הסוכנויות ממשיכות לקבל את אותו מסר, ואפשר לבדוק את השוק הפרטי בנפרד ולמדוד אותו.</p></div>
+      <div class="bad"><h3>חסרונות</h3><p>הנוסעים מקבלים מקום משני בעמוד הבית. אם השוק הפרטי יגדל, נצטרך לעבור לאפשרות ב׳.</p></div>
+    </div>
+  </section>
+
+  <section class="qs" aria-labelledby="q-h">
+    <h2 id="q-h">לפני שבוחרים, כדאי לסגור</h2>
+    <ol>
+      <li><b>איך נוסע פרטי מכניס מסמכים?</b> מעלה בעצמו, מעביר מייל לכתובת ייעודית, או משהו אחר. זה מה שהעמוד לנוסעים יצטרך להסביר.</li>
+      <li><b>מחיר:</b> חינם, מנוי או תשלום לנסיעה.</li>
+      <li><b>מה הכפתור הראשי:</b> רשימת המתנה, הרשמה או הורדה.</li>
+      <li><b>שם ומיתוג:</b> האפליקציה של הסוכנות במיתוג הסוכנות, ושל הנוסע הפרטי במיתוג <span class="ltr">PALAMI</span>.</li>
+      <li><b>מדיניות פרטיות ונגישות:</b> לנוסעים פרטיים צריך להוסיף התייחסות לשימוש באפליקציה עצמה, ולא רק לטופס.</li>
+    </ol>
+  </section>
+</div>
