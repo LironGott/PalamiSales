@@ -95,6 +95,16 @@
     }
   }
 
+  /* hero visual: clicking the agent screen or the phone opens that side in the product peek */
+  var peek=document.getElementById('peek');
+  document.querySelectorAll('.hero .art, .hero .mdash').forEach(function(el){
+    el.addEventListener('click',function(e){
+      var want=e.target.closest('.phone, .k3, .mphl')?'trav':'agent', tab=document.querySelector('[data-side="'+want+'"]');
+      if(tab && tab.getAttribute('aria-selected')!=='true') tab.click();
+      if(peek) peek.scrollIntoView({behavior:window.matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});
+    });
+  });
+
   /* benefits: always open, on every screen size (the explanation is part of the message) */
   document.querySelectorAll('details.bi summary').forEach(function(su){
     su.addEventListener('click',function(e){ e.preventDefault(); });
