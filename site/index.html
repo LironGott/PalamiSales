@@ -73,12 +73,12 @@ a{color:var(--g)}
 .get b{font:700 16px var(--f-d);color:var(--g);display:flex;gap:8px;align-items:center}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
-.art{position:relative;height:560px}
+.art{position:relative;height:560px;container-type:inline-size}
 .art .desk{position:absolute;top:10px;right:0;width:94%;border-radius:14px;border:1px solid var(--ln);box-shadow:var(--sh3);background:var(--wh)}
 .art .phone{position:absolute;bottom:0;left:0;width:34%;max-width:220px}
 .callout{position:absolute;display:flex;align-items:center;gap:8px;font:600 14px var(--f-b);color:var(--g);background:var(--wh);border-radius:999px;padding:7px 14px;box-shadow:0 8px 20px rgb(8 64 42 / .16);white-space:nowrap}
 .callout::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cu)}
-.art .k1{top:-8px;right:18%}.art .k2{top:46%;right:-10px}.art .k3{bottom:16px;left:38%}
+.art .k1{top:-8px;right:18%}.art .k2{top:46%;right:-10px}.art .k3{bottom:calc(min(34cqw,220px) * 2.163 - 6px);left:14px}
 .mdash{display:none}
 .howg{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:44px;align-items:center}
 .howg .steps{grid-template-columns:1fr;gap:14px}
@@ -404,7 +404,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       <img class="desk" src="img/r-dash.webp" alt="">
       <span class="callout k1">מה דחוף היום</span>
       <span class="callout k2">מה חסר בכל תיק</span>
-      <span class="callout k3">כל הנסיעה בטלפון של הנוסע</span>
+      <span class="callout k3">אפליקציית הנוסע</span>
       <div class="phone"><img src="img/t-home-before.webp" alt=""></div>
     </div>
     <div class="mdash" aria-label="דוגמה: תמונת המצב של הסוכן">
