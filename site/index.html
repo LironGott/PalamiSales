@@ -274,6 +274,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 <symbol id="i-cal" viewBox="0 0 24 24"><path d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2zm-2 8v9h14v-9z"/></symbol>
 <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M6.5 19a4.5 4.5 0 0 1-.9-8.9A6 6 0 0 1 17.4 9 5 5 0 0 1 17.5 19zm4-3.5 5-5-1.4-1.4-3.6 3.6-1.6-1.6L7.5 12.5z"/></symbol>
 <symbol id="i-sos" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20m-1 5v7h2V7zm0 9v2h2v-2z"/></symbol>
+<symbol id="i-team" viewBox="0 0 24 24"><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8m8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6M9 13c-4 0-7 2-7 4.5V20h14v-2.5C16 15 13 13 9 13m8 0c-.6 0-1.2.1-1.7.2A5 5 0 0 1 18 17.5V20h4v-2.5c0-2.5-2.2-4.5-5-4.5"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
 </defs></svg>
 
@@ -296,7 +297,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       <div class="get" aria-label="מה מקבלים">
         <div><b><svg aria-hidden="true"><use href="#i-dash"/></svg>מערכת לניהול הנסיעות</b><span>סטטוס לכל תיק, חוסרים והתראות במסך אחד</span></div>
         <div><b><svg aria-hidden="true"><use href="#i-phone"/></svg>אפליקציה לנוסע</b><span>כרטיסים, לו״ז וחירום, בשם הסוכנות</span></div>
-        <div><b><svg aria-hidden="true"><use href="#i-chat"/></svg>עדכונים ותקשורת</b><span>שינוי מאושר מגיע לנוסע ב־WhatsApp, אימייל או Push</span></div>
+        <div><b><svg aria-hidden="true"><use href="#i-bell"/></svg>התראות ותקשורת</b><span>תזכורות ועדכונים לנוסע ב־Push, WhatsApp או אימייל, בזמן שקבעתם</span></div>
       </div>
     </div>
     <div class="art" aria-hidden="true">
@@ -363,30 +364,18 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 
   <!-- C · BENEFITS -->
   <section class="sec ben" id="benefits" aria-labelledby="ben-h" style="background:var(--s2)"><div class="in">
-    <div class="sec-h"><span class="eyb">יתרונות</span><h2 id="ben-h">טוב לסוכן, טוב לנוסע, טוב לסוכנות</h2></div>
+    <div class="sec-h"><span class="eyb">יתרונות</span><h2 id="ben-h">טוב לסוכן, טוב לנוסע, טוב לסוכנות</h2><p>המערכת זוכרת, מתזמנת ומעדכנת, כדי שהזמן שלכם יישאר למה שחשוב באמת.</p></div>
     <div class="cols">
       <div class="col agency">
-        <div class="ch"><span class="k">לסוכן ולמנהל הסוכנות</span><h3>שליטה מלאה, בלי לרדוף אחרי פרטים</h3></div>
-        <div class="bl">
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>כל הנסיעות במבט אחד</h4></summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום. כל מספר נפתח לרשימה.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>התראה כשמשהו חסר או השתנה</h4></summary><p>ביטוח שלא נמצא, עדכון טיסה לאישור, הודעה מנוסע. בפעמון ובדשבורד.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-check"/></svg></span><h4>שום שינוי בלי האישור שלכם</h4></summary><p>מסמך שמשנה שעה מציג לפני ואחרי. אישור אחד, והנוסעים מעודכנים.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>תקשורת פשוטה עם הנוסעים</h4></summary><p>שיחה לכל נסיעה, תשובות מוכנות, וקובץ מהנוסע נכנס לתיק בלחיצה.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-doc"/></svg></span><h4>כל המסמכים בתיק אחד</h4></summary><p>מסמכים, נוסעים, משפחות וקבוצות, לו״ז ושיחה. לכל תיק מזהה קבוע.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-hand"/></svg></span><h4>פשוט לעבוד</h4></summary><p>גוררים או לוחצים "בחירת קבצים". תצוגה פשוטה, טקסט גדול ו"בטל" אחרי כל פעולה.</p></details>
-        </div>
+        <div class="ch"><span class="k">לסוכן ולמנהל הסוכנות</span><h3>שליטה מלאה, בלי לזכור הכול בראש</h3></div>
+        <div class="bl"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-dash"/></svg></span><h4>כל הנסיעות במבט אחד</h4></summary><p>סטטוס לכל תיק, מה דחוף היום ומה מוכן לפרסום. כל מספר נפתח לרשימה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>יומן ההמראות והנחיתות</h4></summary><p>כל הטיסות של הסוכנות בתצוגה חודשית או שבועית. רואים במבט מי טס היום ומי נוחת מחר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>התראות שזוכרות בשבילכם</h4></summary><p>קובעים פעם אחת מתי הנוסעים מקבלים תזכורת, צ'ק־אין ותדריך בוקר. אתם מקבלים התראה כשמשהו חסר או השתנה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-check"/></svg></span><h4>שום שינוי בלי האישור שלכם</h4></summary><p>מסמך שמשנה שעה מציג לפני ואחרי. אישור אחד, והנוסעים מעודכנים.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-team"/></svg></span><h4>עבודת צוות, גם בחופשה</h4></summary><p>משתפים נסיעה עם סוכן אחר, או קובעים מחליפים לתקופה. הנסיעה לא נעצרת כשמישהו לא במשרד.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>קשר עם הנוסעים, גם אחרי החזרה</h4></summary><p>שיחה בתוך הנסיעה בזמן הטיול, ואחרי החזרה הודעה מהסוכנות שמזמינה לנסיעה הבאה.</p></details></div>
       </div>
       <div class="col trav">
         <div class="ch"><span class="k">לנוסע</span><h3>חוויית נסיעה שקופצת מדרגה</h3></div>
-        <div class="bl" style="grid-template-columns:1fr">
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך בשם ברור.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cal"/></svg></span><h4>יודע מה עכשיו ומה הבא</h4></summary><p>לו״ז יומי ושבועי לפי השעה המקומית, עם תזכורות.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details>
-          <details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות, וכתובת המלון לנהג.</p></details>
-        </div>
+        <div class="bl" style="grid-template-columns:1fr"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך בשם ברור.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp או אימייל: לפני הטיסה, בבוקר של כל יום, וכשמשהו משתנה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות, וכתובת המלון לנהג.</p></details></div>
       </div>
     </div>
-    <div class="agbar"><img src="img/mascot-head.webp" alt=""><div><b>ולסוכנות: שירות שנראה מקצועי, בשם שלכם</b><br><span>הלוגו של הסוכנות בראש האפליקציה של הנוסע. הלקוח מרגיש שאתם איתו לאורך כל הנסיעה.</span></div></div>
+    <div class="agbar"><img src="img/mascot-head.webp" alt=""><div><b>ראש פנוי לנסיעה הבאה</b><br><span>PALAMI זוכרת לתזמן, להזכיר ולעדכן. אתם מתפנים ללקוח הבא ולנסיעה הבאה, והלקוח מרגיש שהסוכנות איתו לאורך כל הדרך.</span></div></div>
   </div></section>
 
   <!-- D · PEEK -->
@@ -442,6 +431,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     agent:[
       ['דשבורד','מה דחוף היום, ביטוח חסר ומה מוכן לפרסום','img/r-dash.webp','desk','app.palami.io/home'],
       ['תיקי נסיעה','כל התיקים, עם סטטוס, חוסרים וסינון','img/r-trips.webp','desk','app.palami.io/trips'],
+      ['יומן','כל ההמראות והנחיתות של הסוכנות','img/r-calendar.webp','desk','app.palami.io/calendar'],
       ['תיק נסיעה','גוררים את המסמכים, והם נכנסים לתיק','img/r-trip-docs.webp','desk','app.palami.io/trips/HDR-2609-0031'],
       ['סקירה וביטוח','מה יש בתיק, ואם חסר ביטוח','img/r-trip-overview.webp','desk','app.palami.io/trips/HDR-2609-0031'],
       ['לקוחות','כל לקוח, עם כל הנסיעות שלו','img/r-customers.webp','desk','app.palami.io/customers']

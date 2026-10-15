@@ -1,0 +1,668 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>יומן הסוכן ושיתוף נסיעות · אפיון לוגי</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Assistant:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: the PALAMI logical-spec format (RTL document, sticky table of contents, BR / BP / SCR ids in code style),
+   same tokens as docs/handoff/design/logical-spec.html (agent theme). */
+:root{
+  --bg:#f4f6f4; --surface:#ffffff; --surface-2:#eceeec; --ink:#16211c; --muted:#545d58; --line:#dee3df;
+  --accent:#0f5636; --accent-soft:#e8f1ec;
+  --signal:#8a5f00; --signal-fill:#b07d0c; --signal-soft:#fbf1d6;
+  --ok:#33704f; --ok-soft:#e6f0ea; --bad:#b91c3c; --bad-soft:#fce8ec;
+  --info:#1d5fa8; --info-soft:#e4eef8; --wait-line:#6a8c78;
+  --brand:#08402a; --brand-ink:#ffffff;
+  --shadow:0 1px 2px rgb(8 64 42 / .06),0 4px 14px rgb(8 64 42 / .06);
+  --f-display:"Rubik","Assistant","Segoe UI",Arial,sans-serif;
+  --f-body:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101512; --surface:#171d19; --surface-2:#1f2621; --ink:#e6ebe8; --muted:#9da8a1; --line:#2a322d;
+  --accent:#a9d3b9; --accent-soft:#18291f; --signal:#e6b54a; --signal-fill:#c28a0e; --signal-soft:#2e2610;
+  --ok:#7fbf9a; --ok-soft:#16271e; --bad:#f27a8c; --bad-soft:#331820;
+  --info:#7fb2e8; --info-soft:#132235; --wait-line:#64826f;
+  --brand:#74b590; --brand-ink:#021209; --shadow:0 1px 2px rgb(0 0 0 / .3); color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#101512; --surface:#171d19; --surface-2:#1f2621; --ink:#e6ebe8; --muted:#9da8a1; --line:#2a322d;
+  --accent:#a9d3b9; --accent-soft:#18291f; --signal:#e6b54a; --signal-fill:#c28a0e; --signal-soft:#2e2610;
+  --ok:#7fbf9a; --ok-soft:#16271e; --bad:#f27a8c; --bad-soft:#331820;
+  --info:#7fb2e8; --info-soft:#132235; --wait-line:#64826f;
+  --brand:#74b590; --brand-ink:#021209; --shadow:0 1px 2px rgb(0 0 0 / .3); color-scheme:dark }
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.65}
+.wrap{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;max-width:1260px;margin:0 auto;padding-inline:24px;padding-block:32px 96px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 24px);align-self:start;max-height:calc(100vh - 48px);overflow:auto;font-size:14px;border-inline-start:1px solid var(--line);padding-inline-start:16px}
+nav.toc .lbl{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--muted);margin-block-end:8px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:1px}
+nav.toc a{color:var(--muted);text-decoration:none;display:block;padding:4px 8px;border-radius:6px}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--surface-2);color:var(--ink);outline:none}
+nav.toc .n{font-family:var(--f-mono);font-size:12px;display:inline-block;min-width:24px;color:var(--accent)}
+main{min-width:0}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;line-height:1.25;margin:0}
+h1{font-size:clamp(28px,4vw,38px);font-weight:700}
+h2{font-size:26px;font-weight:700;margin-block-end:6px}
+h3{font-size:19px;font-weight:600}
+h4{font-size:16px;font-weight:600}
+p{margin:0;max-width:72ch}
+a{color:var(--accent)}
+section.sec{padding-block:48px 8px;border-top:1px solid var(--line);margin-block-start:40px;display:grid;gap:20px;scroll-margin-top:16px}
+.sec-head{display:grid;gap:6px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;color:var(--accent)}
+.lead{font-size:18px;color:var(--muted)}
+.muted{color:var(--muted)} .small{font-size:14px}
+.ltr{direction:ltr;unicode-bidi:isolate}
+code,.id{font-family:var(--f-mono);font-size:.86em;direction:ltr;unicode-bidi:isolate}
+.id{background:var(--accent-soft);color:var(--accent);padding:1px 6px;border-radius:4px;white-space:nowrap}
+ul.clean{margin:0;padding-inline-start:20px;display:grid;gap:4px;max-width:76ch}
+.hero{display:grid;gap:16px;padding-block-end:8px}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.meta div{background:var(--surface);padding:12px 14px;display:grid;gap:2px;min-width:0}
+.meta b{font-size:12px;font-weight:600;color:var(--muted);font-family:var(--f-mono);letter-spacing:.04em}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14.5px}
+th,td{padding:10px 12px;text-align:start;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--surface-2);font-family:var(--f-display);font-weight:600;font-size:13.5px;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+.yes{color:var(--ok);font-weight:700}.no{color:var(--muted)}.part{color:var(--signal);font-weight:600}
+.ver{font-family:var(--f-mono);font-size:12px;padding:1px 7px;border-radius:4px;white-space:nowrap;background:var(--ok-soft);color:var(--ok)}
+.ver.l{background:var(--surface-2);color:var(--muted)}
+.bp{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px}
+.bp-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 12px}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px 20px;font-size:14.5px}
+.facts div{display:grid;gap:2px}
+.facts b{font-size:12.5px;color:var(--muted);font-weight:600}
+ol.steps{margin:0;padding-inline-start:22px;display:grid;gap:6px;max-width:80ch}
+ol.steps li::marker{font-family:var(--f-mono);color:var(--accent);font-size:13px}
+.exc{border-inline-start:3px solid var(--signal);background:var(--signal-soft);padding:10px 14px;border-radius:8px 0 0 8px;font-size:14.5px}
+.note{border-inline-start:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:8px 0 0 8px;font-size:15px;display:grid;gap:6px}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;overflow-x:auto}
+.diagram pre.mermaid{margin:0;background:transparent;font-family:var(--f-body);direction:ltr;text-align:center}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px}
+.lane{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:8px;align-content:start}
+.lane .k{display:flex;gap:10px;align-items:center}
+.lane .k i{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-family:var(--f-display);font-weight:700}
+.k-cover i{background:var(--accent-soft);color:var(--accent)} .k-info i{background:var(--surface-2);color:var(--muted)}
+.quote{background:var(--surface-2);border-radius:8px;padding:8px 12px;font-size:14.5px}
+.rules{display:grid;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.rule{display:grid;grid-template-columns:76px minmax(0,1fr) 150px;gap:14px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:14.5px}
+.rule:last-child{border-bottom:0}
+.rule .src{font-family:var(--f-mono);font-size:12px;color:var(--muted);direction:ltr;text-align:end}
+.rule ul{margin:6px 0 0;padding-inline-start:18px;display:grid;gap:2px}
+.rgroup{background:var(--surface-2);font-family:var(--f-display);font-weight:600;font-size:13.5px;padding:8px 14px;border-bottom:1px solid var(--line)}
+.mk{display:inline-block;width:30px;height:16px;border-radius:4px;vertical-align:-3px;margin-inline-end:6px;background:var(--surface-2)}
+.mk.attn{outline:1.5px dashed var(--signal-fill);outline-offset:-1.5px}
+.mk.wait{outline:1.5px dashed var(--wait-line);outline-offset:-1.5px}
+.flag{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--signal-soft);color:var(--signal);font-weight:800;font-size:11px;box-shadow:inset 0 0 0 1px var(--signal-fill);margin-inline-end:6px}
+.files{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:12px}
+.file{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:4px}
+.file b{font-family:var(--f-display)}
+.file span{font-size:14px;color:var(--muted)}
+@media (max-width:900px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:24px;padding-inline:16px}
+  nav.toc{position:static;max-height:none;border-inline-start:0;border-bottom:1px solid var(--line);padding:0 0 16px}
+  nav.toc ol{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .rule{grid-template-columns:64px minmax(0,1fr)}
+  .rule .src{grid-column:2;text-align:start}
+}
+</style>
+
+<div class="wrap" dir="rtl" lang="he">
+<nav class="toc" aria-label="תוכן עניינים">
+  <div class="lbl">תוכן עניינים</div>
+  <ol>
+    <li><a href="#vision"><span class="n">1</span>רקע ומטרה</a></li>
+    <li><a href="#terms"><span class="n">2</span>מושגים</a></li>
+    <li><a href="#access"><span class="n">3</span>תפקידים והרשאות</a></li>
+    <li><a href="#calendar"><span class="n">4</span>היומן: מה מוצג</a></li>
+    <li><a href="#sharing"><span class="n">5</span>שיתוף נסיעה</a></li>
+    <li><a href="#flows"><span class="n">6</span>תהליכים</a></li>
+    <li><a href="#screens"><span class="n">7</span>מסכים</a></li>
+    <li><a href="#notifications"><span class="n">8</span>התראות</a></li>
+    <li><a href="#edge"><span class="n">9</span>מקרי קצה</a></li>
+    <li><a href="#later"><span class="n">10</span>גרסאות הבאות</a></li>
+    <li><a href="#decisions"><span class="n">11</span>החלטות</a></li>
+  </ol>
+</nav>
+<main>
+
+<header class="hero">
+  <div class="eyebrow">PALAMI · מערכת הסוכנים · אפיון לוגי</div>
+  <h1>יומן הסוכן, הרשאות צפייה ושיתוף נסיעות בין סוכנים</h1>
+  <p class="lead">יומן חודשי ושבועי של כל ההמראות והנחיתות, תצוגה לפי תפקיד, ושתי דרכים לשתף נסיעה עם סוכן אחר: החלפה או שיתוף מידע.</p>
+  <div class="meta">
+    <div><b>סטטוס</b>טיוטה 1.0, החלטות סגורות</div>
+    <div><b>תאריך</b><span class="ltr">12.10.2026</span></div>
+    <div><b>מסכים</b><span><span class="id">SCR-A26</span> <span class="id">SCR-A27</span> <span class="id">SCR-A28</span></span></div>
+    <div><b>פיצ'רים</b><span><span class="id">F5.5</span> <span class="id">F1.17</span> <span class="id">F1.18</span></span></div>
+    <div><b>כללים ותהליכים</b><span><span class="id">BR-83–98</span> <span class="id">BP-20–27</span></span></div>
+  </div>
+  <div class="files">
+    <div class="file"><b>האפיון הזה</b><span>מקור האמת המוצרי: מה, למי, ולמה. בעברית.</span></div>
+    <div class="file"><b><a href="https://claude.ai/artifact/K2rQnoKuWBWBqtVfrbwPEf">פרוטוטייפ לחיץ</a></b><span>היומן, שלוש כניסות להדגמה, שיתוף והחלפה בזמן היעדרות.</span></div>
+    <div class="file"><b>HANDOFF.md</b><span>למפתחים: כללים, API, התראות, מחרוזות וקריטריוני קבלה. באנגלית.</span></div>
+    <div class="file"><b>DESIGN.md</b><span>לעיצוב ולפרונט: מבנה, מידות, צבעים, טיפוגרפיה, רכיבים ומצבים.</span></div>
+  </div>
+  <p class="small muted">המזהים (SCR, F, BR, BP) הם המספרים הפנויים הבאים באפיון הראשי נכון לתאריך הכתיבה. כשהפרק נכנס לאפיון הראשי, יש לוודא שלא נתפסו בינתיים.</p>
+</header>
+
+<!-- 1 -->
+<section class="sec" id="vision">
+  <div class="sec-head"><div class="eyebrow">פרק 1</div><h2>רקע ומטרה</h2></div>
+  <div class="note"><b style="font-family:var(--f-display);font-size:18px">הסוכן רואה במבט אחד מי מהלקוחות שלו טס ומתי, והסוכנות יכולה לחלק את העבודה בלי לעבור דרך המנהל.</b></div>
+  <h3>הבעיה</h3>
+  <ul class="clean">
+    <li>היום הסוכן רואה טיסות רק בתוך תיק נסיעה אחד (לשונית "לו״ז"). אין תמונה של כל ההמראות והנחיתות לאורך זמן.</li>
+    <li>הסוכן מתכנן את היום סביב טיסות: שיחה לפני המראה, הודעה "נחתתם בשלום?", מוכנות לטיסת המשך שהתפספסה.</li>
+    <li>מנהל הסוכנות צריך את התמונה של כל הסוכנות: מי טס השבוע, ואיזה סוכן מטפל בכל נסיעה.</li>
+    <li>סוכנים מחליפים זה את זה בחופשה או במחלה. היום האפשרות היחידה היא להעביר את הנסיעה כולה לסוכן אחר, רק המנהל יכול לעשות את זה, והסוכן המקורי יוצא מהנסיעה.</li>
+  </ul>
+  <h3>מה מקבלים</h3>
+  <div class="two">
+    <div class="lane"><h4>סוכן</h4><ul class="clean small"><li>יומן של הטיסות בנסיעות שלו ובנסיעות ששותפו איתו</li><li>שיתוף נסיעה עם עמית, בלי לפנות למנהל</li><li>מחליף בזמן חופשה בפעולה אחת</li></ul></div>
+    <div class="lane"><h4>מנהל סוכנות</h4><ul class="clean small"><li>יומן של כל הסוכנות, עם סינון לפי סוכן</li><li>קביעת הרשאת צפייה לכל סוכן</li><li>שיתוף כל נסיעה עם כל סוכן</li></ul></div>
+  </div>
+  <h3>איך נדע שהצלחנו</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>מדד</th><th>יעד</th><th>מקור</th></tr></thead>
+    <tbody>
+      <tr><td>סוכנים פעילים שפותחים את היומן לפחות פעם בשבוע</td><td>40% אחרי 4 שבועות</td><td><code>calendar_opened</code></td></tr>
+      <tr><td>סוכנויות עם יותר מסוכן אחד שמשתפות לפחות נסיעה אחת</td><td>15% בחודש הראשון</td><td><code>trip_shared</code></td></tr>
+      <tr><td>חופשות סוכנים שמנוהלות דרך "מחליפים בזמן היעדרות"</td><td>50% אחרי 3 חודשים</td><td><code>absence_cover_created</code></td></tr>
+    </tbody>
+  </table></div>
+  <h3>מה הפיצ'ר לא עושה</h3>
+  <ul class="clean">
+    <li>היומן לקריאה בלבד. לא יוצרים ולא מזיזים בו אירועים.</li>
+    <li>ב־MVP מוצגות רק טיסות. מלונות, רכבים וחלון הצ׳ק־אין יגיעו בהמשך.</li>
+    <li>אין מצב טיסה חי (עיכובים, שערים).</li>
+    <li>שיתוף הוא תמיד בין סוכנים של אותה סוכנות. אין שיתוף עם גורם מחוץ לסוכנות.</li>
+  </ul>
+</section>
+
+<!-- 2 -->
+<section class="sec" id="terms">
+  <div class="sec-head"><div class="eyebrow">פרק 2</div><h2>מושגים</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>מושג</th><th>משמעות</th></tr></thead>
+    <tbody>
+      <tr><td><b>פריט ביומן</b></td><td>המראה או נחיתה של טיסה. כל טיסה יוצרת עד שני פריטים.</td></tr>
+      <tr><td><b>סוכן ראשי</b></td><td>הסוכן האחראי על הנסיעה. לכל נסיעה יש סוכן ראשי אחד. החלפתו היא "העברת אחריות" שמבצע מנהל, ולא שיתוף.</td></tr>
+      <tr><td><b>הרשאת צפייה</b></td><td>מה הסוכן רואה בכל הסוכנות. המנהל קובע אותה לכל סוכן (פרק 3).</td></tr>
+      <tr><td><b>שיתוף נסיעה</b></td><td>מתן גישה לנסיעה מסוימת לסוכן נוסף. יש שני סוגים: <b>החלפה</b> ו<b>שיתוף מידע</b>. אין קשר לשיתוף מידע בין נוסעים (<span class="id">BR-36</span>).</td></tr>
+      <tr><td><b>החלפה</b></td><td>שיתוף שבו הסוכן הנוסף עובד על הנסיעה ומקבל את ההתראות וההודעות מהנוסעים, במקביל לסוכן הראשי.</td></tr>
+      <tr><td><b>שיתוף מידע</b></td><td>שיתוף שבו הסוכן הנוסף רק צופה בפרטי הנסיעה. בלי עריכה ובלי התראות.</td></tr>
+      <tr><td><b>מחליפים בזמן היעדרות</b></td><td>תוכנית לתקופה (מתאריך עד תאריך) שמחלקת את הנסיעות הפעילות של סוכן בין סוכנים אחרים, עם סוג לכל נסיעה. הסוכן או המנהל מגדירים אותה.</td></tr>
+      <tr><td><b>נסיעה פעילה</b></td><td>נסיעה שאינה במצב הסתיימה, בוטלה או נמחקה.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 3 -->
+<section class="sec" id="access">
+  <div class="sec-head"><div class="eyebrow">פרק 3</div><h2>תפקידים והרשאות</h2>
+    <p class="muted">המערכת מזהה בכניסה את התפקיד ואת הרשאת הצפייה של המשתמש, ובונה לפיהם את כל התצוגות. אין בממשק מתג להחלפת תפקיד, והשרת אוכף כל כלל בפרק הזה.</p></div>
+  <h3>מי רואה, מי עורך, מי משתף</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>משתמש</th><th>רואה</th><th>עורך</th><th class="c">משתף נסיעות</th><th>מקבל התראות על נסיעה</th></tr></thead>
+    <tbody>
+      <tr><td><b>מנהל סוכנות</b></td><td>כל נסיעות הסוכנות</td><td>כל נסיעות הסוכנות</td><td class="c yes">כל נסיעה</td><td>לפי הכלל הקיים (כשאין סוכן ראשי)</td></tr>
+      <tr><td><b>סוכן ראשי</b> של הנסיעה</td><td class="yes">כן</td><td class="yes">כן</td><td class="c yes">כן</td><td class="yes">כן</td></tr>
+      <tr><td>סוכן ב<b>החלפה</b></td><td class="yes">כן</td><td class="yes">כן</td><td class="c no">לא</td><td class="yes">כן, במקביל לסוכן הראשי</td></tr>
+      <tr><td>סוכן ב<b>שיתוף מידע</b></td><td class="yes">כן</td><td class="no">צפייה בלבד</td><td class="c no">לא</td><td class="no">לא</td></tr>
+      <tr><td>סוכן עם הרשאה "כל הסוכנות · צפייה ועריכה"</td><td>כל נסיעות הסוכנות</td><td>כל נסיעות הסוכנות</td><td class="c part">רק נסיעות שהוא ראשי בהן</td><td>רק בנסיעות שלו ובהחלפות</td></tr>
+      <tr><td>סוכן עם הרשאה "כל הסוכנות · צפייה בלבד"</td><td>כל נסיעות הסוכנות</td><td class="part">רק נסיעות שלו ובהחלפות</td><td class="c part">רק נסיעות שהוא ראשי בהן</td><td>רק בנסיעות שלו ובהחלפות</td></tr>
+      <tr><td>סוכן עם ההרשאה הרגילה</td><td>רק נסיעות שלו, ונסיעות ששותפו איתו</td><td>נסיעות שלו ובהחלפות</td><td class="c part">רק נסיעות שהוא ראשי בהן</td><td>רק בנסיעות שלו ובהחלפות</td></tr>
+    </tbody>
+  </table></div>
+  <div class="rules">
+    <div class="rgroup">תפקיד והרשאה</div>
+    <div class="rule"><span class="id">BR-89</span><span><b>התפקיד וההרשאה מזוהים בכניסה.</b> בתחילת החיבור ובכל טעינה המערכת קוראת את התפקיד ואת הרשאת הצפייה, ובונה לפיהם את התצוגה. שינוי הרשאה חל כבר בבקשה הבאה של הסוכן.</span><span class="src">חדש</span></div>
+    <div class="rule"><span class="id">BR-90</span><span><b>שלוש רמות של הרשאת צפייה, שהמנהל קובע לכל סוכן:</b>
+      <ul>
+        <li>"רק הנסיעות שלו ונסיעות ששותפו איתו": ברירת המחדל.</li>
+        <li>"כל הסוכנות · צפייה בלבד": רואה הכל. בנסיעות של אחרים הוא רק צופה, וכל פעולת עריכה נחסמת: העלאה, אישור, עריכה, פרסום, ביטול ושיתוף.</li>
+        <li>"כל הסוכנות · צפייה ועריכה": רואה ועורך הכל. זו ההרשאה המורחבת שכבר קיימת היום (<span class="id">BR-02</span>), והיא נשארת כפי שהיא.</li>
+      </ul>
+      בכל רמה הסוכן רואה גם נסיעות ששותפו איתו. סוכן לא רואה נסיעה של סוכן אחר שאינה מותרת לו, גם אם ינסה דרך הכתובת. המנהל רואה תמיד הכל, ואין לו רמת הרשאה.</span><span class="src">BR-02 · BR-77</span></div>
+  </div>
+  <p class="small muted">המנהל קובע את ההרשאה במסך "הגדרות ← עובדים", כבר ב־MVP. צוות PALAMI יכול להמשיך לקבוע אותה גם ממערכת הניהול, ושני המקומות מעדכנים את אותו שדה.</p>
+</section>
+
+<!-- 4 -->
+<section class="sec" id="calendar">
+  <div class="sec-head"><div class="eyebrow">פרק 4</div><h2>היומן: מה מוצג</h2>
+    <p class="muted">לשונית "יומן" בתפריט הראשי, בין "נסיעות" ל"לטיפול". יש בה תצוגה חודשית ותצוגה שבועית, וסינון "הכל / המראות / נחיתות" עם מונה לכל אפשרות.</p></div>
+  <div class="rules">
+    <div class="rgroup">מה נכנס ליומן</div>
+    <div class="rule"><span class="id">BR-83</span><span><b>טיסה אחת, שני פריטים.</b> כל טיסה פעילה יוצרת המראה, לפי שעת היציאה ושדה המוצא, ונחיתה, לפי שעת ההגעה ושדה היעד. טיסה בלי שעת הגעה יוצרת רק המראה. כל רגל בטיסת המשך היא טיסה נפרדת.</span><span class="src">F5.5</span></div>
+    <div class="rule"><span class="id">BR-84</span><span><b>אילו נסיעות.</b> כל נסיעה שמותר למשתמש לראות (<span class="id">BR-90</span>), בכל סטטוס חוץ מבוטלה ונמחקה. טיסה שבוטלה לא מוצגת. אם בנסיעה יש כרטיס טיסה, הטיסה מוצגת גם כשחסרים פרטים בתיק, ומסומנת לפי <span class="id">BR-98</span>.</span><span class="src">D12</span></div>
+    <div class="rule"><span class="id">BR-85</span><span><b>באיזה יום.</b> כל פריט מופיע ביום המקומי שלו, לפי אזור הזמן שלו. בטיסת לילה הנחיתה מופיעה ביום שלמחרת.</span><span class="src">BR-08</span></div>
+    <div class="rule"><span class="id">BR-86</span><span><b>השעה מופיעה תמיד על הכרטיס,</b> לפי השעון המקומי של שדה התעופה. שם אזור הזמן ("שעון ‹עיר›") מופיע במקרא, בחלונית הפרטים ובהקראה. בתוך היום הפריטים מסודרים לפי השעה המוצגת.</span><span class="src">BR-08</span></div>
+    <div class="rule"><span class="id">BR-87</span><span><b>המונים.</b> כל מונה סופר את הפריטים בתקופה המוצגת: הימים של החודש עצמו בתצוגה חודשית, או 7 הימים בתצוגה שבועית. המונים מתעדכנים לפי בחירת הנסיעות והסוכן, ולא לפי סינון הסוג, כדי שתמיד יופיעו שלושתם.</span><span class="src">חדש</span></div>
+    <div class="rule"><span class="id">BR-88</span><span><b>מה נשמר.</b> התצוגה (חודש או שבוע) והסינון נשמרים למשתמש. בחירת הנסיעות לא נשמרת: המנהל נפתח תמיד על "כל הסוכנות", והסוכן על "כל הנסיעות שלי".</span><span class="src">חדש</span></div>
+    <div class="rgroup">סימונים על הכרטיס</div>
+    <div class="rule"><span class="id">BR-98</span><span><b>מצב הנסיעה מסומן בצורה ובצבע, ומוסבר במקרא:</b>
+      <ul>
+        <li><span class="flag">!</span><b>עדכון ממתין לאישור:</b> הכרטיס ממשיך להציג את השעה המאושרת. בחלונית מופיעים מה השתנה ו"לאישור העדכון".</li>
+        <li><span class="mk attn"></span><b>מסגרת מקווקוות בדבש:</b> "ממתינה להשלמת פרטים". יש כרטיס, וחסרים פרטים בתיק. בחלונית מופיעים מה חסר ו"להשלמת הפרטים".</li>
+        <li><span class="mk wait"></span><b>מסגרת מקווקוות אפורה:</b> "עוד לא נשלחה לנוסעים", לנסיעות בסטטוס טיוטה או מוכנה לפרסום.</li>
+        <li>נסיעה שפורסמה מוצגת בלי מסגרת.</li>
+      </ul>
+      צבע הדבש שמור במערכת ל"דורש טיפול", ולכן הוא מופיע רק כשיש לסוכן מה להשלים.</span><span class="src">BR-48–53 · BR-58</span></div>
+  </div>
+  <h3>מה כתוב על כרטיס של פריט</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>שורה</th><th>תוכן</th></tr></thead>
+    <tbody>
+      <tr><td>שורה 1</td><td>אייקון ההמראה או הנחיתה · שעה · שם הלקוח · <span class="flag">!</span> אם יש עדכון ממתין · תגית</td></tr>
+      <tr><td>שורה 2</td><td>עיר היעד · מזהה הנסיעה (<span class="id">HDR-2609-0031</span>)</td></tr>
+      <tr><td>התגית</td><td>אצל המנהל, או בתצוגת "כל הסוכנות": ראשי התיבות של הסוכן הראשי. אצל סוכן: אייקון אנשים בהחלפה, ואייקון עין בשיתוף מידע. על נסיעה שלו אין תגית.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 5 -->
+<section class="sec" id="sharing">
+  <div class="sec-head"><div class="eyebrow">פרק 5</div><h2>שיתוף נסיעה</h2>
+    <p class="muted">הסוכן הראשי או מנהל משתפים נסיעה עם סוכן נוסף. הסוג נבחר לפי הסיבה לשיתוף, ולא לפי הגדרות טכניות.</p></div>
+  <div class="two">
+    <div class="lane k-cover"><div class="k"><i>⇄</i><h3>החלפה</h3></div>
+      <div class="quote">"עבודה מלאה על הנסיעה, וקבלת ההתראות וההודעות מהנוסעים במקביל אליך. מתאים לחופשה או להיעדרות."</div>
+      <ul class="clean small"><li class="yes">רואה את כל פרטי הנסיעה והמסמכים</li><li class="yes">עורך, מאשר עדכונים ומפרסם</li><li class="yes">מקבל התראות והודעות מהנוסעים, במקביל לסוכן הראשי</li><li class="no">לא משתף הלאה</li></ul></div>
+    <div class="lane k-info"><div class="k"><i>◎</i><h3>שיתוף מידע</h3></div>
+      <div class="quote">"צפייה בפרטי הנסיעה בלבד, בלי עריכה ובלי התראות. מתאים להתייעצות או להכרת הנסיעה."</div>
+      <ul class="clean small"><li class="yes">רואה את כל פרטי הנסיעה והמסמכים</li><li class="no">לא עורך ולא מאשר</li><li class="no">לא מקבל התראות והודעות</li><li class="no">לא משתף הלאה</li></ul></div>
+  </div>
+  <div class="rules">
+    <div class="rgroup">מי משתף ועם מי</div>
+    <div class="rule"><span class="id">BR-91</span><span><b>רק הסוכן הראשי או מנהל סוכנות</b> יכולים להוסיף שיתוף, לשנות אותו ולבטל אותו. סוכן ששותף, וסוכן עם הרשאה לכל הסוכנות, לא יכולים לשתף נסיעה שהם לא הסוכן הראשי שלה.</span><span class="src">PQ-95</span></div>
+    <div class="rule"><span class="id">BR-92</span><span><b>עם מי אפשר לשתף:</b> סוכנים פעילים מאותה סוכנות, בכל רמת הרשאה. מנהלים לא מופיעים ברשימה, כי הם כבר רואים הכל. הסוכן הראשי מופיע נעול. עד 10 סוכנים משותפים לנסיעה.</span><span class="src">חדש</span></div>
+    <div class="rgroup">סוגי השיתוף ומה הם מאפשרים</div>
+    <div class="rule"><span class="id">BR-93</span><span><b>שני סוגים: "החלפה" ו"שיתוף מידע".</b> ברירת המחדל היא "החלפה". בהחלפה הסוכן יכול לעשות כל מה שהסוכן הראשי עושה בנסיעה: להעלות מסמכים, לטפל בפריטים ב"לטיפול", לאשר עדכונים, לערוך את הלו״ז, לפרסם ולבטל. בשיתוף מידע הוא רק צופה. שני הסוגים לא מאפשרים לשתף הלאה או להחליף את הסוכן הראשי, וכל פעולה נרשמת בשם מי שביצע אותה.</span><span class="src">BR-19 · BR-71</span></div>
+    <div class="rule"><span class="id">BR-94</span><span><b>מה קורה אחרי שיתוף:</b>
+      <ul>
+        <li>הנסיעה מופיעה מיד אצל הסוכן ששותף: בדשבורד, ברשימת הנסיעות, ביומן, בחיפוש ובכרטיס הלקוח.</li>
+        <li>אפשר לבטל את השמירה במשך 10 שניות.</li>
+        <li>השיתוף נרשם ביומן הפעולות ובהיסטוריית הנסיעה.</li>
+        <li>הסוכן שנוסף מקבל התראה. סוכן שהוסר לא מקבל התראה.</li>
+        <li>הפעולות שהסוכן ביצע נשארות בהיסטוריה גם אחרי שהשיתוף בוטל.</li>
+      </ul></span><span class="src">F1.10 · BR-19</span></div>
+    <div class="rule"><span class="id">BR-95</span><span><b>תאריך סיום והתראות.</b> לכל שיתוף אפשר לקבוע "עד תאריך" (לא חובה, מומלץ בהחלפה). השיתוף פעיל עד סוף אותו יום, לפי שעון הסוכנות, ואז מסתיים מעצמו. בסיום הנסיעה יוצאת מהתצוגות של הסוכן, והסוכן הראשי מקבל על כך הודעה. ההתראות נקבעות לפי הסוג: בהחלפה הסוכן מקבל את כל ההתראות של הנסיעה במקביל לסוכן הראשי, ובשיתוף מידע הוא לא מקבל כלום.</span><span class="src">חדש</span></div>
+    <div class="rgroup">החלפה בזמן היעדרות והסרה עצמית</div>
+    <div class="rule"><span class="id">BR-96</span><span><b>מחליפים בזמן היעדרות: תוכנית לתקופה.</b>
+      <ul>
+        <li><b>תקופה:</b> מתאריך עד תאריך, שניהם חובה. אפשר לתזמן מראש. השיתופים נפתחים אוטומטית בתאריך ההתחלה ומסתיימים בסוף יום הסיום, לפי שעון הסוכנות.</li>
+        <li><b>חלוקה:</b> מוצגות כל הנסיעות הפעילות שהסוכן הוא הסוכן הראשי שלהן. לכל נסיעה בוחרים <b>מחליף</b> (או "ללא מחליף") ו<b>סוג</b>: החלפה או שיתוף מידע. אפשר לחלק את הנסיעות בין כמה סוכנים, כדי לא להעמיס על סוכן אחד. "לכל הנסיעות" ממלא את כל השורות בבת אחת. ברירת המחדל לסוג היא החלפה.</li>
+        <li><b>נסיעות שנוספות בתקופה:</b> נסיעה שתיפתח או תועבר לסוכן אחרי השמירה לא נכללת אוטומטית. כדי לכלול אותה, עורכים את התוכנית.</li>
+        <li><b>תוכנית אחת לכל סוכן:</b> לכל סוכן יש לכל היותר תוכנית אחת פעילה או מתוכננת. שיתוף קיים עם אותו סוכן באותה נסיעה מוחלף, ולא נוצר שיתוף כפול.</li>
+        <li><b>מי מגדיר:</b>
+          <ul>
+            <li>הסוכן לעצמו, מ"ההגדרות שלי" או מהיומן.</li>
+            <li>מנהל הסוכנות לכל סוכן, מ"הגדרות ← עובדים".</li>
+          </ul></li>
+        <li><b>מי משנה ומבטל:</b>
+          <ul>
+            <li>תוכנית שהסוכן יצר: הסוכן או המנהל.</li>
+            <li>תוכנית שהמנהל יצר: רק המנהל. הסוכן רואה אותה ב"ההגדרות שלי" ומקבל הודעה, אבל לא יכול לשנות או לבטל.</li>
+          </ul></li>
+        <li><b>הודעות:</b> כל מחליף מקבל הודעה אחת בשמירה, ועוד הודעה ביום שההחלפה מתחילה. "סיום מוקדם" (או "ביטול התוכנית" לפני ההתחלה) מבטל רק את השיתופים שהתוכנית יצרה.</li>
+      </ul></span><span class="src">חדש</span></div>
+    <div class="rule"><span class="id">BR-97</span><span><b>הסרה עצמית.</b> סוכן ששותף יכול ללחוץ "הסרת השיתוף איתי". הנסיעה יוצאת מהתצוגות שלו, אפשר לבטל במשך 10 שניות, והסוכן הראשי מקבל הודעה. לסוכן הראשי אין כפתור כזה.</span><span class="src">חדש</span></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="sec" id="flows">
+  <div class="sec-head"><div class="eyebrow">פרק 6</div><h2>תהליכים</h2></div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-20</span><h3>כניסה ליומן לפי תפקיד</h3></div>
+    <div class="facts"><div><b>מי</b>כל משתמש בסוכנות</div><div><b>טריגר</b>לחיצה על "יומן"</div><div><b>תוצאה</b>יומן לפי התפקיד וההרשאה</div></div>
+    <div class="diagram"><pre class="mermaid">
+flowchart TD
+  A[כניסה למערכת] --> B{מה התפקיד?}
+  B -->|מנהל סוכנות| C[יומן: כל הסוכנות<br/>סינון לפי סוכן]
+  B -->|סוכן| D{הרשאת צפייה}
+  D -->|רגילה| E[כל הנסיעות שלי<br/>ראשי + שותפו איתי]
+  D -->|כל הסוכנות| F[כל הנסיעות שלי<br/>+ אפשרות כל הסוכנות]
+  F --> G{נסיעה של סוכן אחר}
+  G -->|צפייה בלבד| H[פתיחה לצפייה]
+  G -->|צפייה ועריכה| I[פתיחה לעבודה]
+</pre></div>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-21</span><h3>שיתוף נסיעה עם סוכן</h3></div>
+    <div class="facts"><div><b>מי</b>הסוכן הראשי או מנהל</div><div><b>מאיפה</b>תיק הנסיעה, או חלונית הפרטים ביומן</div><div><b>תוצאה</b>הנסיעה מופיעה אצל הסוכן הנוסף</div></div>
+    <ol class="steps">
+      <li>לוחצים "שיתוף סוכן בנסיעה", בשורת "מי מטפל בנסיעה" בתיק או בחלונית הפרטים ביומן. נפתח החלון "שיתוף הנסיעה עם סוכנים".</li>
+      <li>מסמנים סוכן ובוחרים סוג: <b>החלפה</b> (מסומן מראש) או <b>שיתוף מידע</b>. אפשר לקבוע "עד תאריך".</li>
+      <li>לוחצים "שמירה". מופיעה הודעה, למשל "הנסיעה ‹מזהה›: שותפה עם נטע בר (החלפה)", עם "ביטול" למשך 10 שניות.</li>
+      <li>הסוכן הנוסף מקבל התראה, והנסיעה מופיעה אצלו עם התגית המתאימה.</li>
+    </ol>
+    <div class="exc"><b>חריגים:</b> אם מישהו שינה את הנסיעה בינתיים, מופיעה ההודעה "הנסיעה עודכנה בינתיים. פתחנו את הרשימה מחדש." אם אין הרשאה לשתף, מופיעה ההודעה "אין לך הרשאה לשתף את הנסיעה הזו."</div>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-22</span><h3>הסוכן מגדיר מחליפים לתקופה</h3></div>
+    <div class="facts"><div><b>מי</b>סוכן, לפני חופשה או היעדרות</div><div><b>מאיפה</b>"ההגדרות שלי", או הכפתור "מחליפים בזמן היעדרות" ביומן</div><div><b>תוצאה</b>הנסיעות הפעילות שלו מחולקות בין מחליפים לתקופה</div></div>
+    <div class="diagram"><pre class="mermaid">
+sequenceDiagram
+  actor S as סוכן
+  participant P as PALAMI
+  actor M1 as מחליף א
+  actor M2 as מחליף ב
+  S->>P: מתאריך + עד תאריך
+  P-->>S: רשימת הנסיעות הפעילות שלו
+  S->>P: לכל נסיעה: מחליף + סוג (החלפה / שיתוף מידע)
+  P-->>S: סיכום + שמירה + ביטול ל-10 שניות
+  P->>M1: הודעה: מחליף בנסיעות ‹n› מ-‹תאריך›
+  P->>M2: הודעה: שיתוף מידע בנסיעות ‹n›
+  Note over P: בתאריך ההתחלה השיתופים נפתחים, ושוב נשלחת הודעה
+  Note over P: בסוף יום הסיום השיתופים נסגרים
+  P->>S: הודעה: ההחלפה הסתיימה
+</pre></div>
+    <ol class="steps">
+      <li>הסוכן לוחץ "הגדרת מחליפים" ובוחר "מתאריך" ו"עד תאריך".</li>
+      <li>לכל נסיעה פעילה בוחר מחליף וסוג, או "ללא מחליף". "לכל הנסיעות" ממלא את כולן בבת אחת.</li>
+      <li>מתחת לרשימה מופיע סיכום, למשל "נטע בר (החלפה): 2 · אלון רז (שיתוף מידע): 1 · בלי מחליף: 1".</li>
+      <li>לוחץ "שמירה". מופיעה הודעה עם "ביטול" למשך 10 שניות, והמחליפים מקבלים הודעה.</li>
+    </ol>
+    <div class="exc"><b>חריגים:</b> אם תאריך הסיום לפני תאריך ההתחלה: "יש לבחור תאריך התחלה ותאריך סיום, והסיום לא יכול להיות לפני ההתחלה." אם לא נבחר מחליף לאף נסיעה: "יש לבחור מחליף לנסיעה אחת לפחות." אם אין נסיעות פעילות: "אין נסיעות פעילות לחלק".</div>
+    <p class="small muted">"ההגדרות שלי" מציג את התוכנית ("מתוכנן · ‹תקופה›" או "פעיל עד ‹תאריך›") ואת הסיכום, עם "עריכה" ו"סיום מוקדם" (לפני ההתחלה: "ביטול התוכנית"). בכרטיס נוסף, "אני מחליף סוכנים אחרים", מופיעות התוכניות שבהן הסוכן הוא המחליף.</p>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-26</span><h3>המנהל מגדיר מחליפים לסוכן</h3></div>
+    <div class="facts"><div><b>מי</b>מנהל סוכנות</div><div><b>מאיפה</b>"הגדרות ← עובדים", בשורה של הסוכן</div><div><b>מתי</b>למשל כשסוכן חולה ולא יכול להגדיר בעצמו</div></div>
+    <ol class="steps">
+      <li>המנהל לוחץ "הגדרת מחליפים" בשורה של הסוכן. נפתח אותו חלון כמו אצל הסוכן, עם השם של הסוכן בכותרת.</li>
+      <li>בוחר תקופה, ומחלק את הנסיעות בין מחליפים עם סוג לכל נסיעה.</li>
+      <li>שומר. הסוכן והמחליפים מקבלים הודעה. בשורה של הסוכן מופיע המצב ("מתוכנן · ‹תקופה›" או "פעיל עד ‹תאריך›") והסיכום.</li>
+      <li>הסוכן רואה את התוכנית ב"ההגדרות שלי" עם השורה "הוגדר על ידי ‹מנהל›. רק מנהל הסוכנות יכול לשנות או לבטל.", ואין לו כפתורי עריכה.</li>
+    </ol>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-27</span><h3>שיתוף נסיעה מתוך תיק הנסיעה</h3></div>
+    <div class="facts"><div><b>מי</b>הסוכן הראשי או מנהל</div><div><b>מאיפה</b>הכותרת של תיק הנסיעה (<span class="id">SCR-A04</span>)</div><div><b>תוצאה</b>כמו <span class="id">BP-21</span></div></div>
+    <ol class="steps">
+      <li>בשורה "מי מטפל בנסיעה", מתחת לכותרת התיק, לוחצים "שיתוף סוכן בנסיעה". נפתח אותו חלון "שיתוף הנסיעה עם סוכנים".</li>
+      <li>מתחת לכותרת, בשורה "מי מטפל בנסיעה", מופיעים הסוכן הראשי והסוכנים שהנסיעה משותפת איתם, כולל שיתופים מתוכניות היעדרות ("מחליף 19.10–27.10 (מתוכנן)").</li>
+      <li>אחרי השמירה השורה מתעדכנת מיד.</li>
+    </ol>
+    <p class="small muted">לסוכן ששותף, במקום "שיתוף סוכן בנסיעה" מופיע "הסרת השיתוף איתי", באותה שורה, ומתחתיה מופיעה שורה בצבע של סוג השיתוף. בשיתוף מידע מופיע בכותרת "צפייה בלבד", וכפתורי העריכה (כמו "העלאת מסמכים") לא מוצגים.</p>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-23</span><h3>סיום שיתוף בתאריך</h3></div>
+    <ol class="steps"><li>בסוף היום שנקבע, לפי שעון הסוכנות, המערכת מסיימת את השיתוף.</li><li>הנסיעה יוצאת מהדשבורד, מרשימת הנסיעות ומהיומן של הסוכן. אם הנסיעה פתוחה אצלו, בפעולה הבאה הוא יקבל "אין לך גישה לנסיעה הזו".</li><li>הסוכן הראשי מקבל הודעה "השיתוף של ‹נסיעה› עם ‹סוכן› הסתיים", והסיום נרשם ביומן הפעולות.</li></ol>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-24</span><h3>הסרה עצמית משיתוף</h3></div>
+    <ol class="steps"><li>הסוכן ששותף לוחץ "הסרת השיתוף איתי" בחלונית הפרטים או בתיק הנסיעה.</li><li>הנסיעה יוצאת מהתצוגות שלו. מופיעה הודעה עם "ביטול" למשך 10 שניות.</li><li>הסוכן הראשי מקבל הודעה.</li></ol>
+  </div>
+
+  <div class="bp"><div class="bp-head"><span class="id">BP-25</span><h3>שינוי הרשאת צפייה של סוכן</h3></div>
+    <ol class="steps"><li>המנהל נכנס ל"הגדרות ← עובדים" ובוחר רמה לסוכן. אפשר להגיע לאותו מקום גם מהכפתור "הרשאות ומחליפים" ביומן.</li><li>לוחץ "שמירה". מופיעה ההודעה "הרשאות הצפייה עודכנו", עם "ביטול".</li><li>הסוכן מקבל הודעה "הרשאת הצפייה שלך עודכנה", וההרשאה החדשה חלה בבקשה הבאה שלו.</li></ol>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="sec" id="screens">
+  <div class="sec-head"><div class="eyebrow">פרק 7</div><h2>מסכים</h2>
+    <p class="muted">אפשר לראות את כל המסכים בפרוטוטייפ הלחיץ: <a href="https://claude.ai/artifact/K2rQnoKuWBWBqtVfrbwPEf">יומן הסוכן · פרוטוטייפ</a>. המידות, הצבעים והרכיבים מפורטים ב־DESIGN.md.</p></div>
+
+  <h3><span class="id">SCR-A26</span> יומן</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>אזור</th><th>מנהל סוכנות</th><th>סוכן</th></tr></thead>
+    <tbody>
+      <tr><td>כותרת</td><td>"יומן" · "ההמראות והנחיתות של כל הנסיעות בסוכנות"</td><td>"יומן" · "ההמראות והנחיתות של הנסיעות שבאחריותך ושל נסיעות ששותפו איתך"</td></tr>
+      <tr><td>בחירת נסיעות</td><td>"כל הסוכנות / הנסיעות שלי", ורשימת "סוכן" לבחירת סוכן אחד</td><td>"כל הנסיעות שלי / באחריותי ‹n› / משותפות איתי ‹n›". "כל הסוכנות" מופיע רק אם ההרשאה מאפשרת, ובצפייה בלבד עם הסימון "צפייה".</td></tr>
+      <tr><td>כפתור נוסף</td><td>"הרשאות ומחליפים", שמוביל ל"הגדרות ← עובדים"</td><td>"מחליפים בזמן היעדרות"</td></tr>
+      <tr><td>סרגל</td><td colspan="2">"היום" · הקודם / הבא · כותרת התקופה ("אוקטובר 2026", או <span class="id">11.10.2026 – 17.10.2026</span>) · "הכל ‹n› / המראות ‹n› / נחיתות ‹n›" · "חודש / שבוע"</td></tr>
+      <tr><td>תצוגה חודשית</td><td colspan="2">השבוע מתחיל ביום ראשון. עד 3 פריטים ביום, ואחריהם "+‹n› נוספים", שפותח את רשימת היום. ימים מהחודש הקודם או הבא מוצגים מעומעמים.</td></tr>
+      <tr><td>תצוגה שבועית</td><td colspan="2">7 עמודות, ובכל אחת רשימת הפריטים של היום לפי השעה. ביום ריק כתוב "אין טיסות".</td></tr>
+      <tr><td>מקרא</td><td colspan="2">המראה · נחיתה · ! עדכון ממתין לאישור · ממתינה להשלמת פרטים · עוד לא נשלחה לנוסעים · משמעות התגית · "השעות לפי השעון המקומי של שדה התעופה"</td></tr>
+      <tr><td>טלפון</td><td colspan="2">בתצוגה החודשית כל יום מציג נקודות צבעוניות, והקשה על יום מציגה את הרשימה שלו מתחת ללוח. בתצוגה השבועית הימים מוצגים זה מתחת לזה.</td></tr>
+    </tbody>
+  </table></div>
+  <h4>חלונית פרטי פריט</h4>
+  <ul class="clean">
+    <li><b>כותרת:</b> סוג הפריט ("המראה · הלוך" / "נחיתה · חזור"), שם הלקוח, ו"צפייה בלבד" אם אין הרשאת עריכה.</li>
+    <li><b>מועד:</b> "יום שלישי · 13.10.2026 · 07:15 שעון תל אביב".</li>
+    <li><b>התראות:</b> עדכון ממתין לאישור, ממתינה להשלמת פרטים, או עוד לא נשלחה לנוסעים.</li>
+    <li><b>מסלול:</b> מוצא ← טיסה ← יעד.</li>
+    <li><b>פרטים:</b> מזהה נסיעה, יעד, נוסעים, טיסה, סטטוס.</li>
+    <li><b>"מי מטפל בנסיעה":</b> הסוכן הראשי, והסוכנים שהנסיעה משותפת איתם עם הסוג ותאריך הסיום, למשל "דן כהן · מחליף עד 20.10" או "מאיה פרץ · מידע בלבד". לסוכן ששותף מופיעה שורה לפי הסוג:
+      <div class="quote" style="margin-top:6px">החלפה: "אתה מחליף את נטע בר בנסיעה הזו עד 20.10.2026. ההתראות וההודעות מהנוסעים מגיעות גם אליך."</div>
+      <div class="quote" style="margin-top:6px">שיתוף מידע: "נטע בר שיתפה איתך את פרטי הנסיעה לצפייה. אין לך אפשרות לערוך, ולא יגיעו אלייך התראות."</div></li>
+    <li><b>כפתורים:</b> "פתיחת הנסיעה" (או "צפייה בנסיעה"), "לו״ז הנסיעה", "שיתוף סוכן בנסיעה" (רק לסוכן הראשי ולמנהל), ו"הסרת השיתוף איתי" (רק לסוכן ששותף).</li>
+  </ul>
+
+  <h3><span class="id">SCR-A27</span> שיתוף הנסיעה עם סוכנים</h3>
+  <ul class="clean">
+    <li><b>הסבר בראש החלון:</b> "בחרו סוכן ואיך לשתף איתו את הנסיעה: החלפה, כשמישהו צריך לטפל בנסיעה במקומך או לצידך, או שיתוף מידע, כשמספיק שיראה את הפרטים. רק הסוכן הראשי ומנהלי הסוכנות יכולים לשתף ולבטל שיתוף."</li>
+    <li><b>רשימת המשתמשים:</b>
+      <ul>
+        <li>הסוכן הראשי: נעול, "סוכן ראשי".</li>
+        <li>מנהלים: נעולים, "רואה את כל הסוכנות".</li>
+        <li>סוכנים: תיבת סימון.</li>
+        <li>סוכן לא פעיל עם שיתוף: "לא פעיל", אפשר רק להסיר.</li>
+      </ul>
+      אם יש יותר מ־8 סוכנים, מופיע גם שדה "חיפוש סוכן".</li>
+    <li><b>אחרי שמסמנים סוכן</b> מופיעים שני כרטיסי בחירה, "החלפה" ו"שיתוף מידע", עם ההסבר של כל אחד, ושדה "עד תאריך" עם ההערה "(לא חובה, מומלץ בהחלפה)".</li>
+    <li><b>כפתורים:</b> "שמירה" ו"ביטול". אחרי שמירה מופיעה הודעה עם "ביטול" למשך 10 שניות.</li>
+  </ul>
+
+  <h3><span class="id">SCR-A04</span> תיק הנסיעה: מה נוסף</h3>
+  <ul class="clean">
+    <li><b>בכותרת:</b> הפעולות על הנסיעה עצמה (כמו "העלאת מסמכים"). בשיתוף מידע: התג "צפייה בלבד", בלי כפתורי עריכה.</li><li><b>בשורת "מי מטפל בנסיעה", בצד השמאלי:</b> הכפתור "שיתוף סוכן בנסיעה" (משני), רק לסוכן הראשי ולמנהל. לסוכן ששותף: "הסרת השיתוף איתי" באותו מקום. הכפתור יושב ליד האנשים שהוא משנה.</li>
+    <li><b>שורת "מי מטפל בנסיעה"</b> מתחת לכותרת: "סוכן ראשי" עם שם, ו"משותפת עם" עם הסוכנים, הסוג והתאריכים, למשל "דן כהן · מחליף 19.10–27.10 (מתוכנן)" או "מאיה פרץ · מידע בלבד". לסוכן ששותף מופיעה גם השורה שלו ("אתה מחליף את…" / "…שיתפה איתך את פרטי הנסיעה לצפייה…").</li>
+    <li><b>ברשימת הנסיעות:</b> בכל שורה מופיעים ראשי התיבות של הסוכן הראשי, אייקון לנסיעה ששותפה איתי (אנשים להחלפה, עין לשיתוף מידע), ותג "צפייה" כשאין הרשאת עריכה.</li>
+  </ul>
+
+  <h3><span class="id">SCR-A28</span> מחליפים בזמן היעדרות</h3>
+  <ul class="clean">
+    <li><b>כותרת:</b> "מחליפים בזמן היעדרות". כשהמנהל פותח את החלון עבור סוכן: "מחליפים בזמן היעדרות · ‹שם הסוכן›".</li>
+    <li><b>הסבר לסוכן:</b> "לפני חופשה או היעדרות: בוחרים תקופה, ומחלקים את הנסיעות הפעילות שלך בין סוכנים אחרים, כדי לא להעמיס על סוכן אחד. לכל נסיעה בוחרים מחליף וסוג: החלפה (עבודה מלאה והתראות במקביל אליך) או שיתוף מידע (צפייה בלבד). השיתוף נפתח בתאריך ההתחלה ומסתיים מעצמו בתאריך הסיום."</li>
+    <li><b>הסבר למנהל:</b> "‹שם› יקבל הודעה ויראה את ההגדרה ב'ההגדרות שלי', אבל רק מנהל הסוכנות יכול לשנות או לבטל אותה. המחליפים יקבלו הודעה."</li>
+    <li><b>שדות:</b> "מתאריך" ו"עד תאריך", שניהם חובה.</li>
+    <li><b>שורת "לכל הנסיעות":</b> בחירת מחליף וסוג, וכפתור "החלה".</li>
+    <li><b>חלוקת הנסיעות:</b> שורה לכל נסיעה פעילה (לקוח, מזהה, תאריכים, סטטוס), ובה בחירת מחליף ("ללא מחליף" או שם) ובחירת סוג (החלפה או שיתוף מידע). בחירת הסוג לא פעילה כשנבחר "ללא מחליף".</li>
+    <li><b>סיכום חי:</b> כמה נסיעות לכל מחליף ומאיזה סוג, וכמה נשארו בלי מחליף.</li>
+    <li><b>הערה:</b> "נסיעה חדשה שתיפתח בתקופה לא תעבור אוטומטית. אפשר לחזור לכאן ולהוסיף אותה."</li>
+    <li><b>כפתורים:</b> "שמירה", ו"סיום מוקדם" או "ביטול התוכנית" כשכבר יש תוכנית, ו"ביטול".</li>
+    <li><b>אחרי השמירה:</b> הודעה כמו "נקבעו מחליפים 01.11.2026 – 10.11.2026: נטע בר ואלון רז יקבלו הודעה", עם "ביטול".</li>
+    <li><b>כשהתוכנית הוגדרה על ידי המנהל:</b> הסוכן רואה את החלון לקריאה בלבד: המצב, השורה "הוגדר על ידי ‹מנהל›…", ורשימה של נסיעה, מחליף וסוג.</li>
+  </ul>
+
+  <h3><span class="id">SCR-A22</span> הגדרות ← עובדים: מה נוסף <span class="small muted">(למנהל בלבד)</span></h3>
+  <ul class="clean">
+    <li><b>עמודה "הרשאת צפייה":</b> בחירה בין שלוש הרמות של <span class="id">BR-90</span>, וכפתור "שמירת הרשאות".</li>
+    <li><b>עמודה "מחליפים בזמן היעדרות":</b> "אין", או המצב ("מתוכנן · ‹תקופה›" / "פעיל עד ‹תאריך›") עם הסיכום. כפתור "הגדרת מחליפים" או "עריכת מחליפים" פותח את <span class="id">SCR-A28</span> עבור אותו סוכן.</li>
+  </ul>
+
+  <h3>"ההגדרות שלי": מה נוסף <span class="small muted">(לסוכן)</span></h3>
+  <ul class="clean">
+    <li><b>כרטיס "מחליפים בזמן היעדרות":</b> אם אין תוכנית, הסבר קצר וכפתור "הגדרת מחליפים". אם יש, המצב, הסיכום, ו"עריכה" ו"סיום מוקדם" (או רק "פרטים" אם המנהל הגדיר).</li>
+    <li><b>כרטיס "אני מחליף סוכנים אחרים":</b> למשל "אתה מחליף את אלון רז מ־19.10.2026 עד 27.10.2026 ב־1 נסיעות".</li>
+  </ul>
+
+  <h3>מצבים בכל המסכים</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>מצב</th><th>מה רואים</th></tr></thead>
+    <tbody>
+      <tr><td>טעינה</td><td>הלוח והסרגל מופיעים מיד, ובתאי הלוח פסים אפורים. במקום המונים מופיע "–".</td></tr>
+      <tr><td>אין טיסות בתקופה</td><td>"אין טיסות בחודש הזה. טיסות מופיעות כאן אחרי שכרטיס טיסה נקלט בתיק נסיעה."</td></tr>
+      <tr><td>אין תוצאות לסינון</td><td>"אין נחיתות בחודש הזה.", עם הקישור "הצגת הכל"</td></tr>
+      <tr><td>"משותפות איתי" בלי נסיעות</td><td>"אין נסיעות ששותפו איתך כרגע."</td></tr>
+      <tr><td>שגיאה</td><td>"לא הצלחנו לטעון את היומן", עם "נסו שוב"</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 8 -->
+<section class="sec" id="notifications">
+  <div class="sec-head"><div class="eyebrow">פרק 8</div><h2>התראות</h2>
+    <p class="muted">כל ההתראות בפרק הזה מופיעות בפעמון, ואף אחת מהן אינה קריטית. הנוסח מותאם למגדר של מי שביצע את הפעולה ושל מי שקורא.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>מתי</th><th>למי</th><th>נוסח</th></tr></thead>
+    <tbody>
+      <tr><td>שיתוף נסיעה</td><td>הסוכן שנוסף</td><td>"‹שם› שיתף איתך את הנסיעה ‹מזהה› · ‹לקוח› · החלפה עד ‹תאריך›", או "· שיתוף מידע"</td></tr>
+      <tr><td>שמירת תוכנית מחליפים</td><td>כל מחליף</td><td>"‹שם› ביקש שתחליף אותו ‹תקופה› · ‹n› נסיעות" (התראה אחת לכל מחליף). אם המנהל הגדיר: "‹מנהל› הגדיר אותך כמחליף של ‹סוכן› ‹תקופה› · ‹n› נסיעות"</td></tr>
+      <tr><td>המנהל הגדיר, שינה או ביטל תוכנית לסוכן</td><td>הסוכן</td><td>"‹מנהל› הגדיר מחליפים עבורך ‹תקופה›" / "…עדכן…" / "…ביטל…"</td></tr>
+      <tr><td>ההחלפה מתחילה</td><td>כל מחליף</td><td>"מהיום ‹אתה מחליף / את מחליפה› את ‹סוכן› ב־‹n› נסיעות, עד ‹תאריך›"</td></tr>
+      <tr><td>הסרה עצמית</td><td>הסוכן הראשי</td><td>"‹שם› הסיר את עצמו מהנסיעה ‹מזהה›"</td></tr>
+      <tr><td>שיתוף הסתיים בתאריך</td><td>הסוכן הראשי</td><td>"השיתוף של ‹מזהה› עם ‹שם› הסתיים"</td></tr>
+      <tr><td>שינוי הרשאת צפייה</td><td>הסוכן</td><td>"הרשאת הצפייה שלך עודכנה: ‹רמה›"</td></tr>
+      <tr><td>כל התראה קיימת על נסיעה (עדכון לאישור, מסמך חדש, הודעת נוסע, ביטוח, צ׳ק־אין)</td><td>הסוכן הראשי, וגם כל סוכן <b>בהחלפה</b> פעילה</td><td>ללא שינוי בנוסח</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">הנוסע ממשיך לראות את הסוכן הראשי תחת "הסוכנת שלך" גם בזמן החלפה. ההודעות שהוא שולח מגיעות גם לסוכן המחליף.</p>
+</section>
+
+<!-- 9 -->
+<section class="sec" id="edge">
+  <div class="sec-head"><div class="eyebrow">פרק 9</div><h2>מקרי קצה</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>מקרה</th><th>התנהגות</th></tr></thead>
+    <tbody>
+      <tr><td>טיסת לילה</td><td>ההמראה מופיעה ביום היציאה, והנחיתה ביום ההגעה, כל אחת לפי השעון המקומי שלה.</td></tr>
+      <tr><td>טיסה בלי שעת הגעה</td><td>מוצגת רק ההמראה. הנחיתה החסרה מטופלת כפריט ב"לטיפול".</td></tr>
+      <tr><td>נסיעה שבוטלה</td><td>הטיסות שלה לא מוצגות. שיתופים קיימים נשארים לצורך ההיסטוריה.</td></tr>
+      <tr><td>סוכן שהושבת</td><td>לא מופיע כאפשרות לשיתוף. שיתופים קיימים שלו מוצגים כ"לא פעיל", ואפשר להסיר אותם.</td></tr>
+      <tr><td>החלפה עם סוכן שכבר משותף בנסיעה</td><td>השיתוף הקיים מוחלף בהחלפה עם התאריך החדש, ולא נוצר שיתוף כפול.</td></tr>
+      <tr><td>שני אנשים משנים שיתוף באותו זמן</td><td>השמירה השנייה נדחית עם "הנסיעה עודכנה בינתיים", והרשימה נטענת מחדש.</td></tr>
+      <tr><td>שיתוף מידע לסוכן עם הרשאה "כל הסוכנות · צפייה ועריכה"</td><td>ההרשאה הרחבה גוברת: הוא ממשיך לערוך, ואין לשיתוף השפעה מעשית. החלון מציג את ההרשאה שלו ליד שמו.</td></tr>
+      <tr><td>הנסיעה פתוחה אצל הסוכן ברגע שהשיתוף הסתיים</td><td>בפעולה הבאה הוא מקבל "אין לך גישה לנסיעה הזו", וקישור לדשבורד.</td></tr>
+      <tr><td>המנהל משנה הרשאת צפייה כשהסוכן מחובר</td><td>ההרשאה החדשה חלה בבקשה הבאה. המידע בדף מתרענן בטעינה הבאה.</td></tr>
+      <tr><td>תוכנית מתוכננת שעוד לא התחילה</td><td>המחליפים עוד לא רואים את הנסיעות. בשורה "מי מטפל בנסיעה" השיתוף מוצג כ"מתוכנן".</td></tr>
+      <tr><td>נסיעה שהסתיימה או בוטלה לפני תחילת התוכנית</td><td>השיתוף שלה לא ייפתח.</td></tr>
+      <tr><td>שינוי ידני בשיתוף שנוצר מתוכנית</td><td>אפשר לשנות סוג או תאריך בחלון השיתוף. השיתוף נשאר שייך לתוכנית, ו"סיום מוקדם" עדיין מבטל אותו.</td></tr>
+      <tr><td>מחליף שהושבת במהלך התוכנית</td><td>השיתופים שלו נסגרים. הסוכן הראשי והמנהל מקבלים הודעה, כדי לבחור מחליף אחר.</td></tr>
+      <tr><td>חיבור תמיכה של צוות PALAMI</td><td>הצוות רואה את היומן בצפייה בלבד, באותו היקף שיש לו בדשבורד.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 10 -->
+<section class="sec" id="later">
+  <div class="sec-head"><div class="eyebrow">פרק 10</div><h2>גרסאות הבאות</h2></div>
+  <div class="tbl"><table>
+    <thead><tr><th>מה</th><th>גרסה</th></tr></thead>
+    <tbody>
+      <tr><td>שורת "היום: 2 המראות · 1 נחיתה" בראש הדשבורד, שמובילה ליומן של היום</td><td><span class="ver l">1.1</span></td></tr>
+      <tr><td>הנוסע רואה "‹שם› בחופשה עד ‹תאריך›, בינתיים ‹מחליף› זמין בשבילך" במסך "הסוכנת שלך"</td><td><span class="ver l">1.1</span></td></tr>
+      <tr><td>שיתוף כמה נסיעות מסומנות בבת אחת, מרשימת הנסיעות</td><td><span class="ver l">1.1</span></td></tr>
+      <tr><td>סוגי אירועים נוספים ביומן: מלון, רכב, חלון צ׳ק־אין</td><td><span class="ver l">בהמשך</span></td></tr>
+      <tr><td>ייצוא היומן של הסוכן לקלנדר חיצוני, מצב טיסה חי</td><td><span class="ver l">בהמשך</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- 11 -->
+<section class="sec" id="decisions">
+  <div class="sec-head"><div class="eyebrow">פרק 11</div><h2>החלטות</h2><p class="muted">כל ההחלטות התקבלו ב־12.10.2026. אין שאלות פתוחות.</p></div>
+  <div class="tbl"><table>
+    <thead><tr><th>נושא</th><th>החלטה</th></tr></thead>
+    <tbody>
+      <tr><td>מיקום</td><td>לשונית "יומן" נפרדת בתפריט הראשי, בין "נסיעות" ל"לטיפול".</td></tr>
+      <tr><td>תצוגת פריט</td><td>כרטיס בשתי שורות: שעה ולקוח, ומתחת יעד ומזהה נסיעה.</td></tr>
+      <tr><td>סינון</td><td>מתג "הכל / המראות / נחיתות" עם מונה לכל אפשרות.</td></tr>
+      <tr><td>אזור זמן</td><td>השעה מופיעה תמיד על הכרטיס. שם אזור הזמן מופיע במקרא ובחלונית הפרטים.</td></tr>
+      <tr><td>צבעים</td><td>המראות בירוק, נחיתות בכחול.</td></tr>
+      <tr><td>נסיעה שלא פורסמה</td><td>מסגרת מקווקוות: בדבש כשחסרים פרטים, ובאפור בטיוטה או כשהנסיעה מוכנה לפרסום. אם האפור לא בולט מספיק, נבחן שוב אחרי הפיילוט.</td></tr>
+      <tr><td>עדכון ממתין</td><td>סימן "!" על הכרטיס כבר ב־MVP, עם הסבר במקרא ופרטים בחלונית.</td></tr>
+      <tr><td>תצוגה פשוטה</td><td>היומן לא מופיע בה.</td></tr>
+      <tr><td>תצוגת ברירת מחדל</td><td>מנהל: כל הסוכנות. סוכן: כל הנסיעות שלו.</td></tr>
+      <tr><td>הרשאות צפייה</td><td>שלוש רמות שהמנהל קובע לכל סוכן, כבר ב־MVP.</td></tr>
+      <tr><td>שיתוף</td><td>שני סוגים: "החלפה" ו"שיתוף מידע". שניהם עם תאריך סיום אופציונלי. שיתוף לצפייה בלבד עבר מגרסה 2 ל־MVP.</td></tr>
+      <tr><td>מחליפים בזמן היעדרות</td><td>תוכנית לתקופה, מתאריך עד תאריך, שאפשר לתזמן מראש. הסוכן או המנהל מחלקים את הנסיעות הפעילות בין כמה מחליפים, ולכל נסיעה בוחרים סוג. נסיעות חדשות בתקופה לא נכללות אוטומטית.</td></tr>
+      <tr><td>מנהל מגדיר לסוכן</td><td>המנהל יכול להגדיר תוכנית לכל סוכן. הסוכן רואה אותה ומקבל הודעה, אבל לא יכול לשנות או לבטל אותה.</td></tr>
+      <tr><td>שיתוף מתוך תיק הנסיעה</td><td>הכפתור "שיתוף סוכן בנסיעה" יושב בשורת "מי מטפל בנסיעה" מתחת לכותרת התיק, ולא בכותרת. זה אותו חלון כמו ביומן. גם בחלונית היומן הכפתור נקרא "שיתוף סוכן בנסיעה".</td></tr>
+      <tr><td>הסרה עצמית</td><td>כבר ב־MVP.</td></tr>
+      <tr><td>מה הנוסע רואה</td><td>בזמן החלפה הנוסע ממשיך לראות את הסוכן הראשי. השורה "בחופשה עד…" תגיע בגרסה 1.1.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+</main>
+</div>
+
+<!--claude-mermaid-runtime-begin:3477-->
+<style>.mermaid-diagram{margin-block:4px}.mermaid-diagram svg{display:block;margin:0 auto;max-width:100%;height:auto}</style>
+<script src="/_runtime/mermaid-11.16.1.min.js"></script>
+<script>(function(){
+var CFG={"palettes":{"light":{"surface":"#f4efe4","text":"#42392e","line":"#8a7f6d","border":"#7a6c52","bg":"#fffdf8"},"dark":{"surface":"#262b34","text":"#f2f3f5","line":"#a8adb8","border":"#9aa4b8","bg":"#1f232b"}}};
+if(typeof mermaid==='undefined')return;
+var pres=Array.prototype.slice.call(document.querySelectorAll('pre.mermaid')).filter(function(p){if(p.hasAttribute('data-claude-mermaid-claimed'))return false;p.setAttribute('data-claude-mermaid-claimed','1');return true;});
+if(!pres.length)return;
+var mq=window.matchMedia?window.matchMedia('(prefers-color-scheme: dark)'):null;
+var root=document.documentElement;
+var items=pres.map(function(pre){
+var mount=document.createElement('div');mount.className='mermaid-diagram';
+return {pre:pre,mount:mount,src:pre.textContent||''};
+});
+var seq=0;
+var renderGen=0;
+var lastKey='';
+function pageBg(fallback){
+var els=[document.body,document.documentElement];
+for(var i=0;i<els.length;i++){
+var c=els[i]&&getComputedStyle(els[i]).backgroundColor;
+if(c&&c!=='transparent'&&c!=='rgba(0, 0, 0, 0)')return c;
+}
+return fallback;
+}
+function render(){
+var theme=root.getAttribute('data-theme');
+var dark=theme==='dark'||(!!(mq&&mq.matches)&&theme!=='light');
+var pal=dark?CFG.palettes.dark:CFG.palettes.light;
+var bg=pageBg(pal.bg);
+var key=(dark?'d':'l')+'|'+bg;
+if(key===lastKey)return;
+lastKey=key;
+var gen=++renderGen;
+var font=getComputedStyle(document.body).fontFamily||'sans-serif';
+var nat={useMaxWidth:false};
+mermaid.initialize({
+startOnLoad:false,securityLevel:'strict',theme:'base',
+flowchart:nat,sequence:nat,er:nat,state:nat,class:nat,pie:nat,
+gantt:nat,journey:nat,timeline:nat,gitGraph:nat,mindmap:nat,xyChart:nat,
+quadrantChart:nat,sankey:nat,c4:nat,requirement:nat,block:nat,
+packet:nat,kanban:nat,architecture:nat,radar:nat,
+themeVariables:{background:bg,mainBkg:pal.surface,primaryColor:pal.surface,
+primaryTextColor:pal.text,lineColor:pal.line,primaryBorderColor:pal.border,
+nodeBorder:pal.border,clusterBorder:pal.border,edgeLabelBackground:bg,
+clusterBkg:'rgba(127,127,127,0.07)',titleColor:pal.text,
+darkMode:dark,rowOdd:bg,rowEven:'rgba(127,127,127,0.07)',
+attributeBackgroundColorOdd:bg,attributeBackgroundColorEven:'rgba(127,127,127,0.07)',
+fontSize:'16px',fontFamily:font},
+themeCSS:'.node rect, .node circle, .node polygon, .node path, .cluster rect { stroke-width: 2px; }'
+});
+items.forEach(function(it){
+var id='claude-mermaid-'+seq++;
+mermaid.render(id,it.src).then(function(r){
+if(gen!==renderGen)return;
+var prev=it.pre.previousElementSibling;
+if(prev&&prev.className==='mermaid-diagram'&&prev!==it.mount)return;
+it.mount.innerHTML=r.svg;
+if(!it.mount.parentNode)it.pre.parentNode.insertBefore(it.mount,it.pre);
+it.pre.style.display='none';
+},function(){
+var scratch=document.getElementById(id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+scratch=document.getElementById('d'+id);
+if(scratch)scratch.parentNode.removeChild(scratch);
+if(gen!==renderGen)return;
+if(it.mount.parentNode)it.mount.parentNode.removeChild(it.mount);
+it.pre.style.display='';
+});
+});
+}
+render();
+if(mq&&mq.addEventListener)mq.addEventListener('change',render);
+if(typeof MutationObserver!=='undefined')new MutationObserver(render).observe(root,{attributes:true,attributeFilter:['data-theme']});
+})();</script>
+<!--claude-mermaid-runtime-end-->
+
+</body></html>

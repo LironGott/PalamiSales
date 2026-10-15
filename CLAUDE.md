@@ -84,3 +84,8 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - TODO (reminder): registered company name not decided yet. Site uses "PALAMI" as placeholder in footer and privacy policy; replace once the company is registered.
 - Real agent-system screenshots (work in progress, from the user, 2026-10-15) are in `site/img/r-*.webp` and used for the agent side. Traveler screens still from the prototype. Real system also has: two filter rows (trip status, publish status), "only trips without active agent" toggle, trip actions (republish, view as traveler, edit trip, cancel trip). TODO: user will give system access later. Traveler app is specified (not yet developed): present without promising availability.
 - Technical questions (hosting, form provider, DNS) postponed by the user until design is final.
+
+## Agent calendar and trip sharing (spec 1.0, 12.10.2026; in development)
+- Spec: https://claude.ai/artifact/TgteZe9s616ZngiTruwLLv (`docs/reference/spec-calendar-sharing.html`), prototype: https://claude.ai/artifact/K2rQnoKuWBWBqtVfrbwPEf (`docs/reference/prototype-calendar.html`).
+- Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
+- Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.

@@ -1,0 +1,813 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>יומן הסוכן · PALAMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&family=Rubik:wght@500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..24,400,0..1,0&display=swap" rel="stylesheet">
+<style>
+/* Layout: the PALAMI agent shell (side menu at the start, top bar) around one calendar card.
+   Tokens: copied from @palami-apps/design-tokens (agent theme). Departures use the brand green, landings use info blue. */
+:root{
+  --bg:#F4F6F4;--surface:#FFFFFF;--surface-2:#ECEFEC;--surface-3:#FAFBFA;--line:#DEE3DF;--line-strong:#C5CCC7;
+  --ink:#16211C;--ink-muted:#545D58;--ink-subtle:#707A74;--ink-faint:#C5CCC7;
+  --brand:#08402A;--brand-hover:#0F5636;--brand-soft:#E8F1EC;--brand-chip:#D5EADD;--on-brand:#FFFFFF;--link:#0F5636;
+  --dep:#0F5636;--dep-soft:#E6F0EA;--dep-line:#5E9677;
+  --land:#1D5FA8;--land-soft:#E4EEF8;--land-line:#1D5FA8;
+  --warn:#8A5F00;--warn-soft:#FBF1D6;--warn-fill:#B07D0C;--wait-line:#6A8C78;
+  --demo-bg:#151A17;--demo-ink:#C5CCC7;--demo-chip:#242B27;--demo-line:#39433D;--demo-on:#74B590;--demo-on-ink:#021209;
+  --toast-bg:#151A17;--toast-ink:#E6EBE8;--toast-link:#A9D3B9;
+  --scrim:rgba(21,26,23,.28);
+  --shadow-1:0 1px 2px rgba(21,26,23,.06);--shadow-3:0 12px 32px rgba(21,26,23,.16);
+  --focus:0 0 0 3px rgba(30,110,71,.45);
+  --r-sm:6px;--r-md:8px;--r-lg:12px;
+  --font-display:"Rubik","Assistant","Segoe UI",Arial,sans-serif;
+  --font-body:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101512;--surface:#171D19;--surface-2:#1F2621;--surface-3:#141A16;--line:#2A322D;--line-strong:#39433D;
+  --ink:#E6EBE8;--ink-muted:#9DA8A1;--ink-subtle:#7C8780;--ink-faint:#39433D;
+  --brand:#74B590;--brand-hover:#A9D3B9;--brand-soft:#18291F;--brand-chip:#1F3A2A;--on-brand:#021209;--link:#A9D3B9;
+  --dep:#7FBF9A;--dep-soft:#16271E;--dep-line:#5E9677;
+  --land:#7FB2E8;--land-soft:#132235;--land-line:#3B7CC4;
+  --warn:#E6B54A;--warn-soft:#2E2610;--warn-fill:#C28A0E;--wait-line:#64826F;
+  --demo-bg:#000000;--demo-chip:#1F2621;
+  --toast-bg:#E6EBE8;--toast-ink:#151A17;--toast-link:#0F5636;
+  --scrim:rgba(0,0,0,.5);
+  --shadow-1:0 1px 2px rgba(0,0,0,.4);--shadow-3:0 12px 32px rgba(0,0,0,.5);--focus:0 0 0 3px rgba(116,181,144,.5);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101512;--surface:#171D19;--surface-2:#1F2621;--surface-3:#141A16;--line:#2A322D;--line-strong:#39433D;
+  --ink:#E6EBE8;--ink-muted:#9DA8A1;--ink-subtle:#7C8780;--ink-faint:#39433D;
+  --brand:#74B590;--brand-hover:#A9D3B9;--brand-soft:#18291F;--brand-chip:#1F3A2A;--on-brand:#021209;--link:#A9D3B9;
+  --dep:#7FBF9A;--dep-soft:#16271E;--dep-line:#5E9677;
+  --land:#7FB2E8;--land-soft:#132235;--land-line:#3B7CC4;
+  --warn:#E6B54A;--warn-soft:#2E2610;--warn-fill:#C28A0E;--wait-line:#64826F;
+  --demo-bg:#000000;--demo-chip:#1F2621;
+  --toast-bg:#E6EBE8;--toast-ink:#151A17;--toast-link:#0F5636;
+  --scrim:rgba(0,0,0,.5);
+  --shadow-1:0 1px 2px rgba(0,0,0,.4);--shadow-3:0 12px 32px rgba(0,0,0,.5);--focus:0 0 0 3px rgba(116,181,144,.5);
+  color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:400 15px/1.45 var(--font-body)}
+button,select,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:none;box-shadow:var(--focus)}
+.ms{font-family:"Material Symbols Outlined";font-weight:normal;font-style:normal;font-size:20px;line-height:1;display:inline-block;vertical-align:middle;direction:ltr;font-feature-settings:"liga";user-select:none}
+.mono{font-family:var(--font-mono);font-size:.82em;direction:ltr;unicode-bidi:isolate;font-variant-numeric:tabular-nums}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+/* demo strip: not part of the product (the real app reads the role at sign-in) */
+.demo{background:var(--demo-bg);color:var(--demo-ink);padding:8px 16px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;font-size:13px}
+.demo b{font-weight:700;letter-spacing:.02em}
+.demo button{background:var(--demo-chip);border:1px solid var(--demo-line);border-radius:999px;padding:3px 12px;color:var(--demo-ink);font-size:13px}
+.demo button[aria-pressed="true"]{background:var(--demo-on);border-color:var(--demo-on);color:var(--demo-on-ink);font-weight:700}
+.demo .hint{opacity:.75}
+
+.shell{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:calc(100vh - 40px)}
+.side{background:var(--surface);border-inline-end:1px solid var(--line);padding:16px 12px}
+.logo{font:600 20px var(--font-display);color:var(--brand);padding:4px 10px;letter-spacing:.5px}
+.agency{font-size:13px;color:var(--ink-subtle);padding:0 10px 18px}
+.agency b{display:block;color:var(--ink-muted);font-weight:600}
+.nav a{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r-md);color:var(--ink-muted);text-decoration:none;font-weight:600;margin-bottom:2px}
+.nav a:hover{background:var(--surface-2)}
+.nav a.on{background:var(--brand-soft);color:var(--brand)}
+.nav .new{margin-inline-start:auto;font-size:11px;background:var(--brand-chip);color:var(--brand);border-radius:999px;padding:0 7px}
+.nav .count{margin-inline-start:auto;background:var(--warn-soft);color:var(--warn);font-size:12px;border-radius:999px;padding:0 8px;font-weight:700}
+.main{min-width:0;display:flex;flex-direction:column}
+.top{height:56px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding-inline:24px}
+.top .logo{display:none;padding:0}
+.search{flex:1;max-width:420px;display:flex;align-items:center;gap:8px;background:var(--surface-2);border-radius:var(--r-md);padding:7px 12px;color:var(--ink-subtle);font-size:14px;min-width:0;white-space:nowrap;overflow:hidden}
+.me{margin-inline-start:auto;display:flex;align-items:center;gap:8px;font-size:14px;min-width:0}
+.me .role{font-size:12px;color:var(--ink-subtle)}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--brand-chip);color:var(--brand);display:grid;place-items:center;font-weight:700;flex:none;font-size:13px}
+.page{padding:24px;max-width:1440px;width:100%}
+.page-head{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;margin-bottom:16px}
+h1{font:600 24px/1.2 var(--font-display);margin:0;text-wrap:balance}
+.sub{color:var(--ink-subtle);font-size:14px}
+.spacer{flex:1}
+.scope{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.select{border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--r-md);padding:5px 10px;font-size:14px;font-weight:600;max-width:100%}
+
+.cal{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-1);overflow:hidden}
+.cal-bar{display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px;padding:12px 16px;border-bottom:1px solid var(--line)}
+.cal-title{font:600 18px var(--font-display);min-width:0;margin:0}
+.icon-btn{width:32px;height:32px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;flex:none}
+.icon-btn:hover,.btn:hover{background:var(--surface-2)}
+.btn{border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--r-md);padding:5px 12px;font-weight:600;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.btn .ms{font-size:18px}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--on-brand)}
+.btn.primary:hover{background:var(--brand-hover)}
+.seg{display:inline-flex;background:var(--surface-2);border-radius:var(--r-md);padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:6px;padding:4px 12px;font-weight:600;font-size:14px;color:var(--ink-muted);display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow-1)}
+.seg .n{font-size:12px;color:var(--ink-subtle);font-variant-numeric:tabular-nums}
+.seg [data-f="dep"] .ms{color:var(--dep)} .seg [data-f="land"] .ms{color:var(--land)}
+.seg .ms{font-size:18px}
+.notice{padding:10px 16px;background:var(--surface-3);border-bottom:1px solid var(--line);font-size:14px;color:var(--ink-muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.linkbtn{border:0;background:none;color:var(--link);font-weight:700;padding:0}
+
+.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+.dow{padding:8px 10px;font-size:13px;font-weight:700;color:var(--ink-subtle);border-bottom:1px solid var(--line);letter-spacing:.02em}
+.cell{min-height:118px;border-bottom:1px solid var(--line);border-inline-start:1px solid var(--line);padding:6px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.grid>.cell:nth-child(7n+1){border-inline-start:0}
+.cell.out{background:var(--surface-3)}
+.cell.out .dnum{color:var(--ink-faint)}
+.cell.past .ev{opacity:.62}
+.dnum{font:600 13px var(--font-display);color:var(--ink-muted);width:26px;height:26px;display:grid;place-items:center;border-radius:50%;flex:none;font-variant-numeric:tabular-nums}
+.cell.today .dnum{background:var(--brand);color:var(--on-brand)}
+.more{border:0;background:none;color:var(--link);font-weight:700;font-size:13px;padding:2px 4px;text-align:start;border-radius:4px}
+.more:hover{background:var(--brand-soft)}
+
+.ev{display:flex;flex-direction:column;gap:1px;border:0;border-inline-start:3px solid;border-radius:var(--r-sm);padding:4px 7px;font-size:13px;text-align:start;width:100%;min-width:0}
+.ev.dep{background:var(--dep-soft);border-color:var(--dep-line)}
+.ev.land{background:var(--land-soft);border-color:var(--land-line)}
+.ev:hover{filter:brightness(.96)}
+.ev .l1{display:flex;align-items:center;gap:5px;min-width:0}
+.ev .ms{font-size:16px}
+.ev.dep .ms{color:var(--dep)} .ev.land .ms{color:var(--land)}
+.ev .t{font-weight:700;font-variant-numeric:tabular-nums}
+.ev .who{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+.ev .l2{font-size:12px;color:var(--ink-muted);display:flex;gap:6px;min-width:0;white-space:nowrap;overflow:hidden}
+.ev .l2 .d{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.ev .tag{flex:none;margin-inline-start:auto;font-size:10px;font-weight:700;line-height:18px;height:18px;min-width:18px;padding:0 4px;border-radius:999px;background:var(--surface);color:var(--ink-muted);text-align:center;box-shadow:inset 0 0 0 1px var(--line-strong)}
+.ev .tag .ms{font-size:13px;color:var(--ink-muted)!important;vertical-align:-2px}
+
+.wk .cell{min-height:420px;gap:6px;padding:8px}
+.dhead{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.dhead .dname{font-size:13px;color:var(--ink-subtle);font-weight:700}
+.empty{color:var(--ink-subtle);font-size:13px;text-align:center;margin-top:16px}
+.wk .ev .l2{white-space:normal;flex-wrap:wrap}
+
+.legend{display:flex;gap:8px 16px;padding:10px 16px;font-size:13px;color:var(--ink-muted);border-top:1px solid var(--line);flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+.legend .tag{font-size:10px;font-weight:700;height:18px;min-width:18px;padding:0 4px;border-radius:999px;display:inline-grid;place-items:center;box-shadow:inset 0 0 0 1px var(--line-strong)}
+
+.agenda{display:none;padding:12px 16px;border-top:1px solid var(--line)}
+.agenda h3{font:600 15px var(--font-display);margin:0 0 8px}
+.agenda .list{display:flex;flex-direction:column;gap:6px}
+.agenda .ev{padding:8px 10px}
+.dots{display:none;gap:3px;justify-content:center;margin-top:auto}
+.dots i{width:6px;height:6px;border-radius:50%;display:block}
+
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40}
+.drawer{position:fixed;top:0;bottom:0;inset-inline-end:0;width:min(420px,100vw);background:var(--surface);box-shadow:var(--shadow-3);z-index:41;display:flex;flex-direction:column;padding-block:env(safe-area-inset-top,0px) env(safe-area-inset-bottom,0px)}
+.dr-head{display:flex;align-items:center;gap:10px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.dr-head h2{font:600 18px var(--font-display);margin:0;flex:1;min-width:0}
+.dr-body{padding:16px 20px;overflow:auto;flex:1}
+.dr-foot{padding:14px 20px;border-top:1px solid var(--line);display:flex;gap:8px;flex-wrap:wrap}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:3px 10px;font-weight:700;font-size:13px}
+.badge.dep{background:var(--dep-soft);color:var(--dep)} .badge.land{background:var(--land-soft);color:var(--land)}
+.who-big{font:600 20px var(--font-display);margin-top:4px}
+.route{display:flex;align-items:center;justify-content:space-between;background:var(--surface-2);border-radius:var(--r-lg);padding:14px 16px;margin:14px 0;direction:ltr}
+.route .ap{text-align:center} .route .ap b{font:600 22px var(--font-mono);display:block}
+.route .ap small{color:var(--ink-subtle);font-size:12px;display:block;direction:rtl}
+.route .mid{flex:1;text-align:center;color:var(--ink-subtle);font-size:12px}
+.route .mid hr{border:0;border-top:1px dashed var(--line-strong);margin:4px 12px}
+.kv{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px 12px;font-size:14px;margin:0}
+.kv dt{color:var(--ink-subtle)} .kv dd{margin:0;font-weight:600}
+.status{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700;background:var(--surface-2);color:var(--ink-muted)}
+.status.ok{background:var(--dep-soft);color:var(--dep)}
+.sharebox{margin-top:16px;padding:12px 14px;border:1px solid var(--line);border-radius:var(--r-md);font-size:14px;display:flex;flex-direction:column;gap:8px}
+.sharebox h3{margin:0;font:600 14px var(--font-display);display:flex;align-items:center;gap:6px}
+.sharebox .people{display:flex;flex-wrap:wrap;gap:6px}
+.person{display:inline-flex;align-items:center;gap:6px;background:var(--surface-2);border-radius:999px;padding:2px 10px 2px 4px;font-size:13px;font-weight:600}
+.person .avatar{width:22px;height:22px;font-size:10px}
+.person small{color:var(--ink-subtle);font-weight:600}
+.quiet{color:var(--ink-subtle);font-size:13px}
+.daylist{display:flex;flex-direction:column;gap:6px}
+.daylist h4{margin:10px 0 0;font-size:13px;color:var(--ink-subtle);display:flex;align-items:center;gap:4px}
+.daylist .ev{padding:8px 10px}
+
+/* share dialog */
+.picker{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;margin-top:12px}
+.pick{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;min-height:48px}
+.pick:last-child{border-bottom:0}
+.pick input{width:18px;height:18px;accent-color:var(--brand);flex:none}
+.pick .nm{flex:1;min-width:0;font-weight:600}
+.pick .nm small{display:block;font-weight:400;color:var(--ink-subtle);font-size:12px}
+.pick.locked{cursor:default;background:var(--surface-3)}
+.pick .lock{font-size:12px;font-weight:700;color:var(--ink-subtle);display:inline-flex;align-items:center;gap:4px}
+
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));inset-inline-start:50%;transform:translateX(50%);background:var(--toast-bg);color:var(--toast-ink);border-radius:var(--r-md);padding:10px 16px;display:flex;gap:16px;align-items:center;z-index:60;box-shadow:var(--shadow-3);font-size:14px;max-width:calc(100vw - 32px)}
+.toast button{border:0;background:none;color:var(--toast-link);font-weight:700;padding:0}
+
+/* trip state on the card */
+.ev.unpub{outline:1.5px dashed var(--wait-line);outline-offset:-1.5px}
+.ev.incomplete{outline:1.5px dashed var(--warn-fill);outline-offset:-1.5px}
+.ev .flag{flex:none;font-size:11px;font-weight:800;line-height:18px;height:18px;width:18px;border-radius:50%;background:var(--warn-soft);color:var(--warn);text-align:center;box-shadow:inset 0 0 0 1px var(--warn-fill)}
+.legend .flag{font-size:11px;font-weight:800;height:18px;width:18px;border-radius:50%;display:inline-grid;place-items:center;background:var(--warn-soft);color:var(--warn);box-shadow:inset 0 0 0 1px var(--warn-fill)}
+.legend .dash{width:22px;height:14px;border-radius:4px;display:inline-block}
+.alert{border-radius:var(--r-md);padding:10px 12px;font-size:14px;margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.alert.attn{background:var(--warn-soft);color:var(--ink);box-shadow:inset 3px 0 0 var(--warn-fill)}
+.alert.wait{background:var(--surface-2);color:var(--ink-muted)}
+.alert b{display:flex;align-items:center;gap:6px}
+.alert .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ro{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;color:var(--ink-muted);background:var(--surface-2);border-radius:999px;padding:1px 8px;margin-inline-start:6px}
+.opts{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:0 12px 12px 40px;font-size:13px;color:var(--ink-muted);border-bottom:1px solid var(--line)}
+.opts:last-child{border-bottom:0}
+.opts label{display:inline-flex;align-items:center;gap:6px}
+.opts input[type=date]{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:3px 6px;background:var(--surface);font-size:13px}
+.opts input[type=checkbox]{width:16px;height:16px;accent-color:var(--brand)}
+.pick.has-opts{border-bottom:0}
+.field{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:600;margin-top:14px}
+.field select,.field input[type=date]{border:1px solid var(--line-strong);border-radius:var(--r-md);padding:7px 10px;background:var(--surface);font-weight:400}
+.check{display:flex;gap:8px;align-items:flex-start;margin-top:14px;font-size:14px}
+.check input{width:18px;height:18px;accent-color:var(--brand);margin-top:2px}
+.levels{display:flex;flex-direction:column;gap:0;border:1px solid var(--line);border-radius:var(--r-md);margin-top:12px}
+.levels .lv{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.levels .lv:last-child{border-bottom:0}
+.levels .lv .nm{flex:1;min-width:120px;font-weight:600}
+.levels select{border:1px solid var(--line-strong);border-radius:var(--r-md);padding:5px 8px;background:var(--surface);font-size:13px;max-width:100%}
+.bell{font-size:14px!important;vertical-align:-2px;color:var(--ink-subtle)}
+.modes{display:flex;flex-direction:column;gap:6px;width:100%}
+.modes .mode{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line-strong);border-radius:var(--r-md);padding:9px 10px;cursor:pointer;background:var(--surface)}
+.modes .mode:has(input:checked){border-color:var(--brand);box-shadow:inset 0 0 0 1px var(--brand);background:var(--brand-soft)}
+.modes .mode input{width:16px;height:16px;accent-color:var(--brand);margin-top:3px;flex:none}
+.modes .mode .ms{font-size:20px;color:var(--ink-subtle);flex:none}
+.modes .mode:has(input:checked) .ms{color:var(--brand)}
+.modes .mode b{display:block;font-weight:700;color:var(--ink);font-size:14px}
+.modes .mode span span{display:block;color:var(--ink-muted);font-size:13px;line-height:1.45}
+.mine{display:flex;gap:8px;align-items:flex-start;border-radius:var(--r-md);padding:8px 10px;font-size:13px;line-height:1.5}
+.mine .ms{font-size:18px;flex:none}
+.mine.cover{background:var(--brand-soft);color:var(--brand)}
+.mine.info{background:var(--surface-2);color:var(--ink-muted)}
+
+/* trips list, trip file, settings */
+.list{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-1)}
+.list .row{display:grid;grid-template-columns:130px minmax(0,1.4fr) minmax(0,1fr) 190px 130px 90px;gap:12px;align-items:center;padding:0 16px;min-height:48px;border-bottom:1px solid var(--line);font-size:14px;text-align:start;width:100%;background:none;border-inline:0;border-top:0}
+.list .row:last-child{border-bottom:0}
+.list .row.h{font-size:13px;font-weight:700;color:var(--ink-subtle);background:var(--surface-3);min-height:40px}
+.list button.row{cursor:pointer}
+.list button.row:hover{background:var(--brand-soft)}
+.list .row .cust{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list .row .sub{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.inl{display:inline-flex;align-items:center;gap:6px}
+.inl .tag{position:static}
+.backlink{border:0;background:none;color:var(--link);font-weight:700;padding:0;display:inline-flex;align-items:center;gap:4px;margin-bottom:10px}
+.tripcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow-1);overflow:hidden}
+.trip-head{padding:16px 20px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;border-bottom:1px solid var(--line)}
+.trip-head h1{font-size:22px}
+.trip-head .facts{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--ink-muted);font-size:14px;width:100%}
+.who-strip{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:12px 20px;background:var(--surface-3);border-bottom:1px solid var(--line);font-size:14px}
+.who-strip .lbl{color:var(--ink-subtle);font-size:13px;font-weight:700}
+.who-strip .mine{flex-basis:100%}
+.tabs{display:flex;gap:4px;padding:0 12px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs span{padding:10px 12px;font-weight:600;color:var(--ink-muted);border-bottom:2px solid transparent;white-space:nowrap}
+.tabs span.on{color:var(--brand);border-color:var(--brand)}
+.trip-body{padding:16px 20px;display:flex;flex-direction:column;gap:8px}
+.sched{display:grid;grid-template-columns:120px 70px minmax(0,1fr);gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:var(--r-md);font-size:14px}
+.sched .ms{font-size:18px}
+.cards{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:16px 18px;display:flex;flex-direction:column;gap:10px;box-shadow:var(--shadow-1)}
+.card h2{font:600 17px var(--font-display);margin:0;display:flex;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700;background:var(--surface-2);color:var(--ink-muted)}
+.pill.plan{background:var(--land-soft);color:var(--land)}
+.pill.act{background:var(--dep-soft);color:var(--dep)}
+.emp .row{grid-template-columns:minmax(0,1fr) 210px minmax(0,1.2fr) 150px}
+.emp select{border:1px solid var(--line-strong);border-radius:var(--r-md);padding:5px 8px;background:var(--surface);font-size:13px;max-width:100%}
+/* cover dialog */
+.dates{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bulk{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--surface-2);border-radius:var(--r-md);padding:8px 10px;margin-top:14px;font-size:13px}
+.bulk select{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:4px 6px;background:var(--surface);font-size:13px}
+.assign{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r-md);margin-top:10px}
+.assign .ar{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.assign .ar:last-child{border-bottom:0}
+.assign .ar .t{font-size:14px;font-weight:600}
+.assign .ar .t small{display:block;font-weight:400;color:var(--ink-subtle);font-size:12px}
+.assign .ar .ctl{display:flex;gap:6px;flex-wrap:wrap}
+.assign select{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:4px 6px;background:var(--surface);font-size:13px;min-width:0}
+.summary{font-size:13px;color:var(--ink-muted);margin-top:10px;line-height:1.6}
+@media (max-width:860px){
+  .list .row{grid-template-columns:minmax(0,1fr) auto;padding:8px 12px}
+  .list .row > :nth-child(1),.list .row > :nth-child(3),.list .row > :nth-child(4),.list .row > :nth-child(6){display:none}
+  .list .row.h{display:none}
+  .emp .row{grid-template-columns:minmax(0,1fr);padding:12px}
+  .emp .row > *{display:block!important}
+  .dates{grid-template-columns:1fr}
+  .sched{grid-template-columns:90px 50px minmax(0,1fr)}
+}
+.bottom-nav{display:none}
+
+@media (max-width:860px){
+  .shell{grid-template-columns:minmax(0,1fr)}
+  .side{display:none}
+  .top{padding-inline:16px}
+  .top .logo{display:block}
+  .me .nm-full{display:none}
+  .page{padding:16px 16px 88px}
+  .cal-bar{padding:10px 12px}
+  .mo .cell{min-height:58px;padding:4px;align-items:center;cursor:pointer}
+  .mo .cell .ev,.mo .cell .more{display:none}
+  .mo .dots{display:flex}
+  .mo .cell.sel{background:var(--brand-soft)}
+  .agenda{display:block}
+  .wk{grid-template-columns:minmax(0,1fr)}
+  .wk .dow{display:none}
+  .wk .cell{min-height:0;border-inline-start:0}
+  .wk .cell.none{display:none}
+  .bottom-nav{display:flex;position:fixed;bottom:0;inset-inline:0;background:var(--surface);border-top:1px solid var(--line);z-index:20;padding-bottom:env(safe-area-inset-bottom,0px)}
+  .bottom-nav a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 0;font-size:11px;font-weight:600;color:var(--ink-subtle);text-decoration:none}
+  .bottom-nav a.on{color:var(--brand)}
+  .toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+  .opts{padding-inline-start:12px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="app" lang="he" dir="rtl" data-product="agent">
+<div class="demo" role="region" aria-label="בקרת הדגמה">
+  <b>הדגמה · נכנסים כ־</b>
+  <button data-as="ronit">רונית לוי · מנהלת סוכנות</button>
+  <button data-as="dan">דן כהן · סוכן</button>
+  <button data-as="maya">מאיה פרץ · סוכנת עם צפייה בכל הסוכנות</button>
+  <span class="hint">במוצר, המערכת מזהה את התפקיד וההרשאה בכניסה ובוחרת את התצוגה</span>
+</div>
+<div class="shell">
+  <aside class="side" aria-label="ניווט ראשי">
+    <div class="logo">PALAMI</div>
+    <div class="agency" id="agencyLine"></div>
+    <nav class="nav" id="sideNav"></nav>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <div class="logo">PALAMI</div>
+      <div class="search"><span class="ms">search</span>חיפוש נסיעה, לקוח או מזהה…</div>
+      <div class="me" id="meBox"></div>
+    </header>
+    <main class="page" id="page"></main>
+  </div>
+</div>
+<nav class="bottom-nav" aria-label="ניווט ראשי" id="bottomNav"></nav>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drTitle" hidden>
+  <div class="dr-head"><h2 id="drTitle"></h2><button class="icon-btn" id="drClose" aria-label="סגירה"><span class="ms">close</span></button></div>
+  <div class="dr-body" id="drBody"></div>
+  <div class="dr-foot" id="drFoot"></div>
+</aside>
+<div class="toast" id="toast" role="status" hidden></div>
+</div>
+
+<script>
+/* ---------- sample data: the seed agency "מסעות הדרים" ---------- */
+const USERS={
+  ronit:{name:"רונית לוי",ini:"ר״ל",role:"manager",g:"f"},
+  dan:{name:"דן כהן",ini:"ד״כ",role:"agent",g:"m",level:"own"},
+  neta:{name:"נטע בר",ini:"נ״ב",role:"agent",g:"f",level:"own"},
+  maya:{name:"מאיה פרץ",ini:"מ״פ",role:"agent",g:"f",level:"all_view"},
+  alon:{name:"אלון רז",ini:"א״ר",role:"agent",g:"m",level:"own"},
+};
+const LEVELS={own:"רק הנסיעות שלו ונסיעות ששותפו איתו",all_view:"כל הסוכנות · צפייה בלבד",all_edit:"כל הסוכנות · צפייה ועריכה"};
+const roleLabel=u=>u.role==="manager"?(u.g==="f"?"מנהלת סוכנות":"מנהל סוכנות"):(u.g==="f"?"סוכנת":"סוכן");
+const TLV={code:"TLV",city:"תל אביב"};
+const PUBLISHED=["פורסמה","בנסיעה","יש עדכונים לפרסום"];
+const UNPUB=["טיוטה","מוכנה לפרסום"];
+/* a share: mode cover = החלפה, info = שיתוף מידע; from/until are optional local days; source = "manual" or a cover plan id */
+const sh=(u,until=null,mode="cover",from=null,source="manual")=>({u,until,mode,from,source});
+const MODE={cover:"החלפה",info:"שיתוף מידע"};
+const coverWord=u=>USERS[u].g==="f"?"מחליפה":"מחליף";
+const trips=[
+ {id:"HDR-2609-0027",cust:"משפחת שטרן",dest:"אתונה, יוון",ap:{code:"ATH",city:"אתונה"},pax:4,primary:"dan",shared:[],st:"הסתיימה",legs:[["2026-10-04","06:40","2026-10-04","09:05","LY541",1],["2026-10-11","20:10","2026-10-11","22:15","LY542",0]]},
+ {id:"HDR-2609-0029",cust:"יעל ואורי ברק",dest:"רומא, איטליה",ap:{code:"FCO",city:"רומא"},pax:2,primary:"neta",shared:[],st:"בנסיעה",legs:[["2026-10-08","05:55","2026-10-08","09:10","LY381",1],["2026-10-15","10:30","2026-10-15","15:20","LY382",0]]},
+ {id:"HDR-2609-0031",cust:"דנה כהן",dest:"ברצלונה, ספרד",ap:{code:"BCN",city:"ברצלונה"},pax:3,primary:"ronit",shared:[sh("dan")],st:"פורסמה",legs:[["2026-10-22","08:25","2026-10-22","12:30","LY395",1],["2026-10-30","14:00","2026-10-30","19:35","LY396",0]]},
+ {id:"HDR-2609-0042",cust:"נועם שפירא",dest:"ניו יורק, ארה״ב",ap:{code:"JFK",city:"ניו יורק"},pax:1,primary:"dan",shared:[],st:"בנסיעה",legs:[["2026-10-12","00:45","2026-10-12","06:10","LY001",1],["2026-10-21","22:30","2026-10-22","16:05","LY002",0]]},
+ {id:"HDR-2609-0047",cust:"קבוצת מורים חולון",dest:"פראג, צ׳כיה",ap:{code:"PRG",city:"פראג"},pax:28,primary:"neta",shared:[sh("dan","2026-10-20","cover"),sh("maya",null,"info")],st:"פורסמה",legs:[["2026-10-13","07:15","2026-10-13","10:40","LY2521",1],["2026-10-18","12:00","2026-10-18","16:55","LY2522",0]]},
+ {id:"HDR-2610-0003",cust:"משפחת אברהם",dest:"בנגקוק, תאילנד",ap:{code:"BKK",city:"בנגקוק"},pax:5,primary:"dan",shared:[],st:"פורסמה",pending:{fn:"LY081",what:"שעת ההמראה",from:"23:30",to:"00:15 (15.10)"},legs:[["2026-10-14","23:30","2026-10-15","13:20","LY081",1],["2026-10-29","01:10","2026-10-29","07:05","LY082",0]]},
+ {id:"HDR-2610-0005",cust:"רונית גולן",dest:"לונדון, בריטניה",ap:{code:"LHR",city:"לונדון"},pax:1,primary:"maya",shared:[],st:"מוכנה לפרסום",legs:[["2026-10-15","16:20","2026-10-15","20:05","BA164",1],["2026-10-19","22:40","2026-10-20","05:30","BA165",0]]},
+ {id:"HDR-2610-0009",cust:"משפחת מזרחי",dest:"לרנקה, קפריסין",ap:{code:"LCA",city:"לרנקה"},pax:4,primary:"ronit",shared:[],st:"פורסמה",legs:[["2026-10-15","09:00","2026-10-15","10:05","CY1234",1],["2026-10-17","19:30","2026-10-17","20:35","CY1235",0]]},
+ {id:"HDR-2610-0011",cust:"אורי ותמר גל",dest:"טביליסי, גאורגיה",ap:{code:"TBS",city:"טביליסי"},pax:2,primary:"alon",shared:[sh("dan","2026-10-27","cover","2026-10-19","cov-alon")],st:"טיוטה",legs:[["2026-10-20","04:50","2026-10-20","09:15","A9692",1],["2026-10-26","10:10","2026-10-26","11:55","A9691",0]]},
+ {id:"HDR-2610-0016",cust:"דוד לוינסון",dest:"דובאי, איחוד האמירויות",ap:{code:"DXB",city:"דובאי"},pax:1,primary:"maya",shared:[],st:"פורסמה",legs:[["2026-10-25","13:45","2026-10-25","18:50","FZ1082",1],["2026-10-28","08:30","2026-10-28","10:10","FZ1081",0]]},
+ {id:"HDR-2610-0019",cust:"שירה ונדב אלמוג",dest:"אמסטרדם, הולנד",ap:{code:"AMS",city:"אמסטרדם"},pax:2,primary:"dan",shared:[],st:"ממתינה להשלמה",missing:"ביטוח נסיעות, נייד של שירה",legs:[["2026-10-27","06:00","2026-10-27","09:55","LY335",1],["2026-11-02","11:25","2026-11-02","17:00","LY336",0]]},
+ {id:"HDR-2609-0021",cust:"משפחת חדד",dest:"בודפשט, הונגריה",ap:{code:"BUD",city:"בודפשט"},pax:5,primary:"alon",shared:[],st:"הסתיימה",legs:[["2026-09-29","07:40","2026-09-29","10:30","LY2371",1],["2026-10-06","11:45","2026-10-06","14:50","LY2372",0]]},
+ {id:"HDR-2609-0023",cust:"מיכל אשכנזי",dest:"פריז, צרפת",ap:{code:"CDG",city:"פריז"},pax:1,primary:"dan",shared:[],st:"הסתיימה",legs:[["2026-10-01","15:10","2026-10-01","19:00","LY325",1],["2026-10-05","21:00","2026-10-06","02:35","LY326",0]]},
+];
+/* absence cover plans: one per absent agent and period; the shares they create carry source = plan id */
+let covers=[{id:"cov-alon",agent:"alon",from:"2026-10-19",to:"2026-10-27",by:"ronit",assign:[{trip:"HDR-2610-0011",u:"dan",mode:"cover"}]}];
+const events=[];
+trips.forEach(tr=>tr.legs.forEach(([dd,dt,ad,at,fn,isOut])=>{
+  const from=isOut?TLV:tr.ap,to=isOut?tr.ap:TLV;
+  const base={trip:tr,fn,from,to,leg:isOut?"הלוך":"חזור",depDate:dd,depTime:dt,arrDate:ad,arrTime:at};
+  events.push({...base,type:"dep",date:dd,time:dt,where:from});
+  events.push({...base,type:"land",date:ad,time:at,where:to});
+}));
+events.sort((a,b)=>(a.date+a.time).localeCompare(b.date+b.time));
+events.forEach((e,i)=>e.idx=i);
+const tripStart=t=>t.legs[0][0], tripEnd=t=>t.legs[t.legs.length-1][2];
+const isActiveTrip=t=>t.st!=="הסתיימה";
+
+/* ---------- access rules ---------- */
+const TODAY="2026-10-12";
+const S={me:"ronit",page:"calendar",trip:null,view:"month",filter:"all",scope:"agency",agent:"",cursor:"2026-10-01",sel:TODAY};
+const me=()=>USERS[S.me];
+const isManager=()=>me().role==="manager";
+const level=()=>isManager()?"manager":me().level;
+const isLive=s=>(!s.from||s.from<=TODAY)&&(!s.until||s.until>=TODAY);
+const notOver=s=>!s.until||s.until>=TODAY;
+const activeShare=(t,u)=>t.shared.find(s=>s.u===u&&isLive(s));
+const works=(t,u)=>t.primary===u||!!activeShare(t,u);
+const seesAll=()=>isManager()||level()!=="own";
+const canSee=t=>seesAll()||works(t,S.me);
+const canEdit=t=>isManager()||t.primary===S.me||(activeShare(t,S.me)||{}).mode==="cover"||level()==="all_edit";
+const canShare=t=>isManager()||t.primary===S.me;
+function inScope(t){
+  if(!canSee(t))return false;
+  if(isManager()){ if(S.scope==="mine")return works(t,S.me); return S.agent?works(t,S.agent):true; }
+  if(S.scope==="agency")return true;
+  if(S.scope==="primary")return t.primary===S.me;
+  if(S.scope==="shared")return !!activeShare(t,S.me);
+  return works(t,S.me);
+}
+try{const s=JSON.parse(localStorage.getItem("palami-agent-calendar")||"{}");if(s.view)S.view=s.view;if(s.filter)S.filter=s.filter;}catch(e){}
+if(S.view==="week")S.cursor=TODAY;
+const save=()=>{try{localStorage.setItem("palami-agent-calendar",JSON.stringify({view:S.view,filter:S.filter}))}catch(e){}};
+
+/* ---------- dates ---------- */
+const MONTHS=["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
+const DOW=["א׳","ב׳","ג׳","ד׳","ה׳","ו׳","ש׳"];
+const DOWL=["ראשון","שני","שלישי","רביעי","חמישי","שישי","שבת"];
+const P=s=>{const[y,m,d]=s.split("-").map(Number);return new Date(Date.UTC(y,m-1,d))};
+const F=d=>d.toISOString().slice(0,10);
+const add=(s,n)=>{const d=P(s);d.setUTCDate(d.getUTCDate()+n);return F(d)};
+const weekStart=s=>add(s,-P(s).getUTCDay());
+const dd=s=>P(s).getUTCDate();
+const dmy=s=>{const[y,m,d]=s.split("-");return `${d}.${m}.${y}`};
+const dm=s=>dmy(s).slice(0,5);
+const rng=(a,b)=>`<span class="ltr">${dmy(a)} – ${dmy(b)}</span>`;
+const dayLabel=s=>`יום ${DOWL[P(s).getUTCDay()]} · <span class="ltr">${dmy(s)}</span>`;
+function range(){
+  if(S.view==="month"){const d=P(S.cursor);
+    const first=F(new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1)));
+    const last=F(new Date(Date.UTC(d.getUTCFullYear(),d.getUTCMonth()+1,0)));
+    return {from:weekStart(first),to:add(weekStart(last),6),first,last};}
+  const ws=weekStart(S.cursor);return {from:ws,to:add(ws,6),first:ws,last:add(ws,6)};
+}
+const pass=e=>inScope(e.trip)&&(S.filter==="all"||S.filter===e.type);
+const evOn=day=>events.filter(e=>e.date===day&&pass(e));
+const names=ids=>ids.map(u=>USERS[u].name).join(", ");
+const shareWhen=s=>s.from&&s.from>TODAY?` ${dm(s.from)}–${s.until?dm(s.until):""} (מתוכנן)`:(s.until?` עד ${dm(s.until)}`:"");
+
+/* ---------- calendar items ---------- */
+const ICON={dep:"flight_takeoff",land:"flight_land"};
+const TYPE={dep:"המראה",land:"נחיתה"};
+const isPending=e=>e.trip.pending&&e.trip.pending.fn===e.fn;
+function tagOf(t){
+  if(t.primary===S.me)return {html:"",a:""};
+  const s=activeShare(t,S.me);
+  if(s)return {html:`<span class="tag" aria-hidden="true"><span class="ms">${s.mode==="cover"?"group":"visibility"}</span></span>`,a:`, ${MODE[s.mode]} מ${USERS[t.primary].name}`};
+  if(isManager()&&S.agent&&S.scope==="agency"&&t.primary===S.agent)return {html:"",a:""};
+  return {html:`<span class="tag" aria-hidden="true">${USERS[t.primary].ini}</span>`,a:`, סוכן ראשי ${USERS[t.primary].name}`};
+}
+function ev(e){
+  const t=e.trip,g=tagOf(t);
+  const state=t.st==="ממתינה להשלמה"?"incomplete":(UNPUB.includes(t.st)?"unpub":"");
+  const sa=state==="incomplete"?", ממתינה להשלמת פרטים":(state==="unpub"?`, עוד לא נשלחה לנוסעים (${t.st})`:"");
+  const pa=isPending(e)?", עדכון ממתין לאישור":"";
+  const a=`${TYPE[e.type]} ${e.time} שעון ${e.where.city}, ${t.cust}, ${t.dest}, ${t.id}${g.a}${sa}${pa}`;
+  return `<button class="ev ${e.type} ${state}" data-ev="${e.idx}" aria-label="${a}" title="${a}"><span class="l1"><span class="ms" aria-hidden="true">${ICON[e.type]}</span><span class="t">${e.time}</span><span class="who">${t.cust}</span>${isPending(e)?'<span class="flag" aria-hidden="true">!</span>':""}${g.html}</span><span class="l2"><span class="d">${t.dest.split(",")[0]}</span><span class="mono">${t.id}</span></span></button>`;
+}
+function monthCell(day,inMonth){
+  const list=evOn(day),MAX=3;
+  const cls=["cell",inMonth?"":"out",day===TODAY?"today":"",day<TODAY?"past":"",day===S.sel?"sel":""].join(" ");
+  let body=list.slice(0,MAX).map(ev).join("");
+  if(list.length>MAX)body+=`<button class="more" data-day="${day}">+${list.length-MAX} נוספים</button>`;
+  const dots=list.slice(0,4).map(e=>`<i style="background:var(--${e.type}-line)"></i>`).join("");
+  return `<div class="${cls}" data-cell="${day}"><span class="dnum">${dd(day)}</span>${body}<span class="dots" aria-hidden="true">${dots}</span></div>`;
+}
+function weekCell(day){
+  const list=evOn(day);
+  const cls=["cell",day===TODAY?"today":"",day<TODAY?"past":"",list.length?"":"none"].join(" ");
+  return `<div class="${cls}"><div class="dhead"><span class="dnum">${dd(day)}</span><span class="dname">${DOWL[P(day).getUTCDay()]}</span></div>${list.length?list.map(ev).join(""):'<div class="empty">אין טיסות</div>'}</div>`;
+}
+
+/* ---------- chrome ---------- */
+const NAV=[["dashboard","home","דשבורד"],["trips","luggage","נסיעות"],["calendar","calendar_month","יומן"],["attention","assignment_late","לטיפול"],["customers","group","לקוחות"],["settings","settings",""]];
+function renderChrome(){
+  document.querySelectorAll("[data-as]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.as===S.me));
+  document.getElementById("agencyLine").innerHTML=`<b>מסעות הדרים</b>${me().name} · ${roleLabel(me())}`;
+  document.getElementById("meBox").innerHTML=`<span class="nm-full">${me().name}<br><span class="role">${roleLabel(me())}</span></span><span class="avatar" title="${me().name}">${me().ini}</span>`;
+  const cur=S.page==="trip"?"trips":S.page;
+  const lab=id=>id==="settings"?(isManager()?"הגדרות":"ההגדרות שלי"):NAV.find(n=>n[0]===id)[2];
+  document.getElementById("sideNav").innerHTML=NAV.map(([id,ic])=>`<a href="#" data-nav="${id}" class="${cur===id?"on":""}" ${cur===id?'aria-current="page"':""}><span class="ms">${ic}</span>${lab(id)}${id==="calendar"?'<span class="new">חדש</span>':""}${id==="attention"?'<span class="count">7</span>':""}</a>`).join("");
+  document.getElementById("bottomNav").innerHTML=["dashboard","trips","calendar","attention","settings"].map(id=>{const n=NAV.find(x=>x[0]===id);return `<a href="#" data-nav="${id}" class="${cur===id?"on":""}"><span class="ms">${id==="settings"?"menu":n[1]}</span>${id==="settings"?"עוד":n[2]}</a>`;}).join("");
+}
+function render(){
+  renderChrome();
+  const pg=document.getElementById("page");
+  if(S.page==="trips")pg.innerHTML=pageTrips();
+  else if(S.page==="trip")pg.innerHTML=pageTrip();
+  else if(S.page==="settings")pg.innerHTML=isManager()?pageEmployees():pageMySettings();
+  else if(S.page==="dashboard"||S.page==="attention"||S.page==="customers")pg.innerHTML=`<div class="page-head"><h1>${NAV.find(n=>n[0]===S.page)[2]}</h1></div><div class="card"><p class="sub" style="margin:0">המסך הזה קיים במוצר ולא שייך לפרוטוטייפ. אפשר לעבור ל"יומן", ל"נסיעות" או ל"${isManager()?"הגדרות":"ההגדרות שלי"}".</p></div>`;
+  else pg.innerHTML=pageCalendar();
+  const sel=document.getElementById("agentSel");
+  if(sel)sel.onchange=()=>{S.agent=sel.value;render();};
+  save();
+}
+
+/* ---------- page: calendar ---------- */
+function scopeControls(){
+  if(isManager()){
+    const opts=Object.entries(USERS).filter(([,u])=>u.role==="agent").map(([k,u])=>`<option value="${k}" ${S.agent===k?"selected":""}>${u.name}</option>`).join("");
+    return `<div class="scope"><button class="btn" data-nav="settings"><span class="ms" aria-hidden="true">manage_accounts</span>הרשאות ומחליפים</button>
+      <div class="seg" role="group" aria-label="אילו נסיעות">
+        <button data-scope="agency" aria-pressed="${S.scope==="agency"}">כל הסוכנות</button>
+        <button data-scope="mine" aria-pressed="${S.scope==="mine"}">הנסיעות שלי</button></div>
+      ${S.scope==="agency"?`<label class="sub" for="agentSel">סוכן</label><select class="select" id="agentSel"><option value="">כל הסוכנים</option>${opts}</select>`:""}</div>`;
+  }
+  const cP=trips.filter(t=>t.primary===S.me).length, cS=trips.filter(t=>t.primary!==S.me&&activeShare(t,S.me)).length;
+  return `<div class="scope"><button class="btn" data-cover="${S.me}"><span class="ms" aria-hidden="true">beach_access</span>מחליפים בזמן היעדרות</button>
+    <div class="seg" role="group" aria-label="אילו נסיעות">
+      <button data-scope="all" aria-pressed="${S.scope==="all"}">כל הנסיעות שלי</button>
+      <button data-scope="primary" aria-pressed="${S.scope==="primary"}">באחריותי <span class="n">${cP}</span></button>
+      <button data-scope="shared" aria-pressed="${S.scope==="shared"}"><span class="ms" aria-hidden="true">group</span>משותפות איתי <span class="n">${cS}</span></button>
+      ${seesAll()?`<button data-scope="agency" aria-pressed="${S.scope==="agency"}">כל הסוכנות${level()==="all_view"?' <span class="n">צפייה</span>':""}</button>`:""}</div></div>`;
+}
+function subtitle(){
+  if(isManager()){
+    if(S.scope==="mine")return "ההמראות והנחיתות של הנסיעות שלך";
+    return S.agent?`ההמראות והנחיתות של הנסיעות של ${USERS[S.agent].name}`:"ההמראות והנחיתות של כל הנסיעות בסוכנות";
+  }
+  if(S.scope==="agency")return level()==="all_view"?"כל הנסיעות בסוכנות · בנסיעות של סוכנים אחרים יש לך צפייה בלבד":"כל הנסיעות בסוכנות";
+  return "ההמראות והנחיתות של הנסיעות שבאחריותך ושל נסיעות ששותפו איתך";
+}
+function pageCalendar(){
+  const r=range();
+  const visible=events.filter(e=>e.date>=r.first&&e.date<=r.last&&inScope(e.trip));
+  const n={all:visible.length,dep:visible.filter(e=>e.type==="dep").length,land:visible.filter(e=>e.type==="land").length};
+  const title=S.view==="month"?`${MONTHS[P(S.cursor).getUTCMonth()]} ${P(S.cursor).getUTCFullYear()}`:rng(r.from,r.to);
+  const period=S.view==="month"?"בחודש הזה":"בשבוע הזה";
+  let notice="";
+  if(n.all===0) notice=`<div class="notice" role="status"><span class="ms">flight</span>${S.scope==="shared"?"אין נסיעות ששותפו איתך כרגע.":`אין טיסות ${period}. טיסות מופיעות כאן אחרי שכרטיס טיסה נקלט בתיק נסיעה.`}</div>`;
+  else if(n[S.filter]===0) notice=`<div class="notice" role="status">אין ${S.filter==="dep"?"המראות":"נחיתות"} ${period}. <button class="linkbtn" data-f="all">הצגת הכל</button></div>`;
+  let grid=`<div class="grid ${S.view==="month"?"mo":"wk"}" role="grid" aria-label="${S.view==="month"?"חודש":"שבוע"}">${DOW.map(d=>`<div class="dow" role="columnheader">${d}</div>`).join("")}`;
+  for(let d=r.from;d<=r.to;d=add(d,1)) grid+=S.view==="month"?monthCell(d,d>=r.first&&d<=r.last):weekCell(d);
+  grid+=`</div>`;
+  if(S.view==="month"){const ag=evOn(S.sel);
+    grid+=`<div class="agenda"><h3>${dayLabel(S.sel)}</h3><div class="list-ag" style="display:flex;flex-direction:column;gap:6px">${ag.length?ag.map(ev).join(""):'<div class="sub">אין טיסות ביום הזה</div>'}</div></div>`;}
+  const showInitials=isManager()||S.scope==="agency";
+  const f=me().g==="f";
+  return `
+   <div class="page-head"><h1>יומן</h1><span class="sub">${subtitle()}</span><div class="spacer"></div>${scopeControls()}</div>
+   <section class="cal" aria-label="יומן טיסות">
+     <div class="cal-bar">
+       <button class="btn" data-act="today">היום</button>
+       <button class="icon-btn" data-act="prev" aria-label="${S.view==="month"?"החודש הקודם":"השבוע הקודם"}"><span class="ms">chevron_right</span></button>
+       <button class="icon-btn" data-act="next" aria-label="${S.view==="month"?"החודש הבא":"השבוע הבא"}"><span class="ms">chevron_left</span></button>
+       <h2 class="cal-title" aria-live="polite">${title}</h2>
+       <div class="spacer"></div>
+       <div class="seg" role="group" aria-label="סוג טיסה">
+         <button data-f="all" aria-pressed="${S.filter==="all"}">הכל <span class="n">${n.all}</span></button>
+         <button data-f="dep" aria-pressed="${S.filter==="dep"}"><span class="ms" aria-hidden="true">flight_takeoff</span>המראות <span class="n">${n.dep}</span></button>
+         <button data-f="land" aria-pressed="${S.filter==="land"}"><span class="ms" aria-hidden="true">flight_land</span>נחיתות <span class="n">${n.land}</span></button>
+       </div>
+       <div class="seg" role="group" aria-label="טווח">
+         <button data-v="month" aria-pressed="${S.view==="month"}">חודש</button>
+         <button data-v="week" aria-pressed="${S.view==="week"}">שבוע</button>
+       </div>
+     </div>
+     ${notice}${grid}
+     <div class="legend">
+       <span><i class="sw" style="background:var(--dep-line)"></i>המראה</span>
+       <span><i class="sw" style="background:var(--land-line)"></i>נחיתה</span>
+       <span><span class="flag">!</span>עדכון ממתין לאישור</span>
+       <span><i class="dash" style="outline:1.5px dashed var(--warn-fill);outline-offset:-1.5px"></i>ממתינה להשלמת פרטים</span>
+       <span><i class="dash" style="outline:1.5px dashed var(--wait-line);outline-offset:-1.5px"></i>עוד לא נשלחה לנוסעים</span>
+       ${showInitials?`<span><span class="tag">ד״כ</span>ראשי התיבות של הסוכן הראשי</span>`:""}
+       ${!isManager()?`<span><span class="tag"><span class="ms" style="font-size:13px">group</span></span>החלפה: ${f?"את מטפלת":"אתה מטפל"} בנסיעה לצד הסוכן הראשי</span><span><span class="tag"><span class="ms" style="font-size:13px">visibility</span></span>שיתוף מידע: צפייה בלבד</span>`:""}
+       <span><span class="ms" style="font-size:16px" aria-hidden="true">schedule</span>השעות לפי השעון המקומי של שדה התעופה</span>
+       <span class="sub">נתוני דוגמה</span></div>
+   </section>`;
+}
+
+/* ---------- page: trips list ---------- */
+function pageTrips(){
+  const list=trips.filter(t=>isManager()||seesAll()?canSee(t):works(t,S.me)).sort((a,b)=>tripStart(a).localeCompare(tripStart(b)));
+  const rows=list.map(t=>{const s=activeShare(t,S.me);
+    const tag=t.primary===S.me?"":(s?`<span class="tag" title="${MODE[s.mode]}"><span class="ms">${s.mode==="cover"?"group":"visibility"}</span></span>`:"");
+    return `<button class="row" data-open="${t.id}"><span class="mono">${t.id}</span><span class="cust">${t.cust}</span><span class="sub">${t.dest}</span><span class="sub">${rng(tripStart(t),tripEnd(t))}</span><span><span class="status ${PUBLISHED.includes(t.st)?"ok":""}">${t.st}</span>${canEdit(t)?"":' <span class="ro" style="margin:0"><span class="ms" style="font-size:13px">visibility</span>צפייה</span>'}</span><span class="inl"><span class="avatar" style="width:24px;height:24px;font-size:10px" title="סוכן ראשי: ${USERS[t.primary].name}">${USERS[t.primary].ini}</span>${tag}</span></button>`;}).join("");
+  return `<div class="page-head"><h1>נסיעות</h1><span class="sub">${isManager()||seesAll()?"כל הנסיעות בסוכנות":"הנסיעות שבאחריותך ונסיעות ששותפו איתך"}</span></div>
+    <div class="list" role="list"><div class="row h"><span>מזהה</span><span>לקוח</span><span>יעד</span><span>תאריכים</span><span>סטטוס</span><span>סוכן</span></div>${rows}</div>
+    <p class="sub" style="margin-top:10px">מסך הנסיעות הקיים במוצר, בקיצור. לחיצה על שורה פותחת את תיק הנסיעה.</p>`;
+}
+
+/* ---------- page: trip file ---------- */
+function shareChips(t){
+  const vis=t.shared.filter(notOver);
+  return vis.length?vis.map(s=>person(s.u,` <small>· ${s.mode==="cover"?coverWord(s.u):"מידע בלבד"}${shareWhen(s)}</small>`)).join(""):`<span class="quiet">הנסיעה לא שותפה עם סוכנים נוספים</span>`;
+}
+function myLine(t){
+  const s=activeShare(t,S.me); if(isManager()||t.primary===S.me||!s)return "";
+  const p=USERS[t.primary],f=me().g==="f",until=s.until?` עד ${dmy(s.until)}`:"";
+  return s.mode==="cover"
+    ?`<div class="mine cover"><span class="ms">sync_alt</span><span>${f?"את מחליפה":"אתה מחליף"} את ${p.name} בנסיעה הזו${until}. ההתראות וההודעות מהנוסעים מגיעות גם ${f?"אלייך":"אליך"}.</span></div>`
+    :`<div class="mine info"><span class="ms">visibility</span><span>${p.name} ${p.g==="f"?"שיתפה":"שיתף"} איתך את פרטי הנסיעה לצפייה${until}. אין לך אפשרות לערוך, ולא יגיעו ${f?"אלייך":"אליך"} התראות.</span></div>`;
+}
+function pageTrip(){
+  const t=trips.find(x=>x.id===S.trip);
+  if(!t||!canSee(t))return `<button class="backlink" data-nav="trips"><span class="ms">arrow_forward</span>כל הנסיעות</button><div class="card"><b>אין לך גישה לנסיעה הזו</b><p class="sub" style="margin:0">ייתכן שהשיתוף איתך הסתיים.</p><div><button class="btn" data-nav="trips">לרשימת הנסיעות</button></div></div>`;
+  const edit=canEdit(t),mine=!isManager()&&t.primary!==S.me&&activeShare(t,S.me);
+  const evs=events.filter(e=>e.trip===t);
+  return `<button class="backlink" data-nav="trips"><span class="ms">arrow_forward</span>כל הנסיעות</button>
+   <div class="tripcard">
+    <div class="trip-head"><h1>${t.cust}</h1><span class="status ${PUBLISHED.includes(t.st)?"ok":""}">${t.st}</span>${edit?"":'<span class="ro"><span class="ms" style="font-size:14px">visibility</span>צפייה בלבד</span>'}
+      <div class="spacer"></div>
+      ${edit?'<button class="btn"><span class="ms">upload_file</span>העלאת מסמכים</button>':""}
+      <div class="facts"><span class="mono">${t.id}</span><span>${t.dest}</span><span>${rng(tripStart(t),tripEnd(t))}</span><span>${t.pax} נוסעים</span></div></div>
+    <div class="who-strip" aria-label="מי מטפל בנסיעה"><span class="lbl">סוכן ראשי</span>${person(t.primary)}<span class="lbl">משותפת עם</span>${shareChips(t)}<span class="spacer"></span>
+      ${canShare(t)?`<button class="btn" data-share="${t.id}"><span class="ms" aria-hidden="true">person_add</span>שיתוף סוכן בנסיעה</button>`:""}
+      ${mine?`<button class="btn" data-leave="${t.id}"><span class="ms" aria-hidden="true">person_remove</span>הסרת השיתוף איתי</button>`:""}${myLine(t)}</div>
+    <div class="tabs" role="tablist"><span>סקירה</span><span>נוסעים</span><span>מסמכים</span><span class="on">לו״ז</span><span>היסטוריה</span></div>
+    <div class="trip-body">${evs.map(e=>`<div class="sched"><span class="ltr">${dmy(e.date)}</span><span class="t" style="font-weight:700">${e.time}</span><span class="inl"><span class="ms" style="color:var(--${e.type})">${ICON[e.type]}</span>${TYPE[e.type]} · <span class="mono">${e.fn}</span> · ${e.from.code} ← ${e.to.code}${isPending(e)?' <span class="flag">!</span>':""}</span></div>`).join("")}
+      <p class="sub" style="margin:6px 0 0">תיק הנסיעה הקיים במוצר (SCR-A04), בקיצור. החדש כאן: שורת "מי מטפל בנסיעה" עם הכפתור "שיתוף סוכן בנסיעה".</p></div>
+   </div>`;
+}
+
+/* ---------- page: settings ---------- */
+const planOf=u=>covers.find(c=>c.agent===u&&c.to>=TODAY);
+function planStatus(c){return c.from>TODAY?`<span class="pill plan">מתוכנן · ${rng(c.from,c.to)}</span>`:`<span class="pill act">פעיל עד ${dmy(c.to)}</span>`;}
+function planSummary(c){
+  const by={};c.assign.forEach(a=>{const k=a.u+"|"+a.mode;by[k]=(by[k]||0)+1;});
+  return Object.entries(by).map(([k,n])=>{const[u,m]=k.split("|");return `${USERS[u].name} (${MODE[m]}): ${n}`;}).join(" · ")||"אף נסיעה לא חולקה";
+}
+function pageEmployees(){
+  const rows=Object.entries(USERS).filter(([,u])=>u.role==="agent").map(([k,u])=>{const c=planOf(k);
+    return `<div class="row"><span class="inl"><span class="avatar">${u.ini}</span><b>${u.name}</b></span>
+      <span><select aria-label="הרשאת צפייה של ${u.name}" data-lv="${k}">${Object.entries(LEVELS).map(([v,l])=>`<option value="${v}" ${u.level===v?"selected":""}>${l}</option>`).join("")}</select></span>
+      <span>${c?`${planStatus(c)}<br><span class="quiet">${planSummary(c)}</span>`:'<span class="quiet">אין</span>'}</span>
+      <span><button class="btn" data-cover="${k}"><span class="ms">beach_access</span>${c?"עריכת מחליפים":"הגדרת מחליפים"}</button></span></div>`;}).join("");
+  return `<div class="page-head"><h1>הגדרות</h1><span class="sub">עובדים: הרשאות צפייה ומחליפים בזמן היעדרות</span></div>
+   <div class="list emp"><div class="row h"><span>סוכן</span><span>הרשאת צפייה</span><span>מחליפים בזמן היעדרות</span><span></span></div>${rows}</div>
+   <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn primary" data-permsave="1">שמירת הרשאות</button><span class="sub" style="align-self:center">בכל רמה הסוכן רואה גם נסיעות ששותפו איתו, ויכול לשתף נסיעות שבאחריותו.</span></div>`;
+}
+function pageMySettings(){
+  const c=planOf(S.me),f=me().g==="f";
+  const coverFor=covers.filter(x=>x.to>=TODAY&&x.assign.some(a=>a.u===S.me));
+  const mineCard=c?`${planStatus(c)}<div class="sub">${planSummary(c)}</div>${c.by!==S.me?`<div class="mine info"><span class="ms">admin_panel_settings</span><span>הוגדר על ידי ${USERS[c.by].name}. רק מנהל הסוכנות יכול לשנות או לבטל.</span></div><div><button class="btn" data-cover="${S.me}">פרטים</button></div>`:`<div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" data-cover="${S.me}">עריכה</button><button class="btn" data-endplan="${c.id}">${c.from>TODAY?"ביטול התוכנית":"סיום מוקדם"}</button></div>`}`
+    :`<p class="sub" style="margin:0">יוצא${f?"ת":""} לחופשה או להיעדרות? ${f?"בחרי":"בחר"} תקופה, ${f?"וחלקי":"וחלק"} את הנסיעות הפעילות שלך בין סוכנים אחרים. אפשר לתזמן מראש.</p><div><button class="btn primary" data-cover="${S.me}"><span class="ms">beach_access</span>הגדרת מחליפים</button></div>`;
+  const forCard=coverFor.length?coverFor.map(x=>`<div>${f?"את מחליפה":"אתה מחליף"} את <b>${USERS[x.agent].name}</b> ${x.from>TODAY?`מ-${dmy(x.from)} `:""}עד ${dmy(x.to)} ב-${x.assign.filter(a=>a.u===S.me).length} נסיעות</div>`).join(""):'<p class="sub" style="margin:0">אין כרגע.</p>';
+  return `<div class="page-head"><h1>ההגדרות שלי</h1></div>
+   <div class="cards"><div class="card"><h2><span class="ms">beach_access</span>מחליפים בזמן היעדרות</h2>${mineCard}</div>
+   <div class="card"><h2><span class="ms">sync_alt</span>${f?"אני מחליפה":"אני מחליף"} סוכנים אחרים</h2>${forCard}</div></div>`;
+}
+
+/* ---------- drawer ---------- */
+const dr=document.getElementById("drawer"),sc=document.getElementById("scrim");let lastFocus=null,current=null;
+function openDrawer(title,body,foot){if(dr.hidden)lastFocus=document.activeElement;document.getElementById("drTitle").innerHTML=title;document.getElementById("drBody").innerHTML=body;document.getElementById("drFoot").innerHTML=foot||"";dr.hidden=false;sc.hidden=false;document.getElementById("drClose").focus();}
+function closeDrawer(){dr.hidden=true;sc.hidden=true;current=null;if(lastFocus&&document.body.contains(lastFocus))lastFocus.focus();}
+const person=(u,extra="")=>`<span class="person"><span class="avatar">${USERS[u].ini}</span>${USERS[u].name}${extra}</span>`;
+function shareBox(t){
+  const line=myLine(t);
+  return `<div class="sharebox"><h3><span class="ms" style="font-size:18px">badge</span>מי מטפל בנסיעה</h3><div class="people">${person(t.primary)}<span class="quiet" style="align-self:center">סוכן ראשי</span></div><div class="quiet">משותפת עם</div><div class="people">${shareChips(t)}</div>${line}</div>`;
+}
+function showEvent(e){
+  current=e;
+  const t=e.trip,cross=e.depDate!==e.arrDate,edit=canEdit(t);
+  let alerts="";
+  if(isPending(e)) alerts+=`<div class="alert attn"><b><span class="ms" style="font-size:18px;color:var(--warn)">error</span>עדכון ממתין לאישור</b><div>${t.pending.what}: ${t.pending.from} ← ${t.pending.to}. היומן מציג את השעה המאושרת עד שהעדכון יאושר.</div>${edit?'<div class="row"><button class="btn">לאישור העדכון</button></div>':""}</div>`;
+  if(t.st==="ממתינה להשלמה") alerts+=`<div class="alert attn"><b><span class="ms" style="font-size:18px;color:var(--warn)">pending_actions</span>ממתינה להשלמת פרטים</b><div>יש כרטיס טיסה, והנסיעה עוד לא נשלחה לנוסעים. חסר: ${t.missing}.</div>${edit?'<div class="row"><button class="btn">להשלמת הפרטים</button></div>':""}</div>`;
+  else if(UNPUB.includes(t.st)) alerts+=`<div class="alert wait"><b><span class="ms" style="font-size:18px">schedule_send</span>עוד לא נשלחה לנוסעים</b><div>סטטוס: ${t.st}.</div></div>`;
+  openDrawer(`<span class="badge ${e.type}"><span class="ms" style="font-size:16px" aria-hidden="true">${ICON[e.type]}</span>${TYPE[e.type]} · ${e.leg}</span>`,
+   `<div class="who-big">${t.cust}${edit?"":'<span class="ro"><span class="ms" style="font-size:14px">visibility</span>צפייה בלבד</span>'}</div><div class="sub">${dayLabel(e.date)} · ${e.time} שעון ${e.where.city}</div>
+    ${alerts}
+    <div class="route" aria-label="מסלול"><div class="ap"><b>${e.from.code}</b><small>${e.from.city} · ${e.depTime}${cross?` · ${dm(e.depDate)}`:""}</small></div>
+      <div class="mid"><span class="mono">${e.fn}</span><hr></div>
+      <div class="ap"><b>${e.to.code}</b><small>${e.to.city} · ${e.arrTime}${cross?` · ${dm(e.arrDate)}`:""}</small></div></div>
+    <dl class="kv"><dt>מזהה נסיעה</dt><dd class="mono">${t.id}</dd><dt>יעד</dt><dd>${t.dest}</dd><dt>נוסעים</dt><dd>${t.pax}</dd><dt>טיסה</dt><dd class="mono">${e.fn}</dd>
+      <dt>סטטוס</dt><dd><span class="status ${PUBLISHED.includes(t.st)?"ok":""}">${t.st}</span></dd></dl>
+    ${shareBox(t)}`,
+   `<button class="btn primary" data-open="${t.id}">${edit?"פתיחת הנסיעה":"צפייה בנסיעה"}</button>${canShare(t)?`<button class="btn" data-share="${t.id}"><span class="ms" aria-hidden="true">person_add</span>שיתוף סוכן בנסיעה</button>`:""}${!isManager()&&t.primary!==S.me&&activeShare(t,S.me)?`<button class="btn" data-leave="${t.id}"><span class="ms" aria-hidden="true">person_remove</span>הסרת השיתוף איתי</button>`:""}`);
+}
+function showDay(day){
+  const list=evOn(day);let body="";
+  ["dep","land"].forEach(t=>{const g=list.filter(e=>e.type===t);if(!g.length)return;
+    body+=`<h4><span class="ms" style="font-size:16px;color:var(--${t})" aria-hidden="true">${ICON[t]}</span>${t==="dep"?"המראות":"נחיתות"} · ${g.length}</h4>`+g.map(ev).join("");});
+  openDrawer(dayLabel(day),`<div class="daylist">${body||"אין טיסות"}</div>`);
+}
+function showShare(t){
+  const rows=Object.entries(USERS).map(([k,u])=>{
+    if(k===t.primary) return `<div class="pick locked"><span class="avatar">${u.ini}</span><span class="nm">${u.name}<small>${roleLabel(u)}</small></span><span class="lock"><span class="ms" style="font-size:16px">lock</span>סוכן ראשי</span></div>`;
+    if(u.role==="manager") return `<div class="pick locked"><span class="avatar">${u.ini}</span><span class="nm">${u.name}<small>${roleLabel(u)}</small></span><span class="lock">רואה את כל הסוכנות</span></div>`;
+    const s=t.shared.find(x=>x.u===k&&notOver(x));
+    const fromPlan=s&&s.source!=="manual";
+    return `<label class="pick has-opts" for="sh-${k}"><input type="checkbox" id="sh-${k}" value="${k}" ${s?"checked":""} data-tog="${k}"><span class="avatar">${u.ini}</span><span class="nm">${u.name}<small>${roleLabel(u)}${u.level!=="own"?` · ${LEVELS[u.level]}`:""}${fromPlan?` · מתוך מחליפים בזמן היעדרות${shareWhen(s)}`:""}</small></span></label>
+      <div class="opts" id="op-${k}" ${s?"":"hidden"}>
+        <div class="modes" role="radiogroup" aria-label="סוג השיתוף עם ${u.name}">
+          <label class="mode"><input type="radio" name="md-${k}" value="cover" ${!s||s.mode==="cover"?"checked":""}><span class="ms" aria-hidden="true">sync_alt</span><span><b>החלפה</b><span>עבודה מלאה על הנסיעה, וקבלת ההתראות וההודעות מהנוסעים במקביל אליך. מתאים לחופשה או להיעדרות.</span></span></label>
+          <label class="mode"><input type="radio" name="md-${k}" value="info" ${s&&s.mode==="info"?"checked":""}><span class="ms" aria-hidden="true">visibility</span><span><b>שיתוף מידע</b><span>צפייה בפרטי הנסיעה בלבד, בלי עריכה ובלי התראות. מתאים להתייעצות או להכרת הנסיעה.</span></span></label>
+        </div>
+        <label>עד תאריך <input type="date" id="un-${k}" min="${TODAY}" value="${s&&s.until?s.until:""}"> <span class="quiet">(לא חובה, מומלץ בהחלפה)</span></label></div>`;
+  }).join("");
+  openDrawer("שיתוף הנסיעה עם סוכנים",
+   `<div style="font-weight:700">${t.cust} · <span class="mono">${t.id}</span></div>
+    <p class="sub" style="margin:6px 0 0">בחרו סוכן ואיך לשתף איתו את הנסיעה: <b>החלפה</b>, כשמישהו צריך לטפל בנסיעה במקומך או לצידך, או <b>שיתוף מידע</b>, כשמספיק שיראה את הפרטים. רק הסוכן הראשי ומנהלי הסוכנות יכולים לשתף ולבטל שיתוף.</p>
+    <div class="picker" role="group" aria-label="סוכני הסוכנות">${rows}</div>`,
+   `<button class="btn primary" data-save="${t.id}">שמירה</button><button class="btn" data-back="1">ביטול</button>`);
+  document.querySelectorAll("[data-tog]").forEach(c=>c.onchange=()=>{document.getElementById("op-"+c.dataset.tog).hidden=!c.checked;});
+}
+/* absence cover: a period, and each active trip assigned to a cover agent (or none) with a kind */
+function showCover(agent){
+  const c=planOf(agent),u=USERS[agent],self=agent===S.me;
+  const canManage=isManager()||(self&&(!c||c.by===S.me));
+  const list=trips.filter(t=>t.primary===agent&&isActiveTrip(t));
+  const others=Object.entries(USERS).filter(([k,x])=>x.role==="agent"&&k!==agent);
+  const title=self?"מחליפים בזמן היעדרות":`מחליפים בזמן היעדרות · ${u.name}`;
+  if(!canManage){
+    openDrawer(title,`${planStatus(c)}<div class="mine info" style="margin-top:10px"><span class="ms">admin_panel_settings</span><span>הוגדר על ידי ${USERS[c.by].name}. רק מנהל הסוכנות יכול לשנות או לבטל.</span></div>
+      <div class="assign">${c.assign.map(a=>{const t=trips.find(x=>x.id===a.trip);return `<div class="ar"><span class="t">${t.cust}<small class="mono">${t.id}</small></span><span>${USERS[a.u].name} · ${MODE[a.mode]}</span></div>`;}).join("")||'<div class="ar">אף נסיעה לא חולקה</div>'}</div>`,`<button class="btn" data-close="1">סגירה</button>`);
+    return;
+  }
+  const opt=(sel)=>`<option value="">ללא מחליף</option>`+others.map(([k,x])=>`<option value="${k}" ${sel===k?"selected":""}>${x.name}</option>`).join("");
+  const rowsHtml=list.map(t=>{const a=c&&c.assign.find(x=>x.trip===t.id);
+    return `<div class="ar"><span class="t">${t.cust}<small><span class="mono">${t.id}</span> · ${rng(tripStart(t),tripEnd(t))} · ${t.st}</small></span>
+      <span class="ctl"><select data-au="${t.id}" aria-label="מחליף ב${t.cust}">${opt(a?a.u:"")}</select>
+      <select data-am="${t.id}" aria-label="סוג השיתוף ב${t.cust}"><option value="cover" ${!a||a.mode==="cover"?"selected":""}>החלפה</option><option value="info" ${a&&a.mode==="info"?"selected":""}>שיתוף מידע</option></select></span></div>`;}).join("");
+  openDrawer(title,
+   `<p class="sub" style="margin:0">${self?"לפני חופשה או היעדרות: בוחרים תקופה, ומחלקים את הנסיעות הפעילות שלך בין סוכנים אחרים, כדי לא להעמיס על סוכן אחד. לכל נסיעה בוחרים מחליף וסוג: <b>החלפה</b> (עבודה מלאה והתראות במקביל אליך) או <b>שיתוף מידע</b> (צפייה בלבד).":`${u.name} ${u.g==="f"?"תקבל":"יקבל"} הודעה ויראה את ההגדרה ב"ההגדרות שלי", אבל רק מנהל הסוכנות יכול לשנות או לבטל אותה. המחליפים יקבלו הודעה.`} השיתוף נפתח בתאריך ההתחלה ומסתיים מעצמו בתאריך הסיום.</p>
+    <div class="dates" style="margin-top:12px"><div class="field" style="margin:0"><label for="cvFrom">מתאריך</label><input type="date" id="cvFrom" min="${TODAY}" value="${c?c.from:TODAY}"></div><div class="field" style="margin:0"><label for="cvTo">עד תאריך</label><input type="date" id="cvTo" min="${TODAY}" value="${c?c.to:"2026-10-26"}"></div></div>
+    <div class="quiet" id="cvErr" role="alert" style="color:var(--warn);min-height:0"></div>
+    ${list.length?`<div class="bulk"><span>לכל הנסיעות:</span><select id="bkU" aria-label="מחליף לכל הנסיעות">${opt("")}</select><select id="bkM" aria-label="סוג לכל הנסיעות"><option value="cover">החלפה</option><option value="info">שיתוף מידע</option></select><button class="btn" data-bulk="1" style="padding:3px 10px">החלה</button></div>
+    <div class="assign" role="group" aria-label="חלוקת הנסיעות">${rowsHtml}</div><div class="summary" id="cvSum"></div>
+    <p class="quiet" style="margin:8px 0 0">נסיעה חדשה שתיפתח בתקופה לא תעבור אוטומטית. אפשר לחזור לכאן ולהוסיף אותה.</p>`
+    :`<div class="alert wait"><b>אין נסיעות פעילות לחלק</b><div>${self?"אין לך":`ל${u.name} אין`} כרגע נסיעות פעילות.</div></div>`}`,
+   `${list.length?`<button class="btn primary" data-cvsave="${agent}">שמירה</button>`:""}${c?`<button class="btn" data-endplan="${c.id}">${c.from>TODAY?"ביטול התוכנית":"סיום מוקדם"}</button>`:""}<button class="btn" data-close="1">ביטול</button>`);
+  const sum=()=>{const el=document.getElementById("cvSum");if(!el)return;const by={};let none=0;
+    document.querySelectorAll("[data-au]").forEach(s=>{const m=document.querySelector(`[data-am="${s.dataset.au}"]`);m.disabled=!s.value;if(!s.value){none++;return;}const k=s.value+"|"+m.value;by[k]=(by[k]||0)+1;});
+    el.innerHTML=`<b>סיכום:</b> `+Object.entries(by).map(([k,n])=>{const[uu,mm]=k.split("|");return `${USERS[uu].name} (${MODE[mm]}): ${n}`;}).concat(none?[`בלי מחליף: ${none}`]:[]).join(" · ");};
+  document.querySelectorAll("[data-au],[data-am]").forEach(s=>s.onchange=sum);sum();
+}
+let toastTimer=null;
+function toast(msg,undo){
+  const el=document.getElementById("toast");
+  el.innerHTML=`<span>${msg}</span>${undo?'<button id="undoBtn">ביטול</button>':""}`;el.hidden=false;
+  if(undo)document.getElementById("undoBtn").onclick=()=>{undo();el.hidden=true;clearTimeout(toastTimer);render();};
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>{el.hidden=true},10000);
+}
+const snapshot=()=>({sh:trips.map(t=>t.shared.map(s=>({...s}))),cv:JSON.parse(JSON.stringify(covers))});
+const restore=s=>{trips.forEach((t,i)=>t.shared=s.sh[i]);covers=s.cv;};
+function removePlan(id){trips.forEach(t=>t.shared=t.shared.filter(s=>s.source!==id));covers=covers.filter(c=>c.id!==id);}
+
+/* ---------- wiring ---------- */
+document.addEventListener("click",x=>{
+  const b=x.target.closest("button,[data-cell],a");if(!b)return;
+  const d=b.dataset;
+  if(b.tagName==="A"){x.preventDefault();if(d.nav){S.page=d.nav;closeDrawer();render();}return;}
+  if(d.as){S.me=d.as;S.scope=isManager()?"agency":"all";S.agent="";if(S.page==="trip")S.page="trips";closeDrawer();return render();}
+  if(d.nav){S.page=d.nav;closeDrawer();return render();}
+  if(d.open){S.page="trip";S.trip=d.open;closeDrawer();return render();}
+  if(d.ev!==undefined)return showEvent(events[+d.ev]);
+  if(d.share)return showShare(trips.find(t=>t.id===d.share));
+  if(d.back)return current?showEvent(current):closeDrawer();
+  if(d.close)return closeDrawer();
+  if(d.save){
+    const t=trips.find(t=>t.id===d.save),snap=snapshot(),before=t.shared.filter(notOver).map(s=>s.u);
+    const keepPlan=t.shared.filter(s=>s.source!=="manual"&&notOver(s));
+    t.shared=[...document.querySelectorAll(".picker input[data-tog]:checked")].map(i=>{const old=keepPlan.find(s=>s.u===i.value);return sh(i.value,document.getElementById("un-"+i.value).value||null,document.querySelector(`input[name="md-${i.value}"]:checked`).value,old?old.from:null,old?old.source:"manual");});
+    const now=t.shared.map(s=>s.u),added=now.filter(u=>!before.includes(u)),removed=before.filter(u=>!now.includes(u));
+    closeDrawer();render();
+    const parts=[];if(added.length)parts.push(`שותפה עם ${added.map(u=>`${USERS[u].name} (${MODE[t.shared.find(s=>s.u===u).mode]})`).join(", ")}`);if(removed.length)parts.push(`השיתוף עם ${names(removed)} בוטל`);if(!parts.length)parts.push("הגדרות השיתוף עודכנו");
+    toast(`הנסיעה ${t.id}: ${parts.join(" · ")}`,()=>restore(snap));return;
+  }
+  if(d.leave){
+    const t=trips.find(t=>t.id===d.leave),snap=snapshot();
+    t.shared=t.shared.filter(s=>s.u!==S.me);closeDrawer();render();
+    toast(`הוסרת מהנסיעה ${t.id}. ${USERS[t.primary].name} ${USERS[t.primary].g==="f"?"קיבלה":"קיבל"} על זה הודעה.`,()=>restore(snap));return;
+  }
+  if(d.cover)return showCover(d.cover);
+  if(d.bulk){const u=document.getElementById("bkU").value,m=document.getElementById("bkM").value;
+    document.querySelectorAll("[data-au]").forEach(s=>{s.value=u;document.querySelector(`[data-am="${s.dataset.au}"]`).value=m;s.onchange();});return;}
+  if(d.cvsave){
+    const agent=d.cvsave,from=document.getElementById("cvFrom").value,to=document.getElementById("cvTo").value,err=document.getElementById("cvErr");
+    if(!from||!to||to<from){err.textContent="יש לבחור תאריך התחלה ותאריך סיום, והסיום לא יכול להיות לפני ההתחלה.";return;}
+    const assign=[...document.querySelectorAll("[data-au]")].filter(s=>s.value).map(s=>({trip:s.dataset.au,u:s.value,mode:document.querySelector(`[data-am="${s.dataset.au}"]`).value}));
+    if(!assign.length){err.textContent="יש לבחור מחליף לנסיעה אחת לפחות.";return;}
+    const snap=snapshot(),old=planOf(agent),id=old?old.id:"cov-"+agent+"-"+Date.now();
+    if(old)removePlan(old.id);
+    covers.push({id,agent,from,to,by:old?old.by:S.me,assign});
+    assign.forEach(a=>{const t=trips.find(x=>x.id===a.trip);t.shared=t.shared.filter(s=>s.u!==a.u).concat(sh(a.u,to,a.mode,from>TODAY?from:null,id));});
+    closeDrawer();render();
+    const who=[...new Set(assign.map(a=>a.u))];
+    toast(`${from>TODAY?"נקבעו":"הוגדרו"} מחליפים ${agent===S.me?"":`ל${USERS[agent].name} `}${rng(from,to)}: ${names(who)} ${who.length>1?"יקבלו":(USERS[who[0]].g==="f"?"תקבל":"יקבל")} הודעה${agent!==S.me?`, וגם ${USERS[agent].name}`:""}.`,()=>restore(snap));return;
+  }
+  if(d.endplan){const snap=snapshot(),c=covers.find(x=>x.id===d.endplan);removePlan(d.endplan);closeDrawer();render();
+    toast(c.from>TODAY?"התוכנית בוטלה":"ההחלפה הסתיימה. הנסיעות חזרו רק לסוכן הראשי.",()=>restore(snap));return;}
+  if(d.permsave){
+    const snap=Object.fromEntries(Object.entries(USERS).map(([k,u])=>[k,u.level]));
+    document.querySelectorAll("[data-lv]").forEach(s=>{USERS[s.dataset.lv].level=s.value;});
+    render();toast("הרשאות הצפייה עודכנו",()=>{Object.entries(snap).forEach(([k,v])=>{if(v)USERS[k].level=v;});});return;
+  }
+  if(d.f){S.filter=d.f;return render();}
+  if(d.scope){S.scope=d.scope;S.agent="";return render();}
+  if(d.v){S.view=d.v;S.cursor=d.v==="month"?S.sel.slice(0,8)+"01":S.sel;return render();}
+  if(d.act==="today"){S.sel=TODAY;S.cursor=S.view==="month"?TODAY.slice(0,8)+"01":TODAY;return render();}
+  if(d.act==="prev"||d.act==="next"){const s=d.act==="next"?1:-1;
+    if(S.view==="month"){const c=P(S.cursor);c.setUTCMonth(c.getUTCMonth()+s);S.cursor=F(c);}else S.cursor=add(S.cursor,7*s);return render();}
+  if(d.day)return showDay(d.day);
+  if(d.cell&&matchMedia("(max-width:860px)").matches){S.sel=d.cell;return render();}
+});
+document.getElementById("drClose").onclick=closeDrawer;sc.onclick=closeDrawer;
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!dr.hidden)closeDrawer();});
+render();
+</script>
+
+</body></html>
