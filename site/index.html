@@ -70,21 +70,66 @@ a{color:var(--g)}
 .get b{font:700 16px var(--f-d);color:var(--g);display:flex;gap:8px;align-items:center}
 .get b svg{width:20px;height:20px;fill:var(--cu6);flex:none}
 .get span{font-size:14.5px;color:var(--mu);line-height:1.45}
-.art{display:grid;gap:22px}
-.src{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-.sc{display:flex;gap:7px;align-items:center;justify-content:center;background:var(--wh);border:1px solid var(--ln);border-radius:12px;padding:10px 6px;font:600 14.5px var(--f-b);color:var(--mu);white-space:nowrap}
-.sc svg{width:18px;height:18px;fill:var(--cu6);flex:none}
-.stp{display:grid;gap:10px;align-content:start}
-.st{display:flex;align-items:center;gap:9px;font:700 16px var(--f-d);color:var(--g);white-space:nowrap}
-.st b{width:26px;height:26px;border-radius:50%;background:var(--g);color:var(--wh);display:grid;place-items:center;font:700 14px var(--f-d);flex:none}
-.res{display:flex;gap:18px;align-items:stretch}
-.res .grow{flex:1;min-width:0}
-.file{background:var(--wh);border:1px solid var(--ln);border-radius:20px;box-shadow:var(--sh3);padding:16px;display:grid;gap:8px}
-.fh{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:2px}
-.fh b{font:700 17px var(--f-d);color:var(--g)}
-.fh .ok{font:600 12.5px var(--f-b);background:var(--ok-s);color:var(--ok);border-radius:999px;padding:2px 10px;white-space:nowrap}
-.file .ti small{font:500 12.5px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
-.res .ph{width:168px;flex:none}
+.art{position:relative;height:500px}
+.hv{position:absolute;top:0;left:50%;width:480px;height:500px;transform:translateX(-50%) scale(var(--k,1));transform-origin:top center;--d:12s}
+.hv *{animation-duration:var(--d);animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+.hv-steps{position:absolute;top:0;right:0;left:0;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.hv-steps span{display:flex;align-items:center;justify-content:center;gap:7px;height:38px;border-radius:999px;background:var(--wh);border:1px solid var(--ln);font:700 14.5px var(--f-d);color:var(--mu)}
+.hv-steps b{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;background:var(--g05);color:var(--g)}
+.hv-steps .p1{animation-name:hvP1}.hv-steps .p2{animation-name:hvP2}.hv-steps .p3{animation-name:hvP3}
+@keyframes hvP1{0%,31%{background:var(--g);color:var(--wh);border-color:var(--g)}34%,100%{background:var(--wh);color:var(--mu);border-color:var(--ln)}}
+@keyframes hvP2{0%,32%,59%,100%{background:var(--wh);color:var(--mu);border-color:var(--ln)}35%,56%{background:var(--g);color:var(--wh);border-color:var(--g)}}
+@keyframes hvP3{0%,57%,97%,100%{background:var(--wh);color:var(--mu);border-color:var(--ln)}60%,94%{background:var(--g);color:var(--wh);border-color:var(--g)}}
+.hv-chip{position:absolute;top:56px;width:132px;display:grid;gap:1px;background:var(--wh);border:1px solid var(--ln);border-radius:12px;padding:7px 11px;box-shadow:0 8px 20px rgb(8 64 42 / .14);z-index:3}
+.hv-chip em{font:600 12.5px var(--f-b);font-style:normal;color:var(--cu6)}
+.hv-chip i{font:500 13px var(--f-m);font-style:normal;color:var(--mu);direction:ltr;text-align:right;white-space:nowrap}
+.hv-chip.c1{right:10px;animation-name:hvC1}.hv-chip.c2{right:175px;animation-name:hvC2}.hv-chip.c3{right:340px;animation-name:hvC3}
+@keyframes hvC1{0%{opacity:0;transform:none}4%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(-75px,0)}28%{opacity:1;transform:translate(-75px,178px) scale(.8)}32%,100%{opacity:0;transform:translate(-75px,178px) scale(.5)}}
+@keyframes hvC2{0%{opacity:0;transform:none}5%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(84px,6px)}28%{opacity:1;transform:translate(84px,184px) scale(.8)}32%,100%{opacity:0;transform:translate(84px,184px) scale(.5)}}
+@keyframes hvC3{0%{opacity:0;transform:none}6%,7%{opacity:1;transform:none}13%,16%{opacity:1;transform:translate(243px,12px)}28%{opacity:1;transform:translate(243px,190px) scale(.8)}32%,100%{opacity:0;transform:translate(243px,190px) scale(.5)}}
+.hv-cur{position:absolute;top:84px;right:66px;z-index:4;animation-name:hvCur}
+@keyframes hvCur{0%,11%{opacity:0;transform:translate(-30px,30px)}14%,16%{opacity:1;transform:none}28%{opacity:1;transform:translateY(178px)}32%,100%{opacity:0;transform:translateY(178px)}}
+.hv-ag{position:absolute;top:126px;right:0;width:290px;background:var(--wh);border:1px solid var(--ln);border-radius:16px;box-shadow:var(--sh3);padding:14px;display:grid;align-content:start;gap:8px}
+.hv-agh{display:grid;gap:1px}.hv-agh b{font:700 16px var(--f-d);color:var(--in)}.hv-agh small{font:500 12px var(--f-m);color:var(--mu);direction:ltr;text-align:right}
+.hv-tab{justify-self:start;font:600 13.5px var(--f-b);color:var(--g);border-bottom:2.5px solid var(--g);padding-bottom:3px}
+.hv-dz{position:relative;height:66px;border:2px dashed #A9C7B5;border-radius:12px;display:grid;place-items:center;font:600 14px var(--f-b);color:var(--g);animation-name:hvDz}
+.hv-dz span{grid-area:1/1}.hv-dz .t2{opacity:0;animation-name:hvDzT2}.hv-dz .t1{animation-name:hvDzT1}
+@keyframes hvDz{0%,15%,36%,100%{background:transparent;border-color:#A9C7B5}19%,30%{background:var(--g05);border-color:var(--g)}}
+@keyframes hvDzT1{0%,29%,38%,100%{opacity:1}31%,36%{opacity:0}}
+@keyframes hvDzT2{0%,29%,38%,100%{opacity:0}31%,36%{opacity:1}}
+.hv-lh{font:700 14px var(--f-d);color:var(--in);margin-top:4px}
+.hv-row{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--ln);border-radius:10px;padding:6px 10px;opacity:0}
+.hv-row span{display:grid;line-height:1.25}.hv-row b{font:600 13.5px var(--f-d);color:var(--in)}
+.hv-row i{font:500 11.5px var(--f-m);font-style:normal;color:var(--mu);direction:ltr;text-align:right;text-decoration:line-through;text-decoration-color:var(--cu)}
+.hv-row em{font:600 12px var(--f-b);font-style:normal;background:var(--ok-s);color:var(--ok);border-radius:999px;padding:2px 9px;white-space:nowrap}
+.hv-row.r1{animation-name:hvR1}.hv-row.r2{animation-name:hvR2}.hv-row.r3{animation-name:hvR3}
+@keyframes hvR1{0%,35%{opacity:0;transform:translateY(6px)}38%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+@keyframes hvR2{0%,40%{opacity:0;transform:translateY(6px)}43%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+@keyframes hvR3{0%,45%{opacity:0;transform:translateY(6px)}48%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+.hv-ph{position:absolute;top:118px;left:0;width:180px;height:372px;border:7px solid var(--g);border-radius:30px;background:#FBF8F2;box-shadow:var(--sh3);overflow:hidden;display:grid;align-content:start;gap:7px;padding-bottom:10px}
+.hv-phh{background:var(--g);color:var(--wh);font:700 13px var(--f-d);text-align:center;padding:9px 6px 8px}
+.hv-pt{display:grid;padding:2px 10px 4px}.hv-pt b{font:800 19px var(--f-d);color:var(--g)}.hv-pt small{font:600 12.5px var(--f-b);color:var(--mu)}
+.hv-wait{margin:6px 10px;border:1.5px dashed #A9C7B5;border-radius:12px;padding:10px;text-align:center;font:600 12.5px var(--f-b);color:var(--mu);animation-name:hvWait}
+@keyframes hvWait{0%,58%{opacity:1}61%,97%{opacity:0}100%{opacity:1}}
+.hv-ti{display:flex;align-items:center;gap:7px;margin:0 8px;background:var(--it);border-radius:12px;padding:7px 8px;opacity:0}
+.hv-ti svg{width:18px;height:18px;fill:var(--g);flex:none}.hv-ti span{flex:1;display:grid;line-height:1.2;min-width:0}
+.hv-ti b{font:600 13px var(--f-d);color:var(--in)}.hv-ti small{font-size:11px;color:var(--mu)}
+.hv-ti.t1{animation-name:hvT1}.hv-ti.t2{animation-name:hvT2}.hv-ti.t3{animation-name:hvT3}
+.hv-wait+.hv-ti{margin-top:-46px}
+@keyframes hvT1{0%,61%{opacity:0;transform:scale(.96)}64%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+@keyframes hvT2{0%,65%{opacity:0;transform:scale(.96)}68%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+@keyframes hvT3{0%,69%{opacity:0;transform:scale(.96)}72%,94%{opacity:1;transform:none}98%,100%{opacity:0}}
+.hv-pb{position:absolute;top:4px;right:6px;left:6px;display:flex;align-items:center;gap:6px;background:var(--wh);border-radius:12px;padding:7px 9px;font:600 12px var(--f-b);color:var(--in);box-shadow:0 8px 18px rgb(8 64 42 / .2);z-index:2;opacity:0;animation-name:hvPb}
+.hv-tabs{position:absolute;bottom:0;right:0;left:0;display:grid;grid-template-columns:repeat(4,1fr);background:var(--wh);border-top:1px solid var(--ln);padding:8px 2px 9px;font:600 10.5px var(--f-b);color:var(--mu);text-align:center}
+.hv-tabs .on{color:var(--g)}
+.hv-pb svg{width:16px;height:16px;fill:var(--cu6);flex:none}
+@keyframes hvPb{0%,58%{opacity:0;transform:translateY(-12px)}61%,80%{opacity:1;transform:none}84%,100%{opacity:0;transform:translateY(-12px)}}
+@media (prefers-reduced-motion:reduce){
+  .hv *{animation:none!important}
+  .hv-chip,.hv-cur,.hv-pb,.hv-wait,.hv-dz .t2{display:none}
+  .hv-row,.hv-ti{opacity:1}
+  .hv-wait+.hv-ti{margin-top:0}
+}
 .phone{border:7px solid var(--g);border-radius:34px;overflow:hidden;background:#FBF8F2;box-shadow:var(--sh3)}
 
 /* ping-pong */
@@ -101,6 +146,8 @@ a{color:var(--g)}
 .chat{display:grid;gap:10px}
 .bub{max-width:82%;background:#EFEDE7;border-radius:16px 16px 16px 4px;padding:9px 14px;font-size:16px;display:grid;gap:2px;justify-self:end}
 .bub small{font:500 12px var(--f-m);color:var(--mu)}
+.bub .who{font:700 12px var(--f-b);color:var(--cu6)}
+.bub.me .who{color:var(--g)}
 .bub.me{justify-self:start;background:var(--g05);border-radius:16px 16px 4px 16px}
 .ans{display:grid;gap:10px}
 .ans .row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;background:rgb(255 255 255 / .08);border-radius:14px;padding:12px 14px}
@@ -222,12 +269,6 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   .get b{grid-column:1 / -1}
   .hero .txt{display:contents}
   .hero .get{order:1}
-  .art{gap:10px}
-  .src{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .file{padding:12px}
-  .res{flex-direction:column}
-  .res .ph{width:auto}
-  .res .ph .phone{width:130px;border-width:5px;border-radius:22px;margin-inline:auto}
   .pp .grid,.steps,.ben .cols,.demo .box{grid-template-columns:1fr}
   .side{padding:20px}
   .steps{gap:12px}
@@ -301,7 +342,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
     <div class="txt">
       <span class="eyb">לסוכנויות נסיעות ולסוכנים עצמאיים</span>
       <h1>ראש שקט לסוכן.<br><span>נסיעה מסודרת לנוסע</span><span class="dot"></span></h1>
-      <p class="lead"><strong>PALAMI הופכת את מסמכי ההזמנה לאפליקציית נסיעה מסודרת לנוסע, אוטומטית.</strong> הסוכן גורר את האישורים מ־WhatsApp, מהמייל ומכל מקום, מערכת AI מתייקת והנוסע מקבל את כל הנסיעה בטלפון, במיתוג הסוכנות.</p>
+      <p class="lead"><strong>PALAMI הופכת את מסמכי ההזמנה לאפליקציית נסיעה מסודרת לנוסע, אוטומטית.</strong> הסוכן גורר את כל המסמכים מ־WhatsApp, מהמייל ומכל מקום, מערכת AI מתייקת והנוסע מקבל את כל הנסיעה בטלפון, במיתוג הסוכנות.</p>
       <div class="ctas"><a class="btn" href="#demo">בקשת הדגמה</a><a class="btn ghost" href="#how">איך זה עובד</a></div>
       <div class="get" aria-label="מה מקבלים">
         <div><b><svg aria-hidden="true"><use href="#i-doc"/></svg>כל המסמכים בתיק אחד</b><span>גוררים והמערכת מזהה, נותנת שם ומתייקת</span></div>
@@ -309,28 +350,32 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
         <div><b><svg aria-hidden="true"><use href="#i-bell"/></svg>התראות ותקשורת</b><span>תזכורות ועדכונים לנוסע ב־Push, WhatsApp, SMS או אימייל, בזמן שקבעתם</span></div>
       </div>
     </div>
-    <div class="art" aria-hidden="true">
-      <div class="stp"><span class="st"><b>1</b>הסוכן גורר את המסמכים לתיק</span>
-        <div class="src">
-          <span class="sc"><svg aria-hidden="true"><use href="#i-chat"/></svg>WhatsApp</span>
-          <span class="sc"><svg aria-hidden="true"><use href="#i-doc"/></svg>מייל</span>
-          <span class="sc"><svg aria-hidden="true"><use href="#i-phone"/></svg>צילום מסך</span>
-          <span class="sc"><svg aria-hidden="true"><use href="#i-team"/></svg>אצל הלקוח</span>
-        </div>
+    <div class="art" aria-hidden="true"><div class="hv">
+      <div class="hv-steps"><span class="p1"><b>1</b>גוררים מסמכים</span><span class="p2"><b>2</b>AI מסדר</span><span class="p3"><b>3</b>הנוסע מקבל</span></div>
+      <span class="hv-chip c1"><em>WhatsApp</em><i>Flight_LY395.pdf</i></span>
+      <span class="hv-chip c2"><em>מייל</em><i>Hotel voucher.pdf</i></span>
+      <span class="hv-chip c3"><em>צילום מסך</em><i>IMG_4471.jpg</i></span>
+      <svg class="hv-cur" viewBox="0 0 24 24" width="26" height="26"><path d="M5 3l14 8-6 1.6L10 19z" fill="#16241D" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      <div class="hv-ag">
+        <div class="hv-agh"><b>ברצלונה · משפחת כהן</b><small>HDR-2609-0031</small></div>
+        <div class="hv-tab">מסמכים והעלאה</div>
+        <div class="hv-dz"><span class="t1">גוררים לכאן את המסמכים</span><span class="t2">AI מזהה ומתייק…</span></div>
+        <div class="hv-lh">המסמכים בתיק</div>
+        <div class="hv-row r1"><span><b>טיסה הלוך · LY 395</b><i>Flight_LY395.pdf</i></span><em>✓ תויק</em></div>
+        <div class="hv-row r2"><span><b>מלון · 7 לילות</b><i>Hotel voucher.pdf</i></span><em>✓ תויק</em></div>
+        <div class="hv-row r3"><span><b>כדורגל · קאמפ נואו</b><i>IMG_4471.jpg</i></span><em>✓ תויק</em></div>
       </div>
-      <div class="res">
-        <div class="stp grow"><span class="st"><b>2</b>מערכת AI מסדרת אוטומטית</span>
-        <div class="file">
-          <div class="fh"><b>ברצלונה · משפחת כהן</b><span class="ok">✓ תויק אוטומטית</span></div>
-          <div class="ti"><svg aria-hidden="true"><use href="#i-plane"/></svg><span class="tt"><b>טיסה הלוך</b><small>LY 395 · 12.11.2026</small></span><span class="vk sm"></span></div>
-          <div class="ti"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span class="tt"><b>מלון · 7 לילות</b><small>12.11.2026 – 19.11.2026</small></span><span class="vk sm"></span></div>
-          <div class="ti"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span class="tt"><b>כדורגל · קאמפ נואו</b><small>14.11.2026 · 21:00</small></span><span class="vk sm"></span></div>
-          <div class="ti"><svg aria-hidden="true"><use href="#i-doc"/></svg><span class="tt"><b>ביטוח נסיעות</b><small>Securitas</small></span><span class="vk sm"></span></div>
-        </div>
-        </div>
-        <div class="stp ph"><span class="st"><b>3</b>הנוסע מקבל הכול</span>
-          <div class="phone"><img src="img/t-docs.webp" alt=""></div>
-        </div>
+      <div class="hv-ph">
+        <div class="hv-pb"><svg aria-hidden="true"><use href="#i-bell"/></svg>הנסיעה עודכנה באפליקציה</div>
+        <div class="hv-phh">מסעות הדרים</div>
+        <div class="hv-pt"><b>ברצלונה</b><small>12–19 בנובמבר</small></div>
+        <div class="hv-wait">המסמכים בדרך…</div>
+        <div class="hv-ti t1"><svg aria-hidden="true"><use href="#i-plane"/></svg><span><b>טיסה הלוך</b><small>12 בנוב׳ · 06:10</small></span><i class="vk sm"></i></div>
+        <div class="hv-ti t2"><svg aria-hidden="true"><use href="#i-hotel"/></svg><span><b>מלון</b><small>7 לילות</small></span><i class="vk sm"></i></div>
+        <div class="hv-ti t3"><svg aria-hidden="true"><use href="#i-ticket"/></svg><span><b>כדורגל</b><small>14 בנוב׳ · 21:00</small></span><i class="vk sm"></i></div>
+        <div class="hv-tabs"><span>בית</span><span>לו״ז</span><span class="on">מסמכים</span><span>מידע</span></div>
+      </div>
+    </div></div>
       </div>
     </div>
     </div>
@@ -338,17 +383,19 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
 
   <!-- PING-PONG -->
   <section class="sec pp" aria-labelledby="pp-h"><div class="in">
-    <div class="sec-h"><span class="eyb">בלי פינג־פונג</span><h2 id="pp-h">"איפה הכרטיס שלי?" כבר לא מגיע אליכם</h2><p>מרגע שההזמנה נסגרת, גוררים את האישורים לתיק. מאותו רגע הנוסע מוצא לבד את מה שהיה שואל עליו וההודעות אליכם נשארות לשאלות שבאמת צריכות סוכן.</p></div>
+    <div class="sec-h"><span class="eyb">בלי פינג־פונג</span><h2 id="pp-h">"איפה הכרטיס שלי?" כבר לא מגיע אליכם</h2><p>מרגע שההזמנה נסגרת, גוררים את כל המסמכים לתיק. מאותו רגע הנוסע מוצא לבד את מה שהיה שואל עליו וההודעות אליכם נשארות לשאלות שבאמת צריכות סוכן.</p></div>
     <div class="grid">
       <div class="side before">
         <span class="lbl">בלי PALAMI</span>
         <h3>מסמכים במיילים, שאלות ב־WhatsApp</h3>
         <div class="chat">
-          <div class="bub">איפה הכרטיס טיסה שלי? לא מוצאת את המייל<small class="ltr">23:41</small></div>
-          <div class="bub me">שולחת שוב 🙂<small class="ltr">07:02</small></div>
-          <div class="bub">מתי המשחק שהזמנו?<small class="ltr">07:15</small></div>
-          <div class="bub">מה הכתובת של המלון? הנהג שואל<small class="ltr">10:20</small></div>
-          <div class="bub">השעה של ההסעה השתנתה?<small class="ltr">12:34</small></div>
+          <div class="bub"><span class="who">נוסעת</span>איפה הכרטיס טיסה שלי? לא מוצאת את המייל<small class="ltr">23:41</small></div>
+          <div class="bub me"><span class="who">סוכנת</span>שולחת שוב 🙂<small class="ltr">07:02</small></div>
+          <div class="bub"><span class="who">נוסעת</span>מתי המשחק שהזמנו?<small class="ltr">07:15</small></div>
+          <div class="bub me"><span class="who">סוכנת</span>בשבת ב־21:00. הכרטיסים במייל מאתמול<small class="ltr">07:48</small></div>
+          <div class="bub"><span class="who">נוסעת</span>מה הכתובת של המלון? הנהג שואל<small class="ltr">10:20</small></div>
+          <div class="bub me"><span class="who">סוכנת</span>רגע, מחפשת…<small class="ltr">10:34</small></div>
+          <div class="bub"><span class="who">נוסעת</span>השעה של ההסעה השתנתה?<small class="ltr">12:34</small></div>
         </div>
       </div>
       <div class="side after">
@@ -356,7 +403,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
         <h3>הכול כבר אצל הנוסע, בטלפון</h3>
         <div class="ans">
           <div class="row"><span class="vk"></span><div><b>כרטיס הטיסה</b><span>ב"מסמכים חשובים", שמור בטלפון גם בלי אינטרנט</span></div></div>
-          <div class="row"><span class="vk"></span><div><b>המשחק</b><span>בלו״ז, ביום ובשעה, עם הכרטיסים מצורפים</span></div></div>
+          <div class="row"><span class="vk"></span><div><b>כרטיסים לאטרקציות</b><span>הופעות, משחקי ספורט, ציוד סקי ועוד. בלו״ז, ביום ובשעה, עם הכרטיסים מצורפים וניווט ישיר למקום</span></div></div>
           <div class="row"><span class="vk"></span><div><b>הכתובת של המלון</b><span>בשפה המקומית, להצגה לנהג, עם ניווט</span></div></div>
           <div class="row"><span class="vk"></span><div><b>השעה החדשה של ההסעה</b><span>עודכנה אחרי שהסוכן אישר, עם הודעה לנוסע</span></div></div>
         </div>
@@ -391,7 +438,7 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
       </div>
       <div class="col trav">
         <div class="ch"><span class="k">לנוסע</span><h3>חוויית נסיעה שקופצת מדרגה</h3></div>
-        <div class="bl" style="grid-template-columns:1fr"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך נגיש וזמין.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp, SMS או אימייל.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>צ'אט עם הסוכן</h4></summary><p>שואלים את הסוכן ישירות מהאפליקציה, בלי לחפש מספר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות וכתובת המלון לנהג.</p></details></div>
+        <div class="bl" style="grid-template-columns:1fr"><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-ticket"/></svg></span><h4>כל הכרטיסים במקום אחד</h4></summary><p>טיסות, מלון, הסעות ואטרקציות, כל מסמך נגיש וזמין. לכל כתובת יש ניווט בלחיצה.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-bell"/></svg></span><h4>תזכורות ועדכונים לטלפון</h4></summary><p>התראות Push, WhatsApp, SMS או אימייל.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-chat"/></svg></span><h4>צ'אט עם הסוכן</h4></summary><p>שואלים את הסוכן ישירות מהאפליקציה, בלי לחפש מספר.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-cloud"/></svg></span><h4>עובד גם בלי אינטרנט</h4></summary><p>הנסיעה נשמרת בטלפון לבד, כולל פוליסת הביטוח.</p></details><details class="bi" open><summary><span class="ic"><svg aria-hidden="true"><use href="#i-sos"/></svg></span><h4>חירום בלחיצה</h4></summary><p>מספרי חירום מקומיים, הביטוח, הקו של הסוכנות וכתובת המלון לנהג.</p></details></div>
       </div>
     </div>
     <div class="agbar"><img src="img/mascot-head.webp" alt=""><div><b>ראש פנוי לנסיעה הבאה</b><br><span>PALAMI זוכרת לתזמן, להזכיר ולעדכן. אתם מתפנים ללקוח הבא ולנסיעה הבאה והלקוח מרגיש שהסוכנות איתו לאורך כל הדרך.</span></div></div>
@@ -481,6 +528,10 @@ form.f{background:var(--wh);color:var(--in);border-radius:22px;padding:26px;disp
   render();
   if(window.matchMedia('(max-width:860px)').matches){ document.querySelectorAll('details.bi').forEach(function(d){ d.open=false; }); }
   document.querySelectorAll('details.bi summary').forEach(function(su){ su.addEventListener('click',function(e){ if(!window.matchMedia('(max-width:860px)').matches) e.preventDefault(); }); });
+
+  var art=document.querySelector('.hero .art');
+  function fitHv(){ var k=Math.min(1,art.clientWidth/480); art.style.setProperty('--k',k); art.style.height=(500*k)+'px'; }
+  window.addEventListener('resize',fitHv); fitHv();
 
   var navA=[].slice.call(document.querySelectorAll('.hdr nav a[href^="#"]'));
   function setCur(id){ navA.forEach(function(a){ if(a.getAttribute('href')==='#'+id) a.setAttribute('aria-current','true'); else a.removeAttribute('aria-current'); }); }
