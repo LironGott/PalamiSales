@@ -12,7 +12,7 @@
   --brand:#08402A; --brand-ink:#FFFFFF; --brand-soft:#E8F1EC; --brand-2:#1E6E47;
   --cream:#FBF3E3; --copper:#C37237; --copper-text:#A85C28;
   --ok:#33704F; --ok-fill:#5E9677; --ok-soft:#E6F0EA; --info:#1D5FA8; --info-soft:#E4EEF8; --warn:#8A5F00; --warn-soft:#FBF1D6;
-  --logo-ink:#08402A; --logo-dot:#C37237; --focus:#08402A;
+  --logo-ink:#08402A; --logo-dot:#C37237; --focus:#08402A; --show-full:block; --show-dark:none;
   --shadow:0 1px 2px rgb(21 26 23 / .06), 0 8px 28px rgb(8 64 42 / .08);
   --f-display:"Rubik","Assistant","Segoe UI",Arial,sans-serif;
   --f-body:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
@@ -24,14 +24,14 @@
   --brand:#74B590; --brand-ink:#021209; --brand-soft:#18291F; --brand-2:#8FC6A6;
   --cream:#1F2A21; --copper:#D4884A; --copper-text:#E5A570;
   --ok:#7FBF9A; --ok-fill:#5E9677; --ok-soft:#16271E; --info:#7FB2E8; --info-soft:#132235; --warn:#E6B54A; --warn-soft:#2E2610;
-  --logo-ink:#FFFFFF; --logo-dot:#D4884A; --focus:#74B590;
+  --logo-ink:#FFFFFF; --logo-dot:#D4884A; --focus:#74B590; --show-full:none; --show-dark:flex;
   --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 28px rgb(0 0 0 / .3); color-scheme:dark;}}
 :root[data-theme="dark"]{
   --bg:#101512; --paper:#151B17; --surface:#1B221E; --surface-2:#232B26; --ink:#E6EBE8; --muted:#9DA8A1; --line:#2E3832;
   --brand:#74B590; --brand-ink:#021209; --brand-soft:#18291F; --brand-2:#8FC6A6;
   --cream:#1F2A21; --copper:#D4884A; --copper-text:#E5A570;
   --ok:#7FBF9A; --ok-fill:#5E9677; --ok-soft:#16271E; --info:#7FB2E8; --info-soft:#132235; --warn:#E6B54A; --warn-soft:#2E2610;
-  --logo-ink:#FFFFFF; --logo-dot:#D4884A; --focus:#74B590;
+  --logo-ink:#FFFFFF; --logo-dot:#D4884A; --focus:#74B590; --show-full:none; --show-dark:flex;
   --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 28px rgb(0 0 0 / .3); color-scheme:dark;}
 
 *{box-sizing:border-box}
@@ -87,8 +87,11 @@ details.more summary{cursor:pointer;font-weight:700;min-height:32px;display:flex
 /* ---------- Proposal sheet ---------- */
 .sheet{grid-template-columns:minmax(0,1fr);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:clamp(22px,4vw,48px);display:grid;gap:30px;min-width:0}
 .s-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.logo-full{display:var(--show-full);width:300px;max-width:100%;height:auto}
+.logo-dark{display:var(--show-dark);align-items:center;gap:12px}
+.logo-dark .mascot{width:64px;height:auto}
 .logo svg{width:150px;height:auto;display:block}
-.logo p{margin:6px 0 0;font-size:14px;color:var(--muted)}
+.logo-dark p{margin:6px 0 0;font-size:14px;color:var(--muted)}
 .meta{display:grid;grid-template-columns:auto auto;gap:2px 14px;font-size:14px;color:var(--muted);text-align:start}
 .meta dt{font-weight:600}
 .meta dd{margin:0;color:var(--ink)}
@@ -165,7 +168,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
 @media (prefers-reduced-motion:no-preference){.big,.row b,.fact b{transition:color .2s}}
 @page{size:A4;margin:12mm}
 @media print{
-  :root{--bg:#fff;--paper:#fff}
+  :root{--bg:#fff;--paper:#fff;--show-full:block;--show-dark:none}
   body{padding:0;background:#fff}
   .panel,.client-bar{display:none!important}
   .app{display:block;max-width:none}
@@ -239,7 +242,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
   <main>
     <article class="sheet" id="sheet" aria-label="הצעת מחיר">
       <header class="s-head">
-        <div class="logo"><!--LOGO--><p>כל פרטי הנסיעה בכף ידך</p></div>
+        <div class="logo"><img class="logo-full" src="<!--LOGO_FULL-->" alt="PALAMI · כל פרטי הנסיעה בכף ידך" width="300" height="123"><div class="logo-dark"><img class="mascot" src="<!--MASCOT-->" alt="" width="64" height="70"><div><!--LOGO--><p>כל פרטי הנסיעה בכף ידך</p></div></div></div>
         <dl class="meta">
           <dt>הצעה מס׳</dt><dd><span class="ltr mono" id="o-id"></span></dd>
           <dt>תאריך</dt><dd><span class="ltr num" id="o-date"></span></dd>

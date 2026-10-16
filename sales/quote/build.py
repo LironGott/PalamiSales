@@ -4,7 +4,7 @@
   python3 sales/quote/build.py            -> sales/quote/offer/index.html (full HTML doc, upload to www.palami.io/offer/)
   python3 sales/quote/build.py --preview  -> also writes a fragment for the claude.ai artifact preview (path printed)
 
-Source: sales/quote/quote.src.html (the <!--LOGO--> placeholder gets the inline wordmark).
+Source: sales/quote/quote.src.html. Placeholders: <!--LOGO--> inline wordmark, <!--LOGO_FULL--> full logo with the beaver, <!--MASCOT--> (dark mode). Needs Pillow.
 """
 import pathlib, re, sys
 
@@ -15,7 +15,16 @@ src = (HERE / "quote.src.html").read_text(encoding="utf-8")
 logo = (ROOT / "brand/logo/svg/wordmark.svg").read_text(encoding="utf-8")
 logo = re.sub(r'\swidth="[^"]*"\s+height="[^"]*"', "", logo, count=1)
 logo = logo.replace('fill="#08402A"', 'style="fill:var(--logo-ink)"').replace('fill="#C37237"', 'style="fill:var(--logo-dot)"')
-page = src.replace("<!--LOGO-->", logo.strip())
+import base64, io
+from PIL import Image
+def data_uri(path, width):
+    im = Image.open(ROOT / path)
+    im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    buf = io.BytesIO(); im.save(buf, "WEBP", quality=88, method=6)
+    return "data:image/webp;base64," + base64.b64encode(buf.getvalue()).decode()
+page = (src.replace("<!--LOGO-->", logo.strip())
+           .replace("<!--LOGO_FULL-->", data_uri("brand/logo/png/logo-full.png", 600))
+           .replace("<!--MASCOT-->", data_uri("brand/mascot/mascot.png", 128)))
 
 head_end = page.index("</style>") + len("</style>")
 doc = ('<!doctype html>\n<html lang="he" dir="rtl" data-product="agent">\n<head>\n<meta charset="utf-8">\n'
