@@ -1,0 +1,454 @@
+<title>PALAMI Roadmap</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex,nofollow">
+<style>
+/* Layout: the original single-column planner (milestones, Gantt, two panels), kept as is; tokens add a dark theme. */
+:root{--ink:#183c32;--muted:#586c65;--bg:#f5f5ef;--surface:#fff;--line:#dce3dc;--line2:#eef1ed;--field:#bdc9c2;--btn:#becdc3;--grid:#e9eeea;--sel:#edf3ef;--product:#287059;--sales:#b77832;--learn:#547bb1;--warn:#9b342b;--ok:#287059;--focus:#759cc1;--link:#22664e;--today:#9b342b;--overlay:rgba(24,60,50,.35);--del:#fbeeea;--add:#e9f3ee}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#e3ece7;--muted:#a3b3ac;--bg:#131a17;--surface:#1b2420;--line:#2e3b35;--line2:#25302b;--field:#3e4d46;--btn:#3e4d46;--grid:#26312c;--sel:#24332d;--product:#3d8a70;--sales:#b77832;--learn:#5b84bd;--warn:#f08a7e;--ok:#7cc4a6;--focus:#8fb6db;--link:#7cc4a6;--today:#f08a7e;--overlay:rgba(0,0,0,.55);--del:#3a2622;--add:#1f3a2f;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#e3ece7;--muted:#a3b3ac;--bg:#131a17;--surface:#1b2420;--line:#2e3b35;--line2:#25302b;--field:#3e4d46;--btn:#3e4d46;--grid:#26312c;--sel:#24332d;--product:#3d8a70;--sales:#b77832;--learn:#5b84bd;--warn:#f08a7e;--ok:#7cc4a6;--focus:#8fb6db;--link:#7cc4a6;--today:#f08a7e;--overlay:rgba(0,0,0,.55);--del:#3a2622;--add:#1f3a2f;color-scheme:dark}
+[hidden]{display:none!important}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 Arial,sans-serif}
+.wrap{max-width:1480px;margin:auto;padding-block:24px;padding-left:max(32px,env(safe-area-inset-left,0px));padding-right:max(32px,env(safe-area-inset-right,0px))}
+header.wrap{display:flex;justify-content:space-between;align-items:center;gap:20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+h1{margin:3px 0;font-size:28px;text-wrap:balance}h2{font-size:21px;margin:0 0 12px}h3{font-size:17px;margin:0 0 8px}
+.brand{letter-spacing:3px;font-weight:bold}.sub,.muted{color:var(--muted);font-size:13px}
+.actions,.toolbar,.legend{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,select,input,textarea{font:inherit}
+button,select{border:1px solid var(--btn);border-radius:7px;background:var(--surface);color:var(--ink);padding:9px 12px;cursor:pointer;min-height:40px}
+button.primary,button[aria-pressed=true]{background:var(--ink);color:var(--bg)}
+button.danger{color:var(--warn);border-color:var(--warn)}
+button:disabled{opacity:.45;cursor:default}
+button:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible,.bar:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.milestones{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.mile{padding:16px 0;border-bottom:3px solid var(--product)}.mile strong{display:block;font-size:25px;font-variant-numeric:tabular-nums}.mile span{display:block}
+.toolbar{justify-content:space-between;margin-bottom:12px}
+.dot{width:10px;height:10px;display:inline-block;border-radius:50%;margin-inline-end:5px}
+.timeline{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;overflow:hidden}
+.axis,.row{display:grid;grid-template-columns:245px minmax(0,1fr);gap:16px}
+.axis{margin-bottom:9px}
+.ticks{position:relative;height:30px;direction:ltr;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tick{position:absolute;transform:translateX(50%);white-space:nowrap}
+.row{border-top:1px solid var(--line2);min-height:64px;align-items:center}
+.task-label{border:0;background:none;text-align:right;padding:8px 2px;border-radius:0;display:block;width:100%;color:var(--ink)}
+.task-label[aria-pressed=true]{background:var(--sel);color:var(--ink)}
+.task-label small{display:block;color:var(--muted);font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}
+.chip{font-size:11px;border:1px solid var(--line);border-radius:999px;padding:0 7px;color:var(--muted)}
+.chip.proposal{border-style:dashed}
+.track{height:45px;position:relative;direction:rtl;background:repeating-linear-gradient(to left,transparent 0,transparent calc(8.3333% - 1px),var(--grid) calc(8.3333% - 1px),var(--grid) 8.3333%)}
+.today{position:absolute;top:0;bottom:0;width:0;border-right:2px dashed var(--today);opacity:.7;pointer-events:none}
+.bar{position:absolute;top:6px;height:32px;min-width:10px;border:0;border-radius:5px;background:var(--c);color:#fff;padding:3px 7px;cursor:grab;touch-action:none;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;min-height:0}
+.bar[aria-pressed=true]{background:var(--c);color:#fff;outline:2px solid var(--ink);outline-offset:2px}
+.bar.locked,.ro .bar{cursor:default}
+.bar.pending{background-image:repeating-linear-gradient(45deg,transparent 0 6px,rgba(255,255,255,.22) 6px 12px)}
+.handle{position:absolute;left:0;top:0;bottom:0;width:14px;background:#ffffff30;cursor:ew-resize}
+.ro .handle{display:none}
+.bubble{position:fixed;z-index:30;background:var(--ink);color:var(--bg);font-size:13px;padding:5px 9px;border-radius:6px;pointer-events:none;white-space:nowrap;font-variant-numeric:tabular-nums;transform:translate(-50%,-100%)}
+.hint{margin:10px 0;color:var(--muted);font-size:13px}
+.below{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;margin-top:24px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;min-width:0}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:flex;flex-direction:column;gap:5px;font-size:13px}
+input,textarea,select{width:100%;padding:8px;border:1px solid var(--field);border-radius:5px;background:var(--surface);color:var(--ink)}
+textarea{min-height:76px;resize:vertical}
+.full{grid-column:1/-1}.check{flex-direction:row;align-items:center}.check input{width:auto}
+.agency{padding:14px 0;border-top:1px solid var(--line)}.agency p{margin:5px 0;font-size:14px}
+.agency details label,.texts-edit label{margin-top:8px}
+a{color:var(--link)}
+.status-line{min-height:24px;margin-top:10px;color:var(--muted)}
+details{margin-top:18px}summary{cursor:pointer;font-weight:bold}
+footer{margin:25px 0;color:var(--muted);font-size:13px}
+.release{display:flex;gap:10px;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-variant-numeric:tabular-nums}
+#warning{color:var(--warn)}#warning:empty{display:none}
+.notice{background:var(--sel);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:12px}
+.sync{display:inline-flex;align-items:center;gap:6px;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--surface)}
+.sync[data-s=ok]{color:var(--ok)}.sync[data-s=err],.sync[data-s=off]{color:var(--warn);border-color:var(--warn)}
+.who{display:flex;gap:6px;align-items:center;font-size:13px}.who input{width:150px;padding:6px 8px}
+.empty{padding:28px 16px;text-align:center;color:var(--muted)}
+.modal{position:fixed;inset:0;background:var(--overlay);z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
+.modal>div{background:var(--surface);color:var(--ink);border-radius:12px;padding:22px;max-width:760px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.modal h2{margin-bottom:8px}
+.hist{display:grid;gap:0}
+.hist-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.hist-row small{display:block;color:var(--muted);font-variant-numeric:tabular-nums}
+.diff{width:100%;border-collapse:collapse;font-size:13px}
+.diff th,.diff td{border-bottom:1px solid var(--line);padding:6px;text-align:right;vertical-align:top}
+.diff td{white-space:pre-wrap;word-break:break-word}
+.tablewrap{overflow-x:auto}
+.ins{background:var(--add)}.rem{background:var(--del)}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:50;background:var(--ink);color:var(--bg);padding:10px 14px;border-radius:9px;display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px)}
+.toast button{background:transparent;color:var(--bg);border-color:var(--bg);min-height:34px;padding:4px 10px}
+.ro .edit-only{display:none!important}
+@media(max-width:850px){.wrap{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:18px}.below{grid-template-columns:1fr}.milestones{grid-template-columns:1fr 1fr}.axis,.row{grid-template-columns:190px minmax(0,1fr)}}
+@media(max-width:560px){header.wrap{align-items:flex-start;flex-direction:column}.axis,.row{grid-template-columns:1fr;gap:0}.axis>span{display:none}.row{padding:7px 0}.task-label small{display:inline;margin-right:8px}.ticks{margin-top:7px}.timeline{padding:10px}.fields{grid-template-columns:1fr}.full{grid-column:auto}.bar{min-width:16px}.milestones{gap:10px}.mile strong{font-size:21px}.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.who input{width:120px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div dir="rtl" lang="he" id="app">
+<header class="wrap"><div><div class="brand">PALAMI / ROADMAP</div><h1 id="t-title">טוען את התוכנית…</h1><div class="sub" id="t-subtitle"></div></div>
+<div class="actions">
+ <span class="sync" id="sync" data-s="load" role="status" aria-live="polite">⏳ מתחבר…</span>
+ <label class="who edit-only">שם לתצוגה<input id="whoname" maxlength="40" placeholder="לא מאומת" autocomplete="nickname"></label>
+ <button id="add" class="edit-only" type="button">+ שלב חדש</button>
+ <button id="undo" class="edit-only" type="button" disabled>ביטול שינוי</button>
+ <button id="history" type="button">היסטוריה</button>
+ <button id="backup" type="button">ייצוא גיבוי</button>
+ <button id="load" class="edit-only" type="button">טעינת גיבוי</button>
+ <input id="file" type="file" accept="application/json,.json" hidden>
+</div></header>
+<main class="wrap">
+<div class="milestones"><div class="mile"><strong id="mvp-date">–</strong><span>MVP סוכן + נוסע</span><small>מועד שהוגדר על ידכם</small></div><div class="mile"><strong id="feed-date">–</strong><span>שבוע פידבק בשימוש אמיתי</span><small>סוכנת ונוסעים</small></div><div class="mile"><strong id="sales-date">–</strong><span>תחילת דמואים ומכירות</span><small>פנייה אישית לסוכנויות מתאימות</small></div><div class="mile"><strong id="version-date">–</strong><span>גרסה 1.1</span><small>יעד מומלץ, כפוף למוכנות</small></div></div>
+<div id="warning" role="alert"></div>
+<div class="toolbar"><div><h2>מוצר ומכירות באותו ציר זמן</h2><div class="legend"><span><i class="dot" style="background:var(--product)"></i>מוצר</span><span><i class="dot" style="background:var(--sales)"></i>מכירות</span><span><i class="dot" style="background:var(--learn)"></i>למידה</span><span class="muted">קו מקווקו: היום</span></div></div><label>טווח תכנון<select id="horizon"><option value="90">90 הימים הראשונים</option><option value="365">12 חודשים</option><option value="730">24 חודשים</option></select></label></div>
+<div class="timeline"><div class="axis"><span class="muted">שלב / תאריכים / משך</span><div class="ticks" id="ticks"></div></div><div id="rows"><div class="empty" id="empty">התוכנית נטענת מהמאגר המשותף…</div></div></div>
+<div class="hint edit-only">גררו פס להזזת שלב; גררו את הקצה השמאלי לשינוי סיום. לחיצה על שם שלב או על הפס פותחת עריכה מדויקת. חצים במקלדת: הזזה; Shift + חץ: שינוי סיום. שלבים נעולים משתנים רק לאחר פתיחת הנעילה. בנייד אפשר לשנות תאריכים בטופס.</div>
+<div class="status-line" id="status" aria-live="polite"></div>
+<div class="below"><section class="panel" id="editor"><h2 id="editor-title">עריכת השלב שנבחר</h2>
+<form id="editform"><fieldset id="efs" style="border:0;padding:0;margin:0;min-width:0"><div class="fields">
+<label class="full">שם השלב<input id="ename" required maxlength="100"></label>
+<label>תחילה<input type="date" id="estart" required min="2026-01-01" max="2032-12-31"></label>
+<label>סיום<input type="date" id="eend" required min="2026-01-01" max="2032-12-31"></label>
+<div class="full muted" id="eduration"></div>
+<label>מסלול<select id="etrack"><option>מוצר</option><option>מכירות</option><option>למידה</option></select></label>
+<label>גרסה<input id="eversion" maxlength="30"></label>
+<label>סטטוס<select id="estatus"><option value="proposal">הצעה, טרם עודכן</option><option value="planned">מתוכנן</option><option value="active">בביצוע</option><option value="done">הושלם</option><option value="at-risk">בסיכון</option><option value="postponed">נדחה</option></select></label>
+<label>אחוז התקדמות<input id="eprogress" type="number" min="0" max="100" step="5" placeholder="לא דווח"></label>
+<label>אחראי<input id="eassignee" maxlength="100" placeholder="טרם נקבע"></label>
+<label>אחריות מוצעת<input id="eowner" maxlength="100"></label>
+<label class="full">קהל יעד<input id="etarget" maxlength="400"></label>
+<label class="full">מה עושים<textarea id="escope" maxlength="2000"></textarea></label>
+<label class="full">תנאי מעבר<textarea id="egate" maxlength="2000"></textarea></label>
+<label class="check full"><input type="checkbox" id="elocked">נעילת תאריכים</label>
+</div></fieldset>
+<div class="actions edit-only" style="margin-top:16px"><button class="primary" type="submit">החלת שינוי</button><button type="button" id="dup">שכפול</button><button type="button" id="del" class="danger">מחיקה</button></div>
+<div class="notice" id="formnote" hidden></div>
+</form>
+<p class="muted">הזזה משנה רק את השלב שנבחר. שלבים מקבילים אינם זזים אוטומטית. בדקו תלות לפני שינוי. סטטוס ״הצעה״ ואחוז ריק פירושם שעוד לא דווחה התקדמות.</p>
+<p class="muted" id="emeta"></p></section>
+<section class="panel"><h2>למי פונים, ובאיזה שלב</h2><p class="muted" id="t-audienceIntro"></p><div id="agencies"></div>
+<button type="button" id="addagency" class="edit-only" style="margin-top:10px">+ סוכנות</button>
+<p class="muted" id="t-agencyNote"></p>
+<details><summary>תוכנית העבודה למכירות</summary><div id="t-salesPlan"></div></details>
+<details class="edit-only texts-edit"><summary>עריכת הטקסטים ותוכנית המכירות</summary><form id="textsform"></form></details>
+<details open><summary>מועדי גרסאות מוצעים</summary><p class="muted">המלצות מותנות, כפופות לתנאי המעבר של כל שלב.</p><div id="releases"></div></details></section></div>
+<footer>זהו מקור העבודה היחיד לתוכנית. כל השינויים נשמרים במאגר משותף ומתעדכנים אצל כל מי שקיבל גישה. <span id="t-planNote"></span></footer></main>
+<div id="bubble" class="bubble" hidden></div>
+<div id="modal" class="modal" hidden><div role="dialog" aria-modal="true" aria-labelledby="mtitle"><h2 id="mtitle"></h2><div id="mbody"></div><div class="actions" id="mactions" style="margin-top:16px"></div></div></div>
+<div id="toast" class="toast" hidden role="status"><span id="toastmsg"></span><button type="button" id="toastbtn" hidden></button></div>
+</div>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id);
+const ms=86400000,day=s=>Date.parse(s+'T00:00:00Z')/ms,iso=d=>new Date(d*ms).toISOString().slice(0,10);
+const START=day('2026-10-13'),fmt=s=>s?s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slice(2,4):'–',dur=t=>day(t.end)-day(t.start)+1,rng=(a,b)=>'\u2066'+fmt(a)+'–'+fmt(b)+'\u2069';
+const COLORS={'מוצר':'var(--product)','מכירות':'var(--sales)','למידה':'var(--learn)'};
+const STATUS={proposal:'הצעה',planned:'מתוכנן',active:'בביצוע',done:'הושלם','at-risk':'בסיכון',postponed:'נדחה'};
+const CORE=['mvp','feedback','sales1','v11'];
+const TASK_KEYS=['name','track','start','end','locked','version','scope','gate','target','owner','status','progress','assignee','order'];
+const AGENCY_KEYS=['name','wave','fit','check','url','order'];
+const TEXT_KEYS=['title','subtitle','audienceIntro','agencyNote','salesPlan','planNote'];
+const TEXT_LABELS={title:'כותרת',subtitle:'שורת משנה',audienceIntro:'למי פונים (פתיח)',agencyNote:'הערה על המועמדות',salesPlan:'תוכנית העבודה למכירות (שורה ריקה בין פסקאות)',planNote:'הערת תוכנית'};
+const KEYS={tasks:TASK_KEYS,agencies:AGENCY_KEYS,plan:TEXT_KEYS};
+const tabId=Math.random().toString(36).slice(2);
+const ls={get(k){try{return localStorage.getItem(k)}catch{return null}},set(k,v){try{localStorage.setItem(k,v)}catch{}}};
+
+// ---------- validation (ported from the original tool) ----------
+const isDate=s=>typeof s==='string'&&/^20\d\d-\d\d-\d\d$/.test(s)&&Number.isFinite(day(s))&&iso(day(s))===s&&s>='2026-01-01'&&s<='2032-12-31';
+function checkTask(t){if(!t.name||t.name.length>100)return'יש להזין שם שלב (עד 100 תווים).';for(const k of['scope','gate','owner','target','version','assignee'])if(typeof t[k]!=='string'||t[k].length>2500)return'שדה לא תקין: '+k;if(!COLORS[t.track])return'מסלול לא תקין.';if(!isDate(t.start)||!isDate(t.end))return'יש להזין תאריכים תקינים בין 2026 ל־2032.';if(day(t.end)<day(t.start))return'הסיום חייב להיות אחרי ההתחלה או באותו יום.';if(!STATUS[t.status])return'סטטוס לא תקין.';if(!(t.progress===null||(Number.isInteger(t.progress)&&t.progress>=0&&t.progress<=100)))return'אחוז התקדמות חייב להיות מספר שלם בין 0 ל־100, או ריק.';if(typeof t.locked!=='boolean')return'נעילה לא תקינה.';return null}
+function checkAgency(a){if(!a.name)return'יש להזין שם סוכנות.';for(const k of['name','wave','fit','check','url'])if(typeof a[k]!=='string'||a[k].length>2500)return'שדה לא תקין: '+k;if(!/^https:\/\/\S+$/.test(a.url))return'קישור המקור חייב להתחיל ב־https://';return null}
+const pick=(col,d)=>{const o={};for(const k of KEYS[col])o[k]=d?.[k];if(col==='tasks'){o.locked=!!o.locked;if(o.progress===undefined||o.progress==='')o.progress=null;o.status=o.status||'proposal';o.assignee=o.assignee??'';}for(const k in o)if(o[k]===undefined)o[k]='';return o};
+const same=(col,a,b)=>JSON.stringify(pick(col,a))===JSON.stringify(pick(col,b));
+
+// ---------- state ----------
+let db=null,user=null,canWrite=false,downloads=null;
+const server={tasks:new Map(),agencies:new Map(),plan:new Map()}; // id -> {..data, rev, deleted, updatedAt, updatedBy}
+const overlay=new Map(); // "col/id" -> optimistic data (or {deleted:true})
+let outbox=[],busy=false,offline=false,lastError='',loaded={tasks:false,agencies:false,plan:false};
+let historyRows=[],undoStack=[],selected='mvp',days=90,drag=null,formBase=null;
+const key=(c,i)=>c+'/'+i;
+function cur(col,id){const k=key(col,id);if(overlay.has(k))return overlay.get(k);return server[col].get(id)||null}
+function list(col){const ids=new Set([...server[col].keys()]);for(const k of overlay.keys())if(k.startsWith(col+'/'))ids.add(k.slice(col.length+1));return[...ids].map(id=>({id,...cur(col,id)})).filter(x=>x&&!x.deleted&&x.name!==undefined).sort((a,b)=>(a.order??0)-(b.order??0)||a.id.localeCompare(b.id))}
+const tasks=()=>list('tasks'),agencies=()=>list('agencies'),texts=()=>cur('plan','texts')||{};
+const task=id=>{const t=cur('tasks',id);return t&&!t.deleted?{id,...t}:null};
+const pendingFor=k=>outbox.some(o=>key(o.col,o.id)===k);
+const who=()=>($('whoname').value.trim()||'ללא שם').slice(0,40);
+
+// ---------- sync status ----------
+function sync(){const el=$('sync');let s,txt;
+ if(!db){s='err';txt='⚠ אין גישה למאגר'}
+ else if(!canWrite&&!outbox.length){s='ro';txt='👁 צפייה בלבד'}
+ else if(offline){s='off';txt='⚠ לא מחובר: '+outbox.length+' שינויים טרם נשמרו'}
+ else if(lastError){s='err';txt='⚠ שגיאת שמירה'}
+ else if(outbox.length){s='busy';txt='⏳ שומר… ('+outbox.length+')'}
+ else{s='ok';txt='✓ נשמר'}
+ el.dataset.s=s;el.textContent=txt;el.title=lastError||'';}
+window.addEventListener('beforeunload',e=>{if(outbox.length){e.preventDefault();e.returnValue='';}});
+window.addEventListener('online',()=>{offline=false;pump()});
+function status(s){$('status').textContent=s}
+let toastTimer;function toast(msg,btn,fn){$('toastmsg').textContent=msg;const b=$('toastbtn');b.hidden=!btn;if(btn){b.textContent=btn;b.onclick=()=>{$('toast').hidden=true;fn()}}$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,btn?8000:4000)}
+
+// ---------- write queue with per-record version check ----------
+// Each change carries the revision it was based on. Before writing, the page takes a
+// short lease on the record and re-reads it; if someone else changed it meanwhile,
+// nothing is written and a conflict dialog opens.
+function baseRevFor(col,id){const mine=[...outbox].reverse().find(o=>o.col===col&&o.id===id);if(mine)return mine.baseRev+1;return server[col].get(id)?.rev||0}
+function enqueue(col,id,data,{action,label,undoable=true,before}={}){
+ const prev=before!==undefined?before:(cur(col,id)&&!cur(col,id).deleted?pick(col,cur(col,id)):null);
+ const op={col,id,data,baseRev:baseRevFor(col,id),action,label,prev};
+ outbox.push(op);overlay.set(key(col,id),data.deleted?{...prev,deleted:true}:data);
+ if(undoable){undoStack.push({col,id,before:prev,after:data.deleted?null:pick(col,data),label});if(undoStack.length>50)undoStack.shift();}
+ $('undo').disabled=!undoStack.length;sync();render();pump();}
+const sleep=t=>new Promise(r=>setTimeout(r,t));
+async function pump(){if(busy||!db)return;busy=true;
+ while(outbox.length){const op=outbox[0];sync();
+  try{await writeOne(op);outbox.shift();lastError='';offline=false;
+   const k=key(op.col,op.id);if(!pendingFor(k))overlay.delete(k);
+   for(const o of outbox)if(o.col===op.col&&o.id===op.id&&o.baseRev===op.baseRev)o.baseRev=op.baseRev+1;}
+  catch(e){
+   if(e.conflict){busy=false;sync();return conflict(op,e.current)}
+   const code=e?.code;
+   if(code==='invalid_argument'){lastError='המאגר דחה את השינוי ('+(e.message||code)+'). ייתכן שאין הרשאת עריכה.';dropOp(op);canWrite=false;applyRole();continue}
+   if(code==='quota_exceeded'){lastError='המאגר מלא: '+(e.message||'');dropOp(op);continue}
+   offline=!navigator.onLine||code==='unavailable'||!code;lastError=offline?'':(e.message||String(code));sync();await sleep(4000);
+  }}
+ busy=false;sync();render();}
+function dropOp(op){outbox=outbox.filter(o=>o!==op);const k=key(op.col,op.id);if(!pendingFor(k))overlay.delete(k);sync();render();}
+async function writeOne(op){
+ const ref=db.collection(op.col).doc(op.id);
+ if(op.baseRev>0){for(let i=0;i<8;i++){let r;try{r=await ref.acquire({holder:tabId,ttlMs:8000})}catch(e){if(['capability_removed','capability_disabled'].includes(e?.code))break;throw e}if(r.acquired)break;await sleep(300+Math.random()*400)}}
+ const snap=await ref.get();const live=snap.exists?snap.data():null;const liveRev=live?.rev||0;
+ if(liveRev!==op.baseRev){const err=new Error('conflict');err.conflict=true;err.current=live;throw err}
+ const now=new Date().toISOString();
+ const body={...pick(op.col,op.data.deleted?(live||op.prev):op.data),deleted:!!op.data.deleted,rev:liveRev+1,updatedAt:now,updatedBy:who()};
+ await ref.set(body);
+ server[op.col].set(op.id,body);
+ const hid=now.replace(/[^0-9]/g,'')+'-'+tabId.slice(0,5)+Math.random().toString(36).slice(2,6);
+ const before=live&&!live.deleted?pick(op.col,live):null;
+ try{await db.collection('history').doc(hid).set({at:now,by:who(),action:op.action||'update',col:op.col,id:op.id,label:op.label||'',before,after:op.data.deleted?null:pick(op.col,op.data),rev:liveRev+1})}catch(e){console.warn('history',e)}
+}
+function conflict(op,live){
+ const mine=op.data.deleted?null:pick(op.col,op.data),theirs=live&&!live.deleted?pick(op.col,live):null;
+ const body=document.createElement('div');
+ const p=document.createElement('p');p.textContent=(live?.updatedBy?live.updatedBy+' (שם לא מאומת)':'שותף/ה')+' שינו את '+(op.label||'הרשומה')+' בזמן שערכת. השינוי שלך עוד לא נשמר. מה לעשות?';body.append(p);
+ body.append(diffTable(theirs,mine,'הגרסה השמורה','השינוי שלך',op.col));
+ modal('התנגשות בין שינויים',body,[['שמירת השינוי שלי',()=>{let r=live?.rev||0;for(const o of outbox)if(o.col===op.col&&o.id===op.id)o.baseRev=r++;closeModal();pump()},'primary'],['השארת הגרסה השמורה',()=>{outbox=outbox.filter(o=>!(o.col===op.col&&o.id===op.id));overlay.delete(key(op.col,op.id));if(live)server[op.col].set(op.id,live);closeModal();sync();render();pump()}]],true);
+}
+function diffTable(a,b,ha,hb,col){const wrap=document.createElement('div');wrap.className='tablewrap';const t=document.createElement('table');t.className='diff';
+ const head=t.insertRow();for(const h of['שדה',ha,hb]){const th=document.createElement('th');th.textContent=h;head.append(th)}
+ const names={name:'שם',track:'מסלול',start:'תחילה',end:'סיום',locked:'נעילה',version:'גרסה',scope:'מה עושים',gate:'תנאי מעבר',target:'קהל יעד',owner:'אחריות מוצעת',status:'סטטוס',progress:'התקדמות',assignee:'אחראי',order:'סדר',wave:'מועד ושלב',fit:'למה לפנות',check:'מה לברר',url:'קישור',...TEXT_LABELS};
+ let n=0;for(const k of KEYS[col]){const va=a?a[k]:undefined,vb=b?b[k]:undefined;if(JSON.stringify(va)===JSON.stringify(vb))continue;n++;const r=t.insertRow();const show=v=>v===undefined?'—':v===null?'—':typeof v==='boolean'?(v?'כן':'לא'):k==='status'?STATUS[v]||v:(k==='start'||k==='end')?fmt(v):String(v);r.insertCell().textContent=names[k]||k;const c1=r.insertCell();c1.textContent=show(va);c1.className='rem';const c2=r.insertCell();c2.textContent=show(vb);c2.className='ins';}
+ if(!a||!b){const r=t.insertRow();r.insertCell().textContent='קיום';r.insertCell().textContent=a?'קיים':'נמחק / לא קיים';r.insertCell().textContent=b?'קיים':'נמחק / לא קיים';}
+ else if(!n){const r=t.insertRow();const c=r.insertCell();c.colSpan=3;c.textContent='אין הבדל בתוכן.'}
+ wrap.append(t);return wrap}
+
+// ---------- modal ----------
+let modalLocked=false;
+function modal(title,body,buttons,locked=false){$('mtitle').textContent=title;$('mbody').replaceChildren(body);const a=$('mactions');a.replaceChildren();for(const[txt,fn,cls]of buttons){const b=document.createElement('button');b.type='button';b.textContent=txt;if(cls)b.className=cls;b.onclick=fn;a.append(b)}if(!locked){const c=document.createElement('button');c.type='button';c.textContent='סגירה';c.onclick=closeModal;a.append(c)}modalLocked=locked;$('modal').hidden=false;a.querySelector('button')?.focus()}
+function closeModal(){$('modal').hidden=true;modalLocked=false}
+$('modal').addEventListener('click',e=>{if(e.target===$('modal')&&!modalLocked)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('modal').hidden&&!modalLocked)closeModal()});
+
+// ---------- render ----------
+function applyRole(){$('app').classList.toggle('ro',!canWrite);$('efs').disabled=!canWrite;sync()}
+function milestone(){const m=task('mvp'),f=task('feedback'),s=task('sales1'),v=task('v11');
+ $('mvp-date').textContent=m?fmt(m.end):'–';$('feed-date').textContent=f?rng(f.start,f.end):'–';$('sales-date').textContent=s?fmt(s.start):'–';$('version-date').textContent=v?fmt(v.end):'–';
+ const w=[];if(m&&f&&day(f.start)<=day(m.end))w.push('⚠ שבוע הפידבק מתחיל לפני סיום ה־MVP.');if(f&&s&&day(s.start)<=day(f.end))w.push('⚠ המכירות מתחילות לפני סוף שבוע הפידבק.');$('warning').textContent=w.join(' ');}
+function renderTexts(){const t=texts();
+ $('t-title').textContent=t.title||(loaded.plan?'PALAMI Roadmap':'טוען את התוכנית…');$('t-subtitle').textContent=t.subtitle||'';
+ for(const k of['audienceIntro','agencyNote','planNote'])$('t-'+k).textContent=t[k]||'';
+ const sp=$('t-salesPlan');sp.replaceChildren();for(const para of String(t.salesPlan||'').split(/\n\s*\n/).filter(Boolean)){const p=document.createElement('p');p.textContent=para;sp.append(p)}
+ const f=$('textsform');if(!f.contains(document.activeElement)&&!f.dataset.dirty){f.replaceChildren();for(const k of TEXT_KEYS){const l=document.createElement('label');l.textContent=TEXT_LABELS[k];const el=document.createElement(['salesPlan','audienceIntro','agencyNote'].includes(k)?'textarea':'input');el.id='tx-'+k;el.maxLength=5000;el.value=t[k]||'';if(k==='salesPlan')el.rows=8;el.oninput=()=>f.dataset.dirty='1';l.append(el);f.append(l)}
+  const b=document.createElement('button');b.type='submit';b.className='primary';b.textContent='שמירת הטקסטים';b.style.marginTop='12px';f.append(b);}}
+$('textsform').onsubmit=e=>{e.preventDefault();if(!canWrite)return;const n={};for(const k of TEXT_KEYS)n[k]=$('tx-'+k).value.trim();delete $('textsform').dataset.dirty;if(same('plan',n,texts()))return status('אין שינוי בטקסטים.');enqueue('plan','texts',n,{action:'update',label:'טקסטים ותוכנית מכירות'});status('הטקסטים עודכנו.')};
+
+function render(){renderTexts();milestone();
+ const rows=$('rows'),ticks=$('ticks');ticks.replaceChildren();
+ const count=window.innerWidth<650?3:6;for(let i=0;i<=count;i++){const e=document.createElement('span');e.className='tick';e.style.right=(i/count*100)+'%';e.style.transform=i===0?'none':i===count?'translateX(100%)':'translateX(50%)';e.textContent=fmt(iso(START+Math.round(days*i/count)));ticks.append(e)}
+ const all=tasks();
+ if(!all.length){rows.replaceChildren();const e=document.createElement('div');e.className='empty';e.textContent=!db?'אין גישה למאגר המשותף. יש להתחבר ל־claude.ai עם החשבון שקיבל גישה לתוכנית.':(loaded.tasks?'התוכנית ריקה. אפשר לטעון גיבוי JSON או להוסיף שלב חדש.':'התוכנית נטענת מהמאגר המשותף…');rows.append(e)}
+ else{rows.replaceChildren();
+ const today=Math.floor(Date.now()/ms);
+ for(const t of all.filter(t=>day(t.start)<START+days&&day(t.end)>=START)){
+  const row=document.createElement('div');row.className='row';
+  const label=document.createElement('button');label.type='button';label.className='task-label';label.setAttribute('aria-pressed',String(t.id===selected));
+  const title=document.createElement('span');title.textContent=(t.locked?'🔒 ':'')+t.name;
+  const small=document.createElement('small');small.textContent=rng(t.start,t.end)+' · '+dur(t)+' ימים';
+  const chips=document.createElement('span');chips.className='chips';
+  const st=document.createElement('span');st.className='chip'+(t.status==='proposal'?' proposal':'');st.textContent=STATUS[t.status]||'הצעה';chips.append(st);
+  if(t.progress!==null&&t.progress!==undefined&&t.progress!==''){const c=document.createElement('span');c.className='chip';c.textContent=t.progress+'%';chips.append(c)}
+  if(t.assignee){const c=document.createElement('span');c.className='chip';c.textContent=t.assignee;chips.append(c)}
+  if(pendingFor(key('tasks',t.id))){const c=document.createElement('span');c.className='chip';c.textContent='⏳ טרם נשמר';chips.append(c)}
+  label.append(title,small,chips);label.onclick=()=>{select(t.id)};
+  const track=document.createElement('div');track.className='track';
+  if(today>=START&&today<START+days){const td=document.createElement('i');td.className='today';td.style.right=((today-START+.5)/days*100)+'%';track.append(td)}
+  const bar=document.createElement('button');bar.type='button';bar.className='bar'+(t.locked?' locked':'')+(pendingFor(key('tasks',t.id))?' pending':'');bar.dataset.id=t.id;bar.style.setProperty('--c',COLORS[t.track]);
+  bar.setAttribute('aria-label',t.name+' '+small.textContent);bar.setAttribute('aria-pressed',String(t.id===selected));place(bar,t);
+  const length=Math.min(day(t.end)+1,START+days)-Math.max(day(t.start),START);bar.textContent=length/days>.08?(t.version||t.track):'';
+  if(!t.locked){const h=document.createElement('span');h.className='handle';h.setAttribute('aria-hidden','true');bar.append(h)}
+  bar.onpointerdown=e=>begin(e,t,bar,track);
+  bar.onkeydown=e=>{if(!canWrite||t.locked||!['ArrowLeft','ArrowRight'].includes(e.key))return;e.preventDefault();const amount=(e.key==='ArrowLeft'?1:-1)*(days>90?7:1);const n=pick('tasks',t);if(e.shiftKey)n.end=iso(Math.max(day(t.start),day(t.end)+amount));else{n.start=iso(day(t.start)+amount);n.end=iso(day(t.end)+amount)}if(checkTask(n))return;selected=t.id;enqueue('tasks',t.id,n,{action:'move',label:t.name});status(t.name+': '+rng(n.start,n.end)+' · '+dur(n)+' ימים');requestAnimationFrame(()=>document.querySelector('.bar[data-id="'+t.id+'"]')?.focus())};
+  track.append(bar);row.append(label,track);rows.append(row);}}
+ const rel=$('releases');rel.replaceChildren();for(const t of all.filter(x=>x.version)){const r=document.createElement('div');r.className='release';const a=document.createElement('span'),b=document.createElement('strong');a.textContent=t.version;b.textContent=fmt(t.end);r.append(a,b);rel.append(r)}
+ renderAgencies();editor();}
+function place(bar,t){const a=Math.max(START,day(t.start)),b=Math.min(START+days,day(t.end)+1);bar.style.right=((a-START)/days*100)+'%';bar.style.width=(Math.max(0,b-a)/days*100)+'%'}
+function select(id){selected=id;formBase=null;render();if(window.innerWidth<850)$('editor').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'})}
+
+// ---------- drag ----------
+function begin(e,t,bar,track){
+ if(!canWrite||t.locked){if(selected!==t.id)select(t.id);if(canWrite&&t.locked)status('שלב נעול. אפשר לפתוח את הנעילה בטופס.');return}
+ if(e.button!==0)return;e.preventDefault();bar.setPointerCapture(e.pointerId);
+ drag={id:t.id,x:e.clientX,width:track.clientWidth,start:t.start,end:t.end,resize:e.target.classList.contains('handle'),moved:false};
+ const bubble=$('bubble');
+ bar.onpointermove=ev=>{if(!drag)return;const snap=days>90?7:1;const delta=Math.round((drag.x-ev.clientX)/drag.width*days/snap)*snap;const n=pick('tasks',t);
+  if(drag.resize)n.end=iso(Math.max(day(drag.start),day(drag.end)+delta));else{n.start=iso(day(drag.start)+delta);n.end=iso(day(drag.end)+delta)}
+  if(n.start<'2026-01-01'||n.end>'2032-12-31')return;drag.next=n;drag.moved=delta!==0;place(bar,n);
+  const msg=rng(n.start,n.end)+' · '+dur(n)+' ימים';bubble.textContent=msg;bubble.hidden=false;const r=bar.getBoundingClientRect();bubble.style.left=Math.min(Math.max(ev.clientX,90),window.innerWidth-90)+'px';bubble.style.top=(r.top-8)+'px';status(n.name+': '+msg)};
+ const end=commit=>{bubble.hidden=true;const d=drag;drag=null;if(commit&&d?.moved&&d.next){selected=t.id;formBase=null;enqueue('tasks',t.id,d.next,{action:d.resize?'resize':'move',label:t.name})}else if(!d?.moved){select(t.id)}else render()};
+ bar.onpointerup=()=>end(true);bar.onpointercancel=()=>end(false);}
+
+// ---------- editor form ----------
+const F=['name','start','end','track','version','target','scope','gate','owner','assignee','status'];
+let formDirty=false;
+function editor(){let t=task(selected);if(!t){const all=tasks();if(!all.length){$('editform').hidden=true;return}selected=all[0].id;t=all[0]}$('editform').hidden=false;
+ const fresh=!formBase||formBase.id!==t.id;
+ if(!fresh&&formDirty){if((server.tasks.get(t.id)?.rev||0)!==formBase.rev&&!pendingFor(key('tasks',t.id))){$('formnote').hidden=false;$('formnote').textContent='השלב עודכן אצל שותף מאז שהתחלת לערוך. השינויים שלך עדיין בטופס; בשמירה תוצג השוואה.'}return}
+ formBase={id:t.id,rev:baseRevFor('tasks',t.id)};formDirty=false;$('formnote').hidden=true;
+ for(const k of F)$('e'+k).value=t[k]??'';$('eprogress').value=t.progress===null||t.progress===undefined?'':t.progress;$('elocked').checked=!!t.locked;lockDates();
+ $('editor-title').textContent=canWrite?'עריכת השלב שנבחר':'פרטי השלב שנבחר';
+ $('del').disabled=CORE.includes(t.id);$('del').title=CORE.includes(t.id)?'שלב מרכזי של התוכנית (אבן דרך); אפשר לשנות אותו אך לא למחוק':'';
+ const s=server.tasks.get(t.id);$('emeta').textContent=s?.updatedAt?'עודכן לאחרונה '+new Date(s.updatedAt).toLocaleString('he-IL')+' · '+(s.updatedBy||'ללא שם')+' (שם לא מאומת)':'';durText();}
+function lockDates(){$('estart').disabled=$('elocked').checked;$('eend').disabled=$('elocked').checked}
+function durText(){const s=$('estart').value,e=$('eend').value;$('eduration').textContent=isDate(s)&&isDate(e)&&e>=s?'משך: '+(day(e)-day(s)+1)+' ימים ('+rng(s,e)+')':''}
+$('editform').addEventListener('input',()=>{formDirty=true;durText()});
+$('elocked').onchange=()=>{formDirty=true;lockDates()};
+function formData(){const t=task(selected),n=pick('tasks',t);for(const k of F)n[k]=$('e'+k).value.trim();const p=$('eprogress').value.trim();n.progress=p===''?null:Number(p);n.locked=$('elocked').checked;return n}
+$('editform').onsubmit=e=>{e.preventDefault();if(!canWrite)return;const t=task(selected);if(!t)return;const n=formData();
+ const err=checkTask(n);if(err)return status(err);
+ if(t.locked&&n.locked&&(n.start!==t.start||n.end!==t.end))return status('שלב נעול: יש לפתוח את הנעילה כדי לשנות תאריכים.');
+ const base=formBase?.rev;formDirty=false;formBase=null;
+ if(same('tasks',n,t)){status('אין שינוי לשמור.');return render()}
+ const live=baseRevFor('tasks',t.id);
+ if(base!==undefined&&base!==live){// someone changed it while the form was open: show the conflict instead of overwriting
+  const op={col:'tasks',id:t.id,data:n,baseRev:base,label:t.name,prev:pick('tasks',t)};return conflictForm(op,t)}
+ enqueue('tasks',t.id,n,{action:'update',label:n.name});status('השינוי הוחל: '+n.name)};
+function conflictForm(op,live){const body=document.createElement('div');const p=document.createElement('p');p.textContent='השלב "'+live.name+'" עודכן אצל '+((server.tasks.get(op.id)?.updatedBy)||'שותף/ה')+' (שם לא מאומת) בזמן שערכת. מה לעשות?';body.append(p,diffTable(pick('tasks',live),op.data,'הגרסה השמורה','השינוי שלך','tasks'));
+ modal('התנגשות בין שינויים',body,[['שמירת השינוי שלי',()=>{closeModal();enqueue('tasks',op.id,op.data,{action:'update',label:op.data.name})},'primary'],['השארת הגרסה השמורה',()=>{closeModal();render()}]],true)}
+function newId(){return't'+Date.now().toString(36)+Math.random().toString(36).slice(2,5)}
+$('add').onclick=()=>{const all=tasks();const s=iso(Math.max(START,Math.floor(Date.now()/ms)));const n=pick('tasks',{name:'שלב חדש',track:'מוצר',start:s,end:iso(day(s)+13),locked:false,version:'',scope:'',gate:'',target:'',owner:'',status:'proposal',progress:null,assignee:'',order:(all.at(-1)?.order||0)+10});const id=newId();selected=id;formBase=null;enqueue('tasks',id,n,{action:'create',label:n.name});status('נוסף שלב חדש. אפשר לערוך את פרטיו בטופס.');$('ename').focus();$('ename').select()};
+$('dup').onclick=()=>{const t=task(selected);if(!t)return;const all=tasks();const i=all.findIndex(x=>x.id===t.id);const nextOrder=all[i+1]?.order;const n={...pick('tasks',t),name:(t.name+' (עותק)').slice(0,100),locked:false,order:nextOrder!==undefined?(t.order+nextOrder)/2:t.order+10};const id=newId();selected=id;formBase=null;enqueue('tasks',id,n,{action:'create',label:n.name});status('השלב שוכפל.')};
+$('del').onclick=()=>{const t=task(selected);if(!t||CORE.includes(t.id))return;formBase=null;enqueue('tasks',t.id,{deleted:true},{action:'delete',label:t.name});selected=tasks()[0]?.id;toast('השלב "'+t.name+'" נמחק.','ביטול',()=>undo())};
+
+// ---------- undo (never overwrites a partner's later change) ----------
+function undo(){const u=undoStack.at(-1);if(!u)return;const c=cur(u.col,u.id);const now=c&&!c.deleted?pick(u.col,c):null;
+ const unchanged=u.after===null?now===null:now!==null&&same(u.col,now,u.after);
+ if(!unchanged){undoStack.pop();$('undo').disabled=!undoStack.length;return toast('אי אפשר לבטל: "'+u.label+'" השתנה מאז אצל שותף. אפשר לשחזר גרסה קודמת מההיסטוריה.')}
+ undoStack.pop();$('undo').disabled=!undoStack.length;
+ if(u.before===null)enqueue(u.col,u.id,{deleted:true},{action:'undo',label:u.label,undoable:false});
+ else{enqueue(u.col,u.id,u.before,{action:'undo',label:u.label,undoable:false});if(u.col==='tasks')selected=u.id}
+ formBase=null;status('בוטל: '+u.label)}
+$('undo').onclick=undo;
+
+// ---------- agencies ----------
+function renderAgencies(){const box=$('agencies');if(box.contains(document.activeElement)&&box.querySelector('details[open]'))return;const openId=box.querySelector('details[open]')?.dataset.id;box.replaceChildren();
+ for(const a of agencies()){const el=document.createElement('div');el.className='agency';
+  const link=document.createElement('a');link.href=a.url;link.target='_blank';link.rel='noopener noreferrer';link.textContent=a.name;
+  const when=document.createElement('div');when.className='muted';when.textContent=a.wave;
+  const fit=document.createElement('p');fit.textContent=a.fit;const chk=document.createElement('p');chk.className='muted';chk.textContent=a.check;
+  el.append(link,when,fit,chk);
+  if(canWrite){const d=document.createElement('details');d.dataset.id=a.id;if(openId===a.id)d.open=true;const s=document.createElement('summary');s.textContent='עריכת פרטי הסוכנות';d.append(s);const ctl={};
+   for(const[k,lt]of[['name','שם הסוכנות'],['wave','מועד ושלב פנייה'],['fit','למה לפנות'],['check','מה לברר'],['url','קישור מקור']]){const l=document.createElement('label');l.textContent=lt;const f=document.createElement(['fit','check'].includes(k)?'textarea':'input');f.id='ag-'+a.id+'-'+k;f.value=a[k]||'';f.maxLength=2500;l.append(f);d.append(l);ctl[k]=f}
+   const row=document.createElement('div');row.className='actions';row.style.marginTop='10px';
+   const b=document.createElement('button');b.type='button';b.className='primary';b.textContent='שמירת פרטי הסוכנות';b.onclick=()=>{const n={...pick('agencies',a)};for(const k in ctl)n[k]=ctl[k].value.trim();const err=checkAgency(n);if(err)return status(err);if(same('agencies',n,a))return status('אין שינוי לשמור.');enqueue('agencies',a.id,n,{action:'update',label:n.name});status('פרטי הסוכנות עודכנו.')};
+   const x=document.createElement('button');x.type='button';x.className='danger';x.textContent='מחיקת הסוכנות';x.onclick=()=>{enqueue('agencies',a.id,{deleted:true},{action:'delete',label:a.name});toast('הסוכנות "'+a.name+'" נמחקה.','ביטול',()=>undo())};
+   row.append(b,x);d.append(row);el.append(d)}
+  box.append(el)}}
+$('addagency').onclick=()=>{const all=agencies();const id='a'+Date.now().toString(36);enqueue('agencies',id,{name:'סוכנות חדשה',wave:'',fit:'',check:'',url:'https://',order:(all.at(-1)?.order||0)+10},{action:'create',label:'סוכנות חדשה'});requestAnimationFrame(()=>{const d=document.querySelector('details[data-id="'+id+'"]');if(d){d.open=true;$('ag-'+id+'-name')?.focus()}})};
+
+// ---------- history & restore ----------
+const ACT={create:'נוסף',update:'עודכן',move:'הוזז',resize:'שונה משך',delete:'נמחק',undo:'בוטל שינוי',restore:'שוחזר',import:'ייבוא גיבוי',seed:'טעינה ראשונית'};
+const COLN={tasks:'שלב',agencies:'סוכנות',plan:'טקסטים',all:'כל התוכנית'};
+function openHistory(){const body=document.createElement('div');
+ const p=document.createElement('p');p.className='muted';p.textContent='כל שינוי נשמר כאן עם השם שהוזן (לא מאומת). שחזור יוצר שינוי חדש, כך שגם אותו אפשר לבטל.';body.append(p);
+ const box=document.createElement('div');box.className='hist';
+ if(!historyRows.length){const e=document.createElement('p');e.textContent='אין עדיין שינויים בהיסטוריה.';box.append(e)}
+ for(const h of historyRows){const r=document.createElement('div');r.className='hist-row';const info=document.createElement('div');
+  const name=h.label||(h.after?.name)||(h.before?.name)||h.id;info.textContent=(ACT[h.action]||h.action)+' · '+(COLN[h.col]||h.col)+': '+name;
+  const sm=document.createElement('small');sm.textContent=new Date(h.at).toLocaleString('he-IL')+' · '+(h.by||'ללא שם')+(h.col==='tasks'&&h.after&&h.before&&(h.after.start!==h.before.start||h.after.end!==h.before.end)?' · '+rng(h.before.start,h.before.end)+' ← '+rng(h.after.start,h.after.end):'');info.append(sm);
+  const btns=document.createElement('div');btns.className='actions';
+  const v=document.createElement('button');v.type='button';v.textContent='פרטים';v.onclick=()=>showEntry(h);btns.append(v);
+  r.append(info,btns);box.append(r)}
+ body.append(box);modal('היסטוריית שינויים',body,[])}
+function showEntry(h){const body=document.createElement('div');
+ if(h.col==='all'){const p=document.createElement('p');p.textContent='ייבוא גיבוי שהחליף את התוכנית. אפשר להחזיר את התוכנית כפי שהייתה לפני הייבוא.';body.append(p);
+  return modal('ייבוא גיבוי · '+new Date(h.at).toLocaleString('he-IL'),body,canWrite&&h.before?[['החזרת התוכנית למצב שלפני הייבוא',()=>{closeModal();applySnapshot(h.before,'restore')},'primary']]:[])}
+ body.append(diffTable(h.before,h.after,'לפני','אחרי',h.col));
+ const c=cur(h.col,h.id);const now=c&&!c.deleted?pick(h.col,c):null;
+ const later=!(h.after===null?now===null:now&&same(h.col,now,h.after));
+ if(later){const p=document.createElement('p');p.className='notice';p.textContent='הרשומה השתנתה שוב אחרי השינוי הזה. שחזור יחליף גם את השינויים המאוחרים (הם יישארו בהיסטוריה).';body.append(p)}
+ const btns=[];if(canWrite){
+  if(h.before)btns.push(['שחזור למצב שלפני השינוי',()=>{closeModal();enqueue(h.col,h.id,h.before,{action:'restore',label:h.label||h.before.name||''});if(h.col==='tasks'){selected=h.id;formBase=null}status('שוחזר: '+(h.label||''))},'primary']);
+  if(h.after&&!same(h.col,now||{},h.after))btns.push(['שחזור למצב שאחרי השינוי',()=>{closeModal();enqueue(h.col,h.id,h.after,{action:'restore',label:h.label||h.after.name||''});status('שוחזר: '+(h.label||''))}]);
+  if(!h.before&&now&&h.col!=='plan'&&!CORE.includes(h.id))btns.push(['ביטול ההוספה (מחיקה)',()=>{closeModal();enqueue(h.col,h.id,{deleted:true},{action:'restore',label:h.label||''})}]);}
+ modal((ACT[h.action]||h.action)+' · '+(h.label||h.id),body,btns)}
+$('history').onclick=openHistory;
+
+// ---------- export / import ----------
+function snapshot(){return{tasks:tasks().map(t=>({id:t.id,...pick('tasks',t)})),agencies:agencies().map(a=>({id:a.id,...pick('agencies',a)})),texts:pick('plan',texts())}}
+$('backup').onclick=async()=>{const data={format:'palami-roadmap-export',version:1,exportedAt:new Date().toISOString(),...snapshot(),history:historyRows};const json=JSON.stringify(data,null,2);const name='palami-roadmap-'+new Date().toISOString().slice(0,10)+'.json';
+ if(downloads){try{await downloads.save({filename:name,data:new Blob([json],{type:'application/json'})});return status('הגיבוי נשמר.')}catch(e){if(e?.code==='declined'||e?.code==='cancelled')return status('שמירת הגיבוי בוטלה.')}}
+ const ta=document.createElement('textarea');ta.value=json;ta.rows=14;ta.readOnly=true;ta.style.direction='ltr';const p=document.createElement('p');p.textContent='אי אפשר להוריד קובץ בתצוגה הזו. אפשר להעתיק את התוכן ולשמור כקובץ ‎.json‎.';const d=document.createElement('div');d.append(p,ta);
+ modal('ייצוא גיבוי',d,[['העתקה',async()=>{try{await navigator.clipboard.writeText(json);status('הגיבוי הועתק.')}catch{ta.select()}},'primary']])};
+$('load').onclick=()=>$('file').click();
+$('file').onchange=async()=>{const f=$('file').files[0];$('file').value='';if(!f)return;
+ try{if(f.size>2000000)throw Error('הקובץ גדול מדי.');const raw=JSON.parse(await f.text());const snap=normalizeImport(raw);previewImport(snap)}
+ catch(e){status('לא ניתן לטעון את הקובץ: '+(e.message||'יש לבחור גיבוי תקין של התוכנית.'))}};
+// Accepts the old tool's backup ({instance,tasks,agencies}) and this app's export.
+function normalizeImport(raw){if(!raw||!Array.isArray(raw.tasks)||!Array.isArray(raw.agencies))throw Error('חסרים שלבים או סוכנויות בקובץ.');
+ if(!raw.tasks.length||raw.tasks.length>=100)throw Error('מספר שלבים לא תקין.');
+ const ids=new Set();const ts=raw.tasks.map((t,i)=>{if(typeof t.id!=='string'||!/^[a-z0-9_-]{1,40}$/.test(t.id)||ids.has(t.id))throw Error('מזהה שלב לא תקין: '+t.id);ids.add(t.id);const ex=task(t.id);
+  const n=pick('tasks',{status:ex?.status||'proposal',progress:ex?.progress??null,assignee:ex?.assignee||'',order:(i+1)*10,...t});for(const k of['name','scope','gate','owner','target','version','assignee'])n[k]=String(n[k]??'').trim();const err=checkTask(n);if(err)throw Error('"'+(t.name||t.id)+'": '+err);return{id:t.id,...n}});
+ for(const c of CORE)if(!ids.has(c))throw Error('בקובץ חסר שלב מרכזי: '+c);
+ if(raw.agencies.length>100)throw Error('יותר מדי סוכנויות.');
+ const exA=agencies();const used=new Set();const as=raw.agencies.map((a,i)=>{const n=pick('agencies',{...a,order:(i+1)*10});for(const k of['name','wave','fit','check','url'])n[k]=String(n[k]??'').trim();const err=checkAgency(n);if(err)throw Error('סוכנות "'+(a.name||i+1)+'": '+err);
+  let id=typeof a.id==='string'&&/^[a-z0-9_-]{1,40}$/.test(a.id)?a.id:(exA.find(x=>x.name===n.name&&!used.has(x.id))?.id||'a'+(i+1)+Date.now().toString(36));used.add(id);return{id,...n}});
+ let tx=null;if(raw.texts&&typeof raw.texts==='object'){tx=pick('plan',raw.texts);for(const k of TEXT_KEYS)tx[k]=String(tx[k]??'')}
+ return{tasks:ts,agencies:as,texts:tx}}
+function previewImport(s){const cs=tasks(),body=document.createElement('div');
+ const add=s.tasks.filter(t=>!task(t.id)),chg=s.tasks.filter(t=>task(t.id)&&!same('tasks',t,task(t.id))),rem=cs.filter(t=>!s.tasks.some(x=>x.id===t.id));
+ const ca=agencies(),aAdd=s.agencies.filter(a=>!ca.some(x=>x.id===a.id)),aChg=s.agencies.filter(a=>{const x=ca.find(y=>y.id===a.id);return x&&!same('agencies',a,x)}),aRem=ca.filter(a=>!s.agencies.some(x=>x.id===a.id));
+ const ul=(title,items)=>{if(!items.length)return;const h=document.createElement('h3');h.textContent=title+' ('+items.length+')';const u=document.createElement('ul');for(const i of items){const li=document.createElement('li');li.textContent=i.name+(i.start?' · '+rng(i.start,i.end):'');u.append(li)}body.append(h,u)};
+ const p=document.createElement('p');p.textContent='בקובץ: '+s.tasks.length+' שלבים, '+s.agencies.length+' סוכנויות'+(s.texts?' וטקסטים':'')+'. הייבוא יחליף את התוכנית המשותפת אצל כולם. המצב הנוכחי יישמר בהיסטוריה ואפשר להחזיר אותו.';body.append(p);
+ ul('שלבים חדשים',add);ul('שלבים שישתנו',chg);ul('שלבים שיימחקו',rem);ul('סוכנויות חדשות',aAdd);ul('סוכנויות שישתנו',aChg);ul('סוכנויות שיימחקו',aRem);
+ if(s.texts&&!same('plan',s.texts,texts())){const h=document.createElement('h3');h.textContent='הטקסטים ותוכנית המכירות ישתנו';body.append(h)}
+ if(!add.length&&!chg.length&&!rem.length&&!aAdd.length&&!aChg.length&&!aRem.length&&!(s.texts&&!same('plan',s.texts,texts()))){const e=document.createElement('p');e.textContent='אין הבדל בין הקובץ לתוכנית הנוכחית.';body.append(e);return modal('תצוגה מקדימה של הייבוא',body,[])}
+ modal('תצוגה מקדימה של הייבוא',body,[['אישור והחלפת הנתונים',()=>{closeModal();applySnapshot(s,'import')},'primary']])}
+async function applySnapshot(s,action){const before=snapshot();
+ for(const t of s.tasks){const c=task(t.id);const n=pick('tasks',t);if(!c||!same('tasks',c,n))enqueue('tasks',t.id,n,{action,label:n.name,undoable:false})}
+ for(const t of tasks())if(!s.tasks.some(x=>x.id===t.id))enqueue('tasks',t.id,{deleted:true},{action,label:t.name,undoable:false});
+ for(const a of s.agencies){const c=cur('agencies',a.id);const n=pick('agencies',a);if(!c||c.deleted||!same('agencies',c,n))enqueue('agencies',a.id,n,{action,label:n.name,undoable:false})}
+ for(const a of agencies())if(!s.agencies.some(x=>x.id===a.id))enqueue('agencies',a.id,{deleted:true},{action,label:a.name,undoable:false});
+ if(s.texts&&!same('plan',s.texts,texts()))enqueue('plan','texts',pick('plan',s.texts),{action,label:'טקסטים',undoable:false});
+ const now=new Date().toISOString();
+ try{await db.collection('history').doc(now.replace(/[^0-9]/g,'')+'-snap'+tabId.slice(0,5)).set({at:now,by:who(),action,col:'all',id:'plan',label:action==='import'?'ייבוא גיבוי':'החזרה למצב שלפני ייבוא',before,after:null})}catch(e){console.warn(e)}
+ status(action==='import'?'הגיבוי נטען. אפשר להחזיר את המצב הקודם מההיסטוריה.':'התוכנית הוחזרה למצב שלפני הייבוא.')}
+
+// ---------- boot ----------
+$('whoname').value=ls.get('palami-roadmap-name')||'';$('whoname').onchange=()=>ls.set('palami-roadmap-name',$('whoname').value.trim());
+$('horizon').value=ls.get('palami-roadmap-days')||'90';days=Number($('horizon').value)||90;
+$('horizon').onchange=()=>{days=Number($('horizon').value);ls.set('palami-roadmap-days',String(days));render()};
+window.addEventListener('resize',()=>{if(!drag)render()});
+applyRole();render();
+function onCol(col){return snap=>{for(const ch of snap.docChanges()){if(ch.type==='removed')server[col].delete(ch.doc.id);else server[col].set(ch.doc.id,ch.doc.data())}if(!snap.metadata.fromCache)loaded[col]=true;if(!drag)render()}}
+const onErr=e=>{if(e?.code==='revoked'){db=null;canWrite=false;applyRole();render()}else{lastError='החיבור למאגר נקטע. רעננו את הדף.';sync()}};
+(async()=>{
+ const c=window.claude;if(!c?.use){applyRole();render();return}
+ try{[db,user,downloads]=await Promise.all([c.use('db'),c.use('user'),c.use('downloads')])}catch{}
+ if(!db){applyRole();render();return}
+ let w=null;try{w=user?await user.can('data.write'):null}catch{}
+ canWrite=w!==false;applyRole();
+ db.collection('tasks').onSnapshot(onCol('tasks'),onErr);
+ db.collection('agencies').onSnapshot(onCol('agencies'),onErr);
+ db.collection('plan').onSnapshot(onCol('plan'),onErr);
+ db.collection('history').orderBy('at','desc').limit(300).onSnapshot(s=>{historyRows=s.docs.map(d=>({hid:d.id,...d.data()}))},onErr);
+ render();pump();
+})();
+})();
+</script>

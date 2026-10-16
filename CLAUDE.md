@@ -111,3 +111,6 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
 - Calendar and sharing will be available when the website launches (user, 2026-10-15): present them as existing, no "coming soon" tag.
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
+
+## Shared roadmap (2026-10-16)
+- Live at https://claude.ai/artifact/4Lza8QRCXbvVQeDmWdK4Dr, source `roadmap/` (see `roadmap/README.md`). Replaces the local-only `palami-roadmap-drag.html` (kept unchanged in `roadmap/source/`). The user asked for the simplest option (a claude.ai artifact, not AWS). Data lives in the artifact's shared database; sharing is through the artifact's Share menu.
