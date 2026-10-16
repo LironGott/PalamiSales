@@ -1,1 +1,2 @@
 out/*.html
+__pycache__/
