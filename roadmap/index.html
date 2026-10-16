@@ -86,7 +86,7 @@ footer{margin:25px 0;color:var(--muted);font-size:13px}
 table.board{width:100%;border-collapse:collapse;min-width:900px;font-size:14px}
 .board th{font-size:12px;font-weight:normal;color:var(--muted);text-align:right;padding:8px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
 .board td{border-bottom:1px solid var(--line2);padding:0;height:46px;vertical-align:middle}
-.board tbody tr td:first-child{border-right:5px solid var(--c)}
+.board tbody tr td:first-child{border-right:5px solid var(--c)}.board tfoot tr td{border-bottom:0}
 .board tbody tr:hover{background:var(--sel)}
 .board tr.pending td{background-image:repeating-linear-gradient(45deg,transparent 0 8px,var(--sel) 8px 16px)}
 .cell{border:1px solid transparent;background:transparent;border-radius:5px;padding:8px 7px;width:100%;min-height:40px;color:var(--ink)}
@@ -103,6 +103,9 @@ input[type=date].cell{width:138px;font-variant-numeric:tabular-nums}
 .prog input{text-align:center}
 .lockbtn,.morebtn{min-height:36px;padding:4px 10px;font-size:13px;white-space:nowrap}
 .lockbtn{border:0;background:none;font-size:16px}
+.grip-cell{width:34px;text-align:center}.grip{border:0;background:none;color:var(--muted);cursor:grab;touch-action:none;min-height:40px;min-width:34px;padding:0;letter-spacing:-3px;font-size:16px}.grip:hover{color:var(--ink)}
+tr.dragging{opacity:.45}tr.drop-before td{box-shadow:inset 0 3px 0 var(--focus)}
+.who-sel{min-width:96px}
 .newrow input{color:var(--muted)}.newrow input::placeholder{color:var(--muted)}
 .board .num{text-align:center;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap;padding:0 6px}
 .drawer-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.drawer-head h2{margin:0}
@@ -131,7 +134,7 @@ input[type=date].cell{width:138px;font-variant-numeric:tabular-nums}
 <div class="milestones"><div class="mile"><strong id="mvp-date">–</strong><span>MVP סוכן + נוסע</span><small>מועד שהוגדר על ידכם</small></div><div class="mile"><strong id="feed-date">–</strong><span>שבוע פידבק בשימוש אמיתי</span><small>סוכנת ונוסעים</small></div><div class="mile"><strong id="sales-date">–</strong><span>תחילת דמואים ומכירות</span><small>פנייה אישית לסוכנויות מתאימות</small></div><div class="mile"><strong id="version-date">–</strong><span>גרסה 1.1</span><small>יעד מומלץ, כפוף למוכנות</small></div></div>
 <div id="warning" role="alert"></div>
 <div class="viewbar"><div class="tabs" role="tablist" aria-label="תצוגה"><button type="button" role="tab" id="tab-board" aria-selected="true">טבלה</button><button type="button" role="tab" id="tab-tl" aria-selected="false">ציר זמן</button></div><div class="legend"><span><i class="dot" style="background:var(--product)"></i>מוצר</span><span><i class="dot" style="background:var(--sales)"></i>מכירות</span><span><i class="dot" style="background:var(--learn)"></i>למידה</span></div></div>
-<div id="boardview"><p class="hint edit-only">לחיצה על כל תא משנה אותו במקום; השינוי נשמר לבד כשיוצאים מהתא. שלב חדש: כותבים שם בשורה ״+ הוספת שלב״ בתחתית הקבוצה ולוחצים Enter. ״פרטים״ פותח את כל השדות.</p><div id="board"></div></div>
+<div id="boardview"><p class="hint edit-only">לחיצה על כל תא משנה אותו במקום; השינוי נשמר לבד כשיוצאים מהתא. ⋮⋮ בתחילת השורה: גוררים כדי לשנות סדר או להעביר לקבוצה אחרת. שלב חדש: כותבים שם בשורה ״+ הוספת שלב״ בתחתית הקבוצה ולוחצים Enter. ״פרטים״ פותח את כל השדות.</p><div id="board"></div></div>
 <div id="tlview" hidden>
 <div class="toolbar"><div><h2>מוצר ומכירות באותו ציר זמן</h2><span class="muted">קו מקווקו: היום</span></div><label>טווח תכנון<select id="horizon"><option value="90">90 הימים הראשונים</option><option value="365">12 חודשים</option><option value="730">24 חודשים</option></select></label></div>
 <div class="timeline"><div class="axis"><span class="muted">שלב / תאריכים / משך</span><div class="ticks" id="ticks"></div></div><div id="rows"><div class="empty" id="empty">התוכנית נטענת מהמאגר המשותף…</div></div></div>
@@ -148,7 +151,7 @@ input[type=date].cell{width:138px;font-variant-numeric:tabular-nums}
 <label>גרסה<input id="eversion" maxlength="30"></label>
 <label>סטטוס<select id="estatus"><option value="proposal">הצעה, טרם עודכן</option><option value="planned">מתוכנן</option><option value="active">בביצוע</option><option value="done">הושלם</option><option value="at-risk">בסיכון</option><option value="postponed">נדחה</option></select></label>
 <label>אחוז התקדמות<input id="eprogress" type="number" min="0" max="100" step="5" placeholder="לא דווח"></label>
-<label>אחראי<input id="eassignee" maxlength="100" placeholder="טרם נקבע"></label>
+<label>אחראי<select id="eassignee"></select></label>
 <label>אחריות מוצעת<input id="eowner" maxlength="100"></label>
 <label class="full">קהל יעד<input id="etarget" maxlength="400"></label>
 <label class="full">מה עושים<textarea id="escope" maxlength="2000"></textarea></label>
@@ -179,6 +182,8 @@ const START=day('2026-10-13'),fmt=s=>s?s.slice(8,10)+'/'+s.slice(5,7)+'/'+s.slic
 const COLORS={'מוצר':'var(--product)','מכירות':'var(--sales)','למידה':'var(--learn)'};
 const STATUS={proposal:'הצעה',planned:'מתוכנן',active:'בביצוע',done:'הושלם','at-risk':'בסיכון',postponed:'נדחה'};
 const CORE=['mvp','feedback','sales1','v11'];
+const PEOPLE=['לירון','אייל'];
+function fillPeople(sel,val){sel.replaceChildren(new Option('—',''));for(const p of PEOPLE)sel.add(new Option(p,p));if(val&&!PEOPLE.includes(val))sel.add(new Option(val,val));sel.value=val||''}
 const TASK_KEYS=['name','track','start','end','locked','version','scope','gate','target','owner','status','progress','assignee','order'];
 const AGENCY_KEYS=['name','wave','fit','check','url','order'];
 const TEXT_KEYS=['title','subtitle','audienceIntro','agencyNote','salesPlan','planNote'];
@@ -250,12 +255,13 @@ async function pump(){if(busy||!db)return;busy=true;
 function dropOp(op){outbox=outbox.filter(o=>o!==op);const k=key(op.col,op.id);if(!pendingFor(k))overlay.delete(k);sync();render();}
 async function writeOne(op){
  const ref=db.collection(op.col).doc(op.id);
- if(op.baseRev>0){for(let i=0;i<8;i++){let r;try{r=await ref.acquire({holder:tabId,ttlMs:8000})}catch(e){if(['capability_removed','capability_disabled'].includes(e?.code))break;throw e}if(r.acquired)break;await sleep(300+Math.random()*400)}}
+ if(op.baseRev>0){for(let i=0;i<10;i++){let r;try{r=await ref.acquire({holder:tabId,ttlMs:3000})}catch(e){if(['capability_removed','capability_disabled'].includes(e?.code))break;throw e}if(r.acquired)break;await sleep(300+Math.random()*400)}}
  const snap=await ref.get();const live=snap.exists?snap.data():null;const liveRev=live?.rev||0;
  if(liveRev!==op.baseRev){const err=new Error('conflict');err.conflict=true;err.current=live;throw err}
  const now=new Date().toISOString();
  const body={...pick(op.col,op.data.deleted?(live||op.prev):op.data),deleted:!!op.data.deleted,rev:liveRev+1,updatedAt:now,updatedBy:who()};
  await ref.set(body);
+ if(op.baseRev>0)ref.acquire({holder:tabId,ttlMs:1000}).catch(()=>{}); // shorten our lease so partners are not kept waiting
  server[op.col].set(op.id,body);
  const hid=now.replace(/[^0-9]/g,'')+'-'+tabId.slice(0,5)+Math.random().toString(36).slice(2,6);
  const before=live&&!live.deleted?pick(op.col,live):null;
@@ -343,6 +349,23 @@ function setField(id,field,value){const t=task(id);if(!t)return;const n=pick('ta
  if(t.locked&&n.locked&&(n.start!==t.start||n.end!==t.end)){status('שלב נעול: יש לפתוח את הנעילה כדי לשנות תאריכים.');return render()}
  if(same('tasks',n,t))return;enqueue('tasks',id,n,{action:['start','end'].includes(field)?'move':'update',label:n.name});status('נשמר: '+n.name)}
 function addTask(track,name){const all=tasks();const s=iso(Math.max(START,Math.floor(Date.now()/ms)));const n=pick('tasks',{name:name.slice(0,100),track,start:s,end:iso(day(s)+13),locked:false,version:'',scope:'',gate:'',target:'',owner:'',status:'planned',progress:null,assignee:'',order:(all.at(-1)?.order||0)+10});const id=newId();enqueue('tasks',id,n,{action:'create',label:n.name});status('נוסף שלב: '+n.name+'. אפשר לשנות תאריכים ושדות בשורה שלו.');return id}
+// Row reordering: drop before a row (or on a group's "add" row to go last). Moving into another group changes the track.
+function placeAt(t,track,beforeId){const rows=tasks().filter(x=>x.track===track&&x.id!==t.id);let order;
+ if(beforeId){const i=rows.findIndex(x=>x.id===beforeId);const prev=rows[i-1],next=rows[i];order=prev?(prev.order+next.order)/2:next.order-10}
+ else order=(rows.at(-1)?.order??0)+10;
+ const n={...pick('tasks',t),track,order};if(same('tasks',n,t))return;
+ enqueue('tasks',t.id,n,{action:'update',label:t.name});status(track!==t.track?'"'+t.name+'" הועבר ל'+track:'"'+t.name+'" הוזז');}
+function nudge(t,dir){const rows=tasks().filter(x=>x.track===t.track);const i=rows.findIndex(x=>x.id===t.id);const j=i+dir;if(j<0||j>=rows.length)return;
+ placeAt(t,t.track,dir<0?rows[j].id:rows[j+1]?.id);requestAnimationFrame(()=>$('c-'+t.id+'-grip')?.focus())}
+function rowDrag(e,t,grip){if(e.button!==0)return;e.preventDefault();grip.setPointerCapture(e.pointerId);
+ const src=grip.closest('tr');src.classList.add('dragging');let target=null;
+ const clear=()=>document.querySelectorAll('.drop-before').forEach(x=>x.classList.remove('drop-before'));
+ grip.onpointermove=ev=>{const hit=document.elementFromPoint(ev.clientX,ev.clientY);const el=hit?.closest?.('#board tbody tr, #board tfoot tr');clear();target=null;if(!el||el===src)return;
+  const r=el.getBoundingClientRect();let row=el;if(el.parentElement.tagName==='TBODY'&&ev.clientY>r.top+r.height/2)row=el.nextElementSibling||el.closest('table').tFoot?.rows[0];
+  if(!row||row===src)return;row.classList.add('drop-before');target=row};
+ const end=ok=>{grip.onpointermove=grip.onpointerup=grip.onpointercancel=null;src.classList.remove('dragging');clear();
+  if(ok&&target){const track=target.dataset.track||target.closest('.group').dataset.track;placeAt(t,track,target.dataset.id&&target.parentElement.tagName==='TBODY'?target.dataset.id:null)}};
+ grip.onpointerup=()=>end(true);grip.onpointercancel=()=>end(false);}
 function renderBoard(){const box=$('board');if(view!=='board')return;
  const a=document.activeElement,keep=a&&box.contains(a)&&a.id?{id:a.id,value:a.value,dirty:'value' in a&&a.value!==a.defaultValue&&a.tagName!=='SELECT',ss:a.selectionStart,se:a.selectionEnd}:null;
  rebuilding=true;try{box.replaceChildren()}finally{rebuilding=false}const all=tasks();
@@ -351,23 +374,24 @@ function renderBoard(){const box=$('board');if(view!=='board')return;
  const mk=(tag,props={})=>Object.assign(document.createElement(tag),props);
  const input=(id,field,val,extra={})=>{const el=mk('input',{className:'cell'+(extra.cls?' '+extra.cls:''),id:'c-'+id+'-'+field,value:val??'',disabled:ro||!!extra.disabled,...(extra.attrs||{})});el.defaultValue=val??'';el.setAttribute('aria-label',extra.label||field);el.onchange=()=>{if(rebuilding)return;let v=el.value.trim();if(field==='progress')v=v===''?null:Math.round(Number(v));setField(id,field,v)};el.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();el.blur()}if(e.key==='Escape'){el.value=el.defaultValue;el.blur()}};return el};
  for(const tr of Object.keys(COLORS)){const rows=all.filter(t=>t.track===tr);
-  const g=mk('section',{className:'group'});g.style.setProperty('--c',COLORS[tr]);
+  const g=mk('section',{className:'group'});g.dataset.track=tr;g.style.setProperty('--c',COLORS[tr]);
   const head=mk('div',{className:'ghead'});const tg=mk('button',{type:'button',textContent:collapsed.has(tr)?'◂':'▾'});tg.setAttribute('aria-expanded',String(!collapsed.has(tr)));tg.setAttribute('aria-label',(collapsed.has(tr)?'פתיחת':'סגירת')+' הקבוצה '+tr);tg.onclick=()=>{collapsed.has(tr)?collapsed.delete(tr):collapsed.add(tr);render()};
   head.append(tg,mk('h3',{textContent:tr}),mk('span',{className:'muted',textContent:rows.length+' שלבים'}));g.append(head);
   if(!collapsed.has(tr)){const wrap=mk('div',{className:'board-wrap'});const tb=mk('table',{className:'board'});
-   const hr=tb.createTHead().insertRow();for(const h of['שלב','סטטוס','אחראי','תחילה','סיום','ימים','התקדמות %','גרסה','נעילה',''])hr.append(mk('th',{textContent:h}));
+   const hr=tb.createTHead().insertRow();hr.append(mk('th',{textContent:''}));for(const h of['שלב','סטטוס','אחראי','תחילה','סיום','ימים','התקדמות %','גרסה','נעילה',''])hr.append(mk('th',{textContent:h}));
    const body=tb.createTBody();
    for(const t of rows){const row=body.insertRow();if(pendingFor(key('tasks',t.id)))row.className='pending';
+    row.dataset.id=t.id;const hc=row.insertCell();hc.className='grip-cell';if(!ro){const gb=mk('button',{type:'button',className:'grip',id:'c-'+t.id+'-grip',textContent:'⋮⋮'});gb.setAttribute('aria-label','גרירה לשינוי מיקום: '+t.name+'. חצים למעלה ולמטה מזיזים');gb.title='גררו כדי להזיז את השלב (גם לקבוצה אחרת)';gb.onpointerdown=e=>rowDrag(e,t,gb);gb.onkeydown=e=>{if(e.key==='ArrowUp'||e.key==='ArrowDown'){e.preventDefault();nudge(t,e.key==='ArrowUp'?-1:1)}};hc.append(gb)}
     row.insertCell().append(input(t.id,'name',t.name,{cls:'name',label:'שם השלב'}));
     const sel=mk('select',{className:'pill',id:'c-'+t.id+'-status',disabled:ro});sel.dataset.s=t.status;sel.setAttribute('aria-label','סטטוס');for(const[k,v]of Object.entries(STATUS))sel.append(new Option(k==='proposal'?'הצעה':v,k,false,k===t.status));sel.onchange=()=>{if(!rebuilding)setField(t.id,'status',sel.value)};row.insertCell().append(sel);
-    row.insertCell().append(input(t.id,'assignee',t.assignee,{label:'אחראי',attrs:{placeholder:'—',maxLength:100}}));
+    const as=mk('select',{className:'cell who-sel',id:'c-'+t.id+'-assignee',disabled:ro});as.setAttribute('aria-label','אחראי');fillPeople(as,t.assignee);as.onchange=()=>{if(!rebuilding)setField(t.id,'assignee',as.value)};row.insertCell().append(as);
     for(const f of['start','end']){const el=input(t.id,f,t[f],{disabled:t.locked,label:f==='start'?'תחילה':'סיום',attrs:{type:'date',min:'2026-01-01',max:'2032-12-31',title:t.locked?'שלב נעול: פותחים את הנעילה כדי לשנות':''}});el.onkeydown=null;row.insertCell().append(el)}
     const dc=row.insertCell();dc.className='num';dc.textContent=dur(t);
     const pc=row.insertCell();pc.className='prog';const pi=input(t.id,'progress',t.progress??'',{label:'אחוז התקדמות',attrs:{type:'number',min:0,max:100,step:5,placeholder:'—'}});pc.append(pi);if(t.progress!==null&&t.progress!==undefined){const b=mk('span',{className:'barfill'});b.style.width=t.progress+'%';pc.append(b)}
     row.insertCell().append(input(t.id,'version',t.version,{label:'גרסה',attrs:{placeholder:'—',maxLength:30}}));
     const lk=mk('button',{type:'button',className:'lockbtn',id:'c-'+t.id+'-lock',textContent:t.locked?'🔒':'🔓',disabled:ro});lk.setAttribute('aria-label',t.locked?'תאריכים נעולים; לחיצה פותחת':'תאריכים פתוחים; לחיצה נועלת');lk.title=lk.getAttribute('aria-label');lk.onclick=()=>setField(t.id,'locked',!t.locked);row.insertCell().append(lk);
     const mo=mk('button',{type:'button',className:'morebtn',id:'c-'+t.id+'-more',textContent:'פרטים'});mo.onclick=()=>openDrawer(t.id);row.insertCell().append(mo);}
-   if(!ro){const fr=tb.createTFoot().insertRow();fr.className='newrow';const c=fr.insertCell();c.colSpan=10;const ni=mk('input',{className:'cell',id:'new-'+tr,placeholder:'+ הוספת שלב ל'+tr+' (כותבים שם ולוחצים Enter)',maxLength:100});ni.setAttribute('aria-label','שלב חדש ב'+tr);ni.onkeydown=e=>{if(e.key==='Enter'&&ni.value.trim()){e.preventDefault();const v=ni.value.trim();ni.value='';ni.defaultValue='';addTask(tr,v)}};c.append(ni)}
+   if(!ro){const fr=tb.createTFoot().insertRow();fr.className='newrow';fr.dataset.track=tr;fr.insertCell();const c=fr.insertCell();c.colSpan=10;const ni=mk('input',{className:'cell',id:'new-'+tr,placeholder:'+ הוספת שלב ל'+tr+' (כותבים שם ולוחצים Enter)',maxLength:100});ni.setAttribute('aria-label','שלב חדש ב'+tr);ni.onkeydown=e=>{if(e.key==='Enter'&&ni.value.trim()){e.preventDefault();const v=ni.value.trim();ni.value='';ni.defaultValue='';addTask(tr,v)}};c.append(ni)}
    wrap.append(tb);g.append(wrap)}
   box.append(g)}
  if(keep){const el=document.getElementById(keep.id);if(el){if(keep.dirty)el.value=keep.value;el.focus({preventScroll:true});try{if(keep.ss!=null)el.setSelectionRange(keep.ss,keep.se)}catch{}}}}
@@ -392,7 +416,7 @@ function editor(){let t=task(selected);if(!t){const all=tasks();if(!all.length){
  const fresh=!formBase||formBase.id!==t.id;
  if(!fresh&&formDirty){if((server.tasks.get(t.id)?.rev||0)!==formBase.rev&&!pendingFor(key('tasks',t.id))){$('formnote').hidden=false;$('formnote').textContent='השלב עודכן אצל שותף מאז שהתחלת לערוך. השינויים שלך עדיין בטופס; בשמירה תוצג השוואה.'}return}
  formBase={id:t.id,rev:baseRevFor('tasks',t.id)};formDirty=false;$('formnote').hidden=true;
- for(const k of F)$('e'+k).value=t[k]??'';$('eprogress').value=t.progress===null||t.progress===undefined?'':t.progress;$('elocked').checked=!!t.locked;lockDates();
+ fillPeople($('eassignee'),t.assignee);for(const k of F)$('e'+k).value=t[k]??'';$('eprogress').value=t.progress===null||t.progress===undefined?'':t.progress;$('elocked').checked=!!t.locked;lockDates();
  $('editor-title').textContent=canWrite?'עריכת השלב שנבחר':'פרטי השלב שנבחר';
  $('del').disabled=CORE.includes(t.id);$('del').title=CORE.includes(t.id)?'שלב מרכזי של התוכנית (אבן דרך); אפשר לשנות אותו אך לא למחוק':'';
  const s=server.tasks.get(t.id);$('emeta').textContent=s?.updatedAt?'עודכן לאחרונה '+new Date(s.updatedAt).toLocaleString('he-IL')+' · '+(s.updatedBy||'ללא שם')+' (שם לא מאומת)':'';durText();}
