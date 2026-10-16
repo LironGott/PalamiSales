@@ -4,7 +4,7 @@ Live: https://claude.ai/artifact/4Lza8QRCXbvVQeDmWdK4Dr (claude.ai artifact, pri
 
 | Path | What |
 |---|---|
-| `index.html` | The app: the original planner UI, now reading and writing a shared artifact database (`db` capability). |
+| `index.html` | The app: a Monday-style board (default: table grouped by track, inline editing, "+ add" row per group, details drawer) plus the original timeline as a second tab, now reading and writing a shared artifact database (`db` capability). |
 | `source/palami-roadmap-drag.html` | The original file, unchanged (sha256 checked by `tools/extract_seed.py`). |
 | `seed/seed.json` | Data extracted from the original: 15 phases, 4 agencies, texts (sales plan etc.). New fields start as "proposal" / empty progress. |
 | `tools/extract_seed.py` | Re-extracts `seed/seed.json` from the source file. |

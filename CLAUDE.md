@@ -114,3 +114,4 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 
 ## Shared roadmap (2026-10-16)
 - Live at https://claude.ai/artifact/4Lza8QRCXbvVQeDmWdK4Dr, source `roadmap/` (see `roadmap/README.md`). Replaces the local-only `palami-roadmap-drag.html` (kept unchanged in `roadmap/source/`). The user asked for the simplest option (a claude.ai artifact, not AWS). Data lives in the artifact's shared database; sharing is through the artifact's Share menu.
+- Direction (user, 2026-10-16): keep it simple and "like Monday". Default view is a board table grouped by track with inline cell editing; the timeline is a second tab.
