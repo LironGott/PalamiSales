@@ -35,6 +35,7 @@ PAGES = [
     ('en/accessibility.html', '/en/accessibility.html', 'en', 'accessibility.html'),
     # landing page for agents and paid campaigns: Hebrew only, noindex (set in the page), not in the sitemap
     ('demo/index.html', '/demo/', 'he', None),
+    ('start/index.html', '/start/', 'he', None),  # one-screen version
 ]
 URL = {p[0]: p[1] for p in PAGES}
 GOOGLE_FONTS = re.compile(r'<link rel="preconnect" href="https://fonts\.googleapis\.com">\n<link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin>\n<link rel="stylesheet" href="https://fonts\.googleapis\.com/[^"]+">\n')

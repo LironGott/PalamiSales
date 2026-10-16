@@ -38,6 +38,20 @@
     });
   });
 
+  /* one-screen version (/start/): on phones the form opens as a bottom sheet */
+  var opener=document.querySelector('.opener'), scrim=document.querySelector('.scrim'), xb=document.querySelector('.formwrap .x');
+  if(opener){
+    var setSheet=function(o){
+      root.classList.toggle('sheet',o); scrim.hidden=!o; opener.setAttribute('aria-expanded',String(o));
+      if(o){ lead.setAttribute('role','dialog'); lead.setAttribute('aria-modal','true'); lead.setAttribute('aria-labelledby','fh'); var fn=document.getElementById('f-name'); if(fn) setTimeout(function(){ fn.focus({preventScroll:true}); },reduce?0:300); }
+      else{ lead.removeAttribute('role'); lead.removeAttribute('aria-modal'); opener.focus(); }
+    };
+    opener.addEventListener('click',function(){ setSheet(true); });
+    if(xb) xb.addEventListener('click',function(){ setSheet(false); });
+    scrim.addEventListener('click',function(){ setSheet(false); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape' && root.classList.contains('sheet')) setSheet(false); });
+  }
+
   /* phone sticky bar: hidden while the form is on screen */
   var mbar=document.querySelector('.mbar');
   if(mbar && 'IntersectionObserver' in window){
