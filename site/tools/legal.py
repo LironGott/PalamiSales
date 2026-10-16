@@ -15,7 +15,7 @@ SHELL = '''<title>{title} · PALAMI</title>
 <div class="site doc-page" id="top" dir="{dir}" lang="{lang}" data-lang="{lang}" data-base="{b}">
 <a class="skip" href="#main">{skip}</a>
 <header class="hdr"><div class="in">
-  <a class="logo" href="{home}" aria-label="{home_label}"><img class="bv" src="{b}img/mascot-head.webp" alt="" width="44" height="44"><img src="{b}img/wordmark-tagline.svg" alt="PALAMI"></a>
+  <a class="logo" href="{home}" aria-label="{home_label}"><img class="bv" src="{b}img/mascot-head-v2.webp" alt="" width="44" height="44"><img src="{b}img/wordmark-tagline.svg" alt="PALAMI"></a>
   <a class="back" href="{home}">{back}</a>
   <a class="lang" href="{other}" hreflang="{olang}" lang="{olang}" aria-label="{olabel}">{oshort}</a>
 </div></header>
