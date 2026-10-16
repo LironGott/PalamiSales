@@ -62,7 +62,7 @@ footer{margin:25px 0;color:var(--muted);font-size:13px}
 .notice{background:var(--sel);border-radius:8px;padding:10px 12px;font-size:13px;margin-top:12px}
 .sync{display:inline-flex;align-items:center;gap:6px;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:5px 11px;background:var(--surface)}
 .sync[data-s=ok]{color:var(--ok)}.sync[data-s=err],.sync[data-s=off]{color:var(--warn);border-color:var(--warn)}
-.who{display:flex;gap:6px;align-items:center;font-size:13px}.who input{width:150px;padding:6px 8px}
+.who{display:flex;flex-direction:row;align-items:center;gap:8px;font-size:13px;border:1px solid var(--btn);border-radius:7px;background:var(--surface);padding:0 0 0 10px;min-height:40px}.who span{padding-right:10px;color:var(--muted);white-space:nowrap}.who input{width:130px;border:0;border-right:1px solid var(--line);border-radius:0 7px 7px 0;padding:8px;min-height:38px}
 .empty{padding:28px 16px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:var(--overlay);z-index:40;display:flex;align-items:flex-start;justify-content:center;padding:max(24px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 24px max(16px,env(safe-area-inset-left,0px));overflow:auto}
 .modal>div{background:var(--surface);color:var(--ink);border-radius:12px;padding:22px;max-width:760px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.25)}
@@ -79,14 +79,14 @@ footer{margin:25px 0;color:var(--muted);font-size:13px}
 .toast button{background:transparent;color:var(--bg);border-color:var(--bg);min-height:34px;padding:4px 10px}
 .ro .edit-only{display:none!important}
 @media(max-width:850px){.wrap{padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));padding-block:18px}.below{grid-template-columns:1fr}.milestones{grid-template-columns:1fr 1fr}.axis,.row{grid-template-columns:190px minmax(0,1fr)}}
-@media(max-width:560px){header.wrap{align-items:flex-start;flex-direction:column}.axis,.row{grid-template-columns:1fr;gap:0}.axis>span{display:none}.row{padding:7px 0}.task-label small{display:inline;margin-right:8px}.ticks{margin-top:7px}.timeline{padding:10px}.fields{grid-template-columns:1fr}.full{grid-column:auto}.bar{min-width:16px}.milestones{gap:10px}.mile strong{font-size:21px}.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.who input{width:120px}}
+@media(max-width:560px){header.wrap{align-items:flex-start;flex-direction:column}.who{width:100%}.who input{flex:1;width:auto}.axis,.row{grid-template-columns:1fr;gap:0}.axis>span{display:none}.row{padding:7px 0}.task-label small{display:inline;margin-right:8px}.ticks{margin-top:7px}.timeline{padding:10px}.fields{grid-template-columns:1fr}.full{grid-column:auto}.bar{min-width:16px}.milestones{gap:10px}.mile strong{font-size:21px}.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}.who input{width:120px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <div dir="rtl" lang="he" id="app">
 <header class="wrap"><div><div class="brand">PALAMI / ROADMAP</div><h1 id="t-title">טוען את התוכנית…</h1><div class="sub" id="t-subtitle"></div></div>
 <div class="actions">
  <span class="sync" id="sync" data-s="load" role="status" aria-live="polite">⏳ מתחבר…</span>
- <label class="who edit-only">שם לתצוגה<input id="whoname" maxlength="40" placeholder="לא מאומת" autocomplete="nickname"></label>
+ <label class="who edit-only" title="השם יופיע בהיסטוריית השינויים. הוא לא מאומת."><span>השם שלי</span><input id="whoname" maxlength="40" placeholder="לדוגמה: לירון" autocomplete="nickname"></label>
  <button id="add" class="edit-only" type="button">+ שלב חדש</button>
  <button id="undo" class="edit-only" type="button" disabled>ביטול שינוי</button>
  <button id="history" type="button">היסטוריה</button>
@@ -99,7 +99,7 @@ footer{margin:25px 0;color:var(--muted);font-size:13px}
 <div id="warning" role="alert"></div>
 <div class="toolbar"><div><h2>מוצר ומכירות באותו ציר זמן</h2><div class="legend"><span><i class="dot" style="background:var(--product)"></i>מוצר</span><span><i class="dot" style="background:var(--sales)"></i>מכירות</span><span><i class="dot" style="background:var(--learn)"></i>למידה</span><span class="muted">קו מקווקו: היום</span></div></div><label>טווח תכנון<select id="horizon"><option value="90">90 הימים הראשונים</option><option value="365">12 חודשים</option><option value="730">24 חודשים</option></select></label></div>
 <div class="timeline"><div class="axis"><span class="muted">שלב / תאריכים / משך</span><div class="ticks" id="ticks"></div></div><div id="rows"><div class="empty" id="empty">התוכנית נטענת מהמאגר המשותף…</div></div></div>
-<div class="hint edit-only">גררו פס להזזת שלב; גררו את הקצה השמאלי לשינוי סיום. לחיצה על שם שלב או על הפס פותחת עריכה מדויקת. חצים במקלדת: הזזה; Shift + חץ: שינוי סיום. שלבים נעולים משתנים רק לאחר פתיחת הנעילה. בנייד אפשר לשנות תאריכים בטופס.</div>
+<div class="hint edit-only"><strong>אין צורך בכפתור שמירה כללי:</strong> כל גרירה נשמרת מיד, ובטפסים לוחצים על ״שמירת השינוי״. המצב מוצג למעלה (✓ נשמר / שומר… / טרם נשמר). גררו פס להזזת שלב; גררו את הקצה השמאלי לשינוי סיום. לחיצה על שם שלב או על הפס פותחת עריכה מדויקת. חצים במקלדת: הזזה; Shift + חץ: שינוי סיום. שלבים נעולים משתנים רק לאחר פתיחת הנעילה. בנייד אפשר לשנות תאריכים בטופס.</div>
 <div class="status-line" id="status" aria-live="polite"></div>
 <div class="below"><section class="panel" id="editor"><h2 id="editor-title">עריכת השלב שנבחר</h2>
 <form id="editform"><fieldset id="efs" style="border:0;padding:0;margin:0;min-width:0"><div class="fields">
@@ -118,7 +118,7 @@ footer{margin:25px 0;color:var(--muted);font-size:13px}
 <label class="full">תנאי מעבר<textarea id="egate" maxlength="2000"></textarea></label>
 <label class="check full"><input type="checkbox" id="elocked">נעילת תאריכים</label>
 </div></fieldset>
-<div class="actions edit-only" style="margin-top:16px"><button class="primary" type="submit">החלת שינוי</button><button type="button" id="dup">שכפול</button><button type="button" id="del" class="danger">מחיקה</button></div>
+<div class="actions edit-only" style="margin-top:16px"><button class="primary" type="submit">שמירת השינוי</button><button type="button" id="dup">שכפול</button><button type="button" id="del" class="danger">מחיקה</button></div>
 <div class="notice" id="formnote" hidden></div>
 </form>
 <p class="muted">הזזה משנה רק את השלב שנבחר. שלבים מקבילים אינם זזים אוטומטית. בדקו תלות לפני שינוי. סטטוס ״הצעה״ ואחוז ריק פירושם שעוד לא דווחה התקדמות.</p>
@@ -431,7 +431,7 @@ async function applySnapshot(s,action){const before=snapshot();
  status(action==='import'?'הגיבוי נטען. אפשר להחזיר את המצב הקודם מההיסטוריה.':'התוכנית הוחזרה למצב שלפני הייבוא.')}
 
 // ---------- boot ----------
-$('whoname').value=ls.get('palami-roadmap-name')||'';$('whoname').onchange=()=>ls.set('palami-roadmap-name',$('whoname').value.trim());
+$('whoname').value=ls.get('palami-roadmap-name')||'';$('whoname').oninput=()=>ls.set('palami-roadmap-name',$('whoname').value.trim());
 $('horizon').value=ls.get('palami-roadmap-days')||'90';days=Number($('horizon').value)||90;
 $('horizon').onchange=()=>{days=Number($('horizon').value);ls.set('palami-roadmap-days',String(days));render()};
 window.addEventListener('resize',()=>{if(!drag)render()});
