@@ -1,0 +1,287 @@
+<title>מחירים PALAMI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: site header, short hero with the one promise ("everything included, you pick the size"),
+   three flight-stage plans (המראה / שיוט / צי), a live "how many travelers" calculator, what every plan includes, FAQ.
+   Single light look like site/css/site.css (brand book: logo green on white). */
+:root{
+  --g:#08402A; --g6:#0F5636; --g4:#3F8F64; --g1:#D5EADD; --g05:#EEF6F1;
+  --cu:#C37237; --cu6:#A85C28; --cr:#F9E2C5; --pa:#FEFEFC; --it:#FBF3E3; --sa:#5E9677;
+  --in:#16241D; --mu:#5C5951; --ln:#E2DED5; --s2:#F7F6F2; --wh:#FFFFFF; --ok:#33704F; --ok-s:#E6F0EA;
+  --f-d:"Rubik","Assistant","Segoe UI",Arial,sans-serif; --f-b:"Assistant","Rubik","Segoe UI",Arial,sans-serif; --f-m:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --sh1:0 1px 2px rgb(8 64 42 / .06),0 6px 18px rgb(8 64 42 / .08); --sh3:0 22px 50px rgb(8 64 42 / .16);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{direction:rtl}
+body{margin:0;background:var(--pa);color:var(--in);font-family:var(--f-b);font-size:17px;line-height:1.6}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3{font-family:var(--f-d);margin:0;line-height:1.15;text-wrap:balance;color:var(--g)}
+p{margin:0}
+a{color:var(--g)}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid var(--cu);outline-offset:2px;border-radius:6px}
+.in{max-width:1200px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.eyb{font:600 15px var(--f-b);color:var(--cu6)}
+.dot{display:inline-block;width:.19em;height:.19em;border-radius:50%;background:var(--cu);margin-inline-start:.05em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font:600 17px var(--f-b);min-height:52px;padding:0 26px;border-radius:14px;background:var(--g);color:var(--wh);text-decoration:none;border:0;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--g6)}
+.btn.ghost{background:transparent;color:var(--g);box-shadow:inset 0 0 0 1.5px var(--g)}
+.btn.ghost:hover{background:var(--g05)}
+.btn.sm{min-height:44px;font-size:15.5px;padding:0 18px;border-radius:12px}
+.vk{width:22px;height:22px;border-radius:50%;background:var(--sa);display:inline-grid;place-items:center;flex:none;margin-top:3px}
+.vk::after{content:"";width:9px;height:5px;border:solid #FFFFFF;border-width:0 0 2.2px 2.2px;transform:translateY(-1.5px) rotate(-45deg)}
+
+/* header (as on the site) */
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:#FFFFFF}
+.hdr{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgb(255 255 255 / .94);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--ln)}
+.hdr .in{display:flex;align-items:center;gap:24px;min-height:72px}
+.hdr .logo{display:flex;align-items:center;gap:8px;direction:ltr;text-decoration:none}
+.hdr .logo .bv{width:44px;height:44px}
+.hdr .logo svg{height:36px;width:auto}
+.hdr nav{display:flex;gap:24px;margin-inline-start:auto}
+.hdr nav a{color:var(--mu);text-decoration:none;font-weight:500;padding-block:6px;border-bottom:2.5px solid transparent}
+.hdr nav a[aria-current]{color:var(--g);border-bottom-color:var(--g)}
+
+/* hero */
+.hero{padding-block:64px 36px;background:linear-gradient(180deg,#FFFFFF 0%,var(--pa) 100%)}
+.hero .in{display:grid;gap:16px;justify-items:center;text-align:center}
+.hero h1{font-size:clamp(34px,4vw,50px);font-weight:800;letter-spacing:-.01em}
+.hero p{font-size:20px;color:var(--mu);max-width:640px}
+.promise{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 22px;margin-top:6px;font-weight:600;color:var(--in);font-size:16px}
+.promise span{display:flex;gap:8px;align-items:flex-start}
+
+/* calculator */
+.calc{margin-top:8px;background:var(--wh);border:1px solid var(--ln);border-radius:22px;box-shadow:var(--sh1);padding:22px 26px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:26px;align-items:center;text-align:start;width:100%;max-width:900px}
+.calc label{font:700 18px var(--f-d);color:var(--g);display:block}
+.calc small{color:var(--mu);font-size:14.5px}
+.calc-row{display:flex;gap:14px;align-items:center;margin-top:10px}
+.calc input[type=range]{flex:1;min-width:0;accent-color:var(--g);min-height:32px}
+.calc .n{width:110px;min-height:48px;border:1px solid var(--ln);border-radius:12px;text-align:center;font:700 22px var(--f-d);color:var(--g);direction:ltr;background:var(--pa)}
+.calc-out{display:grid;gap:2px;border-inline-start:1px solid var(--ln);padding-inline-start:26px}
+.calc-out .plan{font-weight:700;color:var(--cu6);font-size:15px}
+.calc-out .big{font:800 44px/1.05 var(--f-d);color:var(--g)}
+.calc-out .big small{font:600 16px var(--f-b);color:var(--mu)}
+.calc-out .sub{font-size:14.5px;color:var(--mu)}
+
+/* plans */
+.plans{padding-block:28px 72px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:stretch}
+.plan-c{position:relative;background:var(--wh);border:1px solid var(--ln);border-radius:22px;padding:28px 26px 26px;display:grid;gap:18px;align-content:start;transition:border-color .2s,box-shadow .2s}
+.plan-c.rec{border:2px solid var(--g);box-shadow:var(--sh3)}
+.plan-c.match{border-color:var(--cu);box-shadow:0 0 0 3px var(--cr),var(--sh1)}
+.plan-c.rec.match{border-color:var(--g);box-shadow:0 0 0 3px var(--cr),var(--sh3)}
+.badge{position:absolute;top:-14px;inset-inline-start:24px;background:var(--g);color:var(--wh);font-weight:700;font-size:14px;padding:4px 14px;border-radius:999px}
+.yours{display:none;position:absolute;top:-14px;inset-inline-end:24px;background:var(--cr);color:var(--cu6);font-weight:700;font-size:14px;padding:4px 14px;border-radius:999px}
+.plan-c.match .yours{display:block}
+.stage{display:flex;align-items:center;gap:12px}
+.stage svg{width:46px;height:46px;flex:none}
+.stage h2{font-size:28px;font-weight:800}
+.stage p{font-size:15px;color:var(--mu)}
+.range{font-weight:700;font-size:16px;color:var(--in);background:var(--it);border-radius:12px;padding:8px 12px}
+.price{display:grid;gap:2px}
+.price .from{font-size:14px;color:var(--mu)}
+.price .big{font:800 42px/1.05 var(--f-d);color:var(--g)}
+.price .big small{font:600 16px var(--f-b);color:var(--mu)}
+.price .per{font-size:15px;color:var(--mu)}
+.list{list-style:none;margin:0;padding:0;display:grid;gap:10px;border-top:1px solid var(--ln);padding-top:16px}
+.list li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
+.plan-c .btn{width:100%}
+.ent{margin-top:20px;background:var(--g05);border-radius:18px;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.ent b{font:700 19px var(--f-d);color:var(--g)}
+.ent span{color:var(--mu)}
+
+/* all included */
+.all{padding-block:72px;background:var(--wh);border-block:1px solid var(--ln)}
+.sec-h{display:grid;gap:10px;max-width:760px;margin-bottom:34px}
+.sec-h h2{font-size:clamp(28px,3.4vw,40px);font-weight:800}
+.sec-h p{font-size:19px;color:var(--mu)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.col{background:var(--pa);border:1px solid var(--ln);border-radius:18px;padding:22px;display:grid;gap:14px;align-content:start}
+.col h3{font-size:20px}
+.col ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.col li{display:flex;gap:10px;align-items:flex-start}
+
+/* faq */
+.faq{padding-block:72px}
+.qa{display:grid;gap:12px;max-width:860px}
+details{background:var(--wh);border:1px solid var(--ln);border-radius:16px;padding:0 20px}
+summary{cursor:pointer;min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:12px;font:600 18px var(--f-d);color:var(--g);list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:700 24px var(--f-d);color:var(--cu6)}
+details[open] summary::after{content:"−"}
+details p{padding-bottom:18px;color:var(--mu);font-size:17px}
+.cta{padding-block:20px 80px}
+.cta .box{background:var(--g);color:var(--wh);border-radius:24px;padding:36px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.cta h2{color:var(--wh);font-size:clamp(24px,3vw,32px)}
+.cta p{opacity:.85}
+.cta .btn{background:var(--wh);color:var(--g)}
+.fine{font-size:14px;color:var(--mu);margin-top:16px}
+.ftr{border-top:1px solid var(--ln);padding-block:28px;background:var(--wh)}
+.ftr .in{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
+.ftr .ct{display:flex;gap:18px;flex-wrap:wrap;color:var(--mu);font-size:15px}
+.ftr .ct a{color:inherit}
+.draft{background:var(--cr);color:var(--cu6);text-align:center;font-weight:700;font-size:14px;padding:6px 16px}
+
+@media (max-width:960px){.grid{grid-template-columns:minmax(0,1fr)}.plan-c.rec{order:-1}}
+@media (max-width:720px){
+  .hdr nav{display:none}
+  .calc{grid-template-columns:minmax(0,1fr);padding:20px}
+  .calc-out{border-inline-start:0;padding-inline-start:0;border-top:1px solid var(--ln);padding-top:16px}
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .hero{padding-top:40px}
+  .cta .box{padding:26px}
+}
+@media (prefers-reduced-motion:no-preference){.plan-c{transition:border-color .25s,box-shadow .25s}}
+</style>
+
+<div class="draft">טיוטה פנימית · המחירים עוד לא אושרו ולא פורסמו</div>
+<header class="hdr"><div class="in">
+  <a class="logo" href="https://www.palami.io/" aria-label="PALAMI, לדף הבית"><img class="bv" src="<!--MASCOT_HEAD-->" alt="" width="44" height="44"><!--WORDMARK--></a>
+  <nav aria-label="ניווט ראשי"><a href="https://www.palami.io/#how">איך זה עובד</a><a href="https://www.palami.io/#benefits">יתרונות</a><a href="#" aria-current="page">מחירים</a></nav>
+  <a class="btn sm" href="https://www.palami.io/#demo">בקשת הדגמה</a>
+</div></header>
+
+<main>
+  <section class="hero"><div class="in">
+    <span class="eyb">מחירים</span>
+    <h1>הכל כלול. בוחרים רק את הגודל<span class="dot"></span></h1>
+    <p>משלמים לפי כמות הנוסעים שמקבלים את האפליקציה בשנה. בלי הגבלת משתמשים, בלי תוספות ובלי אותיות קטנות.</p>
+    <div class="promise">
+      <span><i class="vk" aria-hidden="true"></i>כל היכולות בכל חבילה</span>
+      <span><i class="vk" aria-hidden="true"></i>כל הסוכנים בלי תוספת</span>
+      <span><i class="vk" aria-hidden="true"></i>נוסע נספר רק כשהנסיעה נשלחת אליו</span>
+    </div>
+
+    <div class="calc" role="group" aria-labelledby="calc-l">
+      <div>
+        <label id="calc-l" for="calc-r">כמה נוסעים אתם שולחים בשנה?</label>
+        <small>זוג נחשב 2, משפחה של 5 נחשבת 5. אפשר גם להקליד.</small>
+        <div class="calc-row">
+          <input id="calc-r" type="range" min="50" max="4000" step="10" value="500" aria-label="נוסעים בשנה">
+          <input id="calc-n" class="n num" type="number" min="50" max="20000" step="10" value="500" aria-label="נוסעים בשנה, הקלדה">
+        </div>
+      </div>
+      <div class="calc-out" aria-live="polite">
+        <span class="plan" id="c-plan"></span>
+        <span class="big num"><span class="ltr" id="c-price"></span> <small>לחודש</small></span>
+        <span class="sub" id="c-sub"></span>
+      </div>
+    </div>
+  </div></section>
+
+  <section class="plans"><div class="in">
+    <div class="grid" id="grid"></div>
+    <div class="ent">
+      <div><b>מעל 4,000 נוסעים בשנה, רשת או חברת נסיעות?</b><br><span>נבנה יחד חבילה ארגונית, עם הקמה מרוכזת לכל הסניפים.</span></div>
+      <a class="btn ghost sm" href="https://www.palami.io/#demo">לשיחה עם הצוות</a>
+    </div>
+  </div></section>
+
+  <section class="all"><div class="in">
+    <div class="sec-h"><h2>מה כלול בכל חבילה</h2><p>אותה מערכת לכולם. החבילה קובעת רק כמה נוסעים ואיזה ליווי.</p></div>
+    <div class="cols">
+      <div class="col"><h3>לסוכנות</h3><ul>
+        <li><i class="vk" aria-hidden="true"></i>גוררים מסמכים לתיק ומערכת AI מתייקת אותם</li>
+        <li><i class="vk" aria-hidden="true"></i>לוח בקרה: מה חסר ומה דחוף בכל תיק</li>
+        <li><i class="vk" aria-hidden="true"></i>תיקי נסיעה, לקוחות, משפחות וקבוצות</li>
+        <li><i class="vk" aria-hidden="true"></i>יומן יציאות ונחיתות של כל הסוכנות</li>
+        <li><i class="vk" aria-hidden="true"></i>החלפה ושיתוף תיקים בין סוכנים</li>
+      </ul></div>
+      <div class="col"><h3>לנוסעים</h3><ul>
+        <li><i class="vk" aria-hidden="true"></i>קישור אחד, בלי להתקין אפליקציה</li>
+        <li><i class="vk" aria-hidden="true"></i>לו״ז, מסמכים ומספרי חירום, גם בלי אינטרנט</li>
+        <li><i class="vk" aria-hidden="true"></i>התראה על כל שינוי בנסיעה</li>
+        <li><i class="vk" aria-hidden="true"></i>צ׳אט עם הסוכן</li>
+        <li><i class="vk" aria-hidden="true"></i>הלוגו של הסוכנות בראש המסך</li>
+      </ul></div>
+    </div>
+  </div></section>
+
+  <section class="faq"><div class="in">
+    <div class="sec-h"><h2>שאלות על המחיר</h2></div>
+    <div class="qa">
+      <details><summary>מי נחשב נוסע?</summary><p>כל מי שמקבל את הנסיעה בטלפון. נוסע נספר פעם אחת לכל נסיעה, ברגע שהיא נשלחת אליו. טיוטות ונסיעות שבוטלו לפני השליחה לא נספרות.</p></details>
+      <details><summary>ומה עם קבוצות?</summary><p>אין חבילות נפרדות לקבוצות. קבוצה של 40 נוסעים נספרת כ־40 נוסעים, באותו מחיר כמו כל נוסע אחר.</p></details>
+      <details><summary>מה קורה אם הנוסעים בחבילה נגמרים?</summary><p>ממשיכים לעבוד בלי הפסקה. מוסיפים נוסעים במחיר נוסע נוסף של החבילה, ואם עברתם לגודל הבא, המחיר לנוסע יורד.</p></details>
+      <details><summary>כמה סוכנים יכולים לעבוד במערכת?</summary><p>כמה שצריך. כל הסוכנים והמנהלים בסוכנות כלולים בכל חבילה.</p></details>
+      <details><summary>יש התחייבות?</summary><p>החבילה היא לשנה ומשולמת בתשלומים חודשיים. תשלום שנתי מראש מקבל <span id="faq-pre"></span> הנחה. המחירים לא כוללים מע״מ.</p></details>
+    </div>
+  </div></section>
+
+  <section class="cta"><div class="in">
+    <div class="box"><div><h2>רוצים הצעה מדויקת לסוכנות שלכם?</h2><p>נשמח להראות את המערכת ולבנות חבילה לפי כמות הנוסעים שלכם.</p></div><a class="btn" href="https://www.palami.io/#demo">בקשת הדגמה</a></div>
+    <p class="fine">המחירים בשקלים ולא כוללים מע״מ. מחיר "החל מ־" הוא המחיר לחודש לפי הכמות הקטנה בכל חבילה.</p>
+  </div></section>
+</main>
+
+<footer class="ftr"><div class="in">
+  <img src="<!--LOGO_FULL-->" alt="PALAMI · כל פרטי הנסיעה בכף ידך" width="200" height="82">
+  <div class="ct"><a class="ltr" href="mailto:info@palami.io">info@palami.io</a><a class="ltr" href="tel:+972542245627">054-2245627</a><span>© 2026 PALAMI</span></div>
+</div></footer>
+
+<script>
+/*CONFIG*/
+/* Three public plans map onto the internal tiers (same PRICING as the quote). */
+var PLANS=[
+  {name:'המראה', who:'לסוכנות שמתחילה, סוכן אחד עד שלושה', tiers:['סולו','בסיס'], icon:'takeoff',
+   extra:['הקמה ראשונה עם צוות PALAMI','תמיכה בעברית במייל ובצ׳אט']},
+  {name:'שיוט', who:'לסוכנות פעילה עם צוות', tiers:['מקצועי'], icon:'cruise', rec:true,
+   extra:['הקמה והדרכה לכל הצוות','תמיכה בעברית גם בטלפון']},
+  {name:'צי', who:'לסוכנויות גדולות ולרשתות', tiers:['מתקדם'], icon:'fleet',
+   extra:['איש קשר קבוע ב־PALAMI','הקמה מרוכזת והדרכות לסניפים']}
+];
+var ICONS={
+  takeoff:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><path d="M11 33h26" stroke="#C37237" stroke-width="2.4" stroke-linecap="round"/><path d="M13 27.5l4.2 1.4 6-3.4-7.6-6.2 2.6-1 10.4 4.4 5.4-3c1.6-.9 3.3-.6 3.8.4.5 1-.4 2.4-2 3.3L18.6 32.2c-1.4.8-3 .6-4-.4L13 30z" fill="#08402A"/></svg>',
+  cruise:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><path d="M10 31c4 0 4-2 8-2s4 2 8 2 4-2 8-2 4 2 4 2" stroke="#C37237" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M9 21.5l12-.6 6-7.4h3.2l-3 7.3 7.6-.4 2.4-3h2.4l-1.6 4.6 1.6 4.6h-2.4l-2.4-3-7.6-.4 3 7.3H27l-6-7.4-12-.6z" fill="#08402A"/></svg>',
+  fleet:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><g fill="#08402A"><path d="M8 16.5l7-.4 3.6-4.4h1.9l-1.8 4.3 4.5-.2 1.4-1.8h1.4l-1 2.7 1 2.7h-1.4L23.2 18l-4.5-.2 1.8 4.3h-1.9L15 17.7l-7-.4z"/><path d="M22 30.5l7-.4 3.6-4.4h1.9l-1.8 4.3 4.5-.2 1.4-1.8H40l-1 2.7 1 2.7h-1.4l-1.4-1.8-4.5-.2 1.8 4.3h-1.9L29 31.7l-7-.4z"/></g><path d="M9 34h9" stroke="#C37237" stroke-width="2.2" stroke-linecap="round"/></svg>'
+};
+var $=function(id){return document.getElementById(id);};
+var fmt=function(n,d){return Number(n).toLocaleString('en-US',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+var money=function(n,d){return '₪'+fmt(n,d);};
+var tierBy=function(nm){return PRICING.tiers.filter(function(t){return t.name===nm;})[0];};
+function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
+function monthly(n){var t=tierFor(n);return Math.round(t.fee+n*t.perTraveler/12);}
+function planFor(n){var t=tierFor(n);for(var i=0;i<PLANS.length;i++){if(PLANS[i].tiers.indexOf(t.name)>=0)return i;}return -1;}
+
+var grid=$('grid');
+PLANS.forEach(function(p,i){
+  var ts=p.tiers.map(tierBy), first=ts[0], last=ts[ts.length-1];
+  var per=ts.map(function(t){return money(t.perTraveler,t.perTraveler%1?2:0);});
+  var perTxt=per.length>1?per[per.length-1]+'–'+per[0]:per[0];
+  var range=last.to?fmt(first.from)+'–'+fmt(last.to):fmt(first.from)+'+';
+  var el=document.createElement('article');el.className='plan-c'+(p.rec?' rec':'');el.id='plan-'+i;
+  el.innerHTML=(p.rec?'<span class="badge">הכי נפוץ</span>':'')+'<span class="yours">מתאים לכם</span>'+
+    '<div class="stage">'+ICONS[p.icon]+'<div><h2>'+p.name+'</h2><p>'+p.who+'</p></div></div>'+
+    '<div class="range"><span class="ltr num">'+range+'</span> נוסעים בשנה</div>'+
+    '<div class="price"><span class="from">החל מ־</span><span class="big num"><span class="ltr">'+money(monthly(first.from))+'</span> <small>לחודש</small></span>'+
+    '<span class="per">נוסע נוסף: <span class="ltr num">'+perTxt+'</span>, תשלום חד־פעמי</span></div>'+
+    '<ul class="list"><li><i class="vk" aria-hidden="true"></i>כל היכולות, כל הסוכנים</li>'+p.extra.map(function(x){return '<li><i class="vk" aria-hidden="true"></i>'+x+'</li>';}).join('')+'</ul>'+
+    '<a class="btn'+(p.rec?'':' ghost')+'" href="https://www.palami.io/#demo">בקשת הצעה</a>';
+  grid.appendChild(el);
+});
+$('faq-pre').textContent=PRICING.prepayDiscount+'%';
+
+function calc(n,from){
+  n=Math.max(50,Math.min(20000,Math.round(+n||0)));
+  if(from!=='r')$('calc-r').value=Math.min(n,4000);
+  if(from!=='n')$('calc-n').value=n;
+  var pi=planFor(n);
+  document.querySelectorAll('.plan-c').forEach(function(c,i){c.classList.toggle('match',i===pi);});
+  if(pi<0){$('c-plan').textContent='חבילה ארגונית';$('c-price').textContent=money(monthly(n));$('c-sub').textContent='בהיקף כזה נבנה חבילה מותאמת. זה המחיר המשוער.';return;}
+  var t=tierFor(n);
+  $('c-plan').textContent='חבילת '+PLANS[pi].name;
+  $('c-price').textContent=money(monthly(n));
+  $('c-sub').innerHTML='<span class="ltr num">'+fmt(n)+'</span> נוסעים בשנה, הכל כלול · בשנה <span class="ltr num">'+money(monthly(n)*12)+'</span>';
+}
+$('calc-r').addEventListener('input',function(e){calc(e.target.value,'r');});
+$('calc-n').addEventListener('input',function(e){if(+e.target.value>=50)calc(e.target.value,'n');});
+$('calc-n').addEventListener('change',function(e){calc(e.target.value,'');});
+calc(500,'');
+</script>
