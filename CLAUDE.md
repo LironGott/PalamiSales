@@ -111,3 +111,7 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
 - Calendar and sharing will be available when the website launches (user, 2026-10-15): present them as existing, no "coming soon" tag.
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
+
+## Pricing and dynamic quote (draft, 2026-10-16)
+- Model: monthly system fee + a yearly traveler bank (a traveler is counted once, on first publish), volume tiers בסיס/מקצועי/מתקדם/ארגוני. All numbers are placeholders awaiting the user's approval. Details and market survey: `docs/sales/pricing.md`.
+- Tool: `sales/quote/quote.src.html` → `python3 sales/quote/build.py` → `sales/quote/offer/index.html` (for www.palami.io/offer/, not deployed). Preview: https://claude.ai/artifact/Cf8Ho4dBNL7KLiPkVvFUoc
