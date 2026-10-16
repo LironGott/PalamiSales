@@ -18,6 +18,7 @@ page = ((HERE / "page.src.html").read_text(encoding="utf-8")
         .replace("/*CONFIG*/", cfg)
         .replace("<!--MASCOT_HEAD-->", b64("site/img/mascot-head.webp"))
         .replace("<!--LOGO_FULL-->", b64("site/img/logo-full.webp"))
+        .replace("<!--MASCOT-->", b64("site/img/mascot.webp"))
         .replace("<!--WORDMARK-->", svg))
 head_end = page.index("</style>") + len("</style>")
 doc = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n'

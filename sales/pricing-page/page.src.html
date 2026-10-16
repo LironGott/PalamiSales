@@ -128,6 +128,29 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
 .ftr .ct{display:flex;gap:18px;flex-wrap:wrap;color:var(--mu);font-size:15px}
 .ftr .ct a{color:inherit}
 .mob-note{display:none;margin-top:12px;font-size:14px;color:var(--mu);text-align:center}
+.ribbon{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;background:var(--cr);color:var(--in);text-decoration:none;border-radius:999px;padding:7px 8px 7px 16px;font-size:15px;margin-bottom:4px}
+.ribbon b{background:var(--g);color:var(--wh);border-radius:999px;padding:3px 12px;font-size:14px}
+.ribbon .rs{display:none}
+.ribbon i{font-style:normal;color:var(--cu6);font-weight:700}
+.was{font-size:15px;color:var(--mu)}
+.was .ltr{text-decoration:line-through}
+.fp{font-size:13px;font-weight:700;color:var(--cu6)}
+.launch{padding-block:8px 72px}
+.l-box{background:var(--g);color:var(--wh);border-radius:26px;padding:34px;display:grid;gap:26px;position:relative;overflow:hidden}
+.l-box::after{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:rgb(255 255 255 / .05);inset-inline-end:-110px;top:-150px}
+.l-head{display:flex;gap:22px;align-items:center}
+.l-mascot{width:120px;height:auto;flex:none;background:var(--pa);border-radius:22px;padding:8px}
+.l-eyb{font-weight:700;color:var(--cr);font-size:15px}
+.l-box h2{color:var(--wh);font-size:clamp(26px,3.2vw,38px);font-weight:800;margin-block:4px}
+.l-box p{opacity:.85;font-size:18px}
+.perks{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;position:relative;z-index:1}
+.perk{background:var(--wh);color:var(--in);border-radius:18px;padding:20px;display:grid;gap:4px;align-content:start}
+.p-big{font:800 44px/1 var(--f-d);color:var(--cu6)}
+.perk b{font:700 19px var(--f-d);color:var(--g)}
+.perk .pd{font-size:15.5px;color:var(--mu)}
+.l-cta{display:flex;gap:16px;align-items:center;flex-wrap:wrap;position:relative;z-index:1}
+.l-cta .btn{background:var(--wh);color:var(--g)}
+.l-cta span{opacity:.8;font-size:15px}
 .draft{background:var(--cr);color:var(--cu6);text-align:center;font-weight:700;font-size:14px;padding:6px 16px}
 
 @media (max-width:960px){
@@ -146,6 +169,19 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
   .badge{inset-inline-start:50%;transform:translateX(50%)}
   .plan-c.match .yours{display:none}
   .mob-note{display:block}
+  .fp{font-size:12px}.fp2{display:none}
+  .was{font-size:12px}
+}
+@media (max-width:720px){
+  .l-box{padding:22px;gap:18px}
+  .l-head{gap:14px}
+  .l-mascot{width:76px;border-radius:16px;padding:5px}
+  .l-box p{font-size:16px}
+  .perks{grid-template-columns:minmax(0,1fr);gap:10px}
+  .perk{grid-template-columns:72px 1fr;gap:2px 12px;padding:14px}
+  .perk .p-big{grid-row:span 2;font-size:30px;align-self:center}
+  .ribbon{font-size:14px;padding:6px 6px 6px 12px;flex-wrap:nowrap}
+  .ribbon .rl{display:none}.ribbon .rs{display:inline}
 }
 @media (max-width:720px){
   .hdr nav{display:none}
@@ -170,6 +206,7 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
 
 <main>
   <section class="hero"><div class="in">
+    <a class="ribbon" id="ribbon" href="#launch"><b>מבצע השקה</b><span class="rl">50 הנוסעים הראשונים עלינו · מחיר מייסדים ל־30 הסוכנויות הראשונות</span><span class="rs">50 נוסעים עלינו + מחיר מייסדים</span><i aria-hidden="true">←</i></a>
     <span class="eyb">מחירים</span>
     <h1>הכל כלול. בוחרים רק את הגודל<span class="dot"></span></h1>
     <p>משלמים לפי כמות הנוסעים שמקבלים את האפליקציה בשנה. בלי הגבלת משתמשים, בלי תוספות ובלי אותיות קטנות.</p>
@@ -190,6 +227,7 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
       </div>
       <div class="calc-out" aria-live="polite">
         <span class="plan" id="c-plan"></span>
+        <span class="was num" id="c-was"></span>
         <span class="big num"><span class="ltr" id="c-price"></span> <small>לחודש</small></span>
         <span class="sub" id="c-sub"></span>
       </div>
@@ -202,6 +240,25 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
     <div class="ent">
       <div><b>מעל 4,000 נוסעים בשנה, רשת או חברת נסיעות?</b><br><span>נבנה יחד חבילה ארגונית, עם הקמה מרוכזת לכל הסניפים.</span></div>
       <a class="btn ghost sm" href="https://www.palami.io/#demo">לשיחה עם הצוות</a>
+    </div>
+  </div></section>
+
+  <section class="launch" id="launch"><div class="in">
+    <div class="l-box">
+      <div class="l-head">
+        <img class="l-mascot" src="<!--MASCOT-->" alt="" width="140" height="154">
+        <div>
+          <span class="l-eyb">מבצע השקה · עד <span class="ltr num" id="p-until"></span></span>
+          <h2>מצטרפים ראשונים, נהנים ראשונים<span class="dot"></span></h2>
+          <p>מנסים עם לקוחות אמיתיים, בלי כרטיס אשראי ובלי התחייבות.</p>
+        </div>
+      </div>
+      <ol class="perks">
+        <li class="perk"><span class="p-big num"><span class="ltr" id="p-free"></span></span><b>נוסעים ראשונים עלינו</b><span class="pd" id="p-free-t"></span></li>
+        <li class="perk"><span class="p-big num"><span class="ltr" id="p-pct"></span></span><b>מחיר מייסדים</b><span class="pd" id="p-pct-t"></span></li>
+        <li class="perk"><span class="p-big num"><span class="ltr" id="p-ref"></span></span><b>סוכנות מביאה סוכנות</b><span class="pd" id="p-ref-t"></span></li>
+      </ol>
+      <div class="l-cta"><a class="btn" href="https://www.palami.io/#demo">להצטרפות למבצע</a><span>מספר המקומות במחיר מייסדים מוגבל</span></div>
     </div>
   </div></section>
 
@@ -249,19 +306,21 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
 
 <script>
 /*CONFIG*/
+/* LAUNCH OFFER (draft, docs/sales/launch-offer.md). on:false hides every promo element. */
+var PROMO={on:true, freeTravelers:50, freeDays:90, foundersPct:20, foundersSeats:30, until:'31.12.2026', referral:100};
 /* Three public plans map onto the internal tiers (same PRICING as the quote). */
 var PLANS=[
-  {name:'המראה', who:'לסוכנות שמתחילה, סוכן אחד עד שלושה', tiers:['סולו','בסיס'], icon:'takeoff',
+  {name:'בסיס', who:'לסוכן עצמאי ולסוכנות קטנה', tiers:['סולו','בסיס'], icon:'one',
    extra:['הקמה ראשונה עם צוות PALAMI','תמיכה בעברית במייל ובצ׳אט']},
-  {name:'שיוט', who:'לסוכנות פעילה עם צוות', tiers:['מקצועי'], icon:'cruise', rec:true,
+  {name:'מקצועי', who:'לסוכנות עם צוות סוכנים', tiers:['מקצועי'], icon:'team', rec:true,
    extra:['הקמה והדרכה לכל הצוות','תמיכה בעברית גם בטלפון']},
-  {name:'צי', who:'לסוכנויות גדולות ולרשתות', tiers:['מתקדם'], icon:'fleet',
+  {name:'מתקדם', who:'לסוכנות גדולה ולרשת סניפים', tiers:['מתקדם'], icon:'org',
    extra:['איש קשר קבוע ב־PALAMI','הקמה מרוכזת והדרכות לסניפים']}
 ];
 var ICONS={
-  takeoff:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><path d="M11 33h26" stroke="#C37237" stroke-width="2.4" stroke-linecap="round"/><path d="M13 27.5l4.2 1.4 6-3.4-7.6-6.2 2.6-1 10.4 4.4 5.4-3c1.6-.9 3.3-.6 3.8.4.5 1-.4 2.4-2 3.3L18.6 32.2c-1.4.8-3 .6-4-.4L13 30z" fill="#08402A"/></svg>',
-  cruise:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><path d="M10 31c4 0 4-2 8-2s4 2 8 2 4-2 8-2 4 2 4 2" stroke="#C37237" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M9 21.5l12-.6 6-7.4h3.2l-3 7.3 7.6-.4 2.4-3h2.4l-1.6 4.6 1.6 4.6h-2.4l-2.4-3-7.6-.4 3 7.3H27l-6-7.4-12-.6z" fill="#08402A"/></svg>',
-  fleet:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><g fill="#08402A"><path d="M8 16.5l7-.4 3.6-4.4h1.9l-1.8 4.3 4.5-.2 1.4-1.8h1.4l-1 2.7 1 2.7h-1.4L23.2 18l-4.5-.2 1.8 4.3h-1.9L15 17.7l-7-.4z"/><path d="M22 30.5l7-.4 3.6-4.4h1.9l-1.8 4.3 4.5-.2 1.4-1.8H40l-1 2.7 1 2.7h-1.4l-1.4-1.8-4.5-.2 1.8 4.3h-1.9L29 31.7l-7-.4z"/></g><path d="M9 34h9" stroke="#C37237" stroke-width="2.2" stroke-linecap="round"/></svg>'
+  one:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><circle cx="24" cy="19" r="5.5" fill="#08402A"/><path d="M14.5 35c.8-5.6 4.6-9 9.5-9s8.7 3.4 9.5 9z" fill="#08402A"/></svg>',
+  team:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><g fill="#C37237"><circle cx="14.5" cy="21" r="3.8"/><circle cx="33.5" cy="21" r="3.8"/><path d="M8 34c.5-4 3-6.4 6.5-6.4 2 0 3.6.8 4.7 2.1-1 1.2-1.6 2.6-1.9 4.3z"/><path d="M40 34c-.5-4-3-6.4-6.5-6.4-2 0-3.6.8-4.7 2.1 1 1.2 1.6 2.6 1.9 4.3z"/></g><circle cx="24" cy="18.5" r="5" fill="#08402A"/><path d="M15.8 35c.7-5 4.1-8.2 8.2-8.2s7.5 3.2 8.2 8.2z" fill="#08402A"/></svg>',
+  org:'<svg viewBox="0 0 48 48" aria-hidden="true"><rect width="48" height="48" rx="14" fill="#FBF3E3"/><path d="M12 36V17l9-4v23zM23 36V20l13 3.5V36z" fill="#08402A"/><g fill="#FBF3E3"><rect x="15" y="19" width="3" height="3" rx=".6"/><rect x="15" y="25" width="3" height="3" rx=".6"/><rect x="26.5" y="26" width="3" height="3" rx=".6"/><rect x="31" y="27" width="3" height="3" rx=".6"/></g><path d="M9 36.5h30" stroke="#C37237" stroke-width="2.2" stroke-linecap="round"/></svg>'
 };
 var $=function(id){return document.getElementById(id);};
 var fmt=function(n,d){return Number(n).toLocaleString('en-US',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
@@ -269,6 +328,7 @@ var money=function(n,d){return '₪'+fmt(n,d);};
 var tierBy=function(nm){return PRICING.tiers.filter(function(t){return t.name===nm;})[0];};
 function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
 function monthly(n){var t=tierFor(n);return Math.round(t.fee+n*t.perTraveler/12);}
+function founders(m){return PROMO.on?Math.round(m*(1-PROMO.foundersPct/100)):m;}
 function planFor(n){var t=tierFor(n);for(var i=0;i<PLANS.length;i++){if(PLANS[i].tiers.indexOf(t.name)>=0)return i;}return -1;}
 
 var grid=$('grid');
@@ -281,13 +341,21 @@ PLANS.forEach(function(p,i){
   el.innerHTML=(p.rec?'<span class="badge">הכי נפוץ</span>':'')+'<span class="yours">מתאים לכם</span>'+
     '<div class="stage">'+ICONS[p.icon]+'<div><h2>'+p.name+'</h2><p>'+p.who+'</p></div></div>'+
     '<div class="range"><span class="ltr num">'+range+'</span> נוסעים בשנה</div>'+
-    '<div class="price"><span class="from">החל מ־</span><span class="big num"><span class="ltr">'+money(monthly(first.from))+'</span> <small>לחודש</small></span>'+
+    '<div class="price"><span class="from">החל מ־</span>'+(PROMO.on?'<span class="was num"><span class="ltr">'+money(monthly(first.from))+'</span></span>':'')+'<span class="big num"><span class="ltr">'+money(founders(monthly(first.from)))+'</span> <small>לחודש</small></span>'+(PROMO.on?'<span class="fp">מחיר מייסדים<span class="fp2">, שנה ראשונה</span></span>':'')+
     '<span class="per">נוסע נוסף: <span class="ltr num">'+perTxt+'</span>, תשלום חד־פעמי</span></div>'+
     '<ul class="list"><li><i class="vk" aria-hidden="true"></i>כל היכולות, כל הסוכנים</li>'+p.extra.map(function(x){return '<li><i class="vk" aria-hidden="true"></i>'+x+'</li>';}).join('')+'</ul>'+
     '<a class="btn'+(p.rec?'':' ghost')+'" href="https://www.palami.io/#demo">בקשת הצעה</a>';
   grid.appendChild(el);
 });
 $('faq-pre').textContent=PRICING.prepayDiscount+'%';
+if(!PROMO.on){$('launch').hidden=true;$('ribbon').hidden=true;}
+$('p-until').textContent=PROMO.until;
+$('p-free').textContent=PROMO.freeTravelers;
+$('p-free-t').textContent='בערך 20 נסיעות ראשונות בחינם, בתוך '+PROMO.freeDays+' יום. הנוסעים שלכם מקבלים הכל, ואתם רואים איך זה עובד.';
+$('p-pct').textContent=PROMO.foundersPct+'%';
+$('p-pct-t').textContent='הנחה על כל השנה הראשונה, ל־'+PROMO.foundersSeats+' הסוכנויות הראשונות שמצטרפות. המחיר ננעל לשנה.';
+$('p-ref').textContent='+'+PROMO.referral;
+$('p-ref-t').textContent='ממליצים לסוכנות אחרת? כששתי הסוכנויות מצטרפות, כל אחת מקבלת '+PROMO.referral+' נוסעים במתנה.';
 
 function calc(n,from){
   n=Math.max(50,Math.min(20000,Math.round(+n||0)));
@@ -295,11 +363,12 @@ function calc(n,from){
   if(from!=='n')$('calc-n').value=n;
   var pi=planFor(n);
   document.querySelectorAll('.plan-c').forEach(function(c,i){c.classList.toggle('match',i===pi);});
-  if(pi<0){$('c-plan').textContent='חבילה ארגונית';$('c-price').textContent=money(monthly(n));$('c-sub').textContent='בהיקף כזה נבנה חבילה מותאמת. זה המחיר המשוער.';return;}
+  if(pi<0){$('c-was').hidden=true;$('c-plan').textContent='חבילה ארגונית';$('c-price').textContent=money(monthly(n));$('c-sub').textContent='בהיקף כזה נבנה חבילה מותאמת. זה המחיר המשוער.';return;}
   var t=tierFor(n);
   $('c-plan').textContent='חבילת '+PLANS[pi].name;
-  $('c-price').textContent=money(monthly(n));
-  $('c-sub').innerHTML='<span class="ltr num">'+fmt(n)+'</span> נוסעים בשנה, הכל כלול · בשנה <span class="ltr num">'+money(monthly(n)*12)+'</span>';
+  $('c-price').textContent=money(founders(monthly(n)));
+  $('c-was').hidden=!PROMO.on;$('c-was').innerHTML='במקום <span class="ltr">'+money(monthly(n))+'</span>';
+  $('c-sub').innerHTML='<span class="ltr num">'+fmt(n)+'</span> נוסעים בשנה, הכל כלול'+(PROMO.on?' · <b>'+PROMO.freeTravelers+' הנוסעים הראשונים עלינו</b>':'');
 }
 $('calc-r').addEventListener('input',function(e){calc(e.target.value,'r');});
 $('calc-n').addEventListener('input',function(e){if(+e.target.value>=50)calc(e.target.value,'n');});
