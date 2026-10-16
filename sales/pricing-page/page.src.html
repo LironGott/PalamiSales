@@ -127,15 +127,35 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
 .ftr .in{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap}
 .ftr .ct{display:flex;gap:18px;flex-wrap:wrap;color:var(--mu);font-size:15px}
 .ftr .ct a{color:inherit}
+.mob-note{display:none;margin-top:12px;font-size:14px;color:var(--mu);text-align:center}
 .draft{background:var(--cr);color:var(--cu6);text-align:center;font-weight:700;font-size:14px;padding:6px 16px}
 
-@media (max-width:960px){.grid{grid-template-columns:minmax(0,1fr)}.plan-c.rec{order:-1}}
+@media (max-width:960px){
+  .grid{gap:10px}
+  .plan-c{padding:22px 12px 14px;gap:10px;border-radius:16px;text-align:center}
+  .plan-c .stage{flex-direction:column;gap:6px}
+  .plan-c .stage svg{width:34px;height:34px}
+  .plan-c .stage h2{font-size:20px}
+  .plan-c .stage p,.plan-c .list,.price .per{display:none}
+  .range{font-size:13px;padding:6px 4px;border-radius:10px}
+  .price .from{font-size:12px}
+  .price .big{font-size:24px}
+  .price .big small{display:block;font-size:12px}
+  .plan-c .btn{min-height:44px;font-size:14px;padding:0 6px;border-radius:10px}
+  .badge,.yours{font-size:11px;padding:2px 8px;top:-11px}
+  .badge{inset-inline-start:50%;transform:translateX(50%)}
+  .plan-c.match .yours{display:none}
+  .mob-note{display:block}
+}
 @media (max-width:720px){
   .hdr nav{display:none}
   .calc{grid-template-columns:minmax(0,1fr);padding:20px}
   .calc-out{border-inline-start:0;padding-inline-start:0;border-top:1px solid var(--ln);padding-top:16px}
   .cols{grid-template-columns:minmax(0,1fr)}
-  .hero{padding-top:40px}
+  .hero{padding-block:28px 20px}
+  .hero p{font-size:17px}
+  .promise{display:none}
+  .plans{padding-block:22px 48px}
   .cta .box{padding:26px}
 }
 @media (prefers-reduced-motion:no-preference){.plan-c{transition:border-color .25s,box-shadow .25s}}
@@ -178,6 +198,7 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
 
   <section class="plans"><div class="in">
     <div class="grid" id="grid"></div>
+    <p class="mob-note">בכל חבילה כל היכולות וכל הסוכנים. הפירוט למטה.</p>
     <div class="ent">
       <div><b>מעל 4,000 נוסעים בשנה, רשת או חברת נסיעות?</b><br><span>נבנה יחד חבילה ארגונית, עם הקמה מרוכזת לכל הסניפים.</span></div>
       <a class="btn ghost sm" href="https://www.palami.io/#demo">לשיחה עם הצוות</a>
