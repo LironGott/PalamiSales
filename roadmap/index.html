@@ -383,7 +383,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('modal').hidden&
 
 // ---------- render ----------
 function applyRole(){$('app').classList.toggle('ro',!canWrite);$('efs').disabled=!canWrite;sync()}
-function milestone(){const m=task('mvp'),f=task('feedback'),s=task('sales1'),v=task('v11');
+function milestone(){const mv=['mvp','mvp-traveler'].map(task).filter(Boolean);const m=mv.length?{end:mv.map(x=>x.end).sort().at(-1)}:null;const f=task('feedback'),s=task('sales1'),v=task('v11');
  $('mvp-date').textContent=m?fmt(m.end):'–';$('feed-date').textContent=f?rng(f.start,f.end):'–';$('sales-date').textContent=s?fmt(s.start):'–';$('version-date').textContent=v?fmt(v.end):'–';
  const w=[];if(m&&f&&day(f.start)<=day(m.end))w.push('⚠ שבוע הפידבק מתחיל לפני סיום ה־MVP.');if(f&&s&&day(s.start)<=day(f.end))w.push('⚠ המכירות מתחילות לפני סוף שבוע הפידבק.');$('warning').textContent=w.join(' ');}
 function renderTexts(){const t=texts();
