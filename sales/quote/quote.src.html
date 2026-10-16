@@ -35,6 +35,7 @@
   --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 28px rgb(0 0 0 / .3); color-scheme:dark;}
 
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{direction:rtl}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
@@ -222,7 +223,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
     <details class="more" id="more">
       <summary>התאמות (לא חובה)</summary>
       <div class="more-grid">
-        <label class="fld"><span>משתמשים בסוכנות</span>
+        <label class="fld" id="users-fld"><span>משתמשים בסוכנות</span>
           <input class="inp num" id="f-users" type="number" min="1" max="500" placeholder="כלול במדרגה">
         </label>
         <label class="fld"><span>הנחה מיוחדת</span>
@@ -280,7 +281,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
       <section class="facts" aria-label="במספרים">
         <div class="fact"><b class="num"><span class="ltr" id="o-bank"></span></b><span>נוסעים בשנה</span></div>
         <div class="fact"><b class="num"><span class="ltr" id="o-trips"></span></b><span>נסיעות בערך <span id="o-avg"></span></span></div>
-        <div class="fact"><b class="num" id="o-users"></b><span>משתמשים לצוות הסוכנות</span></div>
+        <div class="fact"><b class="num" id="o-users"></b><span>משתמשים לצוות הסוכנות, כל הסוכנים</span></div>
       </section>
 
       <section class="sec">
@@ -315,7 +316,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
         <ul class="terms">
           <li><b>נספר רק מה שנשלח</b><span>נוסע נספר פעם אחת, כשהנסיעה נשלחת אליו. טיוטות ונסיעות שבוטלו לפני השליחה לא נספרות.</span></li>
           <li><b>גם לקבוצות</b><span>זוג, משפחה או קבוצה של 40: כל נוסע נספר פעם אחת, בלי חבילות נפרדות.</span></li>
-          <li><b>תוקף לשנה</b><span>הבנק בתוקף 12 חודשים. נגמר מוקדם? מוסיפים נוסעים באותו מחיר.</span></li>
+          <li><b>תוקף לשנה</b><span>הבנק בתוקף 12 חודשים. נגמר מוקדם? מוסיפים נוסעים במחיר נוסע נוסף.</span></li>
         </ul>
       </section>
 
@@ -343,13 +344,14 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
 var PRICING = {
   currency: '₪',
   tiers: [
-    {name:'סולו',   from:50,   to:199,   perTraveler:13,  fee:79,  users:2},
-    {name:'בסיס',   from:200,  to:399,   perTraveler:11,  fee:149, users:3},
-    {name:'מקצועי', from:400,  to:1199,  perTraveler:9.5, fee:249, users:8},
-    {name:'מתקדם',  from:1200, to:3999,  perTraveler:7.5, fee:449, users:20},
-    {name:'ארגוני', from:4000, to:null,  perTraveler:6,   fee:690, users:null}  /* null = ללא הגבלה */
+    {name:'סולו',   from:50,   to:199,   perTraveler:13,  fee:79,  users:null},
+    {name:'בסיס',   from:200,  to:399,   perTraveler:11,  fee:149, users:null},
+    {name:'מקצועי', from:400,  to:1199,  perTraveler:9.5, fee:249, users:null},
+    {name:'מתקדם',  from:1200, to:3999,  perTraveler:7.5, fee:449, users:null},
+    {name:'ארגוני', from:4000, to:null,  perTraveler:6,   fee:690, users:null}  /* users: null = unlimited (recommended 2026-10-16); a number = included users, extra at extraUserMonthly */
   ],
-  extraUserMonthly: 39,     /* per user above the tier's included users */
+  extraUserMonthly: 39,     /* per user above the tier's included users (only if a tier sets users) */
+  showBreakdown: false,     /* false = one all-inclusive package price + top-up rate; true = system fee and bank as separate lines */
   prepayDiscount: 10,       /* % off for paying the year upfront */
   avgTravelersPerTrip: 2.6, /* only to show "≈ trips" */
   validDays: 30,
@@ -452,8 +454,12 @@ function render(){
   $('o-monthly').textContent=money(q.monthly);
   var was=$('o-was'); if(q.list!==q.monthly){was.hidden=false;was.innerHTML='<span class="ltr">'+money(q.list)+'</span> במחיר מלא';}else was.hidden=true;
 
-  var rows='<div class="row"><span>דמי מערכת · מדרגת '+t.name+'</span><b class="num ltr">'+money(q.fee)+'</b></div>'+
-    '<div class="row"><span>בנק <span class="ltr">'+fmt(q.n)+'</span> נוסעים · <span class="ltr">'+money(t.perTraveler,t.perTraveler%1?2:0)+'</span> לנוסע</span><b class="num ltr">'+money(q.bankMonth)+'</b></div>';
+  var pt=money(t.perTraveler,t.perTraveler%1?2:0);
+  var rows=PRICING.showBreakdown?
+    '<div class="row"><span>דמי מערכת · מדרגת '+t.name+'</span><b class="num ltr">'+money(q.fee)+'</b></div>'+
+    '<div class="row"><span>בנק <span class="ltr">'+fmt(q.n)+'</span> נוסעים · <span class="ltr">'+pt+'</span> לנוסע</span><b class="num ltr">'+money(q.bankMonth)+'</b></div>'
+   :'<div class="row"><span>חבילת '+t.name+' · <span class="ltr">'+fmt(q.n)+'</span> נוסעים בשנה, הכל כלול</span><b class="num ltr">'+money(q.fee+q.bankMonth)+'</b></div>'+
+    '<div class="row"><span>נוסע נוסף מעבר לחבילה, תשלום חד־פעמי</span><b class="num ltr">'+pt+'</b></div>';
   if(q.extraUsers)rows+='<div class="row"><span><span class="ltr">'+q.extraUsers+'</span> משתמשים נוספים</span><b class="num ltr">'+money(q.usersMonth)+'</b></div>';
   if(q.discAmt)rows+='<div class="row save"><span>הנחה מיוחדת <span class="ltr">'+S.disc+'%</span></span><b class="num ltr">−'+money(q.discAmt)+'</b></div>';
   if(q.preAmt)rows+='<div class="row save"><span>תשלום שנתי מראש <span class="ltr">'+PRICING.prepayDiscount+'%</span></span><b class="num ltr">−'+money(q.preAmt)+'</b></div>';
@@ -466,16 +472,19 @@ function render(){
   $('o-users').textContent=q.users?'עד '+fmt(q.users):'ללא הגבלה';
   $('o-plus').innerHTML='<b>כלול במחיר:</b> הקמת הסוכנות והעובדים על ידי צוות PALAMI, הדרכה ותמיכה בעברית.'+(S.note?'<br><b>בנוסף:</b> '+esc(S.note):'');
 
-  var th='<thead><tr><th>מדרגה</th><th>נוסעים בשנה</th><th>מחיר לנוסע</th><th>דמי מערכת לחודש</th><th>משתמשים</th></tr></thead><tbody>';
+  var anyLimit=PRICING.tiers.some(function(x){return x.users;});
+  var th='<thead><tr><th>מדרגה</th><th>נוסעים בשנה</th>'+(PRICING.showBreakdown?'<th>מחיר לנוסע</th><th>דמי מערכת לחודש</th>':'<th>מחיר לחודש, החל מ־</th><th>נוסע נוסף, חד־פעמי</th>')+(anyLimit?'<th>משתמשים</th>':'')+'</tr></thead><tbody>';
   PRICING.tiers.forEach(function(x){
     var cur=x===t;
     th+='<tr'+(cur?' class="cur"':'')+'><td>'+x.name+(cur?'<span class="pill">✓ ההצעה שלכם</span>':'')+'</td>'+
       '<td class="num"><span class="ltr">'+fmt(x.from)+(x.to?'–'+fmt(x.to):'+')+'</span></td>'+
-      '<td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td>'+
-      '<td class="num"><span class="ltr">'+money(x.fee)+'</span></td>'+
-      '<td>'+(x.users?'עד '+x.users:'ללא הגבלה')+'</td></tr>';
+      (PRICING.showBreakdown?
+        '<td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td><td class="num"><span class="ltr">'+money(x.fee)+'</span></td>'
+       :'<td class="num"><span class="ltr">'+money(x.fee+x.from*x.perTraveler/12)+'</span></td><td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td>')+
+      (anyLimit?'<td>'+(x.users?'עד '+x.users:'ללא הגבלה')+'</td>':'')+'</tr>';
   });
   $('o-tiers').innerHTML=th+'</tbody>';
+  $('users-fld').hidden=!anyLimit;
 
   if(isClient){document.title='הצעת מחיר PALAMI'+(S.agency?' · '+S.agency:'');return;}
 

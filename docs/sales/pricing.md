@@ -17,7 +17,7 @@
 - The bank is valid for 12 months. Top-ups at the same price per traveler.
 - Volume tiers (all-units). The bank size picks the tier automatically:
 
-| Tier | Travelers per year | Per traveler | System fee per month | Users |
+| Tier | Travelers per year | Per traveler | System fee per month | Users (before 2026-10-16) |
 |---|---|---|---|---|
 | סולו | 50–199 | ₪13 | ₪79 | up to 2 |
 | בסיס | 200–399 | ₪11 | ₪149 | up to 3 |
@@ -55,3 +55,11 @@ Profitability: see `docs/sales/unit-economics.md`.
 - The client link holds the quote in the query string (`?a=&n=&id=&dt=...`) and opens a clean proposal view with "שמירה כ־PDF". Quote IDs: `PAL-YYMM-NNN` (counter kept in the browser).
 - Preview artifact: https://claude.ai/artifact/Cf8Ho4dBNL7KLiPkVvFUoc (inside the artifact, the client link points at www.palami.io/offer and PDF saving is turned off).
 - Agency-side features listed in the quote come from the verified list in CLAUDE.md (no reports). The traveler app is specified, not built yet: check before sending to customers.
+
+## Review of the model (2026-10-16)
+Decisions applied (each one is a config flag in `PRICING`, easy to revert):
+- **Per traveler, not per trip.** The spec's credit table (up to 6 = 1, 7–20 = 2, over 20 = package) invites disputes at the edges (6 vs 7) and the splitting of one group into two files. Our costs (messages, logins, support) grow per traveler. The closest competitors that sell a branded traveler app price by passenger volume: mTrip by annual passengers (US$323 to US$2,528 per month, [mTrip comparison](https://www.mtrip.com/best-travel-agency-software/)), Vamoos by operator size from about £210 per month ([Capterra](https://www.capterra.com/p/10023068/Vamoos/)), once quoted at about £1 per passenger per year ([Travolution](https://travolution.com/articles/9016/vamoos-itinerary-app-sees-android-release)). Agent-only tools price per seat (Travefy, Tern, AXUS, Tourwriter US$99–149 per user, [Tourwriter](https://www.tourwriter.com/software-pricing-plans/)).
+- **Unlimited users.** Seats are not our value metric or cost driver (support is per agency). Seat limits push agencies to share logins (a security and audit problem, BR-82). Every agent who works in PALAMI raises retention. `users:null` in each tier; set a number to bring limits back (extra user ₪39).
+- **One all-inclusive price in the proposal** (`showBreakdown:false`): "חבילת N נוסעים בשנה, הכל כלול" + the one-time price of an extra traveler. The system fee stays inside the pricing logic (it covers the fixed cost of serving an agency) but is not a separate line to negotiate. Research: buyers value budget predictability; partitioned prices can feel fairer when the parts are typical for the category, but separate fees that look arbitrary backfire ([Journal of Business Research 2017](https://ideas.repec.org/a/eee/jbrese/v72y2017icp80-92.html), [Morwitz et al.](https://business.columbia.edu/sites/default/files-efs/pubfiles/26031/Morwitz%20Greenleaf%20Shalev%20Johnson%20JCP%2015%2000002%20R1%20April%2019%202015%20.pdf)).
+- **Price levels unchanged.** Our small tiers are well below mTrip and Vamoos entry prices (good for an Israeli market of mostly one-person agencies). At 4,000+ travelers we are above Vamoos' old per-passenger figure, so treat ארגוני as negotiable (special discount field).
+- Open question for the user: should children who receive through an adult (no own user, BR-47) count? Not counting them is fairer to families and matches costs (no messages to children). It would lower revenue by roughly the share of children among travelers.
