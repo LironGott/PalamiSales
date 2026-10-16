@@ -19,16 +19,20 @@
 
 | Tier | Travelers per year | Per traveler | System fee per month | Users |
 |---|---|---|---|---|
-| בסיס | 100–399 | ₪12 | ₪149 | up to 3 |
+| סולו | 50–199 | ₪13 | ₪79 | up to 2 |
+| בסיס | 200–399 | ₪11 | ₪149 | up to 3 |
 | מקצועי | 400–1,199 | ₪9.50 | ₪249 | up to 8 |
 | מתקדם | 1,200–3,999 | ₪7.50 | ₪449 | up to 20 |
 | ארגוני | 4,000+ | ₪6 | ₪690 | unlimited |
 
 - Monthly price = system fee + (bank × price per traveler) / 12. Extra user ₪39/month. Optional: special discount (5–20%) and 10% off for paying the year upfront. Prices exclude VAT. Quote valid 30 days.
-- Examples: 500 travelers ≈ ₪645/month; 1,000 ≈ ₪1,041; 2,000 ≈ ₪1,699.
+- Minimum bank: 50 travelers (manual entry of any number from 50; added 2026-10-16 at the user's request so small agencies fit).
+- Examples: 70 travelers ≈ ₪155/month; 500 travelers ≈ ₪645/month; 1,000 ≈ ₪1,041; 2,000 ≈ ₪1,699.
 - The tiers are tuned so that the jump at the bottom of each tier is small (1,199 → ₪1,198, 1,200 → ₪1,199). The builder shows a hint like "at 1,200 travelers you move up to מתקדם" to help upsell.
 
 **Open decisions for the user:** the numbers; whether WhatsApp/SMS are included or billed as add-ons (chapter 25 suggests counting them); a setup fee (none in the draft); a pilot benefit (use the free-text line in the builder); whether to keep the spec's trip credits internally (1 traveler-unit = 1 traveler, so the ledger stays in the spirit of BP-12).
+
+Profitability: see `docs/sales/unit-economics.md`.
 
 ## Market survey: how to build such a quote
 **Competitors (travel-agent tools, priced per seat, not per traveler):**
