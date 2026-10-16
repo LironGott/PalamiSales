@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="he" dir="rtl" data-product="agent">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>מודל רווחיות PALAMI</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: one question per band. Inputs (agencies by size, fixed costs) on the right, the answer (profit) on the left,
+   then the break-even chart and the per-size table. Agent look from brand/tokens/tokens.css. */
+:root{
+  --bg:#F4F6F4; --surface:#FFFFFF; --surface-2:#ECEEEC; --ink:#16211C; --muted:#545D58; --line:#DEE3DF; --grid:#E8ECE9;
+  --brand:#08402A; --brand-ink:#FFFFFF; --brand-soft:#E8F1EC; --cream:#FBF3E3;
+  --ok:#33704F; --ok-soft:#E6F0EA; --bad:#B91C3C; --bad-soft:#FCE8EC; --warn:#8A5F00; --warn-soft:#FBF1D6;
+  --line-mark:#1E6E47; --focus:#08402A;
+  --shadow:0 1px 2px rgb(21 26 23 / .06), 0 6px 22px rgb(8 64 42 / .07);
+  --f-display:"Rubik","Assistant","Segoe UI",Arial,sans-serif;
+  --f-body:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101512; --surface:#171D19; --surface-2:#1F2621; --ink:#E6EBE8; --muted:#9DA8A1; --line:#2A322D; --grid:#232B26;
+  --brand:#74B590; --brand-ink:#021209; --brand-soft:#18291F; --cream:#1F2A21;
+  --ok:#7FBF9A; --ok-soft:#16271E; --bad:#F27A8C; --bad-soft:#331820; --warn:#E6B54A; --warn-soft:#2E2610;
+  --line-mark:#74B590; --focus:#74B590; --shadow:0 1px 2px rgb(0 0 0 / .3), 0 6px 22px rgb(0 0 0 / .3); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#101512; --surface:#171D19; --surface-2:#1F2621; --ink:#E6EBE8; --muted:#9DA8A1; --line:#2A322D; --grid:#232B26;
+  --brand:#74B590; --brand-ink:#021209; --brand-soft:#18291F; --cream:#1F2A21;
+  --ok:#7FBF9A; --ok-soft:#16271E; --bad:#F27A8C; --bad-soft:#331820; --warn:#E6B54A; --warn-soft:#2E2610;
+  --line-mark:#74B590; --focus:#74B590; --shadow:0 1px 2px rgb(0 0 0 / .3), 0 6px 22px rgb(0 0 0 / .3); color-scheme:dark;}
+
+*{box-sizing:border-box}
+html{direction:rtl}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:1180px;margin:0 auto;display:grid;gap:22px}
+h1,h2,h3{font-family:var(--f-display);color:var(--brand);margin:0;text-wrap:balance}
+h1{font-size:clamp(26px,3.2vw,34px)}
+h2{font-size:19px}
+.lead{margin:6px 0 0;color:var(--muted);font-size:17px;max-width:70ch}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+button,input{font:inherit;color:inherit}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:var(--shadow);min-width:0}
+
+/* how it works: the formula */
+.formula{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:15px}
+.formula .term{background:var(--surface-2);border-radius:10px;padding:8px 12px;display:grid;line-height:1.3}
+.formula .term b{font-family:var(--f-display);font-size:15px;color:var(--ink)}
+.formula .term span{color:var(--muted);font-size:13px}
+.formula .term.res{background:var(--brand);color:var(--brand-ink)}
+.formula .term.res b,.formula .term.res span{color:var(--brand-ink)}
+.op{font-family:var(--f-display);font-weight:700;font-size:20px;color:var(--muted)}
+
+.main{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:22px;align-items:start}
+.inputs{display:grid;gap:22px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.sec-head small{color:var(--muted);font-size:13px}
+
+.ag{display:grid;gap:8px}
+.ag-row{display:grid;grid-template-columns:minmax(0,1fr) 140px 120px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ag-row:last-child{border-bottom:0}
+.ag-name b{display:block;font-weight:700}
+.ag-name span{font-size:13px;color:var(--muted)}
+.ag-col{font-size:12px;color:var(--muted);font-weight:700}
+.stepper{display:grid;grid-template-columns:44px minmax(44px,1fr) 44px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.stepper button{border:0;background:var(--surface-2);font-size:20px;font-weight:700;cursor:pointer;min-height:44px}
+.stepper input{border:0;text-align:center;min-width:0;font-weight:700;font-family:var(--f-display);font-size:17px;background:transparent;direction:ltr}
+.inp{width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--surface);direction:ltr;text-align:center;font-weight:600}
+.total-ag{display:flex;justify-content:space-between;font-weight:700;padding-top:10px;border-top:1px solid var(--line);margin-top:4px}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{min-height:38px;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.fx{display:grid;grid-template-columns:minmax(0,1fr) 140px;gap:8px 12px;align-items:center}
+.fx label{font-weight:600}
+.fx label small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+
+/* answer */
+.answer{display:grid;gap:16px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+.hero{border-radius:18px;padding:22px 24px;display:grid;gap:6px;border:1px solid var(--line)}
+.hero.pos{background:var(--ok-soft)} .hero.neg{background:var(--bad-soft)}
+.hero .lbl{font-weight:700;color:var(--muted)}
+.hero .big{font-family:var(--f-display);font-weight:800;font-size:clamp(40px,5.4vw,58px);line-height:1.05}
+.hero.pos .big{color:var(--ok)} .hero.neg .big{color:var(--bad)}
+.hero .st{font-weight:700;display:flex;gap:6px;align-items:center}
+.hero.pos .st{color:var(--ok)} .hero.neg .st{color:var(--bad)}
+.hero .sub{color:var(--muted);font-size:15px}
+
+.bridge{display:grid;gap:0}
+.br{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:center}
+.br:last-child{border-bottom:0}
+.br span{color:var(--muted)}
+.br small{display:block;font-size:13px;color:var(--muted)}
+.br b{font-family:var(--f-display);font-weight:700}
+.br.minus b{color:var(--muted)}
+.br.sum{border-top:1px solid var(--ink);border-bottom:0}
+.br.sum span{color:var(--ink);font-weight:700}
+.br.sum b{font-size:19px;color:var(--brand)}
+.be{background:var(--cream);border-radius:14px;padding:14px 16px;font-size:16px}
+.be b{font-family:var(--f-display)}
+
+/* chart */
+.chart-wrap{position:relative}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;box-shadow:var(--shadow);font-size:14px;white-space:nowrap;transform:translate(-50%,-110%)}
+.tip b{font-family:var(--f-display)}
+
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
+.tbl{overflow-x:auto}
+th,td{padding:10px 12px;text-align:start;border-bottom:1px solid var(--line)}
+th{font-size:13px;color:var(--muted);background:var(--surface-2);font-weight:700}
+tfoot td{font-weight:700;border-bottom:0}
+.note{font-size:13px;color:var(--muted)}
+.note a{color:inherit}
+
+@media (max-width:900px){.main{grid-template-columns:minmax(0,1fr)}.answer{position:static}}
+@media (max-width:520px){
+  .ag-row{grid-template-columns:minmax(0,1fr) 140px;}
+  .ag-row .trav{grid-column:1/-1;display:flex;gap:8px;align-items:center}
+  .ag-row .trav::before{content:"נוסעים בשנה:";font-size:13px;color:var(--muted);white-space:nowrap}
+  .ag-head .ag-col:last-child{display:none}
+  .fx{grid-template-columns:minmax(0,1fr) 120px}
+}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <h1>מודל רווחיות</h1>
+    <p class="lead">כל סוכנות משלמת לנו בכל חודש. אחרי העלויות שלה (AI, הודעות, תמיכה) נשאר ממנה סכום. מחברים את מה שנשאר מכל הסוכנויות ומורידים את ההוצאות הקבועות של החברה. מה שנשאר הוא הרווח.</p>
+  </header>
+
+  <div class="card formula" aria-label="הנוסחה">
+    <div class="term"><b>מה שהסוכנויות משלמות</b><span>מחיר ההצעה × מספר הסוכנויות</span></div>
+    <span class="op">−</span>
+    <div class="term"><b>עלויות לכל סוכנות</b><span>AI, WhatsApp, SMS, תמיכה, סליקה</span></div>
+    <span class="op">−</span>
+    <div class="term"><b>הוצאות קבועות</b><span>משכורות, שרתים, רו״ח</span></div>
+    <span class="op">=</span>
+    <div class="term res"><b>הרווח</b><span>לחודש</span></div>
+  </div>
+
+  <div class="main">
+    <div class="inputs">
+      <section class="card">
+        <div class="sec-head"><h2>כמה סוכנויות</h2><small>מספרים לדוגמה, לשנות לפי התכנון</small></div>
+        <div class="ag" id="agencies">
+          <div class="ag-row ag-head"><span class="ag-col">גודל</span><span class="ag-col">סוכנויות</span><span class="ag-col">נוסעים בשנה לסוכנות</span></div>
+        </div>
+        <div class="total-ag"><span>סה״כ סוכנויות</span><span class="num" id="tot-ag"></span></div>
+      </section>
+
+      <section class="card">
+        <div class="sec-head"><h2>הוצאות קבועות בחודש</h2><small>לא תלויות במספר הסוכנויות</small></div>
+        <div class="chips" id="fx-presets" role="group" aria-label="תרחישים">
+          <button type="button" class="chip" data-p="lean">התחלה רזה</button>
+          <button type="button" class="chip" data-p="dev">עם מפתח</button>
+          <button type="button" class="chip" data-p="team">צוות קטן</button>
+        </div>
+        <div class="fx" id="fixed"></div>
+        <div class="total-ag"><span>סה״כ הוצאות קבועות</span><span class="num ltr" id="tot-fx"></span></div>
+      </section>
+    </div>
+
+    <aside class="answer" aria-live="polite">
+      <div class="hero" id="hero">
+        <span class="lbl">רווח בחודש</span>
+        <span class="big num"><span class="ltr" id="profit"></span></span>
+        <span class="st" id="st"></span>
+        <span class="sub" id="profit-year"></span>
+      </div>
+      <div class="card bridge" id="bridge"></div>
+      <div class="be" id="be"></div>
+    </aside>
+  </div>
+
+  <section class="card">
+    <div class="sec-head"><h2>רווח לפי מספר הסוכנויות</h2><small>באותו תמהיל גדלים, עם ההוצאות הקבועות שבחרתם</small></div>
+    <div class="chart-wrap" id="chart-wrap"><svg id="chart" viewBox="0 0 1000 340" role="img" aria-label="רווח חודשי לפי מספר סוכנויות"></svg><div class="tip" id="tip" hidden></div></div>
+  </section>
+
+  <section class="card">
+    <div class="sec-head"><h2>פירוט לפי גודל סוכנות</h2><small>לחודש</small></div>
+    <div class="tbl"><table id="tbl"></table></div>
+  </section>
+
+  <p class="note">המחירים והעלויות זהים למחשבון הצעת המחיר. העלויות הן הערכות (פירוט ב־docs/sales/unit-economics.md) ויתעדכנו אחרי הפיילוט. לא כולל מע״מ ומסים.</p>
+</div>
+
+<script>
+var PRICING = {
+  currency: '₪',
+  tiers: [
+    {name:'סולו',   from:50,   to:199,   perTraveler:13,  fee:79,  users:2},
+    {name:'בסיס',   from:200,  to:399,   perTraveler:11,  fee:149, users:3},
+    {name:'מקצועי', from:400,  to:1199,  perTraveler:9.5, fee:249, users:8},
+    {name:'מתקדם',  from:1200, to:3999,  perTraveler:7.5, fee:449, users:20},
+    {name:'ארגוני', from:4000, to:null,  perTraveler:6,   fee:690, users:null}  /* null = ללא הגבלה */
+  ],
+  extraUserMonthly: 39,     /* per user above the tier's included users */
+  prepayDiscount: 10,       /* % off for paying the year upfront */
+  avgTravelersPerTrip: 2.6, /* only to show "≈ trips" */
+  validDays: 30,
+  idPrefix: 'PAL',
+  offerUrl: 'https://www.palami.io/offer/',
+  minBank: 50
+};
+var COSTS = {
+  perTraveler: 1.2,   /* ₪ per traveler: AI filing ≈0.25, WhatsApp ≈0.25, SMS/OTP ≈0.3, storage, email, buffer */
+  support: {'סולו':40,'בסיס':120,'מקצועי':200,'מתקדם':300,'ארגוני':500}, /* ₪ per month: support and account care */
+  clearing: 0.015     /* card clearing and invoicing, share of revenue */
+};
+var $=function(id){return document.getElementById(id);};
+var fmt=function(n){return Math.round(n).toLocaleString('en-US');};
+var money=function(n){return (n<0?'−':'')+'₪'+fmt(Math.abs(n));};
+function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
+function perAgency(trav){
+  var n=Math.max(PRICING.minBank,trav), t=tierFor(n);
+  var price=t.fee+n*t.perTraveler/12;
+  var travCost=n*COSTS.perTraveler/12, support=COSTS.support[t.name]||0, clearing=price*COSTS.clearing;
+  return {tier:t,price:price,travCost:travCost,support:support,clearing:clearing,left:price-travCost-support-clearing};
+}
+
+var SIZES=[
+  {key:'solo', name:'סוכנות יחיד',  hint:'בעלים אחד',          trav:100,  count:25},
+  {key:'small',name:'סוכנות קטנה',  hint:'2–3 סוכנים',         trav:300,  count:15},
+  {key:'mid',  name:'סוכנות בינונית',hint:'4–8 סוכנים',         trav:800,  count:7},
+  {key:'big',  name:'סוכנות גדולה', hint:'רשת או כמה סניפים',   trav:2000, count:2},
+  {key:'ent',  name:'ארגון',         hint:'חברת נסיעות גדולה',   trav:5000, count:0}
+];
+var FIXED=[
+  {key:'sal',  name:'משכורות',               hint:'פיתוח, תמיכה, מכירות'},
+  {key:'infra',name:'שרתים ותשתית',          hint:'AWS, גיבויים, ניטור'},
+  {key:'tools',name:'כלים ותוכנות',          hint:'מייל, טפסים, ספק WhatsApp'},
+  {key:'acct', name:'רו״ח, עו״ד וביטוח',     hint:''},
+  {key:'mkt',  name:'שיווק',                 hint:'קמפיינים, כנסים'}
+];
+var PRESETS={
+  lean:{sal:0,infra:2000,tools:800,acct:1500,mkt:1500},
+  dev:{sal:28000,infra:2500,tools:1000,acct:1500,mkt:2500},
+  team:{sal:70000,infra:4000,tools:1500,acct:2500,mkt:6000}
+};
+var S={fixed:Object.assign({},PRESETS.dev),preset:'dev'};
+
+/* build inputs */
+var agEl=$('agencies');
+SIZES.forEach(function(s){
+  var row=document.createElement('div');row.className='ag-row';
+  row.innerHTML='<div class="ag-name"><b>'+s.name+'</b><span>'+s.hint+'</span></div>'+
+    '<div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input id="c-'+s.key+'" type="number" min="0" max="999" value="'+s.count+'" inputmode="numeric" aria-label="מספר '+s.name+'"><button type="button" data-d="1" aria-label="עוד">+</button></div>'+
+    '<div class="trav"><input class="inp num" id="t-'+s.key+'" type="number" min="50" max="20000" step="50" value="'+s.trav+'" aria-label="נוסעים בשנה, '+s.name+'"></div>';
+  agEl.appendChild(row);
+  var c=row.querySelector('#c-'+s.key), t=row.querySelector('#t-'+s.key);
+  row.querySelectorAll('[data-d]').forEach(function(b){b.addEventListener('click',function(){s.count=Math.max(0,s.count+ +b.dataset.d);c.value=s.count;render();});});
+  c.addEventListener('input',function(){s.count=Math.max(0,+c.value||0);render();});
+  t.addEventListener('input',function(){if(+t.value>=50){s.trav=+t.value;render();}});
+});
+var fxEl=$('fixed');
+FIXED.forEach(function(f){
+  fxEl.insertAdjacentHTML('beforeend','<label for="f-'+f.key+'">'+f.name+(f.hint?'<small>'+f.hint+'</small>':'')+'</label><input class="inp num" id="f-'+f.key+'" type="number" min="0" step="500" value="'+S.fixed[f.key]+'">');
+  $('f-'+f.key).addEventListener('input',function(e){S.fixed[f.key]=Math.max(0,+e.target.value||0);S.preset='';render();});
+});
+$('fx-presets').addEventListener('click',function(e){var b=e.target.closest('.chip');if(!b)return;S.preset=b.dataset.p;S.fixed=Object.assign({},PRESETS[S.preset]);FIXED.forEach(function(f){$('f-'+f.key).value=S.fixed[f.key];});render();});
+
+function calc(){
+  var r={n:0,rev:0,trav:0,support:0,clearing:0,left:0,rows:[]};
+  SIZES.forEach(function(s){var a=perAgency(s.trav);r.rows.push({s:s,a:a});
+    r.n+=s.count;r.rev+=a.price*s.count;r.trav+=a.travCost*s.count;r.support+=a.support*s.count;r.clearing+=a.clearing*s.count;r.left+=a.left*s.count;});
+  r.fixed=FIXED.reduce(function(t,f){return t+S.fixed[f.key];},0);
+  r.profit=r.left-r.fixed;
+  r.avgLeft=r.n?r.left/r.n:0;
+  r.breakeven=r.avgLeft>0?Math.ceil(r.fixed/r.avgLeft):null;
+  return r;
+}
+
+function render(){
+  var r=calc();
+  $('tot-ag').textContent=fmt(r.n);
+  $('tot-fx').textContent=money(r.fixed);
+  document.querySelectorAll('#fx-presets .chip').forEach(function(c){c.setAttribute('aria-pressed',String(c.dataset.p===S.preset));});
+
+  var pos=r.profit>=0;
+  $('hero').className='hero '+(pos?'pos':'neg');
+  $('profit').textContent=money(r.profit);
+  $('st').innerHTML=pos?'<span aria-hidden="true">✓</span> רווח':'<span aria-hidden="true">✕</span> הפסד';
+  $('profit-year').innerHTML='בשנה: <span class="ltr num">'+money(r.profit*12)+'</span>';
+
+  $('bridge').innerHTML=
+    '<div class="br"><span>מה שהסוכנויות משלמות<small><span class="ltr">'+fmt(r.n)+'</span> סוכנויות</small></span><b class="ltr num">'+money(r.rev)+'</b></div>'+
+    '<div class="br minus"><span>עלויות הנוסעים<small>AI, WhatsApp, SMS, אחסון</small></span><b class="ltr num">'+money(-r.trav)+'</b></div>'+
+    '<div class="br minus"><span>תמיכה ושירות לסוכנויות</span><b class="ltr num">'+money(-r.support)+'</b></div>'+
+    '<div class="br minus"><span>סליקה וחשבוניות</span><b class="ltr num">'+money(-r.clearing)+'</b></div>'+
+    '<div class="br sum"><span>נשאר מהסוכנויות<small>ממוצע <span class="ltr">'+money(r.avgLeft)+'</span> לסוכנות</small></span><b class="ltr num">'+money(r.left)+'</b></div>'+
+    '<div class="br minus"><span>הוצאות קבועות</span><b class="ltr num">'+money(-r.fixed)+'</b></div>'+
+    '<div class="br sum"><span>רווח</span><b class="ltr num">'+money(r.profit)+'</b></div>';
+
+  var be=$('be');
+  if(!r.n||r.breakeven===null)be.innerHTML='מוסיפים סוכנויות כדי לראות מתי מגיעים לאיזון.';
+  else if(pos)be.innerHTML='נקודת האיזון: <b class="ltr num">'+fmt(r.breakeven)+'</b> סוכנויות. יש <b class="ltr num">'+fmt(r.n)+'</b>, כלומר <b class="ltr num">'+fmt(r.n-r.breakeven)+'</b> מעל האיזון.';
+  else be.innerHTML='נקודת האיזון: <b class="ltr num">'+fmt(r.breakeven)+'</b> סוכנויות. חסרות עוד <b class="ltr num">'+fmt(r.breakeven-r.n)+'</b> באותו תמהיל.';
+
+  var th='<thead><tr><th>גודל</th><th>מדרגה</th><th>סוכנויות</th><th>משלמת בחודש</th><th>עלויות</th><th>נשאר מכל אחת</th><th>סה״כ נשאר</th></tr></thead><tbody>';
+  r.rows.forEach(function(x){var a=x.a,cost=a.travCost+a.support+a.clearing;
+    th+='<tr><td>'+x.s.name+' <span class="note ltr">('+fmt(x.s.trav)+')</span></td><td>'+a.tier.name+'</td><td class="num">'+fmt(x.s.count)+'</td>'+
+      '<td class="num"><span class="ltr">'+money(a.price)+'</span></td><td class="num"><span class="ltr">'+money(cost)+'</span></td>'+
+      '<td class="num"><span class="ltr">'+money(a.left)+'</span></td><td class="num"><b class="ltr">'+money(a.left*x.s.count)+'</b></td></tr>';});
+  th+='</tbody><tfoot><tr><td>סה״כ</td><td></td><td class="num">'+fmt(r.n)+'</td><td class="num"><span class="ltr">'+money(r.rev)+'</span></td><td class="num"><span class="ltr">'+money(r.trav+r.support+r.clearing)+'</span></td><td></td><td class="num"><span class="ltr">'+money(r.left)+'</span></td></tr></tfoot>';
+  $('tbl').innerHTML=th;
+  chart(r);
+}
+
+/* line chart: profit(n) = n × average left − fixed, same mix */
+function niceStep(range){var raw=range/5,p=Math.pow(10,Math.floor(Math.log10(raw))),m=raw/p;return (m<1.5?1:m<3?2:m<7?5:10)*p;}
+function chart(r){
+  var svg=$('chart'),W=1000,H=340,L=74,R=24,T=20,B=44;
+  var maxN=Math.max(10,Math.ceil(Math.max(r.n,r.breakeven||0)*1.6/10)*10);
+  var f=function(n){return n*r.avgLeft-r.fixed;};
+  var yMin=Math.min(0,f(0)),yMax=Math.max(0,f(maxN));if(yMax===yMin)yMax=yMin+1000;
+  var step=niceStep(yMax-yMin);yMin=Math.floor(yMin/step)*step;yMax=Math.ceil(yMax/step)*step;
+  /* RTL reading: more agencies to the left */
+  var x=function(n){return W-R-(n/maxN)*(W-L-R);}, y=function(v){return T+(yMax-v)/(yMax-yMin)*(H-T-B);};
+  var css=getComputedStyle(document.documentElement),c=function(k){return css.getPropertyValue(k).trim();};
+  var g='';
+  for(var v=yMin;v<=yMax+1e-6;v+=step){g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y(v)+'" y2="'+y(v)+'" stroke="'+(v===0?c('--muted'):c('--grid'))+'" stroke-width="'+(v===0?1.5:1)+'"/>'+
+    '<text x="'+(L-10)+'" y="'+(y(v)+5)+'" text-anchor="end" font-size="14" fill="'+c('--muted')+'" direction="ltr">'+(v<0?'−':'')+'₪'+(Math.abs(v)>=1000?fmt(Math.abs(v)/1000)+'K':fmt(Math.abs(v)))+'</text>';}
+  var xs=niceStep(maxN);for(var n=0;n<=maxN;n+=xs){g+='<text x="'+x(n)+'" y="'+(H-B+24)+'" text-anchor="middle" font-size="14" fill="'+c('--muted')+'">'+fmt(n)+'</text>';}
+  g+='<text x="'+((L+W-R)/2)+'" y="'+(H-2)+'" text-anchor="middle" font-size="14" fill="'+c('--muted')+'">מספר סוכנויות</text>';
+  g+='<text x="'+(W-R)+'" y="'+(y(0)-8)+'" text-anchor="start" font-size="13" fill="'+c('--muted')+'" direction="rtl">אפס (איזון)</text>';
+  /* loss area tint + profit line */
+  g+='<line x1="'+x(0)+'" y1="'+y(f(0))+'" x2="'+x(maxN)+'" y2="'+y(f(maxN))+'" stroke="'+c('--line-mark')+'" stroke-width="2.5" stroke-linecap="round"/>';
+  if(r.breakeven!==null&&r.breakeven<=maxN){var bx=x(r.fixed/r.avgLeft);
+    g+='<line x1="'+bx+'" x2="'+bx+'" y1="'+T+'" y2="'+(H-B)+'" stroke="'+c('--muted')+'" stroke-dasharray="4 4"/>'+
+      '<text x="'+(bx-8)+'" y="'+(T+14)+'" text-anchor="end" font-size="14" font-weight="700" fill="'+c('--ink')+'" direction="rtl">איזון: '+fmt(r.breakeven)+' סוכנויות</text>';}
+  var cx=x(r.n),cy=y(f(r.n));
+  g+='<circle cx="'+cx+'" cy="'+cy+'" r="7" fill="'+(r.profit>=0?c('--ok'):c('--bad'))+'" stroke="'+c('--surface')+'" stroke-width="2"/>'+
+    '<text x="'+cx+'" y="'+(cy+(r.profit>=0?26:-14))+'" text-anchor="middle" font-size="14" font-weight="700" fill="'+c('--ink')+'" direction="rtl">עכשיו: '+fmt(r.n)+'</text>';
+  g+='<line id="xh" x1="0" x2="0" y1="'+T+'" y2="'+(H-B)+'" stroke="'+c('--muted')+'" stroke-width="1" opacity="0"/><circle id="xd" r="5" fill="'+c('--line-mark')+'" opacity="0"/>';
+  g+='<rect x="'+L+'" y="'+T+'" width="'+(W-L-R)+'" height="'+(H-T-B)+'" fill="transparent" id="hit"/>';
+  svg.innerHTML=g;
+  var tip=$('tip'),wrap=$('chart-wrap'),hit=$('hit'),xh=$('xh'),xd=$('xd');
+  function move(ev){var rect=svg.getBoundingClientRect(),sx=(ev.clientX-rect.left)/rect.width*W;
+    var n=Math.max(0,Math.min(maxN,Math.round((W-R-sx)/(W-L-R)*maxN))),px=x(n),py=y(f(n));
+    xh.setAttribute('x1',px);xh.setAttribute('x2',px);xh.setAttribute('opacity','.5');xd.setAttribute('cx',px);xd.setAttribute('cy',py);xd.setAttribute('opacity','1');
+    tip.hidden=false;tip.style.left=(px/W*rect.width)+'px';tip.style.top=(py/H*rect.height)+'px';
+    tip.innerHTML='<b class="ltr">'+fmt(n)+'</b> סוכנויות · '+(f(n)>=0?'רווח':'הפסד')+' <b class="ltr">'+money(f(n))+'</b> לחודש';}
+  hit.addEventListener('pointermove',move);
+  hit.addEventListener('pointerleave',function(){tip.hidden=true;xh.setAttribute('opacity','0');xd.setAttribute('opacity','0');});
+}
+render();
+if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',render);
+</script>
+
+</body>
+</html>

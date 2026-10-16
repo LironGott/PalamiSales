@@ -50,3 +50,6 @@ Market: about 750 travel agencies in Israel, about 94% of them single-owner ([Re
 - WhatsApp Israel rates: [SleekFlow](https://sleekflow.io/blog/whatsapp-business-api-pricing-updates-2025), [Meta pricing docs](https://developers.facebook.com/docs/whatsapp/pricing), [hon.co.il](https://www.hon.co.il/?p=280241).
 - SMS: [consumers.org.il](https://www.consumers.org.il/category/reduce-the-price-of-sms) (marginal cost ≤ ₪0.05; not a commercial price).
 - Agencies in Israel: [Rentech Digital](https://rentechdigital.com/smartscraper/business-report-details/list-of-travel-agencies-in-israel), [Infobel](https://www.infobelpro.com/companies/israel/travel-agencies).
+
+## Interactive model
+`sales/model/` (build: `python3 sales/model/build.py`, it reads PRICING and COSTS from the quote source). Preview: https://claude.ai/artifact/BH7d45qhFkcvpRqPrEe2CG. Inputs: number of agencies by size (and travelers per year for each size) and fixed monthly costs (three scenarios). Output: monthly and yearly profit, a bridge from revenue to profit, break-even and a profit-by-agency-count chart. Example mix (25 solo, 15 small, 7 mid, 2 large = 49 agencies): about ₪13.8K left per month. That is ≈ +₪6.5K with the lean scenario and ≈ −₪21.7K with one developer, whose break-even is about 126 agencies.

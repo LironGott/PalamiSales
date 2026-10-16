@@ -114,4 +114,5 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 
 ## Pricing and dynamic quote (draft, 2026-10-16)
 - Model: monthly system fee + a yearly traveler bank (a traveler is counted once, on first publish), volume tiers סולו/בסיס/מקצועי/מתקדם/ארגוני, minimum bank 50. All numbers are placeholders awaiting the user's approval. Details and market survey: `docs/sales/pricing.md`; costs and break-even: `docs/sales/unit-economics.md` (builder shows an internal margin per quote).
+- Profit model: `sales/model/` (https://claude.ai/artifact/BH7d45qhFkcvpRqPrEe2CG), shares PRICING/COSTS with the quote.
 - Tool: `sales/quote/quote.src.html` → `python3 sales/quote/build.py` → `sales/quote/offer/index.html` (for www.palami.io/offer/, not deployed). Preview: https://claude.ai/artifact/Cf8Ho4dBNL7KLiPkVvFUoc
