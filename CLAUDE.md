@@ -111,3 +111,8 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
 - Calendar and sharing will be available when the website launches (user, 2026-10-15): present them as existing, no "coming soon" tag.
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
+
+## Service agreements for agencies (2026-10-16)
+- Two versions (agency, independent agent) built from one source in `docs/legal/agreements/` (see its README). PDF in `out/`. Preview: https://claude.ai/artifact/CxjDJwZN85PNCRi7ovxP8L
+- One signed document = agreement + pricing annex + data-processing annex (reg. 15) + sub-processors (spec BR-62). Pricing model not final (spec ch. 25): Annex A is a fill-in form, with the trip bank as default.
+- Tone: short, fair, plain Hebrew with a non-binding "בקצרה" box. Needs lawyer review and the company details before sending.
