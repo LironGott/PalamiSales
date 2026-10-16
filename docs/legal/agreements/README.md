@@ -8,6 +8,9 @@ Each is one document (spec BR-62): the agreement, Annex A (plan and price, fille
 
 - Texts: `content.py` (`V("agency", "independent")` for text that differs). Layout: `build.py`. PDF footer: `print.cjs`.
 - Build: `python3 docs/legal/agreements/build.py` (HTML + PDF; `--no-pdf` for HTML only).
+- Word for legal review: `cd docs/legal/agreements && python3 export_json.py && node docx.cjs` → `out/*-legal-review.docx`.
+  Track changes is on, and the first page lists the open questions for the lawyer (`REVIEW_NOTES` in `content.py`; delete that page before sending).
+  If the lawyer edits the Word file, bring the accepted wording back into `content.py` and rebuild, so the PDF and Word stay the same.
 - Preview artifact: https://claude.ai/artifact/CxjDJwZN85PNCRi7ovxP8L (published from `out/preview.html` + both HTML files).
 
 Status (16.10.2026): version 1.0, based on research, not a legal opinion. **A lawyer must review it before it is sent.**
