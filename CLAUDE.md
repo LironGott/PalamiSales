@@ -111,3 +111,9 @@ If the user says the spec or prototypes changed, re-read the artifact with the A
 - Calendar tab (SCR-A26): monthly/weekly view of all departures and landings (agency-wide for managers, filter by agent), status marks on cards. Sharing a trip with another agent (SCR-A27): "החלפה" (full work + notifications) or "שיתוף מידע" (view only), optional end date. Absence cover plans (SCR-A28): split active trips between substitutes for a period. View-permission levels per agent (BR-90).
 - Calendar and sharing will be available when the website launches (user, 2026-10-15): present them as existing, no "coming soon" tag.
 - Website uses: calendar card + calendar screenshot (`site/img/r-calendar.webp`, from the prototype), "teamwork, even on vacation" card. Also added: traveler Push notifications, agency-scheduled reminders, contact after return, "ראש פנוי לנסיעה הבאה" band.
+
+## Agent landing page (2026-10-16)
+- URL on the site: `/demo/` (www.palami.io/demo/). Source `site/demo/index.html` + `site/css/lp.css` + `site/js/lp.js`; built by `build.py` like the other pages (noindex, not in the sitemap, Hebrew only). Preview: https://claude.ai/artifact/RGdYe6LKfApcZb57QxotGL
+- For agent outreach and paid campaigns. One goal (book a demo), no navigation, form above the fold (name, phone, optional business type), WhatsApp as an alternative, sticky bar on phones, FAQ for objections, beaver above the form, in the final band and on the thank-you message.
+- Message match: `?for=solo` or `?for=agency` changes the eyebrow and lead and preselects the business type. The form sends `page=demo-lp`, `business` and `source` (UTM + `for` + referrer) to the same Formspree form.
+- No invented claims: no testimonials, no prices, no time promises; traveler screens marked as illustration.

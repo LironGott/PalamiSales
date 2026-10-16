@@ -33,6 +33,8 @@ PAGES = [
     ('en/privacy.html', '/en/privacy.html', 'en', 'privacy.html'),
     ('accessibility.html', '/accessibility.html', 'he', 'en/accessibility.html'),
     ('en/accessibility.html', '/en/accessibility.html', 'en', 'accessibility.html'),
+    # landing page for agents and paid campaigns: Hebrew only, noindex (set in the page), not in the sitemap
+    ('demo/index.html', '/demo/', 'he', None),
 ]
 URL = {p[0]: p[1] for p in PAGES}
 GOOGLE_FONTS = re.compile(r'<link rel="preconnect" href="https://fonts\.googleapis\.com">\n<link rel="preconnect" href="https://fonts\.gstatic\.com" crossorigin>\n<link rel="stylesheet" href="https://fonts\.googleapis\.com/[^"]+">\n')
@@ -52,25 +54,30 @@ def write(p, s):
 
 def build_page(src, url, lang, alt):
     s = read(src)
-    base = '../' if src.startswith('en/') else ''
+    base = '../' if '/' in src else ''
     # split the fragment into head tags and body
-    m = re.search(r'<svg width="0"|<div class="site[ "]', s)
+    m = re.search(r'<svg class="sprite"|<svg width="0"|<div class="(?:site|lp)[ "]', s)
     cut = m.start()
     head, body = s[:cut], s[cut:]
     head = head.replace('<meta name="claude:viewport-fit-sides" content="cover">\n', '')
     head = GOOGLE_FONTS.sub('<link rel="preload" href="%sfonts/fonts.css" as="style">\n<link rel="stylesheet" href="%sfonts/fonts.css">\n' % (base, base), head)
     title = re.search(r'<title>(.*?)</title>', head).group(1)
     desc = re.search(r'<meta name="description" content="([^"]*)">', head).group(1)
-    he_url = URL[src] if lang == 'he' else URL[alt]
-    en_url = URL[src] if lang == 'en' else URL[alt]
+    alts = []
+    if alt:
+        he_url = URL[src] if lang == 'he' else URL[alt]
+        en_url = URL[src] if lang == 'en' else URL[alt]
+        alts = [
+            f'<link rel="alternate" hreflang="he" href="{SITE_URL}{he_url}">',
+            f'<link rel="alternate" hreflang="en" href="{SITE_URL}{en_url}">',
+            f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{he_url}">',
+        ]
     meta = [
         '<meta charset="utf-8">',
         '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">',
         '<meta name="theme-color" content="#08402A">',
         f'<link rel="canonical" href="{SITE_URL}{url}">',
-        f'<link rel="alternate" hreflang="he" href="{SITE_URL}{he_url}">',
-        f'<link rel="alternate" hreflang="en" href="{SITE_URL}{en_url}">',
-        f'<link rel="alternate" hreflang="x-default" href="{SITE_URL}{he_url}">',
+        *alts,
         f'<link rel="apple-touch-icon" href="{base}img/apple-touch-icon.png">',
         '<meta property="og:type" content="website">',
         '<meta property="og:site_name" content="PALAMI">',
@@ -105,6 +112,7 @@ def main():
         used.update(re.findall(r'img/([\w.-]+\.(?:webp|png|svg|jpg))', html))
     js = read('js/site.js')
     used.update(re.findall(r"'([\w.-]+\.webp)'", js))
+    used.update(re.findall(r"img/([\w.-]+\.webp)", read('js/lp.js')))
     used.update(['mascot.webp', 'og-he.png', 'og-en.png', 'apple-touch-icon.png', 'favicon-32.png'])
     for d in ('css', 'js', 'fonts'):
         shutil.copytree(os.path.join(SRC, d), os.path.join(DIST, d))
@@ -126,6 +134,8 @@ def main():
     write('robots.txt', f'User-agent: *\nAllow: /\n\nSitemap: {SITE_URL}/sitemap.xml\n')
     urls = []
     for src, url, lang, alt in PAGES:
+        if not alt:
+            continue
         alt_url = URL[alt]
         he, en = (url, alt_url) if lang == 'he' else (alt_url, url)
         urls.append(f'  <url><loc>{SITE_URL}{url}</loc>'

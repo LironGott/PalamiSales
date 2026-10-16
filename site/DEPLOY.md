@@ -8,6 +8,7 @@
 | `css/site.css`, `js/site.js` | Shared by all pages. `site.js` holds the HE/EN strings for the product peek, form messages and menu. |
 | `fonts/` | Self-hosted Rubik, Assistant, IBM Plex Mono (SIL OFL), Hebrew + Latin subsets. No request goes to Google. |
 | `img/` | Images. Only the ones the pages use are copied to `dist/`. `og-he.png` / `og-en.png` are the share images (source in `tools/og/`). |
+| `demo/index.html`, `css/lp.css`, `js/lp.js` | Landing page for agents and paid campaigns at `/demo/` (noindex, not in the sitemap). Ad links: `https://www.palami.io/demo/?for=agency&utm_source=facebook&utm_medium=paid&utm_campaign=...` (`for=solo|agency` tunes the headline area). |
 | `tools/build.py` | Builds `dist/`, the folder that gets uploaded. |
 | `dist/` | Ready-to-upload static site (~1.3 MB). |
 
