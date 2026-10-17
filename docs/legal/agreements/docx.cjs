@@ -3,6 +3,7 @@
 // Output: out/<file>-legal-review.docx, with track changes switched on and a first page of open questions for the lawyer.
 const fs = require('node:fs');
 const path = require('node:path');
+const { execFileSync } = require('node:child_process');
 const {
   Document, Packer, Paragraph, TextRun, ImageRun, Table, TableRow, TableCell, Header, Footer,
   AlignmentType, WidthType, BorderStyle, ShadingType, PageNumber, PageBreak, TabStopType, TableLayoutType,
@@ -21,10 +22,12 @@ const logo = fs.readFileSync(path.join(root, 'brand/logo/png/wordmark-tagline.pn
 const run = (text, o = {}) => new TextRun({
   text, rightToLeft: true, font: { ascii: FONT, hAnsi: FONT, cs: FONT },
   size: o.size || 21, sizeComplexScript: o.size || 21, bold: o.bold, boldComplexScript: o.bold,
-  color: o.color, ...(o.extra || {}),
+  color: o.color, language: { value: 'he-IL', bidirectional: 'he-IL' }, ...(o.extra || {}),
 });
+// Word reads the transitional schema, where "start"/"end" alignment and indents are not reliable.
+// A bidi paragraph with no alignment starts at the right; w:left and tab "left" are the leading (right) edge in RTL.
 const para = (children, o = {}) => new Paragraph({
-  bidirectional: true, alignment: o.align || AlignmentType.BOTH,
+  bidirectional: true, alignment: o.align === AlignmentType.START || o.align === AlignmentType.END ? undefined : (o.align || AlignmentType.BOTH),
   spacing: { before: o.before ?? 0, after: o.after ?? 100, line: o.line || 300 },
   children: Array.isArray(children) ? children : [children], ...(o.extra || {}),
 });
@@ -47,7 +50,7 @@ const table = (rows, widths, o = {}) => new Table({
 const sectionHeading = (n, title) => para([run(`${n}.  `, { bold: true, color: COPPER, size: 24 }), run(title, { bold: true, color: GREEN, size: 24 })],
   { before: 220, after: 80, align: AlignmentType.START, extra: { keepNext: true } });
 const clauseItem = (n, text) => para([run(n, { color: MUTED, size: 19 }), run('\t'), run(text)], {
-  extra: { indent: { start: 680, hanging: 680 }, tabStops: [{ type: TabStopType.START, position: 680 }] },
+  extra: { indent: { left: 680, hanging: 680 }, tabStops: [{ type: TabStopType.LEFT, position: 680 }] },
 });
 
 function memo(d) {
@@ -130,19 +133,18 @@ function signatures(s) {
 function build(v) {
   const d = JSON.parse(fs.readFileSync(path.join(OUT, `agreement-${v}.json`), 'utf8'));
   const header = new Header({ children: [
-    new Paragraph({ bidirectional: true, alignment: AlignmentType.START, children: [
+    new Paragraph({ bidirectional: true, children: [
       new ImageRun({ type: 'png', data: logo, transformation: { width: 120, height: 40 } }),
     ] }),
   ] });
   const footer = new Footer({ children: [para([
     run(`${d.doc_title} · נוסח ${d.version}`, { color: MUTED, size: 16 }),
-    run('\tראשי תיבות: ____________', { color: MUTED, size: 16 }),
-    run('\tעמוד ', { color: MUTED, size: 16 }),
+    run('   ·   ראשי תיבות: ____________', { color: MUTED, size: 16 }),
+    run('   ·   עמוד ', { color: MUTED, size: 16 }),
     new TextRun({ children: [PageNumber.CURRENT], size: 16, color: MUTED, font: FONT, rightToLeft: true }),
     run(' מתוך ', { color: MUTED, size: 16 }),
     new TextRun({ children: [PageNumber.TOTAL_PAGES], size: 16, color: MUTED, font: FONT, rightToLeft: true }),
   ], { align: AlignmentType.START, after: 0, extra: {
-    tabStops: [{ type: TabStopType.CENTER, position: CONTENT_W / 2 }, { type: TabStopType.END, position: CONTENT_W }],
     border: { top: { style: BorderStyle.SINGLE, size: 4, color: LINE, space: 4 } },
   } })] });
 
@@ -169,7 +171,11 @@ function build(v) {
     }],
   });
   const file = path.join(OUT, JSON.parse(JSON.stringify(d)).doc_title && `${v === 'agency' ? 'palami-agreement-agency' : 'palami-agreement-independent'}-legal-review.docx`);
-  return Packer.toBuffer(doc).then((buf) => { fs.writeFileSync(file, buf); console.log('wrote', path.relative(root, file)); });
+  return Packer.toBuffer(doc).then((buf) => {
+    fs.writeFileSync(file, buf);
+    execFileSync('python3', [path.join(here, 'rtl_section.py'), file]);
+    console.log('wrote', path.relative(root, file));
+  });
 }
 
 Promise.all(['agency', 'independent'].map(build)).catch((e) => { console.error(e); process.exit(1); });
