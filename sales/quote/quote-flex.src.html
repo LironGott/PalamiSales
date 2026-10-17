@@ -1,0 +1,528 @@
+<title>הצעת מחיר PALAMI גמישה</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700;800&family=Assistant:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: internal control panel (right, sticky) beside a live A4-like proposal sheet on paper.
+   Client mode (?a=...&n=...) shows only the sheet. Colors follow brand/tokens/tokens.css (agent look). */
+:root{
+  --bg:#F4F6F4; --paper:#FEFEFC; --surface:#FFFFFF; --surface-2:#ECEEEC; --ink:#16211C; --muted:#545D58; --line:#DEE3DF;
+  --brand:#08402A; --brand-ink:#FFFFFF; --brand-soft:#E8F1EC; --brand-2:#1E6E47;
+  --cream:#FBF3E3; --copper:#C37237; --copper-text:#A85C28;
+  --ok:#33704F; --ok-fill:#5E9677; --ok-soft:#E6F0EA; --bad:#B91C3C; --bad-soft:#FCE8EC; --info:#1D5FA8; --info-soft:#E4EEF8; --warn:#8A5F00; --warn-soft:#FBF1D6;
+  --logo-ink:#08402A; --logo-dot:#C37237; --focus:#08402A; --show-full:block; --show-dark:none;
+  --shadow:0 1px 2px rgb(21 26 23 / .06), 0 8px 28px rgb(8 64 42 / .08);
+  --f-display:"Rubik","Assistant","Segoe UI",Arial,sans-serif;
+  --f-body:"Assistant","Rubik","Segoe UI",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --r-sm:10px; --r-md:14px; --r-lg:20px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101512; --paper:#151B17; --surface:#1B221E; --surface-2:#232B26; --ink:#E6EBE8; --muted:#9DA8A1; --line:#2E3832;
+  --brand:#74B590; --brand-ink:#021209; --brand-soft:#18291F; --brand-2:#8FC6A6;
+  --cream:#1F2A21; --copper:#D4884A; --copper-text:#E5A570;
+  --ok:#7FBF9A; --ok-fill:#5E9677; --ok-soft:#16271E; --bad:#F27A8C; --bad-soft:#331820; --info:#7FB2E8; --info-soft:#132235; --warn:#E6B54A; --warn-soft:#2E2610;
+  --logo-ink:#FFFFFF; --logo-dot:#D4884A; --focus:#74B590; --show-full:none; --show-dark:flex;
+  --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 28px rgb(0 0 0 / .3); color-scheme:dark;}}
+:root[data-theme="dark"]{
+  --bg:#101512; --paper:#151B17; --surface:#1B221E; --surface-2:#232B26; --ink:#E6EBE8; --muted:#9DA8A1; --line:#2E3832;
+  --brand:#74B590; --brand-ink:#021209; --brand-soft:#18291F; --brand-2:#8FC6A6;
+  --cream:#1F2A21; --copper:#D4884A; --copper-text:#E5A570;
+  --ok:#7FBF9A; --ok-fill:#5E9677; --ok-soft:#16271E; --bad:#F27A8C; --bad-soft:#331820; --info:#7FB2E8; --info-soft:#132235; --warn:#E6B54A; --warn-soft:#2E2610;
+  --logo-ink:#FFFFFF; --logo-dot:#D4884A; --focus:#74B590; --show-full:none; --show-dark:flex;
+  --shadow:0 1px 2px rgb(0 0 0 / .3), 0 8px 28px rgb(0 0 0 / .3); color-scheme:dark;}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{direction:rtl}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:24px 48px}
+.ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+.num{font-variant-numeric:tabular-nums}
+.mono{font-family:var(--f-mono);font-weight:500}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;color:var(--brand)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:6px}
+
+.app{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:28px;align-items:start}
+.client .app{grid-template-columns:minmax(0,1fr);max-width:860px}
+.client .panel{display:none}
+main{min-width:0}
+
+/* ---------- Control panel (internal) ---------- */
+.panel{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;display:grid;gap:18px;box-shadow:var(--shadow);max-height:calc(100vh - 32px);overflow:auto}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.panel-head h2{font-size:19px}
+.tag{font-size:12px;font-weight:700;letter-spacing:.04em;color:var(--muted);background:var(--surface-2);padding:3px 10px;border-radius:999px}
+.fld{display:grid;gap:6px}
+.fld>span{font-weight:700;font-size:15px}
+.fld small{color:var(--muted);font-size:13px}
+.inp{width:100%;min-height:44px;border:1px solid var(--line);background:var(--paper);border-radius:var(--r-sm);padding:9px 12px;font-size:16px}
+.inp:focus{border-color:var(--brand)}
+.inp.err{border-color:#B91C3C}
+.bank{display:grid;gap:10px;background:var(--brand-soft);border-radius:var(--r-md);padding:14px}
+.bank-top{display:flex;align-items:end;justify-content:space-between;gap:12px}
+.bank-top .inp{width:130px;font-family:var(--f-display);font-weight:700;font-size:22px;text-align:center;direction:ltr}
+input[type=range]{width:100%;accent-color:var(--brand);min-height:32px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:36px;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.hint{font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
+.hint b{color:var(--ink)}
+details.more{border-top:1px solid var(--line);padding-top:14px}
+details.more summary{cursor:pointer;font-weight:700;min-height:32px;display:flex;align-items:center}
+.more-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.more-grid .full{grid-column:1/-1}
+.check{display:flex;gap:10px;align-items:center;min-height:44px;font-weight:600}
+.check input{width:20px;height:20px;accent-color:var(--brand)}
+.actions{display:grid;gap:10px;border-top:1px solid var(--line);padding-top:16px}
+.btn{min-height:46px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);font-weight:700;font-size:16px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:8px 16px;text-decoration:none;color:var(--ink)}
+.btn.pri{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.btn-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.note{font-size:13px;color:var(--muted);background:var(--surface-2);border-radius:var(--r-sm);padding:10px 12px}
+.profit{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;display:grid;gap:8px;font-size:14px}
+.profit-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.profit-grid{display:grid;grid-template-columns:auto 1fr;gap:2px 12px}
+.profit-grid span{color:var(--muted)}
+.profit-grid b{text-align:left}
+.profit small{color:var(--muted);font-size:12px}
+.st{font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px}
+.st-ok{color:var(--ok);background:var(--ok-soft)}.st-warn{color:var(--warn);background:var(--warn-soft)}.st-bad{color:var(--bad);background:var(--bad-soft)}
+.status{font-size:14px;font-weight:600;color:var(--ok);min-height:1.4em}
+
+/* ---------- Proposal sheet ---------- */
+.sheet{grid-template-columns:minmax(0,1fr);background:var(--paper);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:var(--shadow);padding:clamp(22px,4vw,48px);display:grid;gap:30px;min-width:0}
+.s-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line)}
+.logo-full{display:var(--show-full);width:300px;max-width:100%;height:auto}
+.logo-dark{display:var(--show-dark);align-items:center;gap:12px}
+.logo-dark .mascot{width:64px;height:auto}
+.logo svg{width:150px;height:auto;display:block}
+.logo-dark p{margin:6px 0 0;font-size:14px;color:var(--muted)}
+.meta{display:grid;grid-template-columns:auto auto;gap:2px 14px;font-size:14px;color:var(--muted);text-align:start}
+.meta dt{font-weight:600}
+.meta dd{margin:0;color:var(--ink)}
+
+.hello{display:grid;gap:6px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--copper-text)}
+.hello h1{font-size:clamp(26px,3.4vw,36px);line-height:1.2}
+.hello h1 .empty{color:var(--muted);font-weight:600}
+.hello p{margin:0;color:var(--muted);font-size:17px;max-width:62ch}
+
+.price{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:0;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--line)}
+.price-main{background:var(--brand);color:var(--brand-ink);padding:26px 28px;display:grid;gap:6px;align-content:center}
+.price-main .lbl{font-weight:600;opacity:.85}
+.price-main .big{font-family:var(--f-display);font-weight:800;font-size:clamp(44px,6vw,64px);line-height:1;letter-spacing:-.01em}
+.price-main .big small{font-size:.38em;font-weight:600;letter-spacing:0}
+.price-main .sub{font-size:15px;opacity:.85}
+.price-main .was{font-size:15px;opacity:.85;text-decoration:line-through}
+.price-break{background:var(--surface);padding:22px 24px;display:grid;gap:4px;align-content:center}
+.row{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:16px}
+.row:last-child{border-bottom:0}
+.row span:first-child{color:var(--muted)}
+.row b{font-weight:700}
+.row.total b{font-family:var(--f-display);font-size:18px;color:var(--brand)}
+.row.save b{color:var(--ok)}
+
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fact{background:var(--cream);border-radius:var(--r-md);padding:14px 16px;display:grid;gap:2px}
+.fact b{font-family:var(--f-display);font-size:24px;color:var(--brand);font-weight:700}
+.fact span{font-size:14px;color:var(--muted)}
+
+.sec h2{font-size:21px;margin-bottom:14px}
+.gets{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.get{border:1px solid var(--line);border-radius:var(--r-md);padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface)}
+.get h3{font-size:17px;display:flex;gap:8px;align-items:center}
+.get ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.get li{display:grid;grid-template-columns:22px 1fr;gap:8px;align-items:start}
+.v{width:22px;height:22px;border-radius:50%;background:var(--ok-soft);color:var(--ok);display:grid;place-items:center;font-size:13px;font-weight:800;margin-top:1px}
+.plus{border:1px dashed var(--line);border-radius:var(--r-md);padding:12px 16px;margin-top:12px;font-size:15px;color:var(--muted)}
+.plus b{color:var(--ink)}
+
+.terms{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.terms li{display:grid;gap:4px;align-content:start}
+.terms b{font-family:var(--f-display);font-weight:600;color:var(--brand)}
+.terms span{font-size:15px;color:var(--muted)}
+
+.tiers-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:15px}
+th,td{padding:11px 14px;text-align:start;border-bottom:1px solid var(--line)}
+th{font-weight:700;color:var(--muted);font-size:13px;background:var(--surface-2)}
+tr:last-child td{border-bottom:0}
+tr.cur td{background:var(--brand-soft);font-weight:700}
+.pill{display:inline-flex;gap:4px;align-items:center;font-size:12px;font-weight:700;color:var(--ok);background:var(--ok-soft);border-radius:999px;padding:2px 9px;margin-inline-start:6px}
+
+.s-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line);padding-top:20px;font-size:15px}
+.s-foot .who{display:grid;gap:2px}
+.s-foot .who b{font-family:var(--f-display);color:var(--brand)}
+.s-foot .contact{display:flex;gap:18px;flex-wrap:wrap;color:var(--muted)}
+.s-foot .contact a{color:inherit}
+.fine{font-size:13px;color:var(--muted);margin:0}
+.client-bar{display:none;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.client .client-bar{display:flex}
+
+@media (max-width:980px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .panel{position:static;max-height:none}
+}
+@media (max-width:640px){
+  .price{grid-template-columns:minmax(0,1fr)}
+  .facts,.terms{grid-template-columns:minmax(0,1fr)}
+  .gets{grid-template-columns:minmax(0,1fr)}
+  .more-grid{grid-template-columns:minmax(0,1fr)}
+  .s-head{flex-direction:column}
+}
+@media (prefers-reduced-motion:no-preference){.big,.row b,.fact b{transition:color .2s}}
+@page{size:A4;margin:12mm}
+@media print{
+  :root{--bg:#fff;--paper:#fff;--show-full:block;--show-dark:none}
+  body{padding:0;background:#fff}
+  .panel,.client-bar{display:none!important}
+  .app{display:block;max-width:none}
+  .sheet{box-shadow:none;border:0;padding:0;gap:22px}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sec,.price,.facts{break-inside:avoid}
+}
+</style>
+
+<div class="app" id="app">
+  <!-- ===== Internal panel ===== -->
+  <form class="panel" id="panel" autocomplete="off" novalidate>
+    <div class="panel-head"><h2>בניית הצעת מחיר</h2><span class="tag">פנימי · כמות חופשית</span></div>
+
+    <label class="fld"><span>שם הסוכנות</span>
+      <input class="inp" id="f-agency" type="text" placeholder="לדוגמה: מסעות הדרים" maxlength="80">
+    </label>
+
+    <label class="fld"><span>לאן לשלוח</span>
+      <input class="inp" id="f-contact" type="text" inputmode="email" placeholder="מייל או מספר נייד" maxlength="80" dir="ltr" style="text-align:right">
+      <small id="contact-kind">אפשר מייל או נייד ישראלי</small>
+    </label>
+
+    <div class="bank">
+      <div class="bank-top">
+        <label class="fld" for="f-bank" style="gap:2px"><span>בנק נוסעים לשנה</span><small>אפשר להקליד כל מספר מ־50</small></label>
+        <input class="inp num" id="f-bank-n" type="number" min="50" max="10000" step="10" value="500" aria-label="מספר נוסעים">
+      </div>
+      <input id="f-bank" type="range" min="50" max="5000" step="10" value="500" aria-label="בנק נוסעים לשנה">
+      <div class="chips" id="presets" role="group" aria-label="כמויות נפוצות">
+        <button type="button" class="chip" data-n="70">70</button>
+        <button type="button" class="chip" data-n="200">200</button>
+        <button type="button" class="chip" data-n="500">500</button>
+        <button type="button" class="chip" data-n="1000">1,000</button>
+        <button type="button" class="chip" data-n="2000">2,000</button>
+        <button type="button" class="chip" data-n="5000">5,000</button>
+      </div>
+      <div class="hint" id="next-hint"></div>
+    </div>
+
+    <div class="profit" id="profit" aria-label="רווחיות משוערת"></div>
+
+    <details class="more" id="more">
+      <summary>התאמות (לא חובה)</summary>
+      <div class="more-grid">
+        <label class="fld" id="users-fld"><span>משתמשים בסוכנות</span>
+          <input class="inp num" id="f-users" type="number" min="1" max="500" placeholder="כלול במדרגה">
+        </label>
+        <label class="fld"><span>הנחה מיוחדת</span>
+          <select class="inp" id="f-disc">
+            <option value="0">ללא</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option>
+          </select>
+        </label>
+        <label class="check full"><input type="checkbox" id="f-prepay"> תשלום שנתי מראש (<span id="prepay-pct"></span> הנחה)</label>
+        <label class="fld full"><span>שורה אישית בהצעה</span>
+          <input class="inp" id="f-note" type="text" maxlength="140" placeholder="לדוגמה: חודש ראשון להכרות ללא עלות">
+        </label>
+      </div>
+    </details>
+
+    <div class="actions">
+      <a class="btn pri" id="b-send" href="#" target="_blank" rel="noopener">שליחה</a>
+      <div class="btn-row">
+        <button type="button" class="btn" id="b-copy-link">העתקת קישור</button>
+        <button type="button" class="btn" id="b-copy-msg">העתקת ההודעה</button>
+      </div>
+      <button type="button" class="btn" id="b-print">שמירה כ־PDF</button>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+      <div class="note" id="link-note" hidden>זו תצוגה מקדימה. הקישור ללקוח יפעל אחרי שהעמוד יעלה לכתובת <span class="ltr mono">www.palami.io/offer</span>. עד אז אפשר לשלוח את ההצעה כ־PDF מהעותק שבמאגר.</div>
+    </div>
+  </form>
+
+  <!-- ===== Proposal ===== -->
+  <main>
+    <article class="sheet" id="sheet" aria-label="הצעת מחיר">
+      <header class="s-head">
+        <div class="logo"><img class="logo-full" src="<!--LOGO_FULL-->" alt="PALAMI · כל פרטי הנסיעה בכף ידך" width="300" height="123"><div class="logo-dark"><img class="mascot" src="<!--MASCOT-->" alt="" width="64" height="70"><div><!--LOGO--><p>כל פרטי הנסיעה בכף ידך</p></div></div></div>
+        <dl class="meta">
+          <dt>הצעה מס׳</dt><dd><span class="ltr mono" id="o-id"></span></dd>
+          <dt>תאריך</dt><dd><span class="ltr num" id="o-date"></span></dd>
+          <dt>בתוקף עד</dt><dd><span class="ltr num" id="o-valid"></span></dd>
+        </dl>
+      </header>
+
+      <section class="hello">
+        <span class="eyebrow">הצעת מחיר</span>
+        <h1 id="o-agency"></h1>
+        <p>כל מסמכי הנסיעה של הלקוחות במקום אחד: גוררים אותם לתיק, מערכת AI מתייקת הכל ואתם יודעים בכל רגע מה עוד חסר. הנוסעים מקבלים את כל הנסיעה בטלפון.</p>
+      </section>
+
+      <section class="price" aria-label="המחיר">
+        <div class="price-main">
+          <span class="lbl">לחודש</span>
+          <span class="big num"><span class="ltr" id="o-monthly"></span></span>
+          <span class="was num" id="o-was" hidden></span>
+          <span class="sub">לא כולל מע״מ · התקשרות ל־12 חודשים</span>
+        </div>
+        <div class="price-break" id="o-break"></div>
+      </section>
+
+      <section class="facts" aria-label="במספרים">
+        <div class="fact"><b class="num"><span class="ltr" id="o-bank"></span></b><span>נוסעים בשנה</span></div>
+        <div class="fact"><b class="num"><span class="ltr" id="o-trips"></span></b><span>נסיעות בערך <span id="o-avg"></span></span></div>
+        <div class="fact"><b class="num" id="o-users"></b><span>משתמשים לצוות הסוכנות, כל הסוכנים</span></div>
+      </section>
+
+      <section class="sec">
+        <h2>מה מקבלים</h2>
+        <div class="gets">
+          <div class="get">
+            <h3>לסוכנות</h3>
+            <ul>
+              <li><span class="v" aria-hidden="true">✓</span><span>גוררים מסמכים לתיק ומערכת AI מתייקת אותם</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>לוח בקרה: מה חסר ומה דחוף בכל תיק</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>תיקי נסיעה, לקוחות, משפחות וקבוצות</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>יומן יציאות ונחיתות של כל הסוכנות</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>החלפה ושיתוף תיקים בין סוכנים</span></li>
+            </ul>
+          </div>
+          <div class="get">
+            <h3>לנוסעים</h3>
+            <ul>
+              <li><span class="v" aria-hidden="true">✓</span><span>קישור אחד, בלי להתקין אפליקציה</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>לו״ז, מסמכים ומספרי חירום, גם בלי אינטרנט</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>התראה על כל שינוי בנסיעה</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>צ׳אט עם הסוכן</span></li>
+              <li><span class="v" aria-hidden="true">✓</span><span>הלוגו של הסוכנות בראש המסך</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="plus" id="o-plus"><b>כלול במחיר:</b> הקמת הסוכנות והעובדים על ידי צוות PALAMI, הדרכה ותמיכה בעברית.</div>
+      </section>
+
+      <section class="sec">
+        <h2>איך עובד הבנק</h2>
+        <ul class="terms">
+          <li><b>נספר רק מה שנשלח</b><span>נוסע נספר פעם אחת, כשהנסיעה נשלחת אליו. טיוטות ונסיעות שבוטלו לפני השליחה לא נספרות.</span></li>
+          <li><b>גם לקבוצות</b><span>זוג, משפחה או קבוצה של 40: כל נוסע נספר פעם אחת, בלי חבילות נפרדות.</span></li>
+          <li><b>תוקף לשנה</b><span>הבנק בתוקף 12 חודשים. נגמר מוקדם? מוסיפים נוסעים במחיר נוסע נוסף.</span></li>
+        </ul>
+      </section>
+
+      <section class="sec">
+        <h2>המדרגות</h2>
+        <div class="tiers-wrap"><table id="o-tiers"></table></div>
+      </section>
+
+      <footer class="s-foot">
+        <div class="who"><b>צוות PALAMI</b><span>נשמח לענות על כל שאלה</span></div>
+        <div class="contact"><a href="mailto:info@palami.io" class="ltr">info@palami.io</a><a href="tel:+972542245627" class="ltr">054-2245627</a><span class="ltr">www.palami.io</span></div>
+        <p class="fine" style="flex-basis:100%">המחירים בשקלים ולא כוללים מע״מ. ההצעה בתוקף עד <span class="ltr num" id="o-valid2"></span>.</p>
+      </footer>
+    </article>
+    <div class="client-bar"><button type="button" class="btn pri" id="c-print">שמירה כ־PDF</button><a class="btn" href="mailto:info@palami.io">אישור ההצעה במייל</a></div>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   PRICING CONFIG: draft numbers for approval. Change here only.
+   Model (spec ch. 25 + BR-06): monthly system fee + a yearly traveler bank.
+   A traveler is counted once, on the trip's first publish. Volume tiers lower the price per traveler.
+   ========================================================= */
+/*CONFIG*/
+
+/* INTERNAL COST ESTIMATE (never shown in the proposal). Assumptions in docs/sales/unit-economics.md */
+
+var $ = function(id){return document.getElementById(id);};
+var fmt = function(n,d){return Number(n).toLocaleString('en-US',{minimumFractionDigits:d||0,maximumFractionDigits:d||0});};
+var money = function(n,d){return PRICING.currency+fmt(n,d);};
+var pad = function(n){return String(n).padStart(2,'0');};
+var dmy = function(d){return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear();};
+var esc = function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+
+function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
+
+/* Pure: the whole quote from its inputs */
+function quote(o){
+  var n=Math.max(PRICING.minBank,Math.round(o.bank||0));
+  var t=tierFor(n);
+  var users=o.users&&o.users>0?o.users:(t.users||null);
+  var extraUsers=(t.users&&users>t.users)?users-t.users:0;
+  var bankYear=n*t.perTraveler, bankMonth=bankYear/12;
+  var usersMonth=extraUsers*PRICING.extraUserMonthly;
+  var list=t.fee+bankMonth+usersMonth;
+  var disc=(o.disc||0)/100, pre=o.prepay?PRICING.prepayDiscount/100:0;
+  var afterDisc=list*(1-disc), monthly=Math.round(afterDisc*(1-pre));
+  return {n:n,tier:t,users:users,extraUsers:extraUsers,fee:t.fee,bankMonth:bankMonth,usersMonth:usersMonth,
+    list:Math.round(list),discAmt:Math.round(list*disc),preAmt:Math.round(afterDisc*pre),monthly:monthly,
+    year:monthly*12,trips:Math.round(n/PRICING.avgTravelersPerTrip)};
+}
+function margin(q){
+  var cost=q.n*COSTS.perTraveler/12+(COSTS.support[q.tier.name]||0)+q.monthly*COSTS.clearing;
+  var c=q.monthly-cost; return {cost:Math.round(cost),contrib:Math.round(c),pct:q.monthly?Math.round(100*c/q.monthly):0};
+}
+
+/* ---------- state ---------- */
+var params=new URLSearchParams(location.search);
+var isClient=params.has('n');
+var inFrame=(function(){try{return window.self!==window.top;}catch(e){return true;}})();
+var today=new Date();
+var S={agency:'',contact:'',bank:500,users:0,disc:0,prepay:false,note:'',id:'',date:today};
+
+if(isClient){
+  document.documentElement.classList.add('client');
+  S.agency=params.get('a')||''; S.bank=+params.get('n')||500; S.users=+params.get('u')||0;
+  S.disc=+params.get('d')||0; S.prepay=params.get('y')==='1'; S.note=params.get('t')||'';
+  S.id=params.get('id')||''; var pd=params.get('dt'); if(pd){var p=pd.split('-');S.date=new Date(+p[0],+p[1]-1,+p[2]);}
+}else{
+  var yymm=String(today.getFullYear()).slice(2)+pad(today.getMonth()+1);
+  var cnt=+(store('palami-quote-'+yymm)||0)+1;
+  S.id=PRICING.idPrefix+'-'+yymm+'-'+String(cnt).padStart(3,'0');
+}
+
+function linkBase(){
+  var web=/^https?:$/.test(location.protocol)&&!inFrame;
+  return web?location.origin+location.pathname:PRICING.offerUrl;
+}
+function clientLink(){
+  var p=new URLSearchParams();
+  if(S.agency)p.set('a',S.agency); p.set('n',S.bank);
+  if(S.users)p.set('u',S.users); if(S.disc)p.set('d',S.disc); if(S.prepay)p.set('y','1');
+  if(S.note)p.set('t',S.note); p.set('id',S.id);
+  p.set('dt',S.date.getFullYear()+'-'+pad(S.date.getMonth()+1)+'-'+pad(S.date.getDate()));
+  return linkBase()+'?'+p.toString();
+}
+function contactKind(v){
+  v=(v||'').trim(); if(!v)return null;
+  if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))return {type:'mail',val:v};
+  var d=v.replace(/[^\d+]/g,'');
+  if(/^(\+?972|0)5\d{8}$/.test(d)){return {type:'wa',val:'972'+d.replace(/^\+?972|^0/,'')};}
+  return {type:'bad'};
+}
+function message(q){
+  var name=S.agency||'הסוכנות';
+  return 'שלום,\n'+
+    'מצורפת הצעת המחיר של PALAMI עבור '+name+':\n'+
+    fmt(q.n)+' נוסעים בשנה · '+money(q.monthly)+' לחודש (לא כולל מע״מ)\n\n'+
+    'לצפייה בהצעה:\n'+clientLink()+'\n\n'+
+    'נשמח לענות על כל שאלה,\nצוות PALAMI · info@palami.io · 054-2245627';
+}
+
+/* ---------- render ---------- */
+function render(){
+  var q=quote(S), t=q.tier;
+  var valid=new Date(S.date); valid.setDate(valid.getDate()+PRICING.validDays);
+
+  $('o-id').textContent=S.id; $('o-date').textContent=dmy(S.date);
+  $('o-valid').textContent=dmy(valid); $('o-valid2').textContent=dmy(valid);
+  $('o-agency').innerHTML=S.agency?'עבור '+esc(S.agency):'<span class="empty">עבור [שם הסוכנות]</span>';
+  $('o-monthly').textContent=money(q.monthly);
+  var was=$('o-was'); if(q.list!==q.monthly){was.hidden=false;was.innerHTML='<span class="ltr">'+money(q.list)+'</span> במחיר מלא';}else was.hidden=true;
+
+  var pt=money(t.perTraveler,t.perTraveler%1?2:0);
+  var rows=PRICING.showBreakdown?
+    '<div class="row"><span>דמי מערכת · חבילת '+t.plan+'</span><b class="num ltr">'+money(q.fee)+'</b></div>'+
+    '<div class="row"><span>בנק <span class="ltr">'+fmt(q.n)+'</span> נוסעים · <span class="ltr">'+pt+'</span> לנוסע</span><b class="num ltr">'+money(q.bankMonth)+'</b></div>'
+   :'<div class="row"><span>חבילת '+t.plan+' · <span class="ltr">'+fmt(q.n)+'</span> נוסעים בשנה, הכל כלול</span><b class="num ltr">'+money(q.fee+q.bankMonth)+'</b></div>'+
+    '<div class="row"><span>נוסע נוסף מעבר לחבילה, תשלום חד־פעמי</span><b class="num ltr">'+pt+'</b></div>';
+  if(q.extraUsers)rows+='<div class="row"><span><span class="ltr">'+q.extraUsers+'</span> משתמשים נוספים</span><b class="num ltr">'+money(q.usersMonth)+'</b></div>';
+  if(q.discAmt)rows+='<div class="row save"><span>הנחה מיוחדת <span class="ltr">'+S.disc+'%</span></span><b class="num ltr">−'+money(q.discAmt)+'</b></div>';
+  if(q.preAmt)rows+='<div class="row save"><span>תשלום שנתי מראש <span class="ltr">'+PRICING.prepayDiscount+'%</span></span><b class="num ltr">−'+money(q.preAmt)+'</b></div>';
+  rows+='<div class="row total"><span>'+(S.prepay?'סה״כ לשנה, בתשלום אחד':'סה״כ לשנה')+'</span><b class="num ltr">'+money(q.year)+'</b></div>';
+  $('o-break').innerHTML=rows;
+
+  $('o-bank').textContent=fmt(q.n);
+  $('o-trips').textContent='≈ '+fmt(q.trips);
+  $('o-avg').textContent='(לפי '+PRICING.avgTravelersPerTrip+' נוסעים לנסיעה)';
+  $('o-users').textContent=q.users?'עד '+fmt(q.users):'ללא הגבלה';
+  $('o-plus').innerHTML='<b>כלול במחיר:</b> הקמת הסוכנות והעובדים על ידי צוות PALAMI, הדרכה ותמיכה בעברית.'+(S.note?'<br><b>בנוסף:</b> '+esc(S.note):'');
+
+  var anyLimit=PRICING.tiers.some(function(x){return x.users;});
+  var th='<thead><tr><th>מדרגה</th><th>נוסעים בשנה</th>'+(PRICING.showBreakdown?'<th>מחיר לנוסע</th><th>דמי מערכת לחודש</th>':'<th>מחיר לחודש, החל מ־</th><th>נוסע נוסף, חד־פעמי</th>')+(anyLimit?'<th>משתמשים</th>':'')+'</tr></thead><tbody>';
+  PRICING.tiers.forEach(function(x){
+    var cur=x===t;
+    th+='<tr'+(cur?' class="cur"':'')+'><td>'+x.plan+(cur?'<span class="pill">✓ ההצעה שלכם</span>':'')+'</td>'+
+      '<td class="num"><span class="ltr">'+fmt(x.from)+(x.to?'–'+fmt(x.to):'+')+'</span></td>'+
+      (PRICING.showBreakdown?
+        '<td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td><td class="num"><span class="ltr">'+money(x.fee)+'</span></td>'
+       :'<td class="num"><span class="ltr">'+money(x.fee+x.from*x.perTraveler/12)+'</span></td><td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td>')+
+      (anyLimit?'<td>'+(x.users?'עד '+x.users:'ללא הגבלה')+'</td>':'')+'</tr>';
+  });
+  $('o-tiers').innerHTML=th+'</tbody>';
+  $('users-fld').hidden=!anyLimit;
+
+  if(isClient){document.title='הצעת מחיר PALAMI'+(S.agency?' · '+S.agency:'');return;}
+
+  /* panel */
+  var i=PRICING.tiers.indexOf(t), nx=PRICING.tiers[i+1];
+  if(nx){var qn=quote({bank:nx.from,users:S.users,disc:S.disc,prepay:S.prepay});
+    $('next-hint').innerHTML='<span aria-hidden="true">i</span><span>מדרגת <b>'+t.name+'</b>. ב־<b class="ltr">'+fmt(nx.from)+'</b> נוסעים עוברים ל'+nx.name+': <b class="ltr">'+money(qn.monthly)+'</b> לחודש (<span class="ltr">'+money(nx.perTraveler,nx.perTraveler%1?2:0)+'</span> לנוסע).</span>';}
+  else $('next-hint').innerHTML='<span aria-hidden="true">i</span><span>מדרגה <b>ארגונית</b>. בהיקף כזה כדאי לשקול הנחה מיוחדת.</span>';
+  var m=margin(q), lvl=m.pct>=55?'ok':m.pct>=35?'warn':'bad', word={ok:'✓ רווחי',warn:'! רווח נמוך',bad:'✕ לא משתלם'}[lvl];
+  $('profit').innerHTML='<div class="profit-head"><b>רווחיות משוערת</b><span class="st st-'+lvl+'">'+word+'</span></div>'+
+    '<div class="profit-grid"><span>הכנסה</span><b class="ltr num">'+money(q.monthly)+'</b><span>עלויות</span><b class="ltr num">'+money(m.cost)+'</b>'+
+    '<span>נשאר לנו</span><b class="ltr num">'+money(m.contrib)+' · '+m.pct+'%</b></div><small>לחודש, לפני משכורות ותשתית קבועה. פנימי, לא מופיע בהצעה.</small>';
+  document.querySelectorAll('#presets .chip').forEach(function(c){c.setAttribute('aria-pressed',String(+c.dataset.n===q.n));});
+
+  var k=contactKind(S.contact), send=$('b-send'), kindEl=$('contact-kind');
+  $('f-contact').classList.toggle('err',!!k&&k.type==='bad');
+  if(!k){kindEl.textContent='אפשר מייל או נייד ישראלי';send.textContent='שליחה';send.setAttribute('aria-disabled','true');send.href='#';}
+  else if(k.type==='bad'){kindEl.textContent='לא נראה כמו מייל או נייד. לדוגמה: office@agency.co.il או 054-1234567';send.textContent='שליחה';send.setAttribute('aria-disabled','true');send.href='#';}
+  else if(k.type==='mail'){kindEl.textContent='תיפתח הודעת מייל מוכנה';send.textContent='שליחה במייל';send.removeAttribute('aria-disabled');
+    send.href='mailto:'+k.val+'?subject='+encodeURIComponent('הצעת מחיר PALAMI'+(S.agency?' · '+S.agency:''))+'&body='+encodeURIComponent(message(q));}
+  else{kindEl.textContent='תיפתח הודעת WhatsApp מוכנה';send.textContent='שליחה ב־WhatsApp';send.removeAttribute('aria-disabled');
+    send.href='https://wa.me/'+k.val+'?text='+encodeURIComponent(message(q));}
+}
+
+/* ---------- inputs ---------- */
+function setBank(n,from){
+  n=Math.max(PRICING.minBank,Math.min(10000,Math.round(+n||0)));S.bank=n;
+  if(from!=='n')$('f-bank-n').value=n;
+  if(from!=='r')$('f-bank').value=Math.min(n,5000);
+  render();
+}
+if(!isClient){
+  $('prepay-pct').textContent=PRICING.prepayDiscount+'%';
+  $('f-agency').addEventListener('input',function(e){S.agency=e.target.value.trim();render();});
+  $('f-contact').addEventListener('input',function(e){S.contact=e.target.value;render();});
+  $('f-bank').addEventListener('input',function(e){setBank(e.target.value,'r');});
+  $('f-bank-n').addEventListener('change',function(e){setBank(e.target.value,'');});
+  $('f-bank-n').addEventListener('input',function(e){if(+e.target.value>=PRICING.minBank)setBank(e.target.value,'n');});
+  $('presets').addEventListener('click',function(e){var c=e.target.closest('.chip');if(c)setBank(c.dataset.n,'');});
+  $('f-users').addEventListener('input',function(e){S.users=+e.target.value||0;render();});
+  $('f-disc').addEventListener('change',function(e){S.disc=+e.target.value;render();});
+  $('f-prepay').addEventListener('change',function(e){S.prepay=e.target.checked;render();});
+  $('f-note').addEventListener('input',function(e){S.note=e.target.value.trim();render();});
+  $('panel').addEventListener('submit',function(e){e.preventDefault();});
+
+  var status=function(t){$('status').textContent=t;clearTimeout(status.t);status.t=setTimeout(function(){$('status').textContent='';},3500);};
+  var bump=function(){var yymm=S.id.split('-')[1];store('palami-quote-'+yymm,String(+S.id.split('-')[2]));};
+  function copy(text,ok){
+    var done=function(){status(ok);bump();};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,function(){fallback(text);done();});}
+    else{fallback(text);done();}
+  }
+  function fallback(text){var ta=document.createElement('textarea');ta.value=text;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+  $('b-copy-link').addEventListener('click',function(){copy(clientLink(),'הקישור הועתק');});
+  $('b-copy-msg').addEventListener('click',function(){copy(message(quote(S)),'נוסח ההודעה הועתק');});
+  $('b-send').addEventListener('click',function(){bump();status('ההודעה נפתחה. אחרי השליחה אפשר לבנות הצעה חדשה.');});
+  if(inFrame){$('b-print').hidden=true;$('link-note').hidden=false;}
+  $('b-print').addEventListener('click',function(){bump();window.print();});
+}
+$('c-print').addEventListener('click',function(){window.print();});
+if(inFrame)$('c-print').hidden=true;
+render();
+</script>

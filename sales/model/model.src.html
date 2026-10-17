@@ -67,6 +67,8 @@ button,input{font:inherit;color:inherit}
 .stepper button{border:0;background:var(--surface-2);font-size:20px;font-weight:700;cursor:pointer;min-height:44px}
 .stepper input{border:0;text-align:center;min-width:0;font-weight:700;font-family:var(--f-display);font-size:17px;background:transparent;direction:ltr}
 .inp{width:100%;min-height:44px;border:1px solid var(--line);border-radius:10px;padding:6px 10px;background:var(--surface);direction:ltr;text-align:center;font-weight:600}
+.fixedn{min-height:44px;display:flex;align-items:center;justify-content:center;background:var(--surface-2);border-radius:10px;font-family:var(--f-display);font-size:17px}
+.util{margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
 .total-ag{display:flex;justify-content:space-between;font-weight:700;padding-top:10px;border-top:1px solid var(--line);margin-top:4px}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
@@ -151,10 +153,11 @@ tfoot td{font-weight:700;border-bottom:0}
   <div class="main">
     <div class="inputs">
       <section class="card">
-        <div class="sec-head"><h2>כמה סוכנויות</h2><small>מספרים לדוגמה, לשנות לפי התכנון</small></div>
+        <div class="sec-head"><h2 id="ag-title">כמה סוכנויות</h2><small>מספרים לדוגמה, לשנות לפי התכנון</small></div>
         <div class="ag" id="agencies">
           <div class="ag-row ag-head"><span class="ag-col">גודל</span><span class="ag-col">סוכנויות</span><span class="ag-col">נוסעים בשנה לסוכנות</span></div>
         </div>
+        <div class="fx util" id="util-row" hidden><label for="util">ניצול ממוצע של החבילה (%)<small>על נוסעים שלא נשלחו אין לנו עלות</small></label><input class="inp num" id="util" type="number" min="10" max="100" step="5" value="85"></div>
         <div class="total-ag"><span>סה״כ סוכנויות</span><span class="num" id="tot-ag"></span></div>
       </section>
 
@@ -207,18 +210,21 @@ tfoot td{font-weight:700;border-bottom:0}
 
 <script>
 /*CONFIG*/
+/*MODE*/
+var PACKS=MODE==='packs';
 var $=function(id){return document.getElementById(id);};
 var fmt=function(n){return Math.round(n).toLocaleString('en-US');};
 var money=function(n){return (n<0?'−':'')+'₪'+fmt(Math.abs(n));};
 function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
+var UTIL=0.85; /* packages: share of the bank an agency actually uses (unused travelers cost us nothing) */
 function perAgency(trav){
   var n=Math.max(PRICING.minBank,trav), t=tierFor(n);
   var price=t.fee+n*t.perTraveler/12;
-  var travCost=n*COSTS.perTraveler/12, support=COSTS.support[t.name]||0, clearing=price*COSTS.clearing;
+  var travCost=n*(PACKS?UTIL:1)*COSTS.perTraveler/12, support=COSTS.support[t.name]||0, clearing=price*COSTS.clearing;
   return {tier:t,price:price,travCost:travCost,support:support,clearing:clearing,left:price-travCost-support-clearing};
 }
 
-var SIZES=[
+var SIZES=PACKS?PRICING.banks.map(function(n,i){var t=tierFor(n);return {key:'p'+n,name:'חבילת '+fmt(n),hint:'מדרגת '+t.name,trav:n,count:[20,15,8,4,2][i]||0,fixed:true};}):[
   {key:'solo', name:'סוכנות יחיד',  hint:'בעלים אחד',          trav:100,  count:25},
   {key:'small',name:'סוכנות קטנה',  hint:'2–3 סוכנים',         trav:300,  count:15},
   {key:'mid',  name:'סוכנות בינונית',hint:'4–8 סוכנים',         trav:800,  count:7},
@@ -260,17 +266,20 @@ function changed(){var d=PRICING.tiers.some(function(t,i){return t.fee!==ORIG.t[
   $('reset-pr').hidden=!d;}
 
 /* build inputs */
+if(PACKS){$('util-row').hidden=false;$('util').addEventListener('input',function(e){var v=+e.target.value;if(v>=10&&v<=100){UTIL=v/100;render();}});
+  document.querySelector('.ag-head').innerHTML='<span class="ag-col">חבילה</span><span class="ag-col">סוכנויות</span><span class="ag-col">נוסעים בחבילה</span>';
+  $('ag-title').textContent='כמה סוכנויות בכל חבילה';}
 var agEl=$('agencies');
 SIZES.forEach(function(s){
   var row=document.createElement('div');row.className='ag-row';
   row.innerHTML='<div class="ag-name"><b>'+s.name+'</b><span>'+s.hint+'</span></div>'+
     '<div class="stepper"><button type="button" data-d="-1" aria-label="פחות">−</button><input id="c-'+s.key+'" type="number" min="0" max="999" value="'+s.count+'" inputmode="numeric" aria-label="מספר '+s.name+'"><button type="button" data-d="1" aria-label="עוד">+</button></div>'+
-    '<div class="trav"><input class="inp num" id="t-'+s.key+'" type="number" min="50" max="20000" step="50" value="'+s.trav+'" aria-label="נוסעים בשנה, '+s.name+'"></div>';
+    (s.fixed?'<div class="trav fixedn"><b class="ltr num">'+fmt(s.trav)+'</b></div>':'<div class="trav"><input class="inp num" id="t-'+s.key+'" type="number" min="50" max="20000" step="50" value="'+s.trav+'" aria-label="נוסעים בשנה, '+s.name+'"></div>');
   agEl.appendChild(row);
   var c=row.querySelector('#c-'+s.key), t=row.querySelector('#t-'+s.key);
   row.querySelectorAll('[data-d]').forEach(function(b){b.addEventListener('click',function(){s.count=Math.max(0,s.count+ +b.dataset.d);c.value=s.count;render();});});
   c.addEventListener('input',function(){s.count=Math.max(0,+c.value||0);render();});
-  t.addEventListener('input',function(){if(+t.value>=50){s.trav=+t.value;render();}});
+  if(t)t.addEventListener('input',function(){if(+t.value>=50){s.trav=+t.value;render();}});
 });
 var fxEl=$('fixed');
 FIXED.forEach(function(f){
