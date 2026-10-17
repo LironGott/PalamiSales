@@ -132,6 +132,15 @@ details.more summary{cursor:pointer;font-weight:700;min-height:32px;display:flex
 .row.total b{font-family:var(--f-display);font-size:18px;color:var(--brand)}
 .row.save b{color:var(--ok)}
 
+.payopts h2{font-size:21px;margin-bottom:12px}
+.po-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.po{position:relative;border:1px solid var(--line);border-radius:var(--r-md);padding:16px;display:grid;gap:4px;align-content:start;background:var(--surface)}
+.po.on{border:2px solid var(--brand);background:var(--brand-soft)}
+.po-tag{position:absolute;top:-11px;inset-inline-start:12px;background:var(--brand);color:var(--brand-ink);font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px}
+.po b{font-family:var(--f-display);color:var(--brand);font-size:16px}
+.po-big{font-family:var(--f-display);font-weight:800;font-size:26px;color:var(--ink)}
+.po-big small{font-size:13px;font-weight:600;color:var(--muted)}
+.po-note{font-size:13.5px;color:var(--muted)}
 .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .fact{background:var(--cream);border-radius:var(--r-md);padding:14px 16px;display:grid;gap:2px}
 .fact b{font-family:var(--f-display);font-size:24px;color:var(--brand);font-weight:700}
@@ -175,7 +184,8 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
 }
 @media (max-width:640px){
   .price{grid-template-columns:minmax(0,1fr)}
-  .facts,.terms{grid-template-columns:minmax(0,1fr)}
+  .facts,.terms,.po-grid{grid-template-columns:minmax(0,1fr)}
+  .po{padding-top:18px}
   .gets{grid-template-columns:minmax(0,1fr)}
   .more-grid{grid-template-columns:minmax(0,1fr)}
   .s-head{flex-direction:column}
@@ -189,7 +199,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
   .app{display:block;max-width:none}
   .sheet{box-shadow:none;border:0;padding:0;gap:22px}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .sec,.price,.facts{break-inside:avoid}
+  .sec,.price,.facts,.payopts{break-inside:avoid}
 }
 </style>
 </head>
@@ -229,6 +239,10 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
 
     <div class="profit" id="profit" aria-label="רווחיות משוערת"></div>
 
+    <label class="fld"><span>אופן תשלום מומלץ</span>
+      <select class="inp" id="f-pay"><option value="year">שנתי, בתשלומים חודשיים</option><option value="prepay">שנתי מראש (<span id="prepay-pct"></span>הנחה)</option><option value="month">חודשי, בלי התחייבות</option></select>
+    </label>
+
     <details class="more" id="more">
       <summary>התאמות (לא חובה)</summary>
       <div class="more-grid">
@@ -240,7 +254,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
             <option value="0">ללא</option><option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option>
           </select>
         </label>
-        <label class="check full"><input type="checkbox" id="f-prepay"> תשלום שנתי מראש (<span id="prepay-pct"></span> הנחה)</label>
+
         <label class="fld full"><span>שורה אישית בהצעה</span>
           <input class="inp" id="f-note" type="text" maxlength="140" placeholder="לדוגמה: חודש ראשון להכרות ללא עלות">
         </label>
@@ -285,10 +299,12 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
           <span class="lbl">לחודש</span>
           <span class="big num"><span class="ltr" id="o-monthly"></span></span>
           <span class="was num" id="o-was" hidden></span>
-          <span class="sub">לא כולל מע״מ · התקשרות ל־12 חודשים</span>
+          <span class="sub" id="o-sub"></span>
         </div>
         <div class="price-break" id="o-break"></div>
       </section>
+
+      <section class="payopts" aria-label="אפשרויות תשלום" id="o-pay"></section>
 
       <section class="facts" aria-label="במספרים">
         <div class="fact"><b class="num"><span class="ltr" id="o-bank"></span></b><span>נוסעים בשנה</span></div>
@@ -328,7 +344,7 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
         <ul class="terms">
           <li><b>נספר רק מה שנשלח</b><span>נוסע נספר פעם אחת, כשהנסיעה נשלחת אליו. טיוטות ונסיעות שבוטלו לפני השליחה לא נספרות.</span></li>
           <li><b>גם לקבוצות</b><span>זוג, משפחה או קבוצה של 40: כל נוסע נספר פעם אחת, בלי חבילות נפרדות.</span></li>
-          <li><b>תוקף לשנה</b><span>הבנק בתוקף 12 חודשים. נגמר מוקדם? מוסיפים נוסעים במחיר נוסע נוסף.</span></li>
+          <li><b>תוקף לשנה, והיתרה עוברת</b><span>הבנק בתוקף 12 חודשים. בחידוש, עד <span class="ltr" id="o-roll"></span> מהנוסעים שלא נוצלו עוברים לשנה הבאה. נגמר מוקדם? מוסיפים נוסעים או עוברים לחבילה הבאה.</span></li>
         </ul>
       </section>
 
@@ -365,6 +381,8 @@ var PRICING = {
   extraUserMonthly: 39,     /* per user above the tier's included users (only if a tier sets users) */
   showBreakdown: false,     /* false = one all-inclusive package price + top-up rate; true = system fee and bank as separate lines */
   prepayDiscount: 10,       /* % off for paying the year upfront */
+  monthlyPremium: 15,       /* % above the annual price for paying monthly without commitment (pilot) */
+  rollover: 20,             /* % of unused travelers carried to the next year on renewal (pilot) */
   avgTravelersPerTrip: 2.6, /* only to show "≈ trips" */
   validDays: 30,
   idPrefix: 'PAL',
@@ -401,10 +419,10 @@ function quote(o){
   var bankYear=n*t.perTraveler, bankMonth=bankYear/12;
   var usersMonth=extraUsers*PRICING.extraUserMonthly;
   var list=t.fee+bankMonth+usersMonth;
-  var disc=(o.disc||0)/100, pre=o.prepay?PRICING.prepayDiscount/100:0;
-  var afterDisc=list*(1-disc), monthly=Math.round(afterDisc*(1-pre));
+  var disc=(o.disc||0)/100, pre=o.pay==='prepay'?PRICING.prepayDiscount/100:0, prem=o.pay==='month'?(PRICING.monthlyPremium||0)/100:0;
+  var afterDisc=list*(1-disc), monthly=Math.round(afterDisc*(1-pre)*(1+prem));
   return {n:n,tier:t,users:users,extraUsers:extraUsers,fee:t.fee,bankMonth:bankMonth,usersMonth:usersMonth,
-    list:Math.round(list),discAmt:Math.round(list*disc),preAmt:Math.round(afterDisc*pre),monthly:monthly,
+    list:Math.round(list),discAmt:Math.round(list*disc),preAmt:Math.round(afterDisc*pre),premAmt:Math.round(afterDisc*prem),monthly:monthly,
     year:monthly*12,trips:Math.round(n/PRICING.avgTravelersPerTrip)};
 }
 function margin(q){
@@ -417,12 +435,12 @@ var params=new URLSearchParams(location.search);
 var isClient=params.has('n');
 var inFrame=(function(){try{return window.self!==window.top;}catch(e){return true;}})();
 var today=new Date();
-var S={agency:'',contact:'',bank:500,users:0,disc:0,prepay:false,note:'',id:'',date:today};
+var S={agency:'',contact:'',bank:500,users:0,disc:0,pay:'year',note:'',id:'',date:today};
 
 if(isClient){
   document.documentElement.classList.add('client');
   S.agency=params.get('a')||''; S.bank=+params.get('n')||500; S.users=+params.get('u')||0;
-  S.disc=+params.get('d')||0; S.prepay=params.get('y')==='1'; S.note=params.get('t')||'';
+  S.disc=+params.get('d')||0; S.pay=params.get('p')||(params.get('y')==='1'?'prepay':'year'); S.note=params.get('t')||'';
   S.id=params.get('id')||''; var pd=params.get('dt'); if(pd){var p=pd.split('-');S.date=new Date(+p[0],+p[1]-1,+p[2]);}
 }else{
   var yymm=String(today.getFullYear()).slice(2)+pad(today.getMonth()+1);
@@ -437,7 +455,7 @@ function linkBase(){
 function clientLink(){
   var p=new URLSearchParams();
   if(S.agency)p.set('a',S.agency); p.set('n',S.bank);
-  if(S.users)p.set('u',S.users); if(S.disc)p.set('d',S.disc); if(S.prepay)p.set('y','1');
+  if(S.users)p.set('u',S.users); if(S.disc)p.set('d',S.disc); if(S.pay!=='year')p.set('p',S.pay);
   if(S.note)p.set('t',S.note); p.set('id',S.id);
   p.set('dt',S.date.getFullYear()+'-'+pad(S.date.getMonth()+1)+'-'+pad(S.date.getDate()));
   return linkBase()+'?'+p.toString();
@@ -477,11 +495,21 @@ function render(){
     '<div class="row"><span>נוסע נוסף מעבר לחבילה, תשלום חד־פעמי</span><b class="num ltr">'+pt+'</b></div>';
   if(q.extraUsers)rows+='<div class="row"><span><span class="ltr">'+q.extraUsers+'</span> משתמשים נוספים</span><b class="num ltr">'+money(q.usersMonth)+'</b></div>';
   if(q.discAmt)rows+='<div class="row save"><span>הנחה מיוחדת <span class="ltr">'+S.disc+'%</span></span><b class="num ltr">−'+money(q.discAmt)+'</b></div>';
+  if(q.premAmt)rows+='<div class="row"><span>תשלום חודשי בלי התחייבות <span class="ltr">+'+PRICING.monthlyPremium+'%</span></span><b class="num ltr">+'+money(q.premAmt)+'</b></div>';
   if(q.preAmt)rows+='<div class="row save"><span>תשלום שנתי מראש <span class="ltr">'+PRICING.prepayDiscount+'%</span></span><b class="num ltr">−'+money(q.preAmt)+'</b></div>';
-  rows+='<div class="row total"><span>'+(S.prepay?'סה״כ לשנה, בתשלום אחד':'סה״כ לשנה')+'</span><b class="num ltr">'+money(q.year)+'</b></div>';
+  rows+='<div class="row total"><span>'+(S.pay==='prepay'?'סה״כ לשנה, בתשלום אחד':S.pay==='month'?'סה״כ ל־12 חודשים':'סה״כ לשנה')+'</span><b class="num ltr">'+money(q.year)+'</b></div>';
   $('o-break').innerHTML=rows;
+  var opt=function(p){return quote({bank:S.bank,users:S.users,disc:S.disc,pay:p});};
+  var oy=opt('year'),op=opt('prepay'),om=opt('month');
+  $('o-sub').textContent='לא כולל מע״מ · '+(S.pay==='month'?'בלי התחייבות, ביטול בהודעה של 30 יום':S.pay==='prepay'?'בתשלום שנתי אחד של '+money(op.year):'התחייבות ל־12 חודשים, בתשלומים חודשיים');
+  var card=function(p,title,big,unit,note){return '<div class="po'+(S.pay===p?' on':'')+'">'+(S.pay===p?'<span class="po-tag">✓ ההמלצה שלנו</span>':'')+'<b>'+title+'</b><span class="po-big num"><span class="ltr">'+big+'</span> <small>'+unit+'</small></span><span class="po-note">'+note+'</span></div>';};
+  $('o-pay').innerHTML='<h2>איך משלמים</h2><div class="po-grid">'+
+    card('month','חודשי, בלי התחייבות',money(om.monthly),'לחודש','ביטול בכל חודש. הבנק נצבר חודש אחרי חודש.')+
+    card('year','התחייבות לשנה',money(oy.monthly),'לחודש','תשלום חודשי. כל הבנק זמין מהיום הראשון.')+
+    card('prepay','שנתי מראש',money(op.year),'לשנה','חוסכים <span class="ltr">'+money(oy.year-op.year)+'</span> בתשלום אחד.')+'</div>';
 
   $('o-bank').textContent=fmt(q.n);
+  $('o-roll').textContent=PRICING.rollover+'%';
   $('o-trips').textContent='≈ '+fmt(q.trips);
   $('o-avg').textContent='(לפי '+PRICING.avgTravelersPerTrip+' נוסעים לנסיעה)';
   $('o-users').textContent=q.users?'עד '+fmt(q.users):'ללא הגבלה';
@@ -505,7 +533,7 @@ function render(){
 
   /* panel */
   var i=PRICING.tiers.indexOf(t), nx=PRICING.tiers[i+1];
-  if(nx){var qn=quote({bank:nx.from,users:S.users,disc:S.disc,prepay:S.prepay});
+  if(nx){var qn=quote({bank:nx.from,users:S.users,disc:S.disc,pay:S.pay});
     $('next-hint').innerHTML='<span aria-hidden="true">i</span><span>מדרגת <b>'+t.name+'</b>. ב־<b class="ltr">'+fmt(nx.from)+'</b> נוסעים עוברים ל'+nx.name+': <b class="ltr">'+money(qn.monthly)+'</b> לחודש (<span class="ltr">'+money(nx.perTraveler,nx.perTraveler%1?2:0)+'</span> לנוסע).</span>';}
   else $('next-hint').innerHTML='<span aria-hidden="true">i</span><span>מדרגה <b>ארגונית</b>. בהיקף כזה כדאי לשקול הנחה מיוחדת.</span>';
   var m=margin(q), lvl=m.pct>=55?'ok':m.pct>=35?'warn':'bad', word={ok:'✓ רווחי',warn:'! רווח נמוך',bad:'✕ לא משתלם'}[lvl];
@@ -532,7 +560,7 @@ function setBank(n,from){
   render();
 }
 if(!isClient){
-  $('prepay-pct').textContent=PRICING.prepayDiscount+'%';
+  var po=$('f-pay').options;po[1].textContent='שנתי מראש, '+PRICING.prepayDiscount+'% הנחה';po[2].textContent='חודשי, בלי התחייבות (+'+PRICING.monthlyPremium+'%)';
   $('f-agency').addEventListener('input',function(e){S.agency=e.target.value.trim();render();});
   $('f-contact').addEventListener('input',function(e){S.contact=e.target.value;render();});
   $('f-bank').addEventListener('input',function(e){setBank(e.target.value,'r');});
@@ -541,7 +569,7 @@ if(!isClient){
   $('presets').addEventListener('click',function(e){var c=e.target.closest('.chip');if(c)setBank(c.dataset.n,'');});
   $('f-users').addEventListener('input',function(e){S.users=+e.target.value||0;render();});
   $('f-disc').addEventListener('change',function(e){S.disc=+e.target.value;render();});
-  $('f-prepay').addEventListener('change',function(e){S.prepay=e.target.checked;render();});
+  $('f-pay').addEventListener('change',function(e){S.pay=e.target.value;render();});
   $('f-note').addEventListener('input',function(e){S.note=e.target.value.trim();render();});
   $('panel').addEventListener('submit',function(e){e.preventDefault();});
 

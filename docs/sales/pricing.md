@@ -77,3 +77,9 @@ Per package, at 85% package use (left for us after travelers, support and cleari
 - Profitable per agency (60–73% after support), but the company covers a developer only at ~120 agencies (≈15% of an estimated ~750 Israeli agencies, mostly one-person). Growth levers needed: larger agencies and tour operators, paid add-ons (WhatsApp/SMS volume, marketing tools in v2), prices up after proof, B2C/abroad.
 - Attractive for agencies: 100 package ≈ one competitor seat (₪150–190/month) but includes the traveler app and AI filing; far below mTrip/Vamoos entry prices. Effective ₪10–22 per traveler per year; agencies can pass it to the traveler as a "digital trip file" fee.
 - Watch: small agencies and a 12-month commitment (consider monthly without commitment at +15%), unused travelers feeling like waste (consider rolling over up to 20% on renewal), unverified cost assumptions (measure in the pilot: cost per traveler, support hours per agency, package use).
+
+## Payment options and rollover (pilot, user 2026-10-17)
+- Quotes show three ways to pay: monthly without commitment (+15%, `monthlyPremium`), annual commitment paid monthly (base), annual prepaid (−10%). The builder chooses the recommended one; the proposal shows all three.
+- On renewal, up to 20% of unused travelers carry over (`rollover`).
+- Tested with the first pilot agencies. Agreement wording: `docs/sales/agreement-terms.md`.
+- Why 250 and 500 show lower margins: support cost is assumed per tier (₪40 / 120 / 200 / 300 / 500 per month), so the 250 package carries the בסיס support cost and the 500 package carries the same support as 1,000 on half the revenue. These are assumptions; the profit model now lets you edit support per tier.

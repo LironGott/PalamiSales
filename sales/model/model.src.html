@@ -109,7 +109,7 @@ svg{display:block;width:100%;height:auto;overflow:visible}
 .tip b{font-family:var(--f-display)}
 
 table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
-table.pr{min-width:640px}
+table.pr{min-width:720px}
 table.pr th,table.pr td{padding:8px 6px;vertical-align:middle}
 table.pr .inp{min-height:40px;width:100%;max-width:96px;padding:6px}
 table.pr .nb{font-weight:800;color:var(--brand);background:var(--brand-soft);border-color:var(--brand-soft)}
@@ -157,6 +157,7 @@ tfoot td{font-weight:700;border-bottom:0}
         <div class="ag" id="agencies">
           <div class="ag-row ag-head"><span class="ag-col">גודל</span><span class="ag-col">סוכנויות</span><span class="ag-col">נוסעים בשנה לסוכנות</span></div>
         </div>
+        <div class="fx util"><label for="mshare">סוכנויות בתשלום חודשי (%)<small>בלי התחייבות, משלמות <span id="mprem"></span> יותר</small></label><input class="inp num" id="mshare" type="number" min="0" max="100" step="5" value="20"></div>
         <div class="fx util" id="util-row" hidden><label for="util">ניצול ממוצע של החבילה (%)<small>על נוסעים שלא נשלחו אין לנו עלות</small></label><input class="inp num" id="util" type="number" min="10" max="100" step="5" value="85"></div>
         <div class="total-ag"><span>סה״כ סוכנויות</span><span class="num" id="tot-ag"></span></div>
       </section>
@@ -216,10 +217,11 @@ var $=function(id){return document.getElementById(id);};
 var fmt=function(n){return Math.round(n).toLocaleString('en-US');};
 var money=function(n){return (n<0?'−':'')+'₪'+fmt(Math.abs(n));};
 function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
+var MSHARE=0.2; /* share of agencies paying monthly without commitment (+monthlyPremium) */
 var UTIL=0.85; /* packages: share of the bank an agency actually uses (unused travelers cost us nothing) */
 function perAgency(trav){
   var n=Math.max(PRICING.minBank,trav), t=tierFor(n);
-  var price=t.fee+n*t.perTraveler/12;
+  var price=(t.fee+n*t.perTraveler/12)*(1+MSHARE*(PRICING.monthlyPremium||0)/100);
   var travCost=n*(PACKS?UTIL:1)*COSTS.perTraveler/12, support=COSTS.support[t.name]||0, clearing=price*COSTS.clearing;
   return {tier:t,price:price,travCost:travCost,support:support,clearing:clearing,left:price-travCost-support-clearing};
 }
@@ -244,16 +246,17 @@ var PRESETS={
   team:{sal:70000,infra:4000,tools:1500,acct:2500,mkt:6000}
 };
 var S={fixed:Object.assign({},PRESETS.dev),preset:'dev'};
-var ORIG=JSON.parse(JSON.stringify({t:PRICING.tiers,c:COSTS.perTraveler}));
+var ORIG=JSON.parse(JSON.stringify({t:PRICING.tiers,c:COSTS.perTraveler,s:COSTS.support}));
 var BANKS=PRICING.tiers.map(function(t){return t.from;}); /* travelers in the example bank per row (model only) */
 function buildPricing(){
-  var h='<thead><tr><th>חבילה</th><th>נוסעים בבנק</th><th>מחיר לנוסע</th><th>מחיר הבנק לשנה</th><th>דמי מערכת לחודש</th><th class="tot">סה״כ לחודש</th><th class="tot">סה״כ לשנה</th></tr></thead><tbody>';
+  var h='<thead><tr><th>חבילה</th><th>נוסעים בבנק</th><th>מחיר לנוסע</th><th>מחיר הבנק לשנה</th><th>דמי מערכת לחודש</th><th>עלות תמיכה לחודש<small>שלנו, לכל סוכנות</small></th><th class="tot">סה״כ לחודש</th><th class="tot">סה״כ לשנה</th></tr></thead><tbody>';
   PRICING.tiers.forEach(function(t,i){
     h+='<tr><td><b>'+t.name+'</b><small class="rg">מדרגה: <span class="ltr">'+fmt(t.from)+(t.to?'–'+fmt(t.to):'+')+'</span> נוסעים</small></td>'+
       '<td><input class="inp num nb" type="number" min="'+t.from+'"'+(t.to?' max="'+t.to+'"':'')+' step="10" data-i="'+i+'" data-k="n" value="'+BANKS[i]+'" aria-label="נוסעים בבנק, '+t.name+'"><small class="oor" data-o="'+i+'" hidden>! מחוץ למדרגה</small></td>'+
       '<td><input class="inp num" type="number" min="0" step="0.5" data-i="'+i+'" data-k="perTraveler" value="'+t.perTraveler+'" aria-label="מחיר לנוסע, '+t.name+'"></td>'+
       '<td><input class="inp num" type="number" min="0" step="50" data-i="'+i+'" data-k="bank" value="'+Math.round(BANKS[i]*t.perTraveler)+'" aria-label="מחיר הבנק לשנה, '+t.name+'"></td>'+
       '<td><input class="inp num" type="number" min="0" step="10" data-i="'+i+'" data-k="fee" value="'+t.fee+'" aria-label="דמי מערכת, '+t.name+'"></td>'+
+      '<td><input class="inp num" type="number" min="0" step="10" data-i="'+i+'" data-k="support" value="'+(COSTS.support[t.name]||0)+'" aria-label="עלות תמיכה, '+t.name+'"></td>'+
       '<td class="num tot"><b class="ltr" data-m="'+i+'"></b></td><td class="num tot"><b class="ltr" data-y="'+i+'"></b></td></tr>';});
   $('pricing').innerHTML=h+'</tbody>';
   totals();
@@ -262,10 +265,12 @@ function buildPricing(){
 function totals(){PRICING.tiers.forEach(function(t,i){var n=BANKS[i],m=t.fee+n*t.perTraveler/12,pr=$('pricing');
   pr.querySelector('[data-m="'+i+'"]').textContent=money(m);pr.querySelector('[data-y="'+i+'"]').textContent=money(m*12);
   pr.querySelector('[data-o="'+i+'"]').hidden=!(n<t.from||(t.to&&n>t.to));});}
-function changed(){var d=PRICING.tiers.some(function(t,i){return t.fee!==ORIG.t[i].fee||t.perTraveler!==ORIG.t[i].perTraveler;})||COSTS.perTraveler!==ORIG.c;
+function changed(){var d=PRICING.tiers.some(function(t,i){return t.fee!==ORIG.t[i].fee||t.perTraveler!==ORIG.t[i].perTraveler||COSTS.support[t.name]!==ORIG.s[t.name];})||COSTS.perTraveler!==ORIG.c;
   $('reset-pr').hidden=!d;}
 
 /* build inputs */
+$('mprem').textContent=(PRICING.monthlyPremium||0)+'%';
+$('mshare').addEventListener('input',function(e){var v=+e.target.value;if(v>=0&&v<=100){MSHARE=v/100;render();}});
 if(PACKS){$('util-row').hidden=false;$('util').addEventListener('input',function(e){var v=+e.target.value;if(v>=10&&v<=100){UTIL=v/100;render();}});
   document.querySelector('.ag-head').innerHTML='<span class="ag-col">חבילה</span><span class="ag-col">סוכנויות</span><span class="ag-col">נוסעים בחבילה</span>';
   $('ag-title').textContent='כמה סוכנויות בכל חבילה';}
@@ -378,10 +383,11 @@ $('pricing').addEventListener('input',function(e){var el=e.target;if(!el.dataset
   var i=+el.dataset.i,t=PRICING.tiers[i],k=el.dataset.k,q=function(x){return $('pricing').querySelector('[data-i="'+i+'"][data-k="'+x+'"]');};
   if(k==='n'){if(v<1)return;BANKS[i]=Math.round(v);q('bank').value=Math.round(BANKS[i]*t.perTraveler);}
   else if(k==='bank'){t.perTraveler=Math.round(v/BANKS[i]*100)/100;q('perTraveler').value=t.perTraveler;}
+  else if(k==='support'){COSTS.support[t.name]=v;}
   else{t[k]=v;if(k==='perTraveler')q('bank').value=Math.round(BANKS[i]*t.perTraveler);}
   totals();render();});
 $('cost-pt').addEventListener('input',function(e){var v=parseFloat(e.target.value);if(!isNaN(v)&&v>=0){COSTS.perTraveler=v;render();}});
-$('reset-pr').addEventListener('click',function(){ORIG.t.forEach(function(t,i){PRICING.tiers[i].fee=t.fee;PRICING.tiers[i].perTraveler=t.perTraveler;});COSTS.perTraveler=ORIG.c;BANKS=PRICING.tiers.map(function(t){return t.from;});buildPricing();render();});
+$('reset-pr').addEventListener('click',function(){ORIG.t.forEach(function(t,i){PRICING.tiers[i].fee=t.fee;PRICING.tiers[i].perTraveler=t.perTraveler;});COSTS.perTraveler=ORIG.c;COSTS.support=Object.assign({},ORIG.s);BANKS=PRICING.tiers.map(function(t){return t.from;});buildPricing();render();});
 render();
 if(window.matchMedia)matchMedia('(prefers-color-scheme: dark)').addEventListener('change',render);
 </script>

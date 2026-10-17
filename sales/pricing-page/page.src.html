@@ -304,7 +304,8 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
       <details><summary>ומה עם קבוצות?</summary><p>אין חבילות נפרדות לקבוצות. קבוצה של 40 נוסעים נספרת כ־40 נוסעים, באותו מחיר כמו כל נוסע אחר.</p></details>
       <details><summary>מה קורה אם הנוסעים בחבילה נגמרים?</summary><p>ממשיכים לעבוד בלי הפסקה, ויש שתי אפשרויות: מוסיפים נוסעים במחיר נוסע נוסף של החבילה, או עוברים לחבילה הגדולה הבאה ומשלמים רק את ההפרש עד סוף השנה. בחבילה גדולה יותר המחיר לנוסע יורד. כשנשארים 20% מהנוסעים, נשלחת התראה למנהל הסוכנות.</p></details>
       <details><summary>כמה סוכנים יכולים לעבוד במערכת?</summary><p>כמה שצריך. כל הסוכנים והמנהלים בסוכנות כלולים בכל חבילה.</p></details>
-      <details><summary>יש התחייבות?</summary><p>החבילה היא לשנה ומשולמת בתשלומים חודשיים. תשלום שנתי מראש מקבל <span id="faq-pre"></span> הנחה. המחירים לא כוללים מע״מ.</p></details>
+      <details><summary>איך משלמים, ויש התחייבות?</summary><p>שלוש אפשרויות: חודשי בלי התחייבות (<span id="faq-prem"></span> יותר, ביטול בכל חודש), התחייבות לשנה בתשלומים חודשיים, או תשלום שנתי מראש עם <span id="faq-pre"></span> הנחה. המחירים לא כוללים מע״מ.</p></details>
+      <details><summary>מה קורה לנוסעים שלא נוצלו?</summary><p>בחידוש החבילה, עד <span id="faq-roll"></span> מהנוסעים שלא נוצלו עוברים לשנה הבאה.</p></details>
     </div>
   </div></section>
 
@@ -379,6 +380,8 @@ PLANS.forEach(function(p,i){
   grid.appendChild(el);
 });
 $('faq-pre').textContent=PRICING.prepayDiscount+'%';
+$('faq-prem').textContent=PRICING.monthlyPremium+'%';
+$('faq-roll').textContent=PRICING.rollover+'%';
 if(!PROMO.on){$('launch').hidden=true;$('ribbon').hidden=true;}
 $('p-until').textContent=PROMO.until;
 $('p-free').textContent=PROMO.freeTravelers;
