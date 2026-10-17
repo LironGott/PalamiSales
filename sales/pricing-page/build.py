@@ -4,7 +4,7 @@
   python3 sales/pricing-page/build.py [--preview PATH]
 
 PRICING comes from sales/quote/quote.src.html. Images are inlined from site/img.
-Writes sales/pricing-page/index.html (full HTML doc).
+Writes sales/pricing-page/index.html (three plans) and packages.html (five fixed bank packages).
 """
 import base64, pathlib, re, sys
 HERE = pathlib.Path(__file__).resolve().parent
@@ -20,11 +20,19 @@ page = ((HERE / "page.src.html").read_text(encoding="utf-8")
         .replace("<!--LOGO_FULL-->", b64("site/img/logo-full.webp"))
         .replace("<!--MASCOT-->", b64("site/img/mascot.webp"))
         .replace("<!--WORDMARK-->", svg))
-head_end = page.index("</style>") + len("</style>")
-doc = ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n'
+def wrap(page):
+    head_end = page.index("</style>") + len("</style>")
+    return ('<!doctype html>\n<html lang="he" dir="rtl">\n<head>\n<meta charset="utf-8">\n'
        '<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">\n'
        + page[:head_end] + "\n</head>\n<body>\n" + page[head_end:] + "\n</body>\n</html>\n")
-(HERE / "index.html").write_text(doc, encoding="utf-8")
-print("wrote sales/pricing-page/index.html", len(doc)//1024, "KB")
-if "--preview" in sys.argv:
-    p = pathlib.Path(sys.argv[sys.argv.index("--preview") + 1]); p.write_text(page, encoding="utf-8"); print("wrote", p)
+# two variants: three plans (index.html) and five fixed bank packages (packages.html)
+for mode, name in (("plans", "index.html"), ("packs", "packages.html")):
+    pg = page.replace("/*MODE*/", "var MODE='%s';" % mode)
+    if mode == "packs":
+        pg = pg.replace("<title>מחירים PALAMI</title>", "<title>חבילות PALAMI</title>", 1)
+    (HERE / name).write_text(wrap(pg), encoding="utf-8")
+    print("wrote sales/pricing-page/" + name)
+    if "--preview" in sys.argv:
+        p = pathlib.Path(sys.argv[sys.argv.index("--preview") + 1])
+        p = p if mode == "plans" else p.with_name(p.stem + "-packages" + p.suffix)
+        p.write_text(pg, encoding="utf-8"); print("wrote", p)

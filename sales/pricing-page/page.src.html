@@ -93,6 +93,13 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .list{list-style:none;margin:0;padding:0;display:grid;gap:10px;border-top:1px solid var(--ln);padding-top:16px}
 .list li{display:flex;gap:10px;align-items:flex-start;font-size:16px}
 .plan-c .btn{width:100%}
+.packs5{grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.pk{padding:26px 16px 18px;text-align:center;gap:14px}
+.pk-n{display:grid;gap:0}
+.pk-n b{font:800 40px/1 var(--f-d);color:var(--g)}
+.pk-n span{font-weight:700;color:var(--in)}
+.pk-n small{font-size:14px;color:var(--mu)}
+.pk .price .big{font-size:32px}
 .ent{margin-top:20px;background:var(--g05);border-radius:18px;padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
 .ent b{font:700 19px var(--f-d);color:var(--g)}
 .ent span{color:var(--mu)}
@@ -169,6 +176,14 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
   .badge{inset-inline-start:50%;transform:translateX(50%)}
   .plan-c.match .yours{display:none}
   .mob-note{display:block}
+  .packs5{grid-template-columns:minmax(0,1fr);gap:10px}
+  .packs5 .pk{grid-template-columns:96px minmax(0,1fr) auto;align-items:center;text-align:start;padding:14px 14px;gap:12px}
+  .packs5 .pk-n b{font-size:28px}
+  .packs5 .pk-n small{display:none}
+  .packs5 .pk .price .big{font-size:24px}
+  .packs5 .pk .price .big small{display:inline}
+  .packs5 .pk .btn{width:auto;padding:0 16px}
+  .packs5 .badge{inset-inline-start:14px;transform:none}
   .fp{font-size:12px}.fp2{display:none}
   .was{font-size:12px}
 }
@@ -238,7 +253,7 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
     <div class="grid" id="grid"></div>
     <p class="mob-note">בכל חבילה כל היכולות וכל הסוכנים. הפירוט למטה.</p>
     <div class="ent">
-      <div><b>מעל 4,000 נוסעים בשנה, רשת או חברת נסיעות?</b><br><span>נבנה יחד חבילה ארגונית, עם הקמה מרוכזת לכל הסניפים.</span></div>
+      <div><b id="ent-t">מעל 4,000 נוסעים בשנה, רשת או חברת נסיעות?</b><br><span>נבנה יחד חבילה ארגונית, עם הקמה מרוכזת לכל הסניפים.</span></div>
       <a class="btn ghost sm" href="https://www.palami.io/#demo">לשיחה עם הצוות</a>
     </div>
   </div></section>
@@ -287,7 +302,7 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
     <div class="qa">
       <details><summary>מי נחשב נוסע?</summary><p>כל מי שמקבל את הנסיעה בטלפון. נוסע נספר פעם אחת לכל נסיעה, ברגע שהיא נשלחת אליו. טיוטות ונסיעות שבוטלו לפני השליחה לא נספרות.</p></details>
       <details><summary>ומה עם קבוצות?</summary><p>אין חבילות נפרדות לקבוצות. קבוצה של 40 נוסעים נספרת כ־40 נוסעים, באותו מחיר כמו כל נוסע אחר.</p></details>
-      <details><summary>מה קורה אם הנוסעים בחבילה נגמרים?</summary><p>ממשיכים לעבוד בלי הפסקה. מוסיפים נוסעים במחיר נוסע נוסף של החבילה, ואם עברתם לגודל הבא, המחיר לנוסע יורד.</p></details>
+      <details><summary>מה קורה אם הנוסעים בחבילה נגמרים?</summary><p>ממשיכים לעבוד בלי הפסקה, ויש שתי אפשרויות: מוסיפים נוסעים במחיר נוסע נוסף של החבילה, או עוברים לחבילה הגדולה הבאה ומשלמים רק את ההפרש עד סוף השנה. בחבילה גדולה יותר המחיר לנוסע יורד. כשנשארים 20% מהנוסעים, נשלחת התראה למנהל הסוכנות.</p></details>
       <details><summary>כמה סוכנים יכולים לעבוד במערכת?</summary><p>כמה שצריך. כל הסוכנים והמנהלים בסוכנות כלולים בכל חבילה.</p></details>
       <details><summary>יש התחייבות?</summary><p>החבילה היא לשנה ומשולמת בתשלומים חודשיים. תשלום שנתי מראש מקבל <span id="faq-pre"></span> הנחה. המחירים לא כוללים מע״מ.</p></details>
     </div>
@@ -306,13 +321,14 @@ details p{padding-bottom:18px;color:var(--mu);font-size:17px}
 
 <script>
 /*CONFIG*/
+/*MODE*/
 /* LAUNCH OFFER (draft, docs/sales/launch-offer.md). on:false hides every promo element. */
 var PROMO={on:true, freeTravelers:50, freeDays:90, foundersPct:20, foundersSeats:30, until:'31.12.2026', referral:100};
 /* Three public plans map onto the internal tiers (same PRICING as the quote). */
 var PLANS=[
   {name:'בסיס', who:'לסוכן עצמאי ולסוכנות קטנה', tiers:['סולו','בסיס'], icon:'one',
    extra:['הקמה ראשונה עם צוות PALAMI','תמיכה בעברית במייל ובצ׳אט']},
-  {name:'מקצועי', who:'לסוכנות עם צוות סוכנים', tiers:['מקצועי'], icon:'team', rec:true,
+  {name:'סטנדרט', who:'לסוכנות עם צוות סוכנים', tiers:['סטנדרט'], icon:'team', rec:true,
    extra:['הקמה והדרכה לכל הצוות','תמיכה בעברית גם בטלפון']},
   {name:'מתקדם', who:'לסוכנות גדולה ולרשת סניפים', tiers:['מתקדם'], icon:'org',
    extra:['איש קשר קבוע ב־PALAMI','הקמה מרוכזת והדרכות לסניפים']}
@@ -327,11 +343,26 @@ var fmt=function(n,d){return Number(n).toLocaleString('en-US',{minimumFractionDi
 var money=function(n,d){return '₪'+fmt(n,d);};
 var tierBy=function(nm){return PRICING.tiers.filter(function(t){return t.name===nm;})[0];};
 function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
+function topUp(n){var t=tierFor(n);return Math.ceil((t.fee*12/n+t.perTraveler)*2)/2;}
 function monthly(n){var t=tierFor(n);return Math.round(t.fee+n*t.perTraveler/12);}
 function founders(m){return PROMO.on?Math.round(m*(1-PROMO.foundersPct/100)):m;}
+/* cheapest way to cover n travelers in a year: a pack, plus extra travelers if that is cheaper than the next pack */
+function bestPack(n){var bk=PRICING.banks;if(n>bk[bk.length-1]*1.25)return -1;var best=-1,bc=Infinity;
+  bk.forEach(function(b,i){var c=monthly(b)*12+Math.max(0,n-b)*topUp(b);if(c<bc-0.5){bc=c;best=i;}});return best;}
 function planFor(n){var t=tierFor(n);for(var i=0;i<PLANS.length;i++){if(PLANS[i].tiers.indexOf(t.name)>=0)return i;}return -1;}
 
+var PACKS=MODE==='packs';
 var grid=$('grid');
+if(PACKS){grid.className='grid packs5';$('ent-t').textContent='מעל '+fmt(PRICING.banks[PRICING.banks.length-1])+' נוסעים בשנה, רשת או חברת נסיעות?';
+  PRICING.banks.forEach(function(n,i){var t=tierFor(n),m=monthly(n),rec=n===500;
+    var el=document.createElement('article');el.className='plan-c pk'+(rec?' rec':'');el.id='plan-'+i;
+    el.innerHTML=(rec?'<span class="badge">הכי נפוץ</span>':'')+'<span class="yours">מתאים לכם</span>'+
+      '<div class="pk-n"><b class="ltr num">'+fmt(n)+'</b><span>נוסעים בשנה</span><small>בערך <span class="ltr">'+fmt(Math.round(n/PRICING.avgTravelersPerTrip))+'</span> נסיעות</small></div>'+
+      '<div class="price">'+(PROMO.on?'<span class="was num"><span class="ltr">'+money(m)+'</span></span>':'')+'<span class="big num"><span class="ltr">'+money(founders(m))+'</span> <small>לחודש</small></span>'+(PROMO.on?'<span class="fp">מחיר מייסדים<span class="fp2">, שנה ראשונה</span></span>':'')+
+      '<span class="per">נוסע נוסף: <span class="ltr num">'+money(topUp(n),topUp(n)%1?2:0)+'</span></span></div>'+
+      '<a class="btn'+(rec?'':' ghost')+'" href="https://www.palami.io/#demo">בחירה</a>';
+    grid.appendChild(el);});
+}else
 PLANS.forEach(function(p,i){
   var ts=p.tiers.map(tierBy), first=ts[0], last=ts[ts.length-1];
   var per=ts.map(function(t){return money(t.perTraveler,t.perTraveler%1?2:0);});
@@ -342,7 +373,7 @@ PLANS.forEach(function(p,i){
     '<div class="stage">'+ICONS[p.icon]+'<div><h2>'+p.name+'</h2><p>'+p.who+'</p></div></div>'+
     '<div class="range"><span class="ltr num">'+range+'</span> נוסעים בשנה</div>'+
     '<div class="price"><span class="from">החל מ־</span>'+(PROMO.on?'<span class="was num"><span class="ltr">'+money(monthly(first.from))+'</span></span>':'')+'<span class="big num"><span class="ltr">'+money(founders(monthly(first.from)))+'</span> <small>לחודש</small></span>'+(PROMO.on?'<span class="fp">מחיר מייסדים<span class="fp2">, שנה ראשונה</span></span>':'')+
-    '<span class="per">נוסע נוסף: <span class="ltr num">'+perTxt+'</span>, תשלום חד־פעמי</span></div>'+
+    '</div>'+
     '<ul class="list"><li><i class="vk" aria-hidden="true"></i>כל היכולות, כל הסוכנים</li>'+p.extra.map(function(x){return '<li><i class="vk" aria-hidden="true"></i>'+x+'</li>';}).join('')+'</ul>'+
     '<a class="btn'+(p.rec?'':' ghost')+'" href="https://www.palami.io/#demo">בקשת הצעה</a>';
   grid.appendChild(el);
@@ -361,9 +392,13 @@ function calc(n,from){
   n=Math.max(50,Math.min(20000,Math.round(+n||0)));
   if(from!=='r')$('calc-r').value=Math.min(n,4000);
   if(from!=='n')$('calc-n').value=n;
-  var pi=planFor(n);
+  var pi=PACKS?bestPack(n):planFor(n);
   document.querySelectorAll('.plan-c').forEach(function(c,i){c.classList.toggle('match',i===pi);});
   if(pi<0){$('c-was').hidden=true;$('c-plan').textContent='חבילה ארגונית';$('c-price').textContent=money(monthly(n));$('c-sub').textContent='בהיקף כזה נבנה חבילה מותאמת. זה המחיר המשוער.';return;}
+  if(PACKS){var b=PRICING.banks[pi],mb=monthly(b),ex=Math.max(0,n-b),pt=topUp(b);
+    $('c-plan').textContent='חבילת '+fmt(b)+' נוסעים'+(ex?' + '+fmt(ex)+' נוספים':'');$('c-price').textContent=money(founders(mb));
+    $('c-was').hidden=!PROMO.on;$('c-was').innerHTML='במקום <span class="ltr">'+money(mb)+'</span>';
+    $('c-sub').innerHTML=(ex?'ועוד <span class="ltr num">'+money(ex*pt)+'</span> חד־פעמי ל־<span class="ltr num">'+fmt(ex)+'</span> הנוסעים הנוספים. זה זול יותר מהחבילה הגדולה':b>n?'נשארים <span class="ltr num">'+fmt(b-n)+'</span> נוסעים לגדילה':'בדיוק בגודל שלכם')+(PROMO.on?' · <b>'+PROMO.freeTravelers+' הנוסעים הראשונים עלינו</b>':'');return;}
   var t=tierFor(n);
   $('c-plan').textContent='חבילת '+PLANS[pi].name;
   $('c-price').textContent=money(founders(monthly(n)));

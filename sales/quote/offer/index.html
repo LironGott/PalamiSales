@@ -73,6 +73,15 @@ main{min-width:0}
 .bank-top .inp{width:130px;font-family:var(--f-display);font-weight:700;font-size:22px;text-align:center;direction:ltr}
 input[type=range]{width:100%;accent-color:var(--brand);min-height:32px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
+.packs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.pack{min-height:56px;border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);cursor:pointer;display:grid;align-content:center;gap:0;padding:4px 2px;text-align:center}
+.pack b{font-family:var(--f-display);font-size:16px}
+.pack span{font-size:12px;color:var(--muted)}
+.pack[aria-checked="true"]{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.pack[aria-checked="true"] span{color:var(--brand-ink);opacity:.85}
+.custom{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.custom .check{min-height:36px;font-size:14px}
+.custom .inp{width:120px;text-align:center;direction:ltr;font-weight:700}
 .chip{min-height:36px;padding:4px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer;font-weight:600}
 .chip[aria-pressed="true"]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .hint{font-size:14px;color:var(--muted);display:flex;gap:8px;align-items:flex-start}
@@ -211,18 +220,11 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
     </label>
 
     <div class="bank">
-      <div class="bank-top">
-        <label class="fld" for="f-bank" style="gap:2px"><span>בנק נוסעים לשנה</span><small>אפשר להקליד כל מספר מ־50</small></label>
-        <input class="inp num" id="f-bank-n" type="number" min="50" max="10000" step="10" value="500" aria-label="מספר נוסעים">
-      </div>
-      <input id="f-bank" type="range" min="50" max="5000" step="10" value="500" aria-label="בנק נוסעים לשנה">
-      <div class="chips" id="presets" role="group" aria-label="כמויות נפוצות">
-        <button type="button" class="chip" data-n="70">70</button>
-        <button type="button" class="chip" data-n="200">200</button>
-        <button type="button" class="chip" data-n="500">500</button>
-        <button type="button" class="chip" data-n="1000">1,000</button>
-        <button type="button" class="chip" data-n="2000">2,000</button>
-        <button type="button" class="chip" data-n="5000">5,000</button>
+      <div class="fld" style="gap:2px"><span>חבילה: נוסעים בשנה</span><small>בוחרים חבילה. לעסקה מיוחדת אפשר להקליד כמות אחרת.</small></div>
+      <div class="packs" id="packs" role="radiogroup" aria-label="חבילות"></div>
+      <div class="custom">
+        <label class="check" for="f-custom"><input type="checkbox" id="f-custom"> כמות אחרת (עסקה מיוחדת)</label>
+        <input class="inp num" id="f-bank-n" type="number" min="50" max="20000" step="10" value="500" aria-label="מספר נוסעים בשנה" hidden>
       </div>
       <div class="hint" id="next-hint"></div>
     </div>
@@ -328,12 +330,12 @@ tr.cur td{background:var(--brand-soft);font-weight:700}
         <ul class="terms">
           <li><b>נספר רק מה שנשלח</b><span>נוסע נספר פעם אחת, כשהנסיעה נשלחת אליו. טיוטות ונסיעות שבוטלו לפני השליחה לא נספרות.</span></li>
           <li><b>גם לקבוצות</b><span>זוג, משפחה או קבוצה של 40: כל נוסע נספר פעם אחת, בלי חבילות נפרדות.</span></li>
-          <li><b>תוקף לשנה</b><span>הבנק בתוקף 12 חודשים. נגמר מוקדם? מוסיפים נוסעים במחיר נוסע נוסף.</span></li>
+          <li><b>תוקף לשנה</b><span>הבנק בתוקף 12 חודשים. נגמר מוקדם? מוסיפים נוסעים או עוברים לחבילה הבאה ומשלמים רק את ההפרש.</span></li>
         </ul>
       </section>
 
       <section class="sec">
-        <h2>המדרגות</h2>
+        <h2>החבילות</h2>
         <div class="tiers-wrap"><table id="o-tiers"></table></div>
       </section>
 
@@ -358,7 +360,7 @@ var PRICING = {
   tiers: [
     {name:'סולו',   plan:'בסיס',   from:50,   to:199,   perTraveler:13,  fee:79,  users:null},
     {name:'בסיס',   plan:'בסיס',   from:200,  to:399,   perTraveler:11,  fee:149, users:null},
-    {name:'מקצועי', plan:'מקצועי', from:400,  to:1199,  perTraveler:9.5, fee:249, users:null},
+    {name:'סטנדרט', plan:'סטנדרט', from:400,  to:1199,  perTraveler:9.5, fee:249, users:null},
     {name:'מתקדם',  plan:'מתקדם',  from:1200, to:3999,  perTraveler:7.5, fee:449, users:null},
     {name:'ארגוני', plan:'ארגוני', from:4000, to:null,  perTraveler:6,   fee:690, users:null}  /* name = internal tier, plan = public plan name (pricing page, proposal); users: null = unlimited (recommended 2026-10-16); a number = included users, extra at extraUserMonthly */
   ],
@@ -369,13 +371,16 @@ var PRICING = {
   validDays: 30,
   idPrefix: 'PAL',
   offerUrl: 'https://www.palami.io/offer/',
-  minBank: 50
+  minBank: 50,
+  banks: [100, 250, 500, 1000, 2000]  /* fixed packages sold; other amounts only for special deals */
+  /* extra traveler (top-up) = the package's effective price per traveler incl. system fee, rounded up to ₪0.5,
+     so topping up a small package never beats moving to a bigger one */
 };
 
 /* INTERNAL COST ESTIMATE (never shown in the proposal). Assumptions in docs/sales/unit-economics.md */
 var COSTS = {
   perTraveler: 1.2,   /* ₪ per traveler: AI filing ≈0.25, WhatsApp ≈0.25, SMS/OTP ≈0.3, storage, email, buffer */
-  support: {'סולו':40,'בסיס':120,'מקצועי':200,'מתקדם':300,'ארגוני':500}, /* ₪ per month: support and account care */
+  support: {'סולו':40,'בסיס':120,'סטנדרט':200,'מתקדם':300,'ארגוני':500}, /* ₪ per month: support and account care */
   clearing: 0.015     /* card clearing and invoicing, share of revenue */
 };
 
@@ -387,6 +392,7 @@ var dmy = function(d){return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getF
 var esc = function(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});};
 function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
 
+function topUp(n){var t=tierFor(n);return Math.ceil((t.fee*12/n+t.perTraveler)*2)/2;}
 function tierFor(n){var t=PRICING.tiers;for(var i=t.length-1;i>=0;i--){if(n>=t[i].from)return t[i];}return t[0];}
 
 /* Pure: the whole quote from its inputs */
@@ -414,7 +420,7 @@ var params=new URLSearchParams(location.search);
 var isClient=params.has('n');
 var inFrame=(function(){try{return window.self!==window.top;}catch(e){return true;}})();
 var today=new Date();
-var S={agency:'',contact:'',bank:500,users:0,disc:0,prepay:false,note:'',id:'',date:today};
+var S={custom:false,agency:'',contact:'',bank:500,users:0,disc:0,prepay:false,note:'',id:'',date:today};
 
 if(isClient){
   document.documentElement.classList.add('client');
@@ -466,7 +472,7 @@ function render(){
   $('o-monthly').textContent=money(q.monthly);
   var was=$('o-was'); if(q.list!==q.monthly){was.hidden=false;was.innerHTML='<span class="ltr">'+money(q.list)+'</span> במחיר מלא';}else was.hidden=true;
 
-  var pt=money(t.perTraveler,t.perTraveler%1?2:0);
+  var tu=topUp(q.n), pt=money(tu,tu%1?2:0);
   var rows=PRICING.showBreakdown?
     '<div class="row"><span>דמי מערכת · חבילת '+t.plan+'</span><b class="num ltr">'+money(q.fee)+'</b></div>'+
     '<div class="row"><span>בנק <span class="ltr">'+fmt(q.n)+'</span> נוסעים · <span class="ltr">'+pt+'</span> לנוסע</span><b class="num ltr">'+money(q.bankMonth)+'</b></div>'
@@ -485,31 +491,32 @@ function render(){
   $('o-plus').innerHTML='<b>כלול במחיר:</b> הקמת הסוכנות והעובדים על ידי צוות PALAMI, הדרכה ותמיכה בעברית.'+(S.note?'<br><b>בנוסף:</b> '+esc(S.note):'');
 
   var anyLimit=PRICING.tiers.some(function(x){return x.users;});
-  var th='<thead><tr><th>מדרגה</th><th>נוסעים בשנה</th>'+(PRICING.showBreakdown?'<th>מחיר לנוסע</th><th>דמי מערכת לחודש</th>':'<th>מחיר לחודש, החל מ־</th><th>נוסע נוסף, חד־פעמי</th>')+(anyLimit?'<th>משתמשים</th>':'')+'</tr></thead><tbody>';
-  PRICING.tiers.forEach(function(x){
-    var cur=x===t;
-    th+='<tr'+(cur?' class="cur"':'')+'><td>'+x.plan+(cur?'<span class="pill">✓ ההצעה שלכם</span>':'')+'</td>'+
-      '<td class="num"><span class="ltr">'+fmt(x.from)+(x.to?'–'+fmt(x.to):'+')+'</span></td>'+
-      (PRICING.showBreakdown?
-        '<td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td><td class="num"><span class="ltr">'+money(x.fee)+'</span></td>'
-       :'<td class="num"><span class="ltr">'+money(x.fee+x.from*x.perTraveler/12)+'</span></td><td class="num"><span class="ltr">'+money(x.perTraveler,x.perTraveler%1?2:0)+'</span></td>')+
+  var th='<thead><tr><th>חבילה</th><th>מחיר לחודש</th><th>לשנה</th><th>נוסע נוסף, חד־פעמי</th>'+(anyLimit?'<th>משתמשים</th>':'')+'</tr></thead><tbody>';
+  PRICING.banks.forEach(function(n){
+    var x=tierFor(n),cur=n===q.n,m=quote({bank:n}).list,tu=topUp(n);
+    th+='<tr'+(cur?' class="cur"':'')+'><td><span class="ltr num">'+fmt(n)+'</span> נוסעים'+(cur?'<span class="pill">✓ ההצעה שלכם</span>':'')+'</td>'+
+      '<td class="num"><span class="ltr">'+money(m)+'</span></td><td class="num"><span class="ltr">'+money(m*12)+'</span></td>'+
+      '<td class="num"><span class="ltr">'+money(tu,tu%1?2:0)+'</span></td>'+
       (anyLimit?'<td>'+(x.users?'עד '+x.users:'ללא הגבלה')+'</td>':'')+'</tr>';
   });
+  if(PRICING.banks.indexOf(q.n)<0)th+='<tr class="cur"><td><span class="ltr num">'+fmt(q.n)+'</span> נוסעים<span class="pill">✓ ההצעה שלכם</span></td><td class="num"><span class="ltr">'+money(q.list)+'</span></td><td class="num"><span class="ltr">'+money(q.list*12)+'</span></td><td class="num"><span class="ltr">'+money(topUp(q.n),topUp(q.n)%1?2:0)+'</span></td>'+(anyLimit?'<td></td>':'')+'</tr>';
   $('o-tiers').innerHTML=th+'</tbody>';
   $('users-fld').hidden=!anyLimit;
 
   if(isClient){document.title='הצעת מחיר PALAMI'+(S.agency?' · '+S.agency:'');return;}
 
   /* panel */
+  var bi=PRICING.banks.indexOf(q.n), nb=PRICING.banks[bi+1];
+  $('packs').querySelectorAll('.pack').forEach(function(p){p.setAttribute('aria-checked',String(!S.custom&&+p.dataset.n===q.n));});
   var i=PRICING.tiers.indexOf(t), nx=PRICING.tiers[i+1];
-  if(nx){var qn=quote({bank:nx.from,users:S.users,disc:S.disc,prepay:S.prepay});
+  if(!S.custom&&bi>=0){$('next-hint').innerHTML=nb?'<span aria-hidden="true">i</span><span>החבילה הבאה: <b class="ltr">'+fmt(nb)+'</b> נוסעים ב־<b class="ltr">'+money(quote({bank:nb,users:S.users,disc:S.disc,prepay:S.prepay}).monthly)+'</b> לחודש. נוסע נוסף בחבילה הנוכחית: <span class="ltr">'+money(topUp(q.n),topUp(q.n)%1?2:0)+'</span>.</span>':'<span aria-hidden="true">i</span><span>החבילה הגדולה. מעל זה: כמות אחרת והנחה מיוחדת.</span>';}
+  else if(nx){var qn=quote({bank:nx.from,users:S.users,disc:S.disc,prepay:S.prepay});
     $('next-hint').innerHTML='<span aria-hidden="true">i</span><span>מדרגת <b>'+t.name+'</b>. ב־<b class="ltr">'+fmt(nx.from)+'</b> נוסעים עוברים ל'+nx.name+': <b class="ltr">'+money(qn.monthly)+'</b> לחודש (<span class="ltr">'+money(nx.perTraveler,nx.perTraveler%1?2:0)+'</span> לנוסע).</span>';}
   else $('next-hint').innerHTML='<span aria-hidden="true">i</span><span>מדרגה <b>ארגונית</b>. בהיקף כזה כדאי לשקול הנחה מיוחדת.</span>';
   var m=margin(q), lvl=m.pct>=55?'ok':m.pct>=35?'warn':'bad', word={ok:'✓ רווחי',warn:'! רווח נמוך',bad:'✕ לא משתלם'}[lvl];
   $('profit').innerHTML='<div class="profit-head"><b>רווחיות משוערת</b><span class="st st-'+lvl+'">'+word+'</span></div>'+
     '<div class="profit-grid"><span>הכנסה</span><b class="ltr num">'+money(q.monthly)+'</b><span>עלויות</span><b class="ltr num">'+money(m.cost)+'</b>'+
     '<span>נשאר לנו</span><b class="ltr num">'+money(m.contrib)+' · '+m.pct+'%</b></div><small>לחודש, לפני משכורות ותשתית קבועה. פנימי, לא מופיע בהצעה.</small>';
-  document.querySelectorAll('#presets .chip').forEach(function(c){c.setAttribute('aria-pressed',String(+c.dataset.n===q.n));});
 
   var k=contactKind(S.contact), send=$('b-send'), kindEl=$('contact-kind');
   $('f-contact').classList.toggle('err',!!k&&k.type==='bad');
@@ -523,19 +530,20 @@ function render(){
 
 /* ---------- inputs ---------- */
 function setBank(n,from){
-  n=Math.max(PRICING.minBank,Math.min(10000,Math.round(+n||0)));S.bank=n;
+  n=Math.max(PRICING.minBank,Math.min(20000,Math.round(+n||0)));S.bank=n;
   if(from!=='n')$('f-bank-n').value=n;
-  if(from!=='r')$('f-bank').value=Math.min(n,5000);
   render();
 }
 if(!isClient){
   $('prepay-pct').textContent=PRICING.prepayDiscount+'%';
   $('f-agency').addEventListener('input',function(e){S.agency=e.target.value.trim();render();});
   $('f-contact').addEventListener('input',function(e){S.contact=e.target.value;render();});
-  $('f-bank').addEventListener('input',function(e){setBank(e.target.value,'r');});
+  $('packs').innerHTML=PRICING.banks.map(function(n){var m=quote({bank:n}).monthly;
+    return '<button type="button" class="pack" role="radio" data-n="'+n+'"><b class="ltr">'+fmt(n)+'</b><span class="ltr">'+money(m)+'</span></button>';}).join('');
+  $('packs').addEventListener('click',function(e){var c=e.target.closest('.pack');if(!c)return;S.custom=false;$('f-custom').checked=false;$('f-bank-n').hidden=true;setBank(c.dataset.n,'');});
+  $('f-custom').addEventListener('change',function(e){S.custom=e.target.checked;$('f-bank-n').hidden=!S.custom;if(S.custom){$('f-bank-n').focus();setBank($('f-bank-n').value,'n');}else{setBank(PRICING.banks.indexOf(S.bank)>=0?S.bank:500,'');}});
   $('f-bank-n').addEventListener('change',function(e){setBank(e.target.value,'');});
   $('f-bank-n').addEventListener('input',function(e){if(+e.target.value>=PRICING.minBank)setBank(e.target.value,'n');});
-  $('presets').addEventListener('click',function(e){var c=e.target.closest('.chip');if(c)setBank(c.dataset.n,'');});
   $('f-users').addEventListener('input',function(e){S.users=+e.target.value||0;render();});
   $('f-disc').addEventListener('change',function(e){S.disc=+e.target.value;render();});
   $('f-prepay').addEventListener('change',function(e){S.prepay=e.target.checked;render();});
