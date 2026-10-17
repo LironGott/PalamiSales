@@ -69,3 +69,11 @@ Decisions applied (each one is a config flag in `PRICING`, easy to revert):
 - When a package runs out: buy extra travelers at the package's effective price per traveler (₪22.5, ₪18.5, ₪15.5, ₪12.5, ₪10.5), or move to the next package and pay only the difference until the end of the year. Alert the agency manager at 20% left.
 - Why top-ups are priced at the effective rate: at the bare tier price (₪13 for the 100 package), a 320-traveler agency would pay less on "100 + 220 top-ups" than on the 250 or 500 package, so nobody would move up.
 - Tier "מקצועי" renamed "סטנדרט" (user).
+
+## Assessment (2026-10-17): is the model right?
+Per package, at 85% package use (left for us after travelers, support and clearing, per month):
+100 → ₪187, left ₪136 (73%) · 250 → ₪378, left ₪231 (61%) · 500 → ₪645, left ₪393 (61%) · 1,000 → ₪1,041, left ₪741 (71%) · 2,000 → ₪1,699, left ₪1,204 (71%).
+- Structure is right: fee + traveler packages is the hybrid the closest competitors use; per traveler avoids group disputes; annual packages fit travel seasonality.
+- Profitable per agency (60–73% after support), but the company covers a developer only at ~120 agencies (≈15% of an estimated ~750 Israeli agencies, mostly one-person). Growth levers needed: larger agencies and tour operators, paid add-ons (WhatsApp/SMS volume, marketing tools in v2), prices up after proof, B2C/abroad.
+- Attractive for agencies: 100 package ≈ one competitor seat (₪150–190/month) but includes the traveler app and AI filing; far below mTrip/Vamoos entry prices. Effective ₪10–22 per traveler per year; agencies can pass it to the traveler as a "digital trip file" fee.
+- Watch: small agencies and a 12-month commitment (consider monthly without commitment at +15%), unused travelers feeling like waste (consider rolling over up to 20% on renewal), unverified cost assumptions (measure in the pilot: cost per traveler, support hours per agency, package use).
