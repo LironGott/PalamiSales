@@ -107,9 +107,12 @@ svg{display:block;width:100%;height:auto;overflow:visible}
 .tip b{font-family:var(--f-display)}
 
 table{border-collapse:collapse;width:100%;min-width:640px;font-size:15px}
-table.pr{min-width:440px}
+table.pr{min-width:600px}
+table.pr .th-s{display:block;font-weight:500;font-size:12px}
+.bank-c{display:grid;gap:2px}
+.bank-c small{font-size:12px;color:var(--muted);white-space:nowrap}
 table.pr td{padding:6px 8px}
-table.pr .inp{min-height:40px;max-width:110px}
+table.pr .inp{min-height:40px;max-width:130px}
 .tbl{overflow-x:auto}
 th,td{padding:10px 12px;text-align:start;border-bottom:1px solid var(--line)}
 th{font-size:13px;color:var(--muted);background:var(--surface-2);font-weight:700}
@@ -164,14 +167,6 @@ tfoot td{font-weight:700;border-bottom:0}
         <div class="total-ag"><span>סה״כ הוצאות קבועות</span><span class="num ltr" id="tot-fx"></span></div>
       </section>
 
-      <section class="card">
-        <div class="sec-head"><h2>התמחור</h2><button type="button" class="chip" id="reset-pr">חזרה למחירי ההצעה</button></div>
-        <div class="tbl"><table class="pr" id="pricing"></table></div>
-        <div class="fx" style="margin-top:14px">
-          <label for="cost-pt">עלות לנו לכל נוסע בשנה<small>AI, WhatsApp, SMS, אחסון</small></label><input class="inp num" id="cost-pt" type="number" min="0" step="0.1">
-        </div>
-        <p class="note" id="pr-note">שינוי כאן משפיע רק על המודל. כדי לעדכן את ההצעה ללקוחות, משנים את PRICING בקובץ ההצעה.</p>
-      </section>
     </div>
 
     <aside class="answer" aria-live="polite">
@@ -185,6 +180,15 @@ tfoot td{font-weight:700;border-bottom:0}
       <div class="be" id="be"></div>
     </aside>
   </div>
+
+  <section class="card">
+    <div class="sec-head"><h2>התמחור</h2><button type="button" class="chip" id="reset-pr">חזרה למחירי ההצעה</button></div>
+    <div class="tbl"><table class="pr" id="pricing"></table></div>
+    <div class="fx" style="margin-top:14px">
+      <label for="cost-pt">עלות לנו לכל נוסע בשנה<small>AI, WhatsApp, SMS, אחסון</small></label><input class="inp num" id="cost-pt" type="number" min="0" step="0.1">
+    </div>
+    <p class="note" id="pr-note">שינוי כאן משפיע רק על המודל. כדי לעדכן את ההצעה ללקוחות, משנים את PRICING בקובץ ההצעה.</p>
+  </section>
 
   <section class="card">
     <div class="sec-head"><h2>רווח לפי מספר הסוכנויות</h2><small>באותו תמהיל גדלים, עם ההוצאות הקבועות שבחרתם</small></div>
@@ -234,11 +238,12 @@ var PRESETS={
 var S={fixed:Object.assign({},PRESETS.dev),preset:'dev'};
 var ORIG=JSON.parse(JSON.stringify({t:PRICING.tiers,c:COSTS.perTraveler}));
 function buildPricing(){
-  var h='<thead><tr><th>מדרגה</th><th>נוסעים בשנה</th><th>דמי מערכת לחודש</th><th>מחיר לנוסע</th></tr></thead><tbody>';
+  var h='<thead><tr><th>מדרגה</th><th>נוסעים בשנה</th><th>דמי מערכת לחודש</th><th>מחיר לנוסע</th><th>מחיר לבנק נוסעים<small class="th-s">לשנה, בתחילת המדרגה</small></th></tr></thead><tbody>';
   PRICING.tiers.forEach(function(t,i){
     h+='<tr><td><b>'+t.name+'</b></td><td class="num"><span class="ltr">'+fmt(t.from)+(t.to?'–'+fmt(t.to):'+')+'</span></td>'+
       '<td><input class="inp num" type="number" min="0" step="10" data-i="'+i+'" data-k="fee" value="'+t.fee+'" aria-label="דמי מערכת, '+t.name+'"></td>'+
-      '<td><input class="inp num" type="number" min="0" step="0.5" data-i="'+i+'" data-k="perTraveler" value="'+t.perTraveler+'" aria-label="מחיר לנוסע, '+t.name+'"></td></tr>';});
+      '<td><input class="inp num" type="number" min="0" step="0.5" data-i="'+i+'" data-k="perTraveler" value="'+t.perTraveler+'" aria-label="מחיר לנוסע, '+t.name+'"></td>'+
+      '<td><div class="bank-c"><input class="inp num" type="number" min="0" step="50" data-i="'+i+'" data-k="bank" value="'+Math.round(t.from*t.perTraveler)+'" aria-label="מחיר לבנק של '+t.from+' נוסעים, '+t.name+'"><small>בנק של <span class="ltr">'+fmt(t.from)+'</span> · <span class="ltr" data-m="'+i+'">'+money(t.from*t.perTraveler/12)+'</span> לחודש</small></div></td></tr>';});
   $('pricing').innerHTML=h+'</tbody>';
   $('cost-pt').value=COSTS.perTraveler;
 }
@@ -351,7 +356,12 @@ function chart(r){
   hit.addEventListener('pointerleave',function(){tip.hidden=true;xh.setAttribute('opacity','0');xd.setAttribute('opacity','0');});
 }
 buildPricing();
-$('pricing').addEventListener('input',function(e){var el=e.target;if(!el.dataset.k)return;var v=parseFloat(el.value);if(isNaN(v)||v<0)return;PRICING.tiers[+el.dataset.i][el.dataset.k]=v;render();});
+$('pricing').addEventListener('input',function(e){var el=e.target;if(!el.dataset.k)return;var v=parseFloat(el.value);if(isNaN(v)||v<0)return;
+  var i=+el.dataset.i,t=PRICING.tiers[i],q=function(k){return $('pricing').querySelector('[data-i="'+i+'"][data-k="'+k+'"]');};
+  if(el.dataset.k==='bank'){t.perTraveler=Math.round(v/t.from*100)/100;q('perTraveler').value=t.perTraveler;}
+  else{t[el.dataset.k]=v;if(el.dataset.k==='perTraveler')q('bank').value=Math.round(t.from*t.perTraveler);}
+  $('pricing').querySelector('[data-m="'+i+'"]').textContent=money(t.from*t.perTraveler/12);
+  render();});
 $('cost-pt').addEventListener('input',function(e){var v=parseFloat(e.target.value);if(!isNaN(v)&&v>=0){COSTS.perTraveler=v;render();}});
 $('reset-pr').addEventListener('click',function(){ORIG.t.forEach(function(t,i){PRICING.tiers[i].fee=t.fee;PRICING.tiers[i].perTraveler=t.perTraveler;});COSTS.perTraveler=ORIG.c;buildPricing();render();});
 render();
