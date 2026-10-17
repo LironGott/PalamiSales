@@ -41,7 +41,7 @@ CSS = r'''
 }
 * { box-sizing: border-box; }
 html { background: #E9ECE9; }
-body { margin: 0; color: var(--ink); background: #E9ECE9;
+body { margin: 0; direction: rtl; color: var(--ink); background: #E9ECE9;
   font: 400 10.6pt/1.62 "Assistant", "Rubik", Arial, sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .sheet { max-width: 210mm; margin: 24px auto; padding: 18mm 18mm 16mm; background: var(--paper);
   box-shadow: 0 1px 2px rgb(21 26 23 / .06), 0 8px 28px rgb(21 26 23 / .10); }
@@ -194,8 +194,8 @@ def render(v):
 <style>{fonts_css()}{CSS}</style>
 </head>
 <body>
-<div class="screen-bar screen-only"><span>{meta["screen_note"]}</span><span><a href="{c.META[meta["other"]]["file"]}.html">{c.META[meta["other"]]["title"]}</a></span></div>
-<main class="sheet">
+<div class="screen-bar screen-only" dir="rtl" lang="he"><span>{meta["screen_note"]}</span><span><a href="{c.META[meta["other"]]["file"]}.html">{c.META[meta["other"]]["title"]}</a></span></div>
+<main class="sheet" dir="rtl" lang="he">
   <header class="cover-top">
     <img class="logo" src="{LOGO}" alt="PALAMI · כל פרטי הנסיעה בכף ידך">
     <div class="meta">מספר הסכם: <span class="fill w-s"></span><br>נוסח <b class="ltr">{c.VERSION}</b> · {c.VERSION_DATE}</div>
